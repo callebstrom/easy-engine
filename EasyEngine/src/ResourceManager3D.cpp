@@ -10,7 +10,8 @@ namespace easy_engine {
 		ResourceManager3D::~ResourceManager3D()
 		{
 		}
-		obj_vector * ResourceManager3D::LoadObj(std::string path_relative_to_base)
+
+		renderable::IRenderable3D<float*>* ResourceManager3D::LoadObj(std::string path_relative_to_base)
 		{
 			std::ifstream ifs(base_path_ + path_relative_to_base);
 			if (!ifs.is_open()) {
@@ -18,8 +19,9 @@ namespace easy_engine {
 			}
 			std::string line;
 			std::string fileString;
-			obj_vector ov;
+
 			while (std::getline(ifs, line)) {
+				std::cout << line << std::endl;
 				fileString += line;
 			}
 			return nullptr;

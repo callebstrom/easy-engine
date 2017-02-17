@@ -24,12 +24,11 @@ namespace easy_engine {
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 			glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
 			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL 
-																		   // Open a window and create its OpenGL context
-			GLFWwindow* window; // (In the accompanying source code, this variable is global)
+			GLFWwindow* window;
 
 			int xRes = atoi(this->render_config_->Get("resolution.x").c_str()); // Get X resolution from configuration object
 			int yRes = atoi(this->render_config_->Get("resolution.y").c_str()); // Get y resolution from configuration object
-			window = glfwCreateWindow(xRes, yRes, "EasyEngine", NULL, NULL);
+			window = glfwCreateWindow(xRes, yRes, "EasyEngine", NULL, NULL); // Open a window and create its OpenGL context
 			if (window == NULL) {
 				std::runtime_error("Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible.");
 				getchar();

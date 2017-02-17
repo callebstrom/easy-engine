@@ -11,6 +11,8 @@
 // Internal headers
 #include "BaseDataTypes.h"
 #include "ResourceManager.h"
+#include "OpenGLRenderable3D.h"
+#include "DirectXRenderable3D.h"
 
 #ifndef THREED_RESOURCE_MANAGER_H
 namespace easy_engine {
@@ -19,7 +21,8 @@ namespace easy_engine {
 		public:
 			ResourceManager3D(std::string base_path);
 			~ResourceManager3D();
-			obj_vector* LoadObj(std::string path_relative_to_base);
+
+			renderable::IRenderable3D<float*>* LoadObj(std::string path_relative_to_base);
 		};
 	}
 }
