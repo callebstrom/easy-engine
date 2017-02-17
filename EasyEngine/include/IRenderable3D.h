@@ -7,6 +7,11 @@ namespace easy_engine {
 		typedef std::string group_name;
 
 		template <class T>
+
+		/*
+			Interface that defines the mandatory functions for a rendable 3D object. 
+			Only objects implementing IRenderable3D can be put on a RenderManager3D queue
+		 */
 		class IRenderable3D {
 		public:
 			virtual T* GetVertices() = 0;

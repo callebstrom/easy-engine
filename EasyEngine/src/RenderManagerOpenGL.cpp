@@ -112,6 +112,13 @@ namespace easy_engine {
 
 			// Close OpenGL window and terminate GLFW
 			glfwTerminate();
-		};
+		}
+		void RenderManagerOpenGL::RenderQueuePush()
+		{
+		}
+		void RenderManagerOpenGL::RenderQueuePop()
+		{
+		}
+		;
 	}
 }

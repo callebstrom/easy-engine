@@ -1,5 +1,5 @@
 #pragma once
-#include <IRenderManager.h>
+#include <RenderManager.h>
 #include <cstdlib>
 
 #ifndef RENDER_MANAGER
@@ -8,10 +8,8 @@ namespace easy_engine {
 		class RenderConfiguration;
 	}
 	namespace render_manager {
-		class RenderManager : public virtual IRenderManager {
-			protected:
-				configuration::RenderConfiguration* render_config_;
-				
+		class RenderManager3D : public RenderManager {
+
 		};
 	}
 }

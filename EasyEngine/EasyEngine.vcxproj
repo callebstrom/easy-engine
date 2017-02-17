@@ -26,6 +26,7 @@
     <ClInclude Include="include\IRenderable3D.h" />
     <ClInclude Include="include\OpenGLRenderable3D.h" />
     <ClInclude Include="include\RenderConfiguration.h" />
+    <ClInclude Include="include\RenderManager3D.h" />
     <ClInclude Include="include\ResourceManager3D.h" />
     <ClInclude Include="include\BaseDataTypes.h" />
     <ClInclude Include="include\IRenderManager.h" />
