@@ -21,7 +21,6 @@ namespace easy_engine {
 			std::string fileString;
 
 			while (std::getline(ifs, line)) {
-				std::cout << line << std::endl;
 				fileString += line;
 			}
 			return nullptr;

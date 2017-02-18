@@ -24,7 +24,7 @@
     <ClInclude Include="include\IInputManager.h" />
     <ClInclude Include="include\IRenderable.h" />
     <ClInclude Include="include\IRenderable3D.h" />
-    <ClInclude Include="include\OpenGLRenderable3D.h" />
+    <ClInclude Include="include\Renderable3DOpenGL.h" />
     <ClInclude Include="include\RenderConfiguration.h" />
     <ClInclude Include="include\RenderManager3D.h" />
     <ClInclude Include="include\ResourceManager3D.h" />
@@ -34,15 +34,21 @@
     <ClInclude Include="include\RenderManagerOpenGL.h" />
     <ClInclude Include="include\RenderManager.h" />
     <ClInclude Include="include\ResourceManager.h" />
+    <ClInclude Include="include\ISceneManager.h" />
+    <ClInclude Include="include\Scene.h" />
+    <ClInclude Include="include\Scene3D.h" />
+    <ClInclude Include="include\SceneManager.h" />
+    <ClInclude Include="include\SceneManager3D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Configuration.cpp" />
-    <ClCompile Include="src\OpenGLRenderable3D.cpp" />
+    <ClCompile Include="src\Renderable3DOpenGL.cpp" />
     <ClCompile Include="src\RenderConfiguration.cpp" />
     <ClCompile Include="src\ResourceManager3D.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\RenderManagerOpenGL.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
+    <ClCompile Include="src\SceneManager3D.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C70CAC80-3B82-456D-88D2-D2216A7A9624}</ProjectGuid>

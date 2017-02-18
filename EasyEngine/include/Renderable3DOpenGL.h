@@ -4,11 +4,11 @@
 #include <Eigen\Core>
 #include <IRenderable3D.h>
 
-#ifndef OPEN_GL_RENDERABLE_3D_H
+#ifndef RENDERABLE_3D_OPEN_GL_H
 
 namespace easy_engine {
 	namespace renderable {
-		class OpenGLRenderable3D : virtual IRenderable3D<GLfloat> {
+		class Renderable3DOpenGL : virtual IRenderable3D<GLfloat> {
 			GLfloat* GetVertices();
 			GLfloat* GetTextureVertices();
 			GLfloat* GetVertexNormals();

@@ -11,8 +11,7 @@
 // Internal headers
 #include "BaseDataTypes.h"
 #include "ResourceManager.h"
-#include "OpenGLRenderable3D.h"
-#include "DirectXRenderable3D.h"
+#include "IRenderable3D.h"
 
 #ifndef THREED_RESOURCE_MANAGER_H
 namespace easy_engine {

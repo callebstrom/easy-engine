@@ -11,9 +11,6 @@ namespace easy_engine {
 			public:
 				virtual void Render() = 0;
 				virtual void RenderQueuePush() = 0;
-				virtual void RenderQueuePop() = 0;
-			private:
-				std::vector<renderable::IRenderable> render_queue;
 		};
 	}
 }

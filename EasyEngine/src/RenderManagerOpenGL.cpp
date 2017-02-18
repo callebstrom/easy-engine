@@ -116,9 +116,5 @@ namespace easy_engine {
 		void RenderManagerOpenGL::RenderQueuePush()
 		{
 		}
-		void RenderManagerOpenGL::RenderQueuePop()
-		{
-		}
-		;
 	}
 }
