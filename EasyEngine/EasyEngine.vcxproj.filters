@@ -48,12 +48,6 @@
     <ClInclude Include="include\IRenderable3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\IRenderable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\DirectXRenderable3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\RenderManager3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -73,6 +67,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Renderable3DOpenGL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderable3DDirectX.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SceneManager3DOpenGL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -95,10 +98,13 @@
     <ClCompile Include="src\RenderConfiguration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\SceneManager3D.cpp">
+    <ClCompile Include="src\Renderable3DOpenGL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderable3DOpenGL.cpp">
+    <ClCompile Include="src\SceneManager3DOpenGL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\SceneManager3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

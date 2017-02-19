@@ -13,7 +13,7 @@
 #include "ResourceManager.h"
 #include "IRenderable3D.h"
 
-#ifndef THREED_RESOURCE_MANAGER_H
+#ifndef RESOURCE_MANAGER_3D_H
 namespace easy_engine {
 	namespace resource_manager {
 		class ResourceManager3D : public ResourceManager {
@@ -25,4 +25,4 @@ namespace easy_engine {
 		};
 	}
 }
-#endif // !THREED_RESOURCE_MANAGER_H
+#endif // !RESOURCE_MANAGER_3D_H

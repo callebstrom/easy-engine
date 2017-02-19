@@ -2,7 +2,7 @@
 #include <IRenderManager.h>
 #include <cstdlib>
 
-#ifndef RENDER_MANAGER
+#ifndef RENDER_MANAGER_H
 namespace easy_engine {
 	namespace configuration {
 		class RenderConfiguration;
@@ -15,4 +15,4 @@ namespace easy_engine {
 		};
 	}
 }
-#endif // !RENDER_MANAGER
+#endif // !RENDER_MANAGER_H

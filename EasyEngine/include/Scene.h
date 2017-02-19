@@ -1,6 +1,6 @@
 #pragma once
 
-#include <IRenderable.h>
+#include <Renderable.h>
 
 #include <map>
 
@@ -12,7 +12,7 @@ namespace easy_engine {
 				std::string name;
 				float size;
 			protected:
-				std::map<std::string, renderable::IRenderable> renderable_map; // Map containing renderables as value and reference as key
+				std::map<std::string, renderable::Renderable> renderable_map; // Map containing renderables as value and reference as key
 		};
 	}
 }

@@ -20,9 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Configuration.h" />
-    <ClInclude Include="include\DirectXRenderable3D.h" />
+    <ClInclude Include="include\Renderable3DDirectX.h" />
     <ClInclude Include="include\IInputManager.h" />
-    <ClInclude Include="include\IRenderable.h" />
+    <ClInclude Include="include\Renderable.h" />
     <ClInclude Include="include\IRenderable3D.h" />
     <ClInclude Include="include\Renderable3DOpenGL.h" />
     <ClInclude Include="include\RenderConfiguration.h" />
@@ -39,8 +39,10 @@
     <ClInclude Include="include\Scene3D.h" />
     <ClInclude Include="include\SceneManager.h" />
     <ClInclude Include="include\SceneManager3D.h" />
+    <ClInclude Include="include\SceneManager3DOpenGL.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\SceneManager3D.cpp" />
     <ClCompile Include="src\Configuration.cpp" />
     <ClCompile Include="src\Renderable3DOpenGL.cpp" />
     <ClCompile Include="src\RenderConfiguration.cpp" />
@@ -48,7 +50,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\RenderManagerOpenGL.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
-    <ClCompile Include="src\SceneManager3D.cpp" />
+    <ClCompile Include="src\SceneManager3DOpenGL.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C70CAC80-3B82-456D-88D2-D2216A7A9624}</ProjectGuid>
@@ -122,7 +124,8 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>D:\Dropbox\Programmering\EasyEngine\EasyEngine\include\GL;D:\Dropbox\Programmering\EasyEngine\EasyEngine\include\Eigen;D:\Dropbox\Programmering\EasyEngine\EasyEngine\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
-      <PreprocessorDefinitions>STATIC_GLEW;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
       <AdditionalDependencies>D:\Dropbox\Programmering\EasyEngine\EasyEngine\lib\x64\glew32.lib;D:\Dropbox\Programmering\EasyEngine\EasyEngine\lib\x64\glew32s.lib;D:\Dropbox\Programmering\EasyEngine\EasyEngine\lib\x64\glfw3.lib;D:\Dropbox\Programmering\EasyEngine\EasyEngine\lib\x64\glfw3dll.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>

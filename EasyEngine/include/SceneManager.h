@@ -6,11 +6,12 @@
 #ifndef SCENE_MANAGER_H
 namespace easy_engine {
 	namespace scene_manager {
+		template <class T>
 		class SceneManager : public virtual ISceneManager {
 			protected:
-				std::map<std::string, scene::Scene> scene_map;
 				scene::Scene current_scene;
+				std::map<std::string, T*> scene_map;
 		};
 	}
 }
-#endif // !SCENE_MANAGER_3D_H
+#endif // !SCENE_MANAGER_H

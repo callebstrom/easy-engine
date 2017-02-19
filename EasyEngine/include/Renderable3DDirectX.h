@@ -3,11 +3,11 @@
 #include <Eigen\Core>
 #include <IRenderable3D.h>
 
-#ifndef DIRECT_X_RENDERABLE_3D_H
+#ifndef RENDERABLE_3D_DIRECT_X_H
 
 namespace easy_engine {
 	namespace renderable {
-		class DirectXRenderable3D : virtual IRenderable3D<float> {
+		class Renderable3DDirectX : public IRenderable3D<float> {
 			float* GetVertices();
 			float* GetTextureVertices();
 			float* GetVertexNormals();
@@ -15,4 +15,4 @@ namespace easy_engine {
 		};
 	}
 }
-#endif // !DIRECT_X_RENDERABLE_3D_H
+#endif // !RENDERABLE_3D_DIRECT_X_H

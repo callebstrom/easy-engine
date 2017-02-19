@@ -6,6 +6,7 @@
 #include <iostream>
 #include <vector>
 
+#ifndef RENDER_MANAGER_3D_OPEN_GL_H
 namespace easy_engine {
 	namespace render_manager {
 		class RenderManagerOpenGL : public RenderManager {
@@ -21,3 +22,4 @@ namespace easy_engine {
 
 	}
 }
+#endif

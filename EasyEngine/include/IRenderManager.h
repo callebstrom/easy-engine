@@ -1,6 +1,5 @@
 #pragma once
 #include <Eigen\Core>
-#include <IRenderable.h>
 #include <vector>
 
 #ifndef I_RENDER_MANAGER_H
