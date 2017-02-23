@@ -1,12 +1,13 @@
 #pragma once
 
-#include <Scene.h>
+#include <Scene3D.h>
 #include <IScene.h>
+#include <Renderable3DOpenGL.h>
 
 #ifndef SCENE_3D_H
 namespace easy_engine {
 	namespace scene {
-		class Scene3D : public Scene {
+		class Scene3DOpenGL : public Scene3D {
 
 		};
 	}

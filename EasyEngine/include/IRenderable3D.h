@@ -13,9 +13,9 @@ namespace easy_engine {
 		template <class T>
 		class IRenderable3D {
 			public:
-				virtual T* GetVertices() = 0;
-				virtual T* GetTextureVertices() = 0;
-				virtual T* GetVertexNormals() = 0;
+				virtual T* GetVertexArray() = 0;
+				virtual void GetTextureVertexArray(T* texture_vertex_array) = 0;
+				virtual void GetVertexNormalArray(T* vetex_normal_array) = 0;
 				virtual std::string*** GetFaces() = 0;
 		};
 	}

@@ -3,17 +3,18 @@
 #include <glfw3.h>
 #include <Eigen\Core>
 #include <IRenderable3D.h>
-#include <Renderable.h>
+#include <Renderable3D.h>
 
 #ifndef RENDERABLE_3D_OPEN_GL_H
 
 namespace easy_engine {
 	namespace renderable {
-		class Renderable3DOpenGL : public Renderable, public virtual IRenderable3D<GLfloat> {
-			GLfloat* GetVertices();
-			GLfloat* GetTextureVertices();
-			GLfloat* GetVertexNormals();
-			std::string*** GetFaces();
+		class Renderable3DOpenGL : public Renderable3D, public IRenderable3D<GLfloat> {
+			public:
+				GLfloat* GetVertexArray();
+				void GetTextureVertexArray(GLfloat* texture_vertex_array);
+				void GetVertexNormalArray(GLfloat* vertex_normal_array);
+				std::string*** GetFaces();
 		};
 	}
 }

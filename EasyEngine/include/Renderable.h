@@ -6,7 +6,8 @@
 namespace easy_engine {
 	namespace renderable {
 		class Renderable {
-
+			public:
+				std::string name;
 		};
 	}
 }
