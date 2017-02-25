@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Scene.h>
-#include <IScene.h>
 
 #ifndef SCENE_3D_H
 namespace easy_engine {

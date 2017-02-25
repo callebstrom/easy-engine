@@ -12,8 +12,11 @@ namespace easy_engine {
 		{
 		}
 
-		void ResourceManager3D::LoadObj(std::string path_relative_to_base, renderable::Renderable3D &dest)
+		renderable::Renderable3D* ResourceManager3D::LoadObj(std::string path_relative_to_base)
 		{
+			renderable::Renderable3D* renderable = new renderable::Renderable3D();
+
+			renderable->name = "test";
 
 			std::ifstream ifs(base_path_ + path_relative_to_base);
 			if (!ifs.is_open()) {
@@ -32,7 +35,7 @@ namespace easy_engine {
 
 				// If obj vertex annotation
 				if (strcmp(first_word.c_str(), "v") == 0) {
-					__int64 current_index = dest.vertices_.rows();
+					__int64 current_index = renderable->vertices_.rows();
 					std::stringstream string_stream_inner(line.c_str());
 					std::string v, x, y, z;
 
@@ -42,10 +45,12 @@ namespace easy_engine {
 					// TODO we lose precision here due to double, implement Boost c++ library 
 					vec << (float)std::atof(x.c_str()), (float)std::atof(y.c_str()), (float)std::atof(z.c_str());
 
-					dest.vertices_.conservativeResize(dest.vertices_.rows() + 1, Eigen::NoChange);
-					dest.vertices_.row(dest.vertices_.rows() - 1) = vec;
+					renderable->vertices_.conservativeResize(renderable->vertices_.rows() + 1, Eigen::NoChange);
+					renderable->vertices_.row(renderable->vertices_.rows() - 1) = vec;
 				}
 			}
+
+			return renderable;
 		}
 	}
 }

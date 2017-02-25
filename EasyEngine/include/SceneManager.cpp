@@ -1,14 +1,18 @@
-#include "SceneManager.h"
+#include <SceneManager.h>
+#include <Renderable3D.h>
+#include <iostream>
 
 namespace easy_engine {
 	namespace scene_manager {
-		void SceneManager::Add(renderable::Renderable * renderable, std::string scene_name)
+		void SceneManager::Add(renderable::Renderable* renderable, std::string scene_name)
 		{
+			scene::Scene* scene = this->scene_map.at(scene_name);
+			scene->Add(renderable);
 		}
 
 		void SceneManager::Add(renderable::Renderable * renderable)
 		{
-			
+			this->current_scene->Add(renderable);
 		}
 
 		scene::Scene* SceneManager::GetCurrentScene()

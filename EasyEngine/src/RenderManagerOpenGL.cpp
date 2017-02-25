@@ -6,11 +6,6 @@ namespace easy_engine {
 	namespace render_manager {
 		RenderManagerOpenGL::RenderManagerOpenGL(configuration::RenderConfiguration* rc) {
 			this->render_config_ = rc;
-			this->vertex_buffer_data_ = {
-				-1.0f, -1.0f, 0.0f,
-				1.0f, -1.0f, 0.0f,
-				0.0f,  1.0f, 0.0f
-			};
 		};
 
 		void RenderManagerOpenGL::Render() {
@@ -60,11 +55,13 @@ namespace easy_engine {
 			glGenBuffers(1, &this->vertex_buffer_);
 			glBindBuffer(GL_ARRAY_BUFFER, this->vertex_buffer_);
 
-			do {
 
+
+			do {
+				this->ConsumeRenderQueue();
 				// Clear the screen
 				glClear(GL_COLOR_BUFFER_BIT);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_buffer_data_), &this->vertex_buffer_data_[0], GL_DYNAMIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, this->vertex_buffer_data_.size() * sizeof(GLfloat), &this->vertex_buffer_data_[0], GL_DYNAMIC_DRAW);
 
 				// Use our shader
 				// glUseProgram(programID);
@@ -113,8 +110,17 @@ namespace easy_engine {
 			// Close OpenGL window and terminate GLFW
 			glfwTerminate();
 		}
-		void RenderManagerOpenGL::RenderQueuePush()
+
+		// Convert render queue to vertex_buffer_data_ 
+		void RenderManagerOpenGL::ConsumeRenderQueue()
 		{
+			this->vertex_buffer_data_.clear();
+			for (auto &element : this->render_queue) {
+				GLfloat* vertex_array = static_cast<renderable::Renderable3D*>(element)->GetVertexArray();
+				for (int i = 0; i < sizeof(vertex_array); i++)
+					this->vertex_buffer_data_.push_back(vertex_array[i]);
+			}
 		}
+
 	}
 }

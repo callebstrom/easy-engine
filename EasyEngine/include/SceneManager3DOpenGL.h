@@ -2,7 +2,7 @@
 
 #include <RenderManagerOpenGL.h>
 #include <SceneManager3D.h>
-#include <Renderable3DOpenGL.h>
+#include <Renderable3D.h>
 #include <Scene3DOpenGL.h>
 #include <RenderConfiguration.h>
 

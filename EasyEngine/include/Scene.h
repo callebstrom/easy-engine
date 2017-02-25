@@ -1,19 +1,20 @@
 #pragma once
 
 #include <Renderable.h>
-#include <map>
-#include <IScene.h>
+#include <vector>
+#include <memory>
+#include <boost\ptr_container\ptr_map.hpp>
 
 #ifndef SCENE_H
 namespace easy_engine {
 	namespace scene {
-		class Scene : public virtual IScene {
+		class Scene {
 			public:
 				std::string name;
 				float size;
 				void Add(renderable::Renderable* renderable);
-			protected:
-				std::map<std::string, renderable::Renderable*> renderable_map; // Map containing renderables as value and reference as key
+				std::vector<renderable::Renderable*> Get();
+				boost::ptr_multimap<std::string, renderable::Renderable> renderable_map; // Map containing renderables as value and reference as key
 		};
 	}
 }

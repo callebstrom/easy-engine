@@ -22,7 +22,7 @@ namespace easy_engine {
 			ResourceManager3D(std::string base_path);
 			~ResourceManager3D();
 
-			void LoadObj(std::string path_relative_to_base, renderable::Renderable3D &dest);
+			renderable::Renderable3D* LoadObj(std::string path_relative_to_base);
 		};
 	}
 }

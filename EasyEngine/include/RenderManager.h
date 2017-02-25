@@ -1,6 +1,7 @@
 #pragma once
-#include <IRenderManager.h>
-#include <cstdlib>
+
+#include <vector>
+#include <Renderable.h>
 
 #ifndef RENDER_MANAGER_H
 namespace easy_engine {
@@ -8,9 +9,13 @@ namespace easy_engine {
 		class RenderConfiguration;
 	}
 	namespace render_manager {
-		class RenderManager : public virtual IRenderManager {
+		class RenderManager {
+			public:
+				void RenderQueuePush(renderable::Renderable* renderable);
+				void RenderManager::RenderQueuePush(std::vector<renderable::Renderable*> renderable);
 			protected:
 				configuration::RenderConfiguration* render_config_;
+				std::vector<renderable::Renderable*> render_queue;
 				
 		};
 	}

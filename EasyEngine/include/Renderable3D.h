@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Renderable.h>
+#include <Eigen\Core>
 
 #ifndef RENDERABLE_3D_H
 namespace easy_engine {
@@ -11,6 +12,11 @@ namespace easy_engine {
 				Eigen::MatrixX2cf texture_vertices_;
 				Eigen::MatrixX3cf vertex_normals_;
 				std::string*** faces_;
+
+				float* GetVertexArray();
+				float* GetTextureVertexArray();
+				float* GetVertexNormalArray();
+				std::string*** GetFaces();
 		};
 	}
 }

@@ -1,15 +1,15 @@
 #pragma once
+
 #include <RenderManager.h>
+#include <Renderable3D.h>
 #include <cstdlib>
 
 #ifndef RENDER_MANAGER_3D_H
 namespace easy_engine {
-	namespace configuration {
-		class RenderConfiguration;
-	}
 	namespace render_manager {
 		class RenderManager3D : public RenderManager {
-
+			public:
+				virtual void Render() = 0;
 		};
 	}
 }

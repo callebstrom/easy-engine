@@ -8,6 +8,7 @@ namespace easy_engine {
 		class Renderable {
 			public:
 				std::string name;
+				virtual ~Renderable() {};
 		};
 	}
 }

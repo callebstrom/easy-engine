@@ -1,11 +1,11 @@
 #pragma once
-#include <IResourceManager.h>
+
 #include <BaseDataTypes.h>
 
 #ifndef RESOURCE_MANAGER_H
 namespace easy_engine {
 	namespace resource_manager {
-		class ResourceManager : public IResourceManager
+		class ResourceManager
 		{
 			protected:
 				byte* resourceCache;

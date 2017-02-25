@@ -1,4 +1,5 @@
 #include <SceneManager3DOpenGL.h>
+#include <thread>
 
 namespace easy_engine {
 	namespace scene_manager {
@@ -9,12 +10,19 @@ namespace easy_engine {
 		}
 
 		void SceneManager3DOpenGL::RenderScene() {
-			this->render_manager->Render();
+			
+			this->render_manager->RenderQueuePush(this->current_scene->Get());
+
+			std::thread t1(&render_manager::RenderManagerOpenGL::Render, this->render_manager);
+			t1.join();
 		}
 
 		void SceneManager3DOpenGL::CreateScene(std::string name) {
 			scene::Scene3DOpenGL* scene = new scene::Scene3DOpenGL();
 			this->scene_map.insert(std::make_pair(name, scene));
+
+			if (current_scene == NULL)
+				this->current_scene = scene;
 		}
 	}
 }
