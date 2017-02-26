@@ -13,12 +13,17 @@ namespace easy_engine {
 		class RenderManagerOpenGL : public RenderManager3D {
 			public:
 				RenderManagerOpenGL(configuration::RenderConfiguration* rc);
+				RenderManagerOpenGL::~RenderManagerOpenGL();
 				
 				void Render();
 				void ConsumeRenderQueue();
 
 				std::vector<GLfloat> vertex_buffer_data_;
 				GLuint vertex_buffer_;
+				GLFWwindow* window_;
+
+			private:
+				GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path);
 		};
 
 	}

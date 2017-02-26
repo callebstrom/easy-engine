@@ -13,8 +13,7 @@ namespace easy_engine {
 			
 			this->render_manager->RenderQueuePush(this->current_scene->Get());
 
-			std::thread t1(&render_manager::RenderManagerOpenGL::Render, this->render_manager);
-			t1.join();
+			this->render_manager->Render();
 		}
 
 		void SceneManager3DOpenGL::CreateScene(std::string name) {
