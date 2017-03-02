@@ -14,16 +14,19 @@ namespace easy_engine {
 			public:
 				RenderManagerOpenGL(configuration::RenderConfiguration* rc);
 				RenderManagerOpenGL::~RenderManagerOpenGL();
-				
 				void Render();
-				void ConsumeRenderQueue();
 
 				std::vector<GLfloat> vertex_buffer_data_;
-				GLuint vertex_buffer_;
 				GLFWwindow* window_;
 
 			private:
-				GLuint LoadShaders(const char* vertex_file_path, const char* fragment_file_path);
+				void LoadShaders();
+				void ConsumeRenderQueue();
+
+				GLuint vbo_;
+				GLuint vertex_shader_;
+				GLuint fragment_shader_;
+				GLuint shader_program_;
 		};
 
 	}

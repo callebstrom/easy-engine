@@ -50,6 +50,10 @@
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\SceneManager3DOpenGL.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="src\shaders\fragment_shader.glsl" />
+    <None Include="src\shaders\vertex_shader.glsl" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C70CAC80-3B82-456D-88D2-D2216A7A9624}</ProjectGuid>
     <RootNamespace>EasyEngine</RootNamespace>

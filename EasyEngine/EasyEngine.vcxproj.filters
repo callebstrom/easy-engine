@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\shader">
+      <UniqueIdentifier>{548e2cb2-e1f5-42e6-b136-dedeffb1404c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\render_manager">
+      <UniqueIdentifier>{f5d800a9-f32b-44b8-86c5-449042d6b8e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\BaseDataTypes.h">
@@ -68,9 +74,6 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\RenderManagerOpenGL.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\ResourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -95,11 +98,22 @@
     <ClCompile Include="src\Renderable3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\RenderManagerOpenGL.cpp">
+      <Filter>Source Files\render_manager</Filter>
+    </ClCompile>
     <ClCompile Include="include\RenderManager3D.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\render_manager</Filter>
     </ClCompile>
     <ClCompile Include="include\RenderManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\render_manager</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\shaders\fragment_shader.glsl">
+      <Filter>Source Files\shader</Filter>
+    </None>
+    <None Include="src\shaders\vertex_shader.glsl">
+      <Filter>Source Files\shader</Filter>
+    </None>
   </ItemGroup>
 </Project>
