@@ -24,9 +24,12 @@ namespace easy_engine {
 				void ConsumeRenderQueue();
 
 				GLuint vbo_;
+				GLuint vao_;
 				GLuint vertex_shader_;
 				GLuint fragment_shader_;
 				GLuint shader_program_;
+				GLint pos_attrib_;
+				GLint uni_color_;
 		};
 
 	}

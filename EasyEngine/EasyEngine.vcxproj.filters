@@ -19,12 +19,18 @@
     <Filter Include="Source Files\render_manager">
       <UniqueIdentifier>{f5d800a9-f32b-44b8-86c5-449042d6b8e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\scene_manager">
+      <UniqueIdentifier>{4083016b-8a33-42f4-b5c1-d2c20ad571cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\render_manager">
+      <UniqueIdentifier>{4912cc55-e533-4fc9-98a4-175fea140e4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\configuration">
+      <UniqueIdentifier>{1eac161a-5a24-4ed7-ab3d-88f8fc86af66}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\BaseDataTypes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\RenderManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ResourceManager.h">
@@ -33,31 +39,10 @@
     <ClInclude Include="include\ResourceManager3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\RenderManagerOpenGL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\RenderConfiguration.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Configuration.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\RenderManager3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SceneManager3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SceneManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Scene3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SceneManager3DOpenGL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Renderable.h">
@@ -68,6 +53,30 @@
     </ClInclude>
     <ClInclude Include="include\Renderable3D.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SceneManager3DOpenGL.h">
+      <Filter>Header Files\scene_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SceneManager3D.h">
+      <Filter>Header Files\scene_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SceneManager.h">
+      <Filter>Header Files\scene_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RenderManagerOpenGL.h">
+      <Filter>Header Files\render_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RenderManager3D.h">
+      <Filter>Header Files\render_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RenderManager.h">
+      <Filter>Header Files\render_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RenderConfiguration.h">
+      <Filter>Header Files\configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Configuration.h">
+      <Filter>Header Files\configuration</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -8,12 +8,7 @@ namespace easy_engine {
 	namespace render_manager {
 		RenderManagerOpenGL::RenderManagerOpenGL(configuration::RenderConfiguration* rc) {
 			this->render_config_ = rc;
-			this->vertex_buffer_data_ = {
-				0.0f,  0.5f,
-				0.5f, -0.5f,
-				-0.5f, -0.5f
-			};
-			
+
 			glfwInit();
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -33,13 +28,25 @@ namespace easy_engine {
 			glewExperimental = GL_TRUE;
 			glewInit();
 
+			glGenVertexArrays(1, &this->vao_);
+			glBindVertexArray(this->vao_);
+
 			glGenBuffers(1, &this->vbo_);
+			std::cout << "[DEBUG] VBO identifier is " << this->vbo_ << std::endl;
+
 			glBindBuffer(GL_ARRAY_BUFFER, this->vbo_);
 
 			this->LoadShaders();
 			
-			GLint posAttrib = glGetAttribLocation(this->shader_program_, "position");
-			glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
+			std::cout << "[DEBUG] Shader program identifier: " << this->shader_program_ << std::endl;
+			this->pos_attrib_ = glGetAttribLocation(this->shader_program_, "position");
+			std::cout << "[DEBUG] Got pos attrib: " << this->pos_attrib_ << std::endl;
+			glEnableVertexAttribArray(this->pos_attrib_);
+			glVertexAttribPointer(this->pos_attrib_, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+			this->uni_color_ = glGetUniformLocation(this->shader_program_, "triangleColor");
+
+			std::cout << "[DEBUG] Color uniform location: " << this->uni_color_ << std::endl;
 		};
 
 		RenderManagerOpenGL::~RenderManagerOpenGL() {
@@ -47,17 +54,38 @@ namespace easy_engine {
 		}
 
 		void RenderManagerOpenGL::Render() {
-			
-			glBufferData(GL_ARRAY_BUFFER, this->vertex_buffer_data_.size() * sizeof(GLfloat), &this->vertex_buffer_data_[0], GL_STATIC_DRAW);
 
-			while (!glfwWindowShouldClose(this->window_))
-			{
+			// TEST
+			float vertices[] = {
+				0.0f,  0.5f, // Vertex 1 (X, Y)
+				0.5f, -0.5f, // Vertex 2 (X, Y)
+				-0.5f, -0.5f  // Vertex 3 (X, Y)
+			};
+
+			glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+			while (!glfwWindowShouldClose(this->window_)) {
+
 				glfwSwapBuffers(this->window_);
 				glfwPollEvents();
 
 				if (glfwGetKey(this->window_, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 					glfwSetWindowShouldClose(this->window_, GL_TRUE);
+
+				// Clear the screen to black
+				glClearColor(0.5f, 0.0f, 0.0f, 0.5f);
+				glClear(GL_COLOR_BUFFER_BIT);
+
+				// Draw a triangle from the 3 vertices
+				glDrawArrays(GL_TRIANGLES, 0, 3);
+
 			}
+
+			// Cleaup
+			glDeleteProgram(this->shader_program_);
+			glDeleteShader(this->fragment_shader_);
+			glDeleteShader(this->vertex_shader_);
+			glDeleteBuffers(1, &this->vbo_);
 		}
 
 		// Convert render queue to vertex_buffer_data_ 
@@ -113,6 +141,12 @@ namespace easy_engine {
 
 			glLinkProgram(this->shader_program_);
 			glUseProgram(this->shader_program_);
+
+			char shader_log_buffer[512];
+			glGetShaderInfoLog(this->vertex_shader_, 512, NULL, shader_log_buffer);
+
+			if(shader_log_buffer[0] != NULL)
+				std::cout << "[DEBUG] Shader compilation log: " << std::endl << shader_log_buffer;
 		}
 
 	}
