@@ -29,7 +29,8 @@ namespace easy_engine {
 				GLuint fragment_shader_;
 				GLuint shader_program_;
 				GLint pos_attrib_;
-				GLint uni_color_;
+				GLint uniform_attrib_;
+				GLint col_attrib_;
 		};
 
 	}

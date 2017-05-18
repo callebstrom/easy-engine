@@ -39,14 +39,37 @@ namespace easy_engine {
 			this->LoadShaders();
 			
 			std::cout << "[DEBUG] Shader program identifier: " << this->shader_program_ << std::endl;
-			this->pos_attrib_ = glGetAttribLocation(this->shader_program_, "position");
-			std::cout << "[DEBUG] Got pos attrib: " << this->pos_attrib_ << std::endl;
+			
+			// Get and enable shader pos attrib
+			glBindAttribLocation(this->shader_program_, this->pos_attrib_, "position");
 			glEnableVertexAttribArray(this->pos_attrib_);
-			glVertexAttribPointer(this->pos_attrib_, 2, GL_FLOAT, GL_FALSE, 0, 0);
+			glVertexAttribPointer(
+				this->pos_attrib_, 
+				2, 
+				GL_FLOAT, 
+				GL_FALSE,
+				5 * sizeof(float), 
+				0
+			);
+			std::cout << "[DEBUG] Shader position attrib location: " << this->pos_attrib_ << std::endl;
 
-			this->uni_color_ = glGetUniformLocation(this->shader_program_, "triangleColor");
+			// Get and enable shader color attrib
+			glBindAttribLocation(this->shader_program_, this->col_attrib_, "color");
+			glEnableVertexAttribArray(this->col_attrib_);
+			glVertexAttribPointer(
+				this->col_attrib_, 
+				3, // 3 verticies in total
+				GL_FLOAT, 
+				GL_FALSE,
+				5 * sizeof(float), // Size of each vertex (pos vec2 + color vec3)
+				(void*)(2 * sizeof(float)) // Offset for color vec3
+			);
+			std::cout << "[DEBUG] Shader color attrib location: " << this->col_attrib_ << std::endl;
+		
+			// Get shader uniform attrib
+			glBindAttribLocation(this->shader_program_, this->uniform_attrib_, "triangleColor");
+			std::cout << "[DEBUG] Shader uniform attrib location: " << this->uniform_attrib_ << std::endl;
 
-			std::cout << "[DEBUG] Color uniform location: " << this->uni_color_ << std::endl;
 		};
 
 		RenderManagerOpenGL::~RenderManagerOpenGL() {
@@ -57,13 +80,12 @@ namespace easy_engine {
 
 			// TEST
 			float vertices[] = {
-				0.0f,  0.5f, // Vertex 1 (X, Y)
-				0.5f, -0.5f, // Vertex 2 (X, Y)
-				-0.5f, -0.5f  // Vertex 3 (X, Y)
+				0.0f, 0.5f, 1.0f, 0.0f, 0.0f, // Vertex 1: Red
+				0.5f,-0.5f, 0.0f, 1.0f, 0.0f, // Vertex 2: Green
+				-0.5f, -0.5f, 0.0f, 0.0f, 1.0f  // Vertex 3: Blue
 			};
 
 			glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
 			while (!glfwWindowShouldClose(this->window_)) {
 
 				glfwSwapBuffers(this->window_);
@@ -71,11 +93,11 @@ namespace easy_engine {
 
 				if (glfwGetKey(this->window_, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 					glfwSetWindowShouldClose(this->window_, GL_TRUE);
-
+				
 				// Clear the screen to black
 				glClearColor(0.5f, 0.0f, 0.0f, 0.5f);
 				glClear(GL_COLOR_BUFFER_BIT);
-
+				
 				// Draw a triangle from the 3 vertices
 				glDrawArrays(GL_TRIANGLES, 0, 3);
 

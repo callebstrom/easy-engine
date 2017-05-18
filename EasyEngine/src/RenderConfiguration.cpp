@@ -3,9 +3,9 @@
 namespace easy_engine {
 	namespace configuration {
 		RenderConfiguration::RenderConfiguration() {
-			this->config_map_.insert(std::make_pair("resolution.x", "1920"));
-			this->config_map_.insert(std::make_pair("resolution.y", "1080"));
-			this->config_map_.insert(std::make_pair("antialiasing", "4"));
+			this->config_map_.insert(std::make_pair("resolution.x", "1280"));
+			this->config_map_.insert(std::make_pair("resolution.y", "720"));
+			this->config_map_.insert(std::make_pair("antialiasing", "8"));
 			this->config_map_.insert(std::make_pair(
 				"vertex_shader.source_location", 
 				"D:\\Dropbox\\Programmering\\EasyEngine\\EasyEngine\\src\\shaders\\vertex_shader.glsl"
