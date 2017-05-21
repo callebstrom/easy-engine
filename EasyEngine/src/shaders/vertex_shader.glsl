@@ -1,12 +1,12 @@
-#version 330 core
+#version 330 
 
-in vec2 position;
-in vec3 color;
+layout (location = 0) in vec3 inPosition; 
+layout (location = 1) in vec3 inColor; 
 
-out vec3 Color;
+smooth out vec3 theColor; 
 
-void main()
-{
-    Color = color;
-    gl_Position = vec4(position, 0.0, 1.0);
+void main() 
+{ 
+   gl_Position = vec4(inPosition, 1.0); 
+   theColor = inColor; 
 }

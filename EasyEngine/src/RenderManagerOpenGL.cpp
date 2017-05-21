@@ -28,48 +28,7 @@ namespace easy_engine {
 			glewExperimental = GL_TRUE;
 			glewInit();
 
-			glGenVertexArrays(1, &this->vao_);
-			glBindVertexArray(this->vao_);
-
-			glGenBuffers(1, &this->vbo_);
-			std::cout << "[DEBUG] VBO identifier is " << this->vbo_ << std::endl;
-
-			glBindBuffer(GL_ARRAY_BUFFER, this->vbo_);
-
 			this->LoadShaders();
-			
-			std::cout << "[DEBUG] Shader program identifier: " << this->shader_program_ << std::endl;
-			
-			// Get and enable shader pos attrib
-			glBindAttribLocation(this->shader_program_, this->pos_attrib_, "position");
-			glEnableVertexAttribArray(this->pos_attrib_);
-			glVertexAttribPointer(
-				this->pos_attrib_, 
-				2, 
-				GL_FLOAT, 
-				GL_FALSE,
-				5 * sizeof(float), 
-				0
-			);
-			std::cout << "[DEBUG] Shader position attrib location: " << this->pos_attrib_ << std::endl;
-
-			// Get and enable shader color attrib
-			glBindAttribLocation(this->shader_program_, this->col_attrib_, "color");
-			glEnableVertexAttribArray(this->col_attrib_);
-			glVertexAttribPointer(
-				this->col_attrib_, 
-				3, // 3 verticies in total
-				GL_FLOAT, 
-				GL_FALSE,
-				5 * sizeof(float), // Size of each vertex (pos vec2 + color vec3)
-				(void*)(2 * sizeof(float)) // Offset for color vec3
-			);
-			std::cout << "[DEBUG] Shader color attrib location: " << this->col_attrib_ << std::endl;
-		
-			// Get shader uniform attrib
-			glBindAttribLocation(this->shader_program_, this->uniform_attrib_, "triangleColor");
-			std::cout << "[DEBUG] Shader uniform attrib location: " << this->uniform_attrib_ << std::endl;
-
 		};
 
 		RenderManagerOpenGL::~RenderManagerOpenGL() {
@@ -78,36 +37,62 @@ namespace easy_engine {
 
 		void RenderManagerOpenGL::Render() {
 
-			// TEST
-			float vertices[] = {
-				0.0f, 0.5f, 1.0f, 0.0f, 0.0f, // Vertex 1: Red
-				0.5f,-0.5f, 0.0f, 1.0f, 0.0f, // Vertex 2: Green
-				-0.5f, -0.5f, 0.0f, 0.0f, 1.0f  // Vertex 3: Blue
+			// Clear the screen to black
+			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+			float test_triangle_[9] = {
+				-0.5f, -0.5f, 0.0f,
+				0.0f, 0.5f, 0.0f,
+				0.5f, -0.5f, 0.0f
 			};
 
-			glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+			float test_triangle_color[9] = {
+				0.5f, 0.0f, 0.0f,
+				0.0f, 0.5f, 0.0f,
+				0.0f, 0.0f, 0.5f,
+			};
+
+			glGenVertexArrays(1, this->vao_);
+			glGenBuffers(2, this->vbo_);
+
+			// Setup vertex array object for triangles
+			glBindVertexArray(this->vao_[0]);
+
+			glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[0]);
+			std::cout << "Triangle position VBO id: " << this->vbo_[0] << std::endl;
+			glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), test_triangle_, GL_STATIC_DRAW);
+			glEnableVertexAttribArray(0);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+			glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[1]);
+			std::cout << "Triangle color VBO id: " << this->vbo_[1] << std::endl;
+			glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), test_triangle_color, GL_STATIC_DRAW);
+			glEnableVertexAttribArray(1);
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
 			while (!glfwWindowShouldClose(this->window_)) {
 
-				glfwSwapBuffers(this->window_);
 				glfwPollEvents();
 
 				if (glfwGetKey(this->window_, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 					glfwSetWindowShouldClose(this->window_, GL_TRUE);
-				
-				// Clear the screen to black
-				glClearColor(0.5f, 0.0f, 0.0f, 0.5f);
+
 				glClear(GL_COLOR_BUFFER_BIT);
-				
-				// Draw a triangle from the 3 vertices
+
+				// Activate the triangle vertex array object
+				glBindVertexArray(this->vao_[0]);
+
+				// Draw triangles
 				glDrawArrays(GL_TRIANGLES, 0, 3);
 
+				glfwSwapBuffers(this->window_);
 			}
 
-			// Cleaup
+			// Clean-up
 			glDeleteProgram(this->shader_program_);
 			glDeleteShader(this->fragment_shader_);
 			glDeleteShader(this->vertex_shader_);
-			glDeleteBuffers(1, &this->vbo_);
+			glDeleteBuffers(1, &this->vbo_[0]);
 		}
 
 		// Convert render queue to vertex_buffer_data_ 
@@ -127,28 +112,28 @@ namespace easy_engine {
 				std::istreambuf_iterator<char>());
 
 			std::ifstream fragment_in(this->render_config_->Get("fragment_shader.source_location"));
-			std::string shader_contents((std::istreambuf_iterator<char>(fragment_in)),
+			std::string fragment_contents((std::istreambuf_iterator<char>(fragment_in)),
 				std::istreambuf_iterator<char>());
 
 			const char* vertex_source = vertex_contents.c_str();
-			const char* fragment_source = shader_contents.c_str();
+			const char* fragment_source = fragment_contents.c_str();
 
 			if (vertex_source == "")
 				throw std::runtime_error("Empty vertex shader source");
 			else if (fragment_source == "")
-				throw std::runtime_error("Empty vertex shader source");
+				throw std::runtime_error("Empty fragment shader source");
 			
 			this->vertex_shader_ = glCreateShader(GL_VERTEX_SHADER);
 			glShaderSource(this->vertex_shader_, 1, &vertex_source, NULL);
 			glCompileShader(this->vertex_shader_);
 
-			this->fragment_shader_ = glCreateShader(GL_VERTEX_SHADER);
+			this->fragment_shader_ = glCreateShader(GL_FRAGMENT_SHADER);
 			glShaderSource(this->fragment_shader_, 1, &fragment_source, NULL);
 			glCompileShader(this->fragment_shader_);
 
 			GLint vertex_status, fragment_status;
 			glGetShaderiv(this->vertex_shader_, GL_COMPILE_STATUS, &vertex_status);
-			glGetShaderiv(this->vertex_shader_, GL_COMPILE_STATUS, &fragment_status);
+			glGetShaderiv(this->fragment_shader_, GL_COMPILE_STATUS, &fragment_status);
 
 			if (vertex_status != GL_TRUE)
 				throw new std::runtime_error("Could not compile vertex shader");
