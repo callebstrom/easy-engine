@@ -10,7 +10,7 @@
 #include <Eigen\Core>
 
 // Internal headers
-#include "BaseDataTypes.h"
+#include "Common.h"
 #include "ResourceManager.h"
 #include "Renderable3D.h"
 

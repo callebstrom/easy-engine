@@ -51,80 +51,19 @@ namespace easy_engine {
 			// Set background to dark grey
 			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
-			/* float test_triangle_[9] = {
-				-0.5f, -0.5f, 0.0f,
-				0.0f, 0.5f, 0.0f,
-				0.5f, -0.5f, 0.0f
-			};
-
-			float test_square_[12] = {
-				1.0f, 1.0f, 0.0f,
-				1.0f, 0.5f, 0.0f,
-				0.5f, 0.5f, 0.0f,
-				0.5f, 1.0f, 0.0f
-			};
-
-			float test_triangle_color[9] = {
-				0.5f, 0.0f, 0.0f,
-				0.0f, 0.5f, 0.0f,
-				0.0f, 0.0f, 0.5f,
-			};
-
-			float test_square_color[12] = {
-				0.5f, 0.0f, 0.0f,
-				0.0f, 0.5f, 0.0f,
-				0.0f, 0.0f, 0.5f,
-				0.5f, 0.5f, 0.0f
-			};
-
-			glGenVertexArrays(2, this->vao_);
-			glGenBuffers(4, this->vbo_);
-
-			// Set active VAO
-			glBindVertexArray(this->vao_[0]);
-
-			// Set active VBO to position VBO
-			glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[0]);
-
-			std::cout << "Triangle position VBO id: " << this->vbo_[0] << std::endl;
-			// Upload data to VBO
-			glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), test_triangle_, GL_STATIC_DRAW);
-			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-			// Set active VBO to color VBO
-			glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[1]);
-			std::cout << "Triangle color VBO id: " << this->vbo_[1] << std::endl;
-
-			// Upload data to VBO
-			glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), test_triangle_color, GL_STATIC_DRAW);
-			glEnableVertexAttribArray(1);
-			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-			// Set active VAO
-			glBindVertexArray(this->vao_[1]);
-
-			// Set active VBO to position VBO
-			glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[2]);
-
-			std::cout << "Square position VBO id: " << this->vbo_[2] << std::endl;
-			// Upload data to VBO
-			glBufferData(GL_ARRAY_BUFFER, sizeof(test_square_) * sizeof(float), test_square_, GL_STATIC_DRAW);
-			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-			// Set active VBO to color VBO
-			glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[3]);
-			std::cout << "Square color VBO id: " << this->vbo_[3] << std::endl;
-
-			// Upload data to VBO
-			glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), test_square_color, GL_STATIC_DRAW);
-			glEnableVertexAttribArray(1);
-			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);*/
-
+			// Consume the render queue and create VAO:s for each renderable in queue
 			this->ConsumeRenderQueue();
 
 			while (!glfwWindowShouldClose(this->window_)) {
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+				// Draw to the entire window
+				glViewport(
+					0, 
+					0, 
+					atoi(this->render_config_->Get("resolution.x").c_str()),
+					atoi(this->render_config_->Get("resolution.y").c_str())
+				);
 
 				glfwPollEvents();
 
@@ -157,45 +96,59 @@ namespace easy_engine {
 			std::cout << "[DEBUG] Consuming render queue" << std::endl;
 			std::cout << "[DEBUG] Number of renderables in queue: " << this->render_queue.size() << std::endl;
 
-			int vao_size = this->render_queue.size();
+			GLsizei vao_size = this->render_queue.size();
 			this->vao_ = (GLuint*)malloc(vao_size);
 			glGenVertexArrays(vao_size, this->vao_);
 			std::cout << "[DEBUG] Generated " << vao_size << " vertex array object(s)" << std::endl;
 			
-			int vbo_size = this->render_queue.size() * 2;
+			GLsizei vbo_size = this->render_queue.size() * 2;
 			this->vbo_ = (GLuint*)malloc(vbo_size);
 			glGenBuffers(vbo_size, this->vbo_);
 			std::cout << "[DEBUG] Generated " << vbo_size << " vertex buffer object(s)" << std::endl;
 
 			int i = 0;
 			for (auto &element : this->render_queue) {
-				// Set active VAO
-				glBindVertexArray(this->vao_[i]);
-				// Set active VBO to position VBO
-				glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[i]);
-
 				renderable::Renderable3D* renderable = static_cast<renderable::Renderable3D*>(element);
 
-				GLfloat* vertex_array = renderable->GetVertexArray();
+				// Set active VAO
+				glBindVertexArray(this->vao_[i]);
 
-				// Upload data to VBO
+				// Set active VBO to position VBO
+				glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[i]);
+				GLfloat* vertex_array = renderable->GetVertexArray();
+				uint32_t no_of_coordinates = renderable->vertex_count * 3; // Each vertex has 3 coordinates of type float
+				// Upload position data to a VBO
 				glBufferData(
 					GL_ARRAY_BUFFER, 
-					renderable->vertex_count * 3 * sizeof(float), // Each vertex has 3 coordinates of type float
+					no_of_coordinates * sizeof(float), // Bytes to copy
 					vertex_array, 
 					GL_STATIC_DRAW
 				);
 				glEnableVertexAttribArray(0);
-				glVertexAttribPointer(
-					0, 
-					3, 
-					GL_FLOAT, 
-					GL_FALSE, 
-					0, 
-					0
+				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+				// Randomize colors for each vertex
+				float* color_array = (float*)malloc(renderable->vertex_count);
+				for (uint32_t v = 0; v < renderable->vertex_count; v++) {
+					color_array[v] = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+				}
+
+				// Set active VBO to color VBO
+				glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[i+1]);
+				std::cout << "Triangle color VBO id: " << this->vbo_[i+1] << std::endl;
+
+				// Upload color data to a VBO
+				glBufferData(
+					GL_ARRAY_BUFFER,
+					no_of_coordinates * sizeof(float), // Each vertex has 3 coordinates of type float
+					color_array, // Use the vertex array for colors
+					GL_STATIC_DRAW
 				);
 
-				i++;
+				glEnableVertexAttribArray(1);
+				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+				i += 2;
 			}
 		}
 

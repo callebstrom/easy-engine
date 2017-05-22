@@ -1,6 +1,6 @@
 #pragma once
 
-#include <BaseDataTypes.h>
+#include <Common.h>
 
 #ifndef RESOURCE_MANAGER_H
 namespace easy_engine {
