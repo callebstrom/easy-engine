@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <thread>
+#include <algorithm>
 
 namespace easy_engine {
 	namespace render_manager {
@@ -24,6 +25,7 @@ namespace easy_engine {
 			this->window_ = glfwCreateWindow(resX, resY, "EasyEngine", nullptr, nullptr); // Windowed
 							
 			glfwMakeContextCurrent(this->window_);
+
 
 			glewExperimental = GL_TRUE;
 			glewInit();
@@ -49,10 +51,17 @@ namespace easy_engine {
 			// Set background to dark grey
 			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
-			float test_triangle_[9] = {
+			/* float test_triangle_[9] = {
 				-0.5f, -0.5f, 0.0f,
 				0.0f, 0.5f, 0.0f,
 				0.5f, -0.5f, 0.0f
+			};
+
+			float test_square_[12] = {
+				1.0f, 1.0f, 0.0f,
+				1.0f, 0.5f, 0.0f,
+				0.5f, 0.5f, 0.0f,
+				0.5f, 1.0f, 0.0f
 			};
 
 			float test_triangle_color[9] = {
@@ -61,14 +70,22 @@ namespace easy_engine {
 				0.0f, 0.0f, 0.5f,
 			};
 
-			glGenVertexArrays(1, this->vao_);
-			glGenBuffers(2, this->vbo_);
+			float test_square_color[12] = {
+				0.5f, 0.0f, 0.0f,
+				0.0f, 0.5f, 0.0f,
+				0.0f, 0.0f, 0.5f,
+				0.5f, 0.5f, 0.0f
+			};
 
-			// Setup vertex array object for triangles
+			glGenVertexArrays(2, this->vao_);
+			glGenBuffers(4, this->vbo_);
+
+			// Set active VAO
 			glBindVertexArray(this->vao_[0]);
 
 			// Set active VBO to position VBO
 			glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[0]);
+
 			std::cout << "Triangle position VBO id: " << this->vbo_[0] << std::endl;
 			// Upload data to VBO
 			glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), test_triangle_, GL_STATIC_DRAW);
@@ -78,10 +95,34 @@ namespace easy_engine {
 			// Set active VBO to color VBO
 			glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[1]);
 			std::cout << "Triangle color VBO id: " << this->vbo_[1] << std::endl;
+
 			// Upload data to VBO
 			glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), test_triangle_color, GL_STATIC_DRAW);
 			glEnableVertexAttribArray(1);
 			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+			// Set active VAO
+			glBindVertexArray(this->vao_[1]);
+
+			// Set active VBO to position VBO
+			glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[2]);
+
+			std::cout << "Square position VBO id: " << this->vbo_[2] << std::endl;
+			// Upload data to VBO
+			glBufferData(GL_ARRAY_BUFFER, sizeof(test_square_) * sizeof(float), test_square_, GL_STATIC_DRAW);
+			glEnableVertexAttribArray(0);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+			// Set active VBO to color VBO
+			glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[3]);
+			std::cout << "Square color VBO id: " << this->vbo_[3] << std::endl;
+
+			// Upload data to VBO
+			glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), test_square_color, GL_STATIC_DRAW);
+			glEnableVertexAttribArray(1);
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);*/
+
+			this->ConsumeRenderQueue();
 
 			while (!glfwWindowShouldClose(this->window_)) {
 
@@ -89,36 +130,16 @@ namespace easy_engine {
 
 				if (glfwGetKey(this->window_, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 					glfwSetWindowShouldClose(this->window_, GL_TRUE);
-				else if(glfwGetKey(this->window_, GLFW_KEY_A) == GLFW_PRESS) {
-					test_triangle_[0] -= 0.002f;
-					test_triangle_[3] -= 0.002f;
-					test_triangle_[6] -= 0.002f;
-				} else if(glfwGetKey(this->window_, GLFW_KEY_D) == GLFW_PRESS) {
-					test_triangle_[0] += 0.002f;
-					test_triangle_[3] += 0.002f;
-					test_triangle_[6] += 0.002f;
-				} else if (glfwGetKey(this->window_, GLFW_KEY_W) == GLFW_PRESS) {
-					test_triangle_[1] += 0.002f;
-					test_triangle_[4] += 0.002f;
-					test_triangle_[7] += 0.002f;
-				} else if (glfwGetKey(this->window_, GLFW_KEY_S) == GLFW_PRESS) {
-					test_triangle_[1] -= 0.002f;
-					test_triangle_[4] -= 0.002f;
-					test_triangle_[7] -= 0.002f;
-				}
-
-				glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[0]);
-				glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), test_triangle_, GL_STATIC_DRAW);
-				glEnableVertexAttribArray(0);
-				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-				// Activate the triangle vertex array object
-				glBindVertexArray(this->vao_[0]);
+				for (int i = 0; i < sizeof(this->vao_); i++) {
+					// Activate the triangle vertex array object
+					glBindVertexArray(this->vao_[i]);
 
-				// Draw triangles
-				glDrawArrays(GL_TRIANGLES, 0, 3);
+					// Draw triangles
+					glDrawArrays(GL_TRIANGLES, 0, sizeof(this->vao_[i]));
+				}
 
 				glfwSwapBuffers(this->window_);
 			}
@@ -130,14 +151,51 @@ namespace easy_engine {
 			glDeleteBuffers(1, &this->vbo_[0]);
 		}
 
-		// Convert render queue to vertex_buffer_data_ 
+		// Convert render queue to VBO:s 
 		void RenderManagerOpenGL::ConsumeRenderQueue()
-		{
-			this->vertex_buffer_data_.clear();
+		{	
+			std::cout << "[DEBUG] Consuming render queue" << std::endl;
+			std::cout << "[DEBUG] Number of renderables in queue: " << this->render_queue.size() << std::endl;
+
+			int vao_size = this->render_queue.size();
+			this->vao_ = (GLuint*)malloc(vao_size);
+			glGenVertexArrays(vao_size, this->vao_);
+			std::cout << "[DEBUG] Generated " << vao_size << " vertex array object(s)" << std::endl;
+			
+			int vbo_size = this->render_queue.size() * 2;
+			this->vbo_ = (GLuint*)malloc(vbo_size);
+			glGenBuffers(vbo_size, this->vbo_);
+			std::cout << "[DEBUG] Generated " << vbo_size << " vertex buffer object(s)" << std::endl;
+
+			int i = 0;
 			for (auto &element : this->render_queue) {
-				GLfloat* vertex_array = static_cast<renderable::Renderable3D*>(element)->GetVertexArray();
-				for (int i = 0; i < sizeof(vertex_array); i++)
-					this->vertex_buffer_data_.push_back(vertex_array[i]);
+				// Set active VAO
+				glBindVertexArray(this->vao_[i]);
+				// Set active VBO to position VBO
+				glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[i]);
+
+				renderable::Renderable3D* renderable = static_cast<renderable::Renderable3D*>(element);
+
+				GLfloat* vertex_array = renderable->GetVertexArray();
+
+				// Upload data to VBO
+				glBufferData(
+					GL_ARRAY_BUFFER, 
+					renderable->vertex_count * 3 * sizeof(float), // Each vertex has 3 coordinates of type float
+					vertex_array, 
+					GL_STATIC_DRAW
+				);
+				glEnableVertexAttribArray(0);
+				glVertexAttribPointer(
+					0, 
+					3, 
+					GL_FLOAT, 
+					GL_FALSE, 
+					0, 
+					0
+				);
+
+				i++;
 			}
 		}
 

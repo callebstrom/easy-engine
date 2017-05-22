@@ -25,6 +25,7 @@ namespace easy_engine {
 			std::string line;
 			std::string fileString;
 			int vertex_index = 0;
+			uint32_t vertex_count = 0;
 
 			while (std::getline(ifs, line)) {
 				std::stringstream string_stream_outer(line.c_str());
@@ -35,6 +36,7 @@ namespace easy_engine {
 
 				// If obj vertex annotation
 				if (strcmp(first_word.c_str(), "v") == 0) {
+					vertex_count++;
 					__int64 current_index = renderable->vertices_.rows();
 					std::stringstream string_stream_inner(line.c_str());
 					std::string v, x, y, z;
@@ -49,6 +51,8 @@ namespace easy_engine {
 					renderable->vertices_.row(renderable->vertices_.rows() - 1) = vec;
 				}
 			}
+
+			renderable->vertex_count = vertex_count;
 
 			return renderable;
 		}

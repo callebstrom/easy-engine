@@ -3,8 +3,8 @@
 namespace easy_engine {
 	namespace configuration {
 		RenderConfiguration::RenderConfiguration() {
-			this->config_map_.insert(std::make_pair("resolution.x", "1280"));
-			this->config_map_.insert(std::make_pair("resolution.y", "720"));
+			this->config_map_.insert(std::make_pair("resolution.x", "640"));
+			this->config_map_.insert(std::make_pair("resolution.y", "600"));
 			this->config_map_.insert(std::make_pair("antialiasing", "8"));
 			this->config_map_.insert(std::make_pair(
 				"vertex_shader.source_location", 

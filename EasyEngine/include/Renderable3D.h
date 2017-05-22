@@ -13,6 +13,8 @@ namespace easy_engine {
 				Eigen::MatrixX3cf vertex_normals_;
 				std::string*** faces_;
 
+				uint32_t vertex_count;
+
 				float* GetVertexArray();
 				float* GetTextureVertexArray();
 				float* GetVertexNormalArray();

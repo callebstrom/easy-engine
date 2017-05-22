@@ -23,8 +23,8 @@ namespace easy_engine {
 				void LoadShaders();
 				void ConsumeRenderQueue();
 
-				GLuint vbo_[2];
-				GLuint vao_[1];
+				GLuint* vbo_;
+				GLuint* vao_;
 				GLuint vertex_shader_;
 				GLuint fragment_shader_;
 				GLuint shader_program_;
