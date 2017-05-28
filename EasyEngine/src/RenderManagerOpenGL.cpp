@@ -30,12 +30,9 @@ namespace easy_engine {
 
 			glewExperimental = GL_TRUE;
 			glewInit();
-
-			const GLubyte* renderer = glGetString(GL_RENDERER);
-			const GLubyte* version = glGetString(GL_VERSION);
-
-			//log->debug("Renderer: " + (unsigned char)renderer);
-			//log->debug("OpenGL version supported: " + (unsigned char)version);
+			
+			log->debug("Renderer: " + std::string(reinterpret_cast<char*>(const_cast<GLubyte*>(glGetString(GL_RENDERER)))));
+			log->debug("OpenGL version supported: " + std::string(reinterpret_cast<char*>(const_cast<GLubyte*>(glGetString(GL_VERSION)))));
 
 			// tell GL to only draw onto a pixel if the shape is closer to the viewer
 			glEnable(GL_DEPTH_TEST); // enable depth-testing
