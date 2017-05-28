@@ -93,8 +93,7 @@ namespace easy_engine {
 		}
 
 		// Convert render queue to VBO:s 
-		void RenderManagerOpenGL::ConsumeRenderQueue()
-		{	
+		void RenderManagerOpenGL::ConsumeRenderQueue() {	
 			log->debug("Consuming render queue");
 			log->debug("Number of renderables in queue: " + std::to_string(this->render_queue.size()));
 
