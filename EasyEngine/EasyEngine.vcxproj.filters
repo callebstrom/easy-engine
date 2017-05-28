@@ -78,6 +78,9 @@
     <ClInclude Include="include\Common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -115,6 +118,9 @@
     </ClCompile>
     <ClCompile Include="include\RenderManager.cpp">
       <Filter>Source Files\render_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Logger.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

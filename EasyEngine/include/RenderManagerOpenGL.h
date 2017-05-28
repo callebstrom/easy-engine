@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 
+#include <Logger.h>
 #include <RenderManager3D.h>
 
 #ifndef RENDER_MANAGER_3D_OPEN_GL_H
@@ -20,6 +21,8 @@ namespace easy_engine {
 				GLFWwindow* window_;
 
 			private:
+				static logger::Logger* log;
+
 				void LoadShaders();
 				void ConsumeRenderQueue();
 

@@ -7,9 +7,11 @@
 
 namespace easy_engine {
 	namespace render_manager {
+		logger::Logger* RenderManagerOpenGL::log = new logger::Logger("RenderManagerOpenGL");
+
 		RenderManagerOpenGL::RenderManagerOpenGL(configuration::RenderConfiguration* rc) {
 			this->render_config_ = rc;
-
+			
 			glfwInit();
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -21,19 +23,19 @@ namespace easy_engine {
 			int resX = atoi(this->render_config_->Get("resolution.x").c_str());
 			int resY = atoi(this->render_config_->Get("resolution.y").c_str());
 
-			// this->window_ = glfwCreateWindow(resX, resY, "EasyEngine", glfwGetPrimaryMonitor(), nullptr); // Fullscreen
+			// this->window_ = glfwCreateWindow(resX, resY, "Easy	Engine", glfwGetPrimaryMonitor(), nullptr); // Fullscreen
 			this->window_ = glfwCreateWindow(resX, resY, "EasyEngine", nullptr, nullptr); // Windowed
 							
 			glfwMakeContextCurrent(this->window_);
-
 
 			glewExperimental = GL_TRUE;
 			glewInit();
 
 			const GLubyte* renderer = glGetString(GL_RENDERER);
 			const GLubyte* version = glGetString(GL_VERSION);
-			std::cout << "Renderer: " << renderer << std::endl;
-			std::cout << "OpenGL version supported: " << version << std::endl;
+
+			//log->debug("Renderer: " + (unsigned char)renderer);
+			//log->debug("OpenGL version supported: " + (unsigned char)version);
 
 			// tell GL to only draw onto a pixel if the shape is closer to the viewer
 			glEnable(GL_DEPTH_TEST); // enable depth-testing
@@ -93,18 +95,18 @@ namespace easy_engine {
 		// Convert render queue to VBO:s 
 		void RenderManagerOpenGL::ConsumeRenderQueue()
 		{	
-			std::cout << "[DEBUG] Consuming render queue" << std::endl;
-			std::cout << "[DEBUG] Number of renderables in queue: " << this->render_queue.size() << std::endl;
+			log->debug("Consuming render queue");
+			log->debug("Number of renderables in queue: " + std::to_string(this->render_queue.size()));
 
 			GLsizei vao_size = this->render_queue.size();
 			this->vao_ = (GLuint*)malloc(vao_size);
 			glGenVertexArrays(vao_size, this->vao_);
-			std::cout << "[DEBUG] Generated " << vao_size << " vertex array object(s)" << std::endl;
+			log->debug("Generated " + std::to_string(vao_size) + " vertex array object(s)");
 			
 			GLsizei vbo_size = this->render_queue.size() * 2;
 			this->vbo_ = (GLuint*)malloc(vbo_size);
 			glGenBuffers(vbo_size, this->vbo_);
-			std::cout << "[DEBUG] Generated " << vbo_size << " vertex buffer object(s)" << std::endl;
+			log->debug("Generated " + std::to_string(vbo_size) + " vertex buffer object(s)");
 
 			int i = 0;
 			for (auto &element : this->render_queue) {
@@ -135,7 +137,7 @@ namespace easy_engine {
 
 				// Set active VBO to color VBO
 				glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[i+1]);
-				std::cout << "Triangle color VBO id: " << this->vbo_[i+1] << std::endl;
+				log->debug("Triangle color VBO id: " + std::to_string(this->vbo_[i+1]));
 
 				// Upload color data to a VBO
 				glBufferData(
@@ -181,10 +183,13 @@ namespace easy_engine {
 			glGetShaderiv(this->vertex_shader_, GL_COMPILE_STATUS, &vertex_status);
 			glGetShaderiv(this->fragment_shader_, GL_COMPILE_STATUS, &fragment_status);
 
-			if (vertex_status != GL_TRUE)
-				throw new std::runtime_error("Could not compile vertex shader");
-			else if (fragment_status != GL_TRUE)
-				throw new std::runtime_error("Could not compile fragment shader");
+			if (vertex_status != GL_TRUE) {
+				const std::string message = "Could not compile vertex shader";
+				log->fatal(message);
+			} else if (fragment_status != GL_TRUE) {
+				const std::string message = "Could not compile fragment shader";
+				log->fatal(message);
+			}
 
 			this->shader_program_ = glCreateProgram();
 			glAttachShader(this->shader_program_, this->vertex_shader_);
@@ -199,7 +204,7 @@ namespace easy_engine {
 			glGetShaderInfoLog(this->vertex_shader_, 512, NULL, shader_log_buffer);
 
 			if(shader_log_buffer[0] != NULL)
-				std::cout << "[DEBUG] Shader compilation log: " << std::endl << shader_log_buffer;
+				log->debug("Shader compilation log: " + std::string(shader_log_buffer));
 		}
 
 	}
