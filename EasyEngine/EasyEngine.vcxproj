@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Configuration.h" />
+    <ClInclude Include="include\GroupNode.h" />
     <ClInclude Include="include\Logger.h" />
     <ClInclude Include="include\Node.h" />
     <ClInclude Include="include\Renderable3D.h" />
@@ -37,6 +38,7 @@
     <ClInclude Include="include\SceneManager.h" />
     <ClInclude Include="include\SceneManagerOpenGL.h" />
     <ClInclude Include="include\ShapeNode.h" />
+    <ClInclude Include="include\TransformationNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\RenderManager.cpp" />

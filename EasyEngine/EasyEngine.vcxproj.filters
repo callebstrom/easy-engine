@@ -28,9 +28,6 @@
     <Filter Include="Header Files\configuration">
       <UniqueIdentifier>{1eac161a-5a24-4ed7-ab3d-88f8fc86af66}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\scene_graph">
-      <UniqueIdentifier>{b03870c8-df5b-49cc-a2bb-e6572a12a260}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\scene_manager">
       <UniqueIdentifier>{18f92dd5-e0f8-4fde-b837-272850f3c35f}</UniqueIdentifier>
     </Filter>
@@ -48,6 +45,9 @@
     </Filter>
     <Filter Include="Header Files\resource_manager">
       <UniqueIdentifier>{57140ccf-4a9d-4ce4-8540-524ab8910f29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scene_manager\scene_graph">
+      <UniqueIdentifier>{b03870c8-df5b-49cc-a2bb-e6572a12a260}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -73,13 +73,13 @@
       <Filter>Header Files\scene_manager</Filter>
     </ClInclude>
     <ClInclude Include="include\SceneGraph3D.h">
-      <Filter>Header Files\scene_graph</Filter>
+      <Filter>Header Files\scene_manager\scene_graph</Filter>
     </ClInclude>
     <ClInclude Include="include\Node.h">
-      <Filter>Header Files\scene_graph</Filter>
+      <Filter>Header Files\scene_manager\scene_graph</Filter>
     </ClInclude>
     <ClInclude Include="include\ShapeNode.h">
-      <Filter>Header Files\scene_graph</Filter>
+      <Filter>Header Files\scene_manager\scene_graph</Filter>
     </ClInclude>
     <ClInclude Include="include\Scene.h">
       <Filter>Header Files\scene_manager</Filter>
@@ -104,6 +104,12 @@
     </ClInclude>
     <ClInclude Include="include\ResourceManager3D.h">
       <Filter>Header Files\resource_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GroupNode.h">
+      <Filter>Header Files\scene_manager\scene_graph</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TransformationNode.h">
+      <Filter>Header Files\scene_manager\scene_graph</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
