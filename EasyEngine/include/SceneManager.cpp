@@ -6,7 +6,7 @@ namespace easy_engine {
 	namespace scene_manager {
 		void SceneManager::Add(renderable::Renderable* renderable, std::string scene_name)
 		{
-			scene::Scene* scene = this->scene_map.at(scene_name);
+			Scene* scene = this->scene_map.at(scene_name);
 			scene->Add(renderable);
 		}
 
@@ -15,7 +15,7 @@ namespace easy_engine {
 			this->current_scene->Add(renderable);
 		}
 
-		scene::Scene* SceneManager::GetCurrentScene()
+		Scene* SceneManager::GetCurrentScene()
 		{
 			return this->current_scene;
 		}
@@ -26,7 +26,7 @@ namespace easy_engine {
 		}
 
 		SceneManager::SceneManager() {
-			this->scene_map = std::map<std::string, scene::Scene*>();
+			this->scene_map = std::map<std::string, Scene*>();
 		}
 	}
 }

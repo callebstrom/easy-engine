@@ -6,8 +6,8 @@
 
 #ifndef RENDER_CONFIGURATION_H
 namespace easy_engine {
-	namespace configuration {
-		class RenderConfiguration : public Configuration {
+	namespace render_manager {
+		class RenderConfiguration : public configuration::Configuration {
 			public:
 				RenderConfiguration();
 		};

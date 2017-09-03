@@ -21,10 +21,10 @@
   <ItemGroup>
     <ClInclude Include="include\Configuration.h" />
     <ClInclude Include="include\Logger.h" />
+    <ClInclude Include="include\Node.h" />
     <ClInclude Include="include\Renderable3D.h" />
     <ClInclude Include="include\Renderable.h" />
     <ClInclude Include="include\RenderConfiguration.h" />
-    <ClInclude Include="include\RenderManager3D.h" />
     <ClInclude Include="include\ResourceManager3D.h" />
     <ClInclude Include="include\Common.h" />
     <ClInclude Include="include\RenderManagerOpenGL.h" />
@@ -33,13 +33,13 @@
     <ClInclude Include="include\Scene.h" />
     <ClInclude Include="include\Scene3D.h" />
     <ClInclude Include="include\Scene3DOpenGL.h" />
+    <ClInclude Include="include\SceneGraph3D.h" />
     <ClInclude Include="include\SceneManager.h" />
-    <ClInclude Include="include\SceneManager3D.h" />
-    <ClInclude Include="include\SceneManager3DOpenGL.h" />
+    <ClInclude Include="include\SceneManagerOpenGL.h" />
+    <ClInclude Include="include\ShapeNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\RenderManager.cpp" />
-    <ClCompile Include="include\RenderManager3D.cpp" />
     <ClCompile Include="include\Scene.cpp" />
     <ClCompile Include="include\SceneManager.cpp" />
     <ClCompile Include="src\Configuration.cpp" />
@@ -50,7 +50,8 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\RenderManagerOpenGL.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
-    <ClCompile Include="src\SceneManager3DOpenGL.cpp" />
+    <ClCompile Include="src\Scene3D.cpp" />
+    <ClCompile Include="src\SceneManagerOpenGL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\fragment_shader.glsl" />

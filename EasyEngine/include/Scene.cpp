@@ -1,8 +1,8 @@
 #include <Scene.h>
 #include <Renderable3D.h>
 
-namespace easy_engine{
-	namespace scene {
+namespace easy_engine {
+	namespace scene_manager {
 		void Scene::Add(renderable::Renderable* renderable) {
 			this->renderable_map.insert(std::pair<std::string, renderable::Renderable*>(renderable->name, renderable));
 		}

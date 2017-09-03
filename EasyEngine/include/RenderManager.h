@@ -2,19 +2,19 @@
 
 #include <vector>
 #include <Renderable.h>
+#include <RenderConfiguration.h>
 
 #ifndef RENDER_MANAGER_H
+
 namespace easy_engine {
-	namespace configuration {
-		class RenderConfiguration;
-	}
 	namespace render_manager {
 		class RenderManager {
 			public:
 				void RenderQueuePush(renderable::Renderable* renderable);
 				void RenderManager::RenderQueuePush(std::vector<renderable::Renderable*> renderable);
+				virtual void Render() = 0;
 			protected:
-				configuration::RenderConfiguration* render_config_;
+				RenderConfiguration* render_config_;
 				std::vector<renderable::Renderable*> render_queue;
 				
 		};

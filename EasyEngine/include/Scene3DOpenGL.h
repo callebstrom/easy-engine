@@ -4,7 +4,7 @@
 
 #ifndef SCENE_3D_H
 namespace easy_engine {
-	namespace scene {
+	namespace scene_manager {
 		class Scene3DOpenGL : public Scene3D {
 
 		};

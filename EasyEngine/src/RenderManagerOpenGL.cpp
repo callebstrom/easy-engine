@@ -9,7 +9,7 @@ namespace easy_engine {
 	namespace render_manager {
 		logger::Logger* RenderManagerOpenGL::log = new logger::Logger("RenderManagerOpenGL");
 
-		RenderManagerOpenGL::RenderManagerOpenGL(configuration::RenderConfiguration* rc) {
+		RenderManagerOpenGL::RenderManagerOpenGL(RenderConfiguration* rc) {
 			this->render_config_ = rc;
 			
 			glfwInit();
@@ -54,6 +54,7 @@ namespace easy_engine {
 			this->ConsumeRenderQueue();
 
 			while (!glfwWindowShouldClose(this->window_)) {
+				this->UpdateFpsCounter();
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 				// Draw to the entire window
@@ -127,7 +128,7 @@ namespace easy_engine {
 
 				// Randomize colors for each vertex
 				float* color_array = (float*)malloc(renderable->vertex_count);
-				for (uint32_t v = 0; v < renderable->vertex_count; v++) {
+				for (uint32_t v = 0; v < renderable->vertex_count * 3; v++) {
 					color_array[v] = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 				}
 
@@ -138,7 +139,7 @@ namespace easy_engine {
 				// Upload color data to a VBO
 				glBufferData(
 					GL_ARRAY_BUFFER,
-					no_of_coordinates * sizeof(float), // Each vertex has 3 coordinates of type float
+					no_of_coordinates * sizeof(float), // Each vertex is colored
 					color_array, // Use the vertex array for colors
 					GL_STATIC_DRAW
 				);
@@ -148,6 +149,25 @@ namespace easy_engine {
 
 				i += 2;
 			}
+		}
+
+		void RenderManagerOpenGL::UpdateFpsCounter() {
+			static double previous_seconds = glfwGetTime();
+			static int frame_count;
+			double current_seconds = glfwGetTime();
+			double elapsed_seconds = current_seconds - previous_seconds;
+			if (elapsed_seconds > 1) {
+				previous_seconds = current_seconds;
+				double fps = (double)frame_count / elapsed_seconds;
+
+				char tmp[128];
+				sprintf_s(tmp, 128, "FPS: %f", fps);
+
+				glfwSetWindowTitle(this->window_, tmp);
+				frame_count = 0;
+			}
+			frame_count++;
+			
 		}
 
 		void RenderManagerOpenGL::LoadShaders() {

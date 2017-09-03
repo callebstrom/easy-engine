@@ -6,14 +6,15 @@
 #include <vector>
 
 #include <Logger.h>
-#include <RenderManager3D.h>
+#include <RenderManager.h>
+#include <Renderable3D.h>
 
 #ifndef RENDER_MANAGER_3D_OPEN_GL_H
 namespace easy_engine {
 	namespace render_manager {
-		class RenderManagerOpenGL : public RenderManager3D {
+		class RenderManagerOpenGL : public RenderManager {
 			public:
-				RenderManagerOpenGL(configuration::RenderConfiguration* rc);
+				RenderManagerOpenGL(RenderConfiguration* rc);
 				RenderManagerOpenGL::~RenderManagerOpenGL();
 				void Render();
 
@@ -25,6 +26,7 @@ namespace easy_engine {
 
 				void LoadShaders();
 				void ConsumeRenderQueue();
+				void UpdateFpsCounter();
 
 				GLuint* vbo_;
 				GLuint* vao_;

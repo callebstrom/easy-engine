@@ -7,7 +7,7 @@
 
 #ifndef SCENE_H
 namespace easy_engine {
-	namespace scene {
+	namespace scene_manager {
 		class Scene {
 			public:
 				std::string name;

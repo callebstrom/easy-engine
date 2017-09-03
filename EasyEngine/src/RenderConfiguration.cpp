@@ -1,7 +1,7 @@
 #include "RenderConfiguration.h"
 
 namespace easy_engine {
-	namespace configuration {
+	namespace render_manager {
 		RenderConfiguration::RenderConfiguration() {
 			this->config_map_.insert(std::make_pair("resolution.x", "640"));
 			this->config_map_.insert(std::make_pair("resolution.y", "600"));

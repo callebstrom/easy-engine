@@ -10,7 +10,7 @@ namespace easy_engine {
 			public: 
 				void Add(renderable::Renderable* renderable, std::string scene_name);
 				void Add(renderable::Renderable* renderable);
-				scene::Scene* GetCurrentScene();
+				Scene* GetCurrentScene();
 				void SetCurrentScene(std::string scene_name);
 
 				virtual void RenderScene() = 0;
@@ -18,8 +18,8 @@ namespace easy_engine {
 
 				SceneManager();
 			protected:
-				scene::Scene* current_scene;
-				std::map<std::string, scene::Scene*> scene_map;
+				Scene* current_scene;
+				std::map<std::string, Scene*> scene_map;
 		};
 	}
 }
