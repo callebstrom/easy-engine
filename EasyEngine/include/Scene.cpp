@@ -1,5 +1,6 @@
 #include <Scene.h>
 #include <Renderable3D.h>
+#include <RenderableNode.h>
 
 namespace easy_engine {
 	namespace scene_manager {

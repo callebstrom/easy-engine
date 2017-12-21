@@ -49,6 +49,9 @@
     <Filter Include="Header Files\scene_manager\scene_graph">
       <UniqueIdentifier>{b03870c8-df5b-49cc-a2bb-e6572a12a260}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\scene_manager\scene_graph">
+      <UniqueIdentifier>{bc7d0ed2-4bbf-40e9-9d5d-f72eaa61a011}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\SceneManager.h">
@@ -76,9 +79,6 @@
       <Filter>Header Files\scene_manager\scene_graph</Filter>
     </ClInclude>
     <ClInclude Include="include\Node.h">
-      <Filter>Header Files\scene_manager\scene_graph</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ShapeNode.h">
       <Filter>Header Files\scene_manager\scene_graph</Filter>
     </ClInclude>
     <ClInclude Include="include\Scene.h">
@@ -109,6 +109,9 @@
       <Filter>Header Files\scene_manager\scene_graph</Filter>
     </ClInclude>
     <ClInclude Include="include\TransformationNode.h">
+      <Filter>Header Files\scene_manager\scene_graph</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RenderableNode.h">
       <Filter>Header Files\scene_manager\scene_graph</Filter>
     </ClInclude>
   </ItemGroup>
@@ -151,6 +154,12 @@
     </ClCompile>
     <ClCompile Include="src\ResourceManager3D.cpp">
       <Filter>Source Files\resource_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Node.cpp">
+      <Filter>Source Files\scene_manager\scene_graph</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderableNode.cpp">
+      <Filter>Source Files\scene_manager\scene_graph</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

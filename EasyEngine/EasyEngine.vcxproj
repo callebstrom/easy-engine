@@ -37,7 +37,7 @@
     <ClInclude Include="include\SceneGraph3D.h" />
     <ClInclude Include="include\SceneManager.h" />
     <ClInclude Include="include\SceneManagerOpenGL.h" />
-    <ClInclude Include="include\ShapeNode.h" />
+    <ClInclude Include="include\RenderableNode.h" />
     <ClInclude Include="include\TransformationNode.h" />
   </ItemGroup>
   <ItemGroup>
@@ -46,7 +46,9 @@
     <ClCompile Include="include\SceneManager.cpp" />
     <ClCompile Include="src\Configuration.cpp" />
     <ClCompile Include="src\Logger.cpp" />
+    <ClCompile Include="src\Node.cpp" />
     <ClCompile Include="src\Renderable3D.cpp" />
+    <ClCompile Include="src\RenderableNode.cpp" />
     <ClCompile Include="src\RenderConfiguration.cpp" />
     <ClCompile Include="src\ResourceManager3D.cpp" />
     <ClCompile Include="src\main.cpp" />
