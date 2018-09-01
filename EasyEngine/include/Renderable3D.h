@@ -9,16 +9,15 @@ namespace easy_engine {
 		class Renderable3D : public Renderable {
 			public:
 				Eigen::MatrixX3f vertices_;
-				Eigen::MatrixX2cf texture_vertices_;
-				Eigen::MatrixX3cf vertex_normals_;
-				std::string*** faces_;
+				Eigen::MatrixX2f texture_vertices_;
+				Eigen::MatrixX3f vertex_normals_;
+				std::vector<unsigned short> faces_;
 
 				uint32_t vertex_count;
 
 				float* GetVertexArray();
 				float* GetTextureVertexArray();
 				float* GetVertexNormalArray();
-				std::string*** GetFaces();
 		};
 	}
 }

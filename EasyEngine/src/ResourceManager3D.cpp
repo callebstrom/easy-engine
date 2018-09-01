@@ -30,25 +30,39 @@ namespace easy_engine {
 			while (std::getline(ifs, line)) {
 				std::stringstream string_stream_outer(line.c_str());
 
-				// read the first word of the line
-				std::string first_word;
-				string_stream_outer >> first_word;
+				std::string first_char;
+				string_stream_outer >> first_char;
 
 				// If obj vertex annotation
-				if (strcmp(first_word.c_str(), "v") == 0) {
+				if (strcmp(first_char.c_str(), "v") == 0) {
 					vertex_count++;
 					__int64 current_index = renderable->vertices_.rows();
 					std::stringstream string_stream_inner(line.c_str());
 					std::string v, x, y, z;
 
 					string_stream_inner >> v >> x >> y >> z;
-
+					
 					Eigen::Vector3f vec;
 					// TODO we lose precision here due to double, implement Boost c++ library 
 					vec << (float)std::atof(x.c_str()), (float)std::atof(y.c_str()), (float)std::atof(z.c_str());
 
 					renderable->vertices_.conservativeResize(renderable->vertices_.rows() + 1, Eigen::NoChange);
 					renderable->vertices_.row(renderable->vertices_.rows() - 1) = vec;
+				} else if (strcmp(first_char.c_str(), "f")) {
+					std::istringstream s(line.substr(2));
+
+					// Vertex indices to draw face between
+					unsigned short vertex_1, vertex_2, vertex_3;
+
+					s >> vertex_1; 
+					s >> vertex_2;
+					s >> vertex_3;
+
+					vertex_1--; vertex_2--; vertex_3--;
+
+					renderable->faces_.push_back(vertex_1);
+					renderable->faces_.push_back(vertex_2);
+					renderable->faces_.push_back(vertex_3);
 				}
 			}
 

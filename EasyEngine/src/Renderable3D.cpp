@@ -9,7 +9,7 @@
 namespace easy_engine {
 	namespace renderable {
 		float* Renderable3D::GetVertexArray() {
-
+			
 			int rows = this->vertices_.rows();
 			int cols = this->vertices_.cols();
 			float* vertex_array = new float[rows * cols];
@@ -30,11 +30,6 @@ namespace easy_engine {
 		}
 
 		float* Renderable3D::GetVertexNormalArray() {
-			return nullptr;
-		}
-
-		std::string *** Renderable3D::GetFaces()
-		{
 			return nullptr;
 		}
 	}

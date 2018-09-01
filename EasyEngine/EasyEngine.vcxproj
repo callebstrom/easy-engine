@@ -34,6 +34,7 @@
     <ClInclude Include="include\Scene.h" />
     <ClInclude Include="include\Scene3D.h" />
     <ClInclude Include="include\Scene3DOpenGL.h" />
+    <ClInclude Include="include\SceneConfiguration.h" />
     <ClInclude Include="include\SceneGraph3D.h" />
     <ClInclude Include="include\SceneManager.h" />
     <ClInclude Include="include\SceneManagerOpenGL.h" />
@@ -42,19 +43,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\RenderManager.cpp" />
-    <ClCompile Include="include\Scene.cpp" />
-    <ClCompile Include="include\SceneManager.cpp" />
-    <ClCompile Include="src\Configuration.cpp" />
     <ClCompile Include="src\Logger.cpp" />
     <ClCompile Include="src\Node.cpp" />
     <ClCompile Include="src\Renderable3D.cpp" />
     <ClCompile Include="src\RenderableNode.cpp" />
-    <ClCompile Include="src\RenderConfiguration.cpp" />
     <ClCompile Include="src\ResourceManager3D.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\RenderManagerOpenGL.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
+    <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Scene3D.cpp" />
+    <ClCompile Include="src\SceneManager.cpp" />
     <ClCompile Include="src\SceneManagerOpenGL.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -131,15 +130,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Dropbox\Programmering\EasyEngine\EasyEngine\include\GL;D:\Dropbox\Programmering\EasyEngine\EasyEngine\include\Eigen;D:\Dropbox\Programmering\EasyEngine\EasyEngine\include;D:\Dropbox\Programmering\EasyEngine\EasyEngine\include\boost-1_64;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dropbox\dev\EasyEngine\EasyEngine\include\GL;D:\Dropbox\dev\EasyEngine\EasyEngine\include\Eigen;D:\Dropbox\dev\EasyEngine\EasyEngine\include;D:\Dropbox\dev\EasyEngine\EasyEngine\include\boost-1_64;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
       <PreprocessorDefinitions>BOOST_ALL_DYN_LINK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>D:\Dropbox\Programmering\EasyEngine\EasyEngine\lib\x64\glew32.lib;D:\Dropbox\Programmering\EasyEngine\EasyEngine\lib\x64\glew32s.lib;D:\Dropbox\Programmering\EasyEngine\EasyEngine\lib\x64\glfw3.lib;D:\Dropbox\Programmering\EasyEngine\EasyEngine\lib\x64\glfw3dll.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\Dropbox\Programmering\EasyEngine\EasyEngine\lib\x64\boost-1_64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\glew32.lib;D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\glew32s.lib;D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\glfw3.lib;D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\glfw3dll.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\boost-1_64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -165,12 +164,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>F:\Dropbox\Programmering\EasyEngine\EasyEngine\include\GL;F:\Dropbox\Programmering\EasyEngine\EasyEngine\include\Eigen;F:\Dropbox\Programmering\EasyEngine\EasyEngine\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dropbox\dev\EasyEngine\EasyEngine\include\GL;D:\Dropbox\dev\EasyEngine\EasyEngine\include\Eigen;D:\Dropbox\dev\EasyEngine\EasyEngine\include;D:\Dropbox\dev\EasyEngine\EasyEngine\include\boost-1_64;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>BOOST_ALL_DYN_LINK;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>F:\Dropbox\Programmering\EasyEngine\EasyEngine\lib\x64\glew32.lib;F:\Dropbox\Programmering\EasyEngine\EasyEngine\lib\x64\glew32s.lib;F:\Dropbox\Programmering\EasyEngine\EasyEngine\lib\x64\glfw3.lib;F:\Dropbox\Programmering\EasyEngine\EasyEngine\lib\x64\glfw3dll.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\glew32.lib;D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\glew32s.lib;D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\glfw3.lib;D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\glfw3dll.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\boost-1_64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

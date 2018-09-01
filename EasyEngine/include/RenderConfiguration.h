@@ -1,16 +1,20 @@
 #pragma once
 
-#include <map>
 
 #include <Configuration.h>
 
 #ifndef RENDER_CONFIGURATION_H
 namespace easy_engine {
-	namespace render_manager {
-		class RenderConfiguration : public configuration::Configuration {
-			public:
-				RenderConfiguration();
+	namespace configuration {
+		enum RenderConfigurationParams : int {
+			RESOLUTION_X,
+			RESOLUTION_Y,
+			ANTIALIASING,
+			VERTEX_SHADER_SOURCE_LOCATION,
+			FRAGMENT_SHADER_SOURCE_LOCATION
 		};
+
+		typedef Configuration<int, std::string> RenderConfiguration_t;
 	}
 }
 #endif // !RENDER_CONFIGURATION_H

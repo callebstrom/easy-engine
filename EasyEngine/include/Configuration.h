@@ -6,12 +6,19 @@
 #ifndef CONFIGURATION_H
 namespace easy_engine {
 	namespace configuration {
+		template <typename K, typename V> 
 		class Configuration {
+			private:
+				std::map<K, V> configuration_map_;
+
 			public:
-				std::string Get(std::string key);
-				void Set(std::string, std::string);
-			protected:
-				std::map<std::string, std::string> config_map_;
+				inline V Configuration<K, V>::Get(K key) {
+					return this->configuration_map_[key];
+				}
+
+				inline void Configuration<K, V>::Set(K key, V val) {
+					configuration_map_[key] = val;
+				}
 		};
 	}
 }

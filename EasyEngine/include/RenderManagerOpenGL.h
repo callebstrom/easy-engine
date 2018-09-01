@@ -14,9 +14,10 @@ namespace easy_engine {
 	namespace render_manager {
 		class RenderManagerOpenGL : public RenderManager {
 			public:
-				RenderManagerOpenGL(RenderConfiguration* rc);
+				RenderManagerOpenGL(configuration::RenderConfiguration_t* rc);
 				RenderManagerOpenGL::~RenderManagerOpenGL();
 				void Render();
+				void ComputeNormals(renderable::Renderable3D* renderable);
 
 				std::vector<GLfloat> vertex_buffer_data_;
 				GLFWwindow* window_;

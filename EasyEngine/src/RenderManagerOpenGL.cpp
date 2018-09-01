@@ -7,21 +7,24 @@
 
 namespace easy_engine {
 	namespace render_manager {
-		logger::Logger* RenderManagerOpenGL::log = new logger::Logger("RenderManagerOpenGL");
 
-		RenderManagerOpenGL::RenderManagerOpenGL(RenderConfiguration* rc) {
+		typedef configuration::RenderConfigurationParams c_params_;
+
+		logger::Logger* RenderManagerOpenGL::log = new logger::Logger("RenderManagerOpenGL");
+		
+		RenderManagerOpenGL::RenderManagerOpenGL(configuration::RenderConfiguration_t* rc) {
 			this->render_config_ = rc;
 			
 			glfwInit();
-			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 			glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
+			
 			glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-			int resX = atoi(this->render_config_->Get("resolution.x").c_str());
-			int resY = atoi(this->render_config_->Get("resolution.y").c_str());
+			int resX = atoi(this->render_config_->Get(c_params_::RESOLUTION_X).c_str());
+			int resY = atoi(this->render_config_->Get(c_params_::RESOLUTION_Y).c_str());
 
 			// this->window_ = glfwCreateWindow(resX, resY, "Easy	Engine", glfwGetPrimaryMonitor(), nullptr); // Fullscreen
 			this->window_ = glfwCreateWindow(resX, resY, "EasyEngine", nullptr, nullptr); // Windowed
@@ -56,13 +59,13 @@ namespace easy_engine {
 			while (!glfwWindowShouldClose(this->window_)) {
 				this->UpdateFpsCounter();
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+				
 				// Draw to the entire window
 				glViewport(
 					0, 
 					0, 
-					atoi(this->render_config_->Get("resolution.x").c_str()),
-					atoi(this->render_config_->Get("resolution.y").c_str())
+					atoi(this->render_config_->Get(c_params_::RESOLUTION_X).c_str()),
+					atoi(this->render_config_->Get(c_params_::RESOLUTION_Y).c_str())
 				);
 
 				glfwPollEvents();
@@ -123,13 +126,15 @@ namespace easy_engine {
 					vertex_array, 
 					GL_STATIC_DRAW
 				);
+
 				glEnableVertexAttribArray(0);
 				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 				// Randomize colors for each vertex
-				float* color_array = (float*)malloc(renderable->vertex_count);
+				std::vector<float> color_array = {};
+
 				for (uint32_t v = 0; v < renderable->vertex_count * 3; v++) {
-					color_array[v] = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+					color_array.push_back(static_cast <float> (rand()) / static_cast <float> (RAND_MAX));
 				}
 
 				// Set active VBO to color VBO
@@ -140,7 +145,7 @@ namespace easy_engine {
 				glBufferData(
 					GL_ARRAY_BUFFER,
 					no_of_coordinates * sizeof(float), // Each vertex is colored
-					color_array, // Use the vertex array for colors
+					&color_array[0], // Use the vertex array for colors
 					GL_STATIC_DRAW
 				);
 
@@ -148,6 +153,23 @@ namespace easy_engine {
 				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 				i += 2;
+			}
+		}
+
+		void RenderManagerOpenGL::ComputeNormals(renderable::Renderable3D* renderable)
+		{
+			// TODO introduce GLM to enable OpenGL specific normal computation
+			renderable->faces_.resize(renderable->vertices_.size(), glm::vec3(0.0, 0.0, 0.0));
+
+			for (int i = 0; i < elements.size(); i += 3)
+			{
+				GLushort ia = elements[i];
+				GLushort ib = elements[i + 1];
+				GLushort ic = elements[i + 2];
+				glm::vec3 normal = glm::normalize(glm::cross(
+					glm::vec3(vertices[ib]) - glm::vec3(vertices[ia]),
+					glm::vec3(vertices[ic]) - glm::vec3(vertices[ia])));
+				normals[ia] = normals[ib] = normals[ic] = normal;
 			}
 		}
 
@@ -171,11 +193,11 @@ namespace easy_engine {
 		}
 
 		void RenderManagerOpenGL::LoadShaders() {
-			std::ifstream vertex_in(this->render_config_->Get("vertex_shader.source_location"));
+			std::ifstream vertex_in(this->render_config_->Get(c_params_::VERTEX_SHADER_SOURCE_LOCATION));
 			std::string vertex_contents((std::istreambuf_iterator<char>(vertex_in)),
 				std::istreambuf_iterator<char>());
 
-			std::ifstream fragment_in(this->render_config_->Get("fragment_shader.source_location"));
+			std::ifstream fragment_in(this->render_config_->Get(c_params_::FRAGMENT_SHADER_SOURCE_LOCATION));
 			std::string fragment_contents((std::istreambuf_iterator<char>(fragment_in)),
 				std::istreambuf_iterator<char>());
 

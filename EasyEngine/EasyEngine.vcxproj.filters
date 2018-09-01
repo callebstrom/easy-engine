@@ -37,9 +37,6 @@
     <Filter Include="Source Files\renderable">
       <UniqueIdentifier>{06efdd62-30de-4fcb-a10b-eafc217642c1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\configuration">
-      <UniqueIdentifier>{15b6c126-2bb4-41c3-a570-af22711256f8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\resource_manager">
       <UniqueIdentifier>{bc6bd521-9008-4ed4-8e3d-b4f06f8281a5}</UniqueIdentifier>
     </Filter>
@@ -90,9 +87,6 @@
     <ClInclude Include="include\Scene3DOpenGL.h">
       <Filter>Header Files\scene_manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\RenderConfiguration.h">
-      <Filter>Header Files\render_manager</Filter>
-    </ClInclude>
     <ClInclude Include="include\Renderable.h">
       <Filter>Header Files\renderable</Filter>
     </ClInclude>
@@ -114,6 +108,12 @@
     <ClInclude Include="include\RenderableNode.h">
       <Filter>Header Files\scene_manager\scene_graph</Filter>
     </ClInclude>
+    <ClInclude Include="include\RenderConfiguration.h">
+      <Filter>Header Files\configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SceneConfiguration.h">
+      <Filter>Header Files\configuration</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -131,23 +131,11 @@
     <ClCompile Include="src\SceneManagerOpenGL.cpp">
       <Filter>Source Files\scene_manager</Filter>
     </ClCompile>
-    <ClCompile Include="include\SceneManager.cpp">
-      <Filter>Source Files\scene_manager</Filter>
-    </ClCompile>
     <ClCompile Include="src\Scene3D.cpp">
       <Filter>Source Files\scene_manager</Filter>
     </ClCompile>
-    <ClCompile Include="include\Scene.cpp">
-      <Filter>Source Files\scene_manager</Filter>
-    </ClCompile>
-    <ClCompile Include="src\RenderConfiguration.cpp">
-      <Filter>Source Files\render_manager</Filter>
-    </ClCompile>
     <ClCompile Include="src\Renderable3D.cpp">
       <Filter>Source Files\renderable</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Configuration.cpp">
-      <Filter>Source Files\configuration</Filter>
     </ClCompile>
     <ClCompile Include="src\ResourceManager.cpp">
       <Filter>Source Files\resource_manager</Filter>
@@ -160,6 +148,12 @@
     </ClCompile>
     <ClCompile Include="src\RenderableNode.cpp">
       <Filter>Source Files\scene_manager\scene_graph</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SceneManager.cpp">
+      <Filter>Source Files\scene_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene.cpp">
+      <Filter>Source Files\scene_manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
