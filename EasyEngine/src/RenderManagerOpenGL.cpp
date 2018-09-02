@@ -141,6 +141,9 @@ namespace easy_engine {
 				glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[i+1]);
 				log->debug("Triangle color VBO id: " + std::to_string(this->vbo_[i+1]));
 
+				// Handle normals
+				float* normals_array = renderable->GetVertexNormalArray(&RenderManagerOpenGL::ComputeNormals);
+
 				// Upload color data to a VBO
 				glBufferData(
 					GL_ARRAY_BUFFER,
@@ -156,20 +159,43 @@ namespace easy_engine {
 			}
 		}
 
-		void RenderManagerOpenGL::ComputeNormals(renderable::Renderable3D* renderable)
-		{
-			// TODO introduce GLM to enable OpenGL specific normal computation
-			renderable->faces_.resize(renderable->vertices_.size(), glm::vec3(0.0, 0.0, 0.0));
+		void RenderManagerOpenGL::ComputeNormals(renderable::Renderable3D* renderable) {
+			std::vector<glm::vec3> normals;
+			normals.resize(renderable->vertex_count, glm::vec3(0.0, 0.0, 0.0));
 
-			for (int i = 0; i < elements.size(); i += 3)
-			{
-				GLushort ia = elements[i];
-				GLushort ib = elements[i + 1];
-				GLushort ic = elements[i + 2];
+			std::vector<ushort_t>& faces = renderable->faces_;
+			std::vector<glm::vec4>vertices;
+			
+			ToGLMVertices(renderable->vertices_, vertices);
+
+			for (int i = 0; i < faces.size(); i += 3) {
+				GLushort ia = faces[i];
+				GLushort ib = faces[i + 1];
+				GLushort ic = faces[i + 2];
 				glm::vec3 normal = glm::normalize(glm::cross(
 					glm::vec3(vertices[ib]) - glm::vec3(vertices[ia]),
 					glm::vec3(vertices[ic]) - glm::vec3(vertices[ia])));
 				normals[ia] = normals[ib] = normals[ic] = normal;
+			}
+
+			// TODO convert normals to Eigen::MatrixX3f and add to renderable->vertex_normals_
+		}
+
+		void RenderManagerOpenGL::ToGLMVertices(Eigen::MatrixX3f& from_vertices, std::vector<glm::vec4>& to_vertices) {
+			int rows = from_vertices.rows();
+			int cols = from_vertices.cols();
+
+			for (int i = 0; i < rows; i++) {
+				for (int x = 0; x < cols; x++) {
+
+					glm::vec4 vec = glm::vec4();
+					vec.x = from_vertices(i, 0);
+					vec.y = from_vertices(i, 0);
+					vec.z = from_vertices(i, 0);
+					vec.w = 1.0f;
+
+					to_vertices.push_back(vec);
+				}
 			}
 		}
 

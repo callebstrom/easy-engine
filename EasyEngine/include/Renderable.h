@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include <Common.h>
+
 #ifndef RENDERABLE_H
 namespace easy_engine {
 	namespace renderable {

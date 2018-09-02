@@ -1,9 +1,11 @@
 #pragma once
 
-#include <GL\glew.h>
-#include <GL\glfw3.h>
 #include <iostream>
 #include <vector>
+
+#include <GL\glew.h>
+#include <GL\glfw3.h>
+#include <glm\glm.hpp>
 
 #include <Logger.h>
 #include <RenderManager.h>
@@ -12,12 +14,13 @@
 #ifndef RENDER_MANAGER_3D_OPEN_GL_H
 namespace easy_engine {
 	namespace render_manager {
+
 		class RenderManagerOpenGL : public RenderManager {
 			public:
 				RenderManagerOpenGL(configuration::RenderConfiguration_t* rc);
 				RenderManagerOpenGL::~RenderManagerOpenGL();
 				void Render();
-				void ComputeNormals(renderable::Renderable3D* renderable);
+				static void ComputeNormals(renderable::Renderable3D* renderable);
 
 				std::vector<GLfloat> vertex_buffer_data_;
 				GLFWwindow* window_;
@@ -28,6 +31,7 @@ namespace easy_engine {
 				void LoadShaders();
 				void ConsumeRenderQueue();
 				void UpdateFpsCounter();
+				static void ToGLMVertices(Eigen::MatrixX3f& from_vertices, std::vector<glm::vec4>& to_vertices);
 
 				GLuint* vbo_;
 				GLuint* vao_;

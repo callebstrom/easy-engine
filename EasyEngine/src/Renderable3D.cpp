@@ -1,4 +1,3 @@
-#include "Renderable3D.h"
 #include <vector>
 #include <algorithm>
 #include <iostream>
@@ -6,8 +5,12 @@
 #include <iterator>
 #include <numeric>
 
+#include <Renderable3D.h>
+#include <RenderManagerOpenGL.h>
+
 namespace easy_engine {
 	namespace renderable {
+
 		float* Renderable3D::GetVertexArray() {
 			
 			int rows = this->vertices_.rows();
@@ -29,8 +32,12 @@ namespace easy_engine {
 			return nullptr;
 		}
 
-		float* Renderable3D::GetVertexNormalArray() {
-			return nullptr;
+		float* Renderable3D::GetVertexNormalArray(func_ptr_t compute_normals_func) {
+			if (this->vertex_normals_.size == 0) {
+				return nullptr;
+			} else {
+				compute_normals_func(this);
+			}
 		}
 	}
 }
