@@ -15,6 +15,7 @@ namespace easy_engine {
 			
 			int rows = this->vertices_.rows();
 			int cols = this->vertices_.cols();
+			
 			float* vertex_array = new float[rows * cols];
 
 			int index = 0;
@@ -33,11 +34,7 @@ namespace easy_engine {
 		}
 
 		float* Renderable3D::GetVertexNormalArray(func_ptr_t compute_normals_func) {
-			if (this->vertex_normals_.size == 0) {
-				return nullptr;
-			} else {
-				compute_normals_func(this);
-			}
+			return compute_normals_func(this);
 		}
 	}
 }

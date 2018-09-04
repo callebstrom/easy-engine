@@ -48,21 +48,17 @@ namespace easy_engine {
 
 					renderable->vertices_.conservativeResize(renderable->vertices_.rows() + 1, Eigen::NoChange);
 					renderable->vertices_.row(renderable->vertices_.rows() - 1) = vec;
-				} else if (strcmp(first_char.c_str(), "f")) {
-					std::istringstream s(line.substr(2));
+				} else if (strcmp(first_char.c_str(), "f") == 0) {
+					std::string line_trimmed = line.substr(2);// "1/3/4 3/4/3"
 
-					// Vertex indices to draw face between
-					unsigned short vertex_1, vertex_2, vertex_3;
+					std::vector<std::string> face_coords;
+					boost::split(face_coords, line_trimmed, boost::is_any_of(" ")); // ["1/3/4","3/4/3",...]
 
-					s >> vertex_1; 
-					s >> vertex_2;
-					s >> vertex_3;
-
-					vertex_1--; vertex_2--; vertex_3--;
-
-					renderable->faces_.push_back(vertex_1);
-					renderable->faces_.push_back(vertex_2);
-					renderable->faces_.push_back(vertex_3);
+					for (auto const& fc : face_coords) {
+						std::vector<std::string> face_coords_exploded;
+						boost::split(face_coords_exploded, fc, boost::is_any_of("/")); // ["1","3","4",...]
+						renderable->faces_.push_back(boost::lexical_cast<short>(face_coords_exploded.at(0)) - 1);
+					}
 				}
 			}
 

@@ -75,7 +75,7 @@ namespace easy_engine {
 
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-				for (int i = 0; i < sizeof(this->vao_); i++) {
+				for (int i = 0; i < sizeof(this->vao_) / sizeof(GLuint); i++) {
 					// Activate the triangle vertex array object
 					glBindVertexArray(this->vao_[i]);
 
@@ -115,20 +115,29 @@ namespace easy_engine {
 				// Set active VAO
 				glBindVertexArray(this->vao_[i]);
 
+				/**
+				* VERTICES
+				**/
+
 				// Set active VBO to position VBO
 				glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[i]);
-				GLfloat* vertex_array = renderable->GetVertexArray();
-				uint32_t no_of_coordinates = renderable->vertex_count * 3; // Each vertex has 3 coordinates of type float
+				GLfloat* vertices = renderable->GetVertexArray();
+				uint32_t vertices_count = renderable->vertex_count * 3; // Each vertex has 3 coordinates of type float
+
 				// Upload position data to a VBO
 				glBufferData(
 					GL_ARRAY_BUFFER, 
-					no_of_coordinates * sizeof(float), // Bytes to copy
-					vertex_array, 
+					vertices_count * sizeof(float), // Bytes to copy
+					vertices,
 					GL_STATIC_DRAW
 				);
 
 				glEnableVertexAttribArray(0);
 				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+				/**
+				* COLORS
+				**/
 
 				// Randomize colors for each vertex
 				std::vector<float> color_array = {};
@@ -138,47 +147,73 @@ namespace easy_engine {
 				}
 
 				// Set active VBO to color VBO
-				glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[i+1]);
-				log->debug("Triangle color VBO id: " + std::to_string(this->vbo_[i+1]));
-
-				// Handle normals
-				float* normals_array = renderable->GetVertexNormalArray(&RenderManagerOpenGL::ComputeNormals);
+				glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[i + 1]);
+				log->debug("Triangle color VBO id: " + std::to_string(this->vbo_[i + 1]));
 
 				// Upload color data to a VBO
 				glBufferData(
 					GL_ARRAY_BUFFER,
-					no_of_coordinates * sizeof(float), // Each vertex is colored
+					vertices_count * sizeof(float), // Each vertex is colored
 					&color_array[0], // Use the vertex array for colors
 					GL_STATIC_DRAW
-				);
-
+				); 
+				
 				glEnableVertexAttribArray(1);
 				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+				// TODO HOW TO UPLOAD NORMALS AND USE THEM IN THE SHADER??
+
+				/**
+				* NORMALS
+				**/
+
+				// Handle normals
+				/*std::vector<glm::vec3> normals = RenderManagerOpenGL::ComputeNormals(renderable);
+
+				glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[i + 2]);
+				uint32_t normals_bytes = renderable->vertex_count * 3;
+
+				glBufferData(
+					GL_ARRAY_BUFFER,
+					normals_bytes * sizeof(float), // Bytes to copy
+					&normals[0],
+					GL_STATIC_DRAW
+				); 
+
+				glEnableVertexAttribArray(2);
+				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);*/
 
 				i += 2;
 			}
 		}
 
-		void RenderManagerOpenGL::ComputeNormals(renderable::Renderable3D* renderable) {
+		std::vector<glm::vec3> RenderManagerOpenGL::ComputeNormals(renderable::Renderable3D* renderable) {
 			std::vector<glm::vec3> normals;
 			normals.resize(renderable->vertex_count, glm::vec3(0.0, 0.0, 0.0));
 
-			std::vector<ushort_t>& faces = renderable->faces_;
+			std::vector<ushort_t> faces = renderable->faces_;
 			std::vector<glm::vec4>vertices;
 			
-			ToGLMVertices(renderable->vertices_, vertices);
+			RenderManagerOpenGL::ToGLMVertices(renderable->vertices_, vertices);
+
+			log->info("faces.size(): " + faces.size());
+			log->debug("vertices.size(): " + vertices.size());
 
 			for (int i = 0; i < faces.size(); i += 3) {
-				GLushort ia = faces[i];
-				GLushort ib = faces[i + 1];
-				GLushort ic = faces[i + 2];
+				ushort_t ia = faces[i];
+				ushort_t ib = faces[i + 1];
+				ushort_t ic = faces[i + 2];
+
+				glm::vec3 ib_ia_diff = glm::vec3(vertices[ib]) - glm::vec3(vertices[ia]);
+				glm::vec3 ic_ia_diff = glm::vec3(vertices[ic]) - glm::vec3(vertices[ia]);
+
 				glm::vec3 normal = glm::normalize(glm::cross(
-					glm::vec3(vertices[ib]) - glm::vec3(vertices[ia]),
-					glm::vec3(vertices[ic]) - glm::vec3(vertices[ia])));
+					ib_ia_diff,
+					ic_ia_diff));
 				normals[ia] = normals[ib] = normals[ic] = normal;
 			}
 
-			// TODO convert normals to Eigen::MatrixX3f and add to renderable->vertex_normals_
+			return normals;
 		}
 
 		void RenderManagerOpenGL::ToGLMVertices(Eigen::MatrixX3f& from_vertices, std::vector<glm::vec4>& to_vertices) {

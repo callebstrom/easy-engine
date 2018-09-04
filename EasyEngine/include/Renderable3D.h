@@ -7,11 +7,9 @@
 namespace easy_engine {
 	namespace renderable {
 
-		
-
 		class Renderable3D : public Renderable {
 
-			typedef void(*func_ptr_t)(Renderable3D*);
+			typedef float*(*func_ptr_t)(Renderable3D*);
 
 			public:
 				Eigen::MatrixX3f vertices_;

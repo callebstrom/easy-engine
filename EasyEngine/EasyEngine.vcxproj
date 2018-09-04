@@ -135,6 +135,7 @@
       <PreprocessorDefinitions>BOOST_ALL_DYN_LINK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\glew32.lib;D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\glew32s.lib;D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\glfw3.lib;D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\glfw3dll.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>

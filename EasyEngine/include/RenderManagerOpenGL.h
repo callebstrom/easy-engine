@@ -20,7 +20,7 @@ namespace easy_engine {
 				RenderManagerOpenGL(configuration::RenderConfiguration_t* rc);
 				RenderManagerOpenGL::~RenderManagerOpenGL();
 				void Render();
-				static void ComputeNormals(renderable::Renderable3D* renderable);
+				static std::vector<glm::vec3> ComputeNormals(renderable::Renderable3D* renderable);
 
 				std::vector<GLfloat> vertex_buffer_data_;
 				GLFWwindow* window_;

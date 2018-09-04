@@ -1,18 +1,21 @@
 #pragma once
 
 // std headers
-#include <vector>
 #include <string>
 #include <fstream>
 #include <sstream>
 
-// External headers
-#include <Eigen\Core>
+// Eigen
+#include <Eigen/Core>
+
+// Boost
+#include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>
 
 // Internal headers
-#include "Common.h"
-#include "ResourceManager.h"
-#include "Renderable3D.h"
+#include <Common.h>
+#include <ResourceManager.h>
+#include <Renderable3D.h>
 
 #ifndef RESOURCE_MANAGER_3D_H
 namespace easy_engine {
