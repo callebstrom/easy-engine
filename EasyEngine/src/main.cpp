@@ -15,13 +15,13 @@ using easy_engine::configuration::SceneConfigurationParams;
 int main() {
 
 	SceneConfiguration_t* scene_configuration = new SceneConfiguration_t();
-	scene_configuration->Set(SceneConfigurationParams::SCENE_RESOLUTION_X, "640");
-	scene_configuration->Set(SceneConfigurationParams::SCENE_RESOLUTION_Y, "600");
+	scene_configuration->Set(SceneConfigurationParams::SCENE_RESOLUTION_X, "720");
+	scene_configuration->Set(SceneConfigurationParams::SCENE_RESOLUTION_Y, "1280");
 
 	scene_manager::SceneManagerOpenGL* sm3 = new scene_manager::SceneManagerOpenGL(scene_configuration);
 	resource_manager::ResourceManager3D* rm3d = new resource_manager::ResourceManager3D("C:\\test\\");
 
-	renderable::Renderable3D* ptr = rm3d->LoadObj("triangle.obj");
+	renderable::Renderable3D* ptr = rm3d->LoadObj("susanne.obj");
 
 	sm3->CreateScene("main");
 	sm3->Add(ptr, "main");

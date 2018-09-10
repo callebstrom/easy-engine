@@ -17,7 +17,7 @@ namespace easy_engine {
 			
 			glfwInit();
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 			glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 			
@@ -42,149 +42,143 @@ namespace easy_engine {
 			glDepthFunc(GL_LESS); // depth-testing interprets a smaller value as "closer"
 
 			this->LoadShaders();
+
+			// Set background to dark grey
+			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+
+			// Draw to the entire window
+			glViewport(
+				0,
+				0,
+				atoi(this->render_config_->Get(c_params_::RESOLUTION_X).c_str()),
+				atoi(this->render_config_->Get(c_params_::RESOLUTION_Y).c_str())
+			);
+
+			// CAMERA
+			glm::mat4 Projection = glm::perspective(glm::radians(45.0f), (float)720 / (float)1280, 0.1f, 100.0f);
+			glm::mat4 View = glm::lookAt(
+				glm::vec3(2, 2, 2), // Camera is at (4,3,3), in World Space
+				glm::vec3(0, 0, 0), // and looks at the origin
+				glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
+			);
+			glm::mat4 Model = glm::mat4(1.0f);
+			glm::mat4 mvp = Projection * View * Model; // Remember, matrix multiplication is the other way around
+			GLuint matrix_id = glGetUniformLocation(this->vertex_shader_, "MVP");
+			glUniformMatrix4fv(matrix_id, 1, GL_FALSE, &mvp[0][0]);
+			// CAMERA_END
 		};
 
+		void RenderManagerOpenGL::AddRenderable(renderable::Renderable* renderable) {
+			RenderManager::AddRenderable(renderable);
+			this->GenerateObjectIndex(renderable);
+		}
+
 		RenderManagerOpenGL::~RenderManagerOpenGL() {
+			glDeleteProgram(this->shader_program_);
+			glDeleteShader(this->fragment_shader_);
+			glDeleteShader(this->vertex_shader_);
 			glfwTerminate();
 		}
 
 		void RenderManagerOpenGL::Render() {
 
-			// Set background to dark grey
-			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+			if (glfwWindowShouldClose(this->window_)) {
+				log->warning("Window should close");
+				return;
+			}
+			
+			this->UpdateFpsCounter();
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			// Consume the render queue and create VAO:s for each renderable in queue
-			this->ConsumeRenderQueue();
+			glfwPollEvents();
 
-			while (!glfwWindowShouldClose(this->window_)) {
-				this->UpdateFpsCounter();
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-				
-				// Draw to the entire window
-				glViewport(
-					0, 
-					0, 
-					atoi(this->render_config_->Get(c_params_::RESOLUTION_X).c_str()),
-					atoi(this->render_config_->Get(c_params_::RESOLUTION_Y).c_str())
-				);
+			if (glfwGetKey(this->window_, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+				glfwSetWindowShouldClose(this->window_, GL_TRUE);
 
-				glfwPollEvents();
+			for (auto &object_index : this->object_indices_) {
+				// Activate the triangle vertex array object
+				glBindVertexArray(object_index.vao);
 
-				if (glfwGetKey(this->window_, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-					glfwSetWindowShouldClose(this->window_, GL_TRUE);
-
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-				for (int i = 0; i < sizeof(this->vao_) / sizeof(GLuint); i++) {
-					// Activate the triangle vertex array object
-					glBindVertexArray(this->vao_[i]);
-
-					// Draw triangles
-					glDrawArrays(GL_TRIANGLES, 0, sizeof(this->vao_[i]));
-				}
-
-				glfwSwapBuffers(this->window_);
+				// Draw vertices based on faces
+				glDrawElements(GL_TRIANGLES, object_index.ebo_size, GL_UNSIGNED_SHORT, NULL);
 			}
 
-			// Clean-up
-			glDeleteProgram(this->shader_program_);
-			glDeleteShader(this->fragment_shader_);
-			glDeleteShader(this->vertex_shader_);
-			glDeleteBuffers(1, &this->vbo_[0]);
+			glfwSwapBuffers(this->window_);
 		}
 
-		// Convert render queue to VBO:s 
-		void RenderManagerOpenGL::ConsumeRenderQueue() {	
-			log->debug("Consuming render queue");
-			log->debug("Number of renderables in queue: " + std::to_string(this->render_queue.size()));
+		void RenderManagerOpenGL::GenerateObjectIndex(renderable::Renderable* renderable_) {
 
-			GLsizei vao_size = this->render_queue.size();
-			this->vao_ = (GLuint*)malloc(vao_size);
-			glGenVertexArrays(vao_size, this->vao_);
-			log->debug("Generated " + std::to_string(vao_size) + " vertex array object(s)");
-			
-			GLsizei vbo_size = this->render_queue.size() * 2;
-			this->vbo_ = (GLuint*)malloc(vbo_size);
-			glGenBuffers(vbo_size, this->vbo_);
-			log->debug("Generated " + std::to_string(vbo_size) + " vertex buffer object(s)");
+			renderable::Renderable3D* renderable = static_cast<renderable::Renderable3D*>(renderable_);
+			ObjectIndexOpenGL object_index;
 
-			int i = 0;
-			for (auto &element : this->render_queue) {
-				renderable::Renderable3D* renderable = static_cast<renderable::Renderable3D*>(element);
+			glGenVertexArrays(1, &object_index.vao);
+			log->debug("Generated vertex array object for " + renderable->name);
 
-				// Set active VAO
-				glBindVertexArray(this->vao_[i]);
+			// Set active VAO
+			glBindVertexArray(object_index.vao);
 
-				/**
-				* VERTICES
-				**/
+			GLuint vbo, ebo;
 
-				// Set active VBO to position VBO
-				glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[i]);
-				GLfloat* vertices = renderable->GetVertexArray();
-				uint32_t vertices_count = renderable->vertex_count * 3; // Each vertex has 3 coordinates of type float
+			glGenBuffers(1, &vbo);
+			log->debug("Generated vertex buffer object for " + renderable->name);
 
-				// Upload position data to a VBO
-				glBufferData(
-					GL_ARRAY_BUFFER, 
-					vertices_count * sizeof(float), // Bytes to copy
-					vertices,
-					GL_STATIC_DRAW
-				);
+			glGenBuffers(1, &ebo);
+			log->debug("Generated element array for " + renderable->name);
 
-				glEnableVertexAttribArray(0);
-				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+			// Set active VBO to position VBO
+			glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-				/**
-				* COLORS
-				**/
+			glEnableVertexAttribArray(0);
 
-				// Randomize colors for each vertex
-				std::vector<float> color_array = {};
+			// Upload position data to a VBO
+			glBufferData(
+				GL_ARRAY_BUFFER,
+				renderable->vertices_.size() * sizeof(GLfloat), // Bytes to copy
+				renderable->vertices_.data(),
+				GL_STATIC_DRAW
+			);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, 0, (void*)0); // Tell OpenGL about our data format
+						
+			// Create an element array
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo); 
+			glBufferData(
+				GL_ELEMENT_ARRAY_BUFFER,
+				renderable->vertex_indices_.size() * sizeof(GLushort),
+				&renderable->vertex_indices_[0],
+				GL_STATIC_DRAW
+			);
 
-				for (uint32_t v = 0; v < renderable->vertex_count * 3; v++) {
-					color_array.push_back(static_cast <float> (rand()) / static_cast <float> (RAND_MAX));
-				}
+			// Unbind VAO
+			glBindVertexArray(0);
 
-				// Set active VBO to color VBO
-				glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[i + 1]);
-				log->debug("Triangle color VBO id: " + std::to_string(this->vbo_[i + 1]));
+			// VBO and EBO can be deleted as VAO hold a reference to these
+			glDeleteBuffers(1, &vbo);
+			glDeleteBuffers(1, &ebo);
 
-				// Upload color data to a VBO
-				glBufferData(
-					GL_ARRAY_BUFFER,
-					vertices_count * sizeof(float), // Each vertex is colored
-					&color_array[0], // Use the vertex array for colors
-					GL_STATIC_DRAW
-				); 
-				
-				glEnableVertexAttribArray(1);
-				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
+			object_index.ebo_size = renderable->vertex_indices_.size();
 
-				// TODO HOW TO UPLOAD NORMALS AND USE THEM IN THE SHADER??
+			this->object_indices_.push_back(object_index);
+		}
 
-				/**
-				* NORMALS
-				**/
+		void RenderManagerOpenGL::DrawGrid(float groundLevel) {
+			GLfloat extent = 600.0f; // How far on the Z-Axis and X-Axis the ground extends
+			GLfloat stepSize = 20.0f;  // The size of the separation between points
 
-				// Handle normals
-				/*std::vector<glm::vec3> normals = RenderManagerOpenGL::ComputeNormals(renderable);
+			glColor3ub(255, 255, 255);
 
-				glBindBuffer(GL_ARRAY_BUFFER, this->vbo_[i + 2]);
-				uint32_t normals_bytes = renderable->vertex_count * 3;
+			// Draw our ground grid
+			glBegin(GL_LINES);
+			for (GLint loop = -extent; loop < extent; loop += stepSize)
+			{
+				// Draw lines along Z-Axis
+				glVertex3f(loop, groundLevel, extent);
+				glVertex3f(loop, groundLevel, -extent);
 
-				glBufferData(
-					GL_ARRAY_BUFFER,
-					normals_bytes * sizeof(float), // Bytes to copy
-					&normals[0],
-					GL_STATIC_DRAW
-				); 
-
-				glEnableVertexAttribArray(2);
-				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);*/
-
-				i += 2;
+				// Draw lines across X-Axis
+				glVertex3f(-extent, groundLevel, loop);
+				glVertex3f(extent, groundLevel, loop);
 			}
+			glEnd();
 		}
 
 		std::vector<glm::vec3> RenderManagerOpenGL::ComputeNormals(renderable::Renderable3D* renderable) {
@@ -216,7 +210,7 @@ namespace easy_engine {
 			return normals;
 		}
 
-		void RenderManagerOpenGL::ToGLMVertices(Eigen::MatrixX3f& from_vertices, std::vector<glm::vec4>& to_vertices) {
+		void RenderManagerOpenGL::ToGLMVertices(Eigen::Matrix<float, -1, 3, Eigen::RowMajor>& from_vertices, std::vector<glm::vec4>& to_vertices) {
 			int rows = from_vertices.rows();
 			int cols = from_vertices.cols();
 

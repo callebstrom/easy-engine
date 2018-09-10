@@ -3,13 +3,18 @@
 #include <iostream>
 #include <vector>
 
-#include <GL\glew.h>
-#include <GL\glfw3.h>
-#include <glm\glm.hpp>
+#include <GL/glew.h>
+#include <GL/glfw3.h>
+#include <GL/GLU.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
+#include <boost/lexical_cast.hpp>
 
 #include <Logger.h>
 #include <RenderManager.h>
 #include <Renderable3D.h>
+#include <ObjectIndexOpenGL.h>
 
 #ifndef RENDER_MANAGER_3D_OPEN_GL_H
 namespace easy_engine {
@@ -19,8 +24,11 @@ namespace easy_engine {
 			public:
 				RenderManagerOpenGL(configuration::RenderConfiguration_t* rc);
 				RenderManagerOpenGL::~RenderManagerOpenGL();
-				void Render();
+
 				static std::vector<glm::vec3> ComputeNormals(renderable::Renderable3D* renderable);
+
+				void Render();
+				void AddRenderable(renderable::Renderable* renderable);
 
 				std::vector<GLfloat> vertex_buffer_data_;
 				GLFWwindow* window_;
@@ -29,12 +37,12 @@ namespace easy_engine {
 				static logger::Logger* log;
 
 				void LoadShaders();
-				void ConsumeRenderQueue();
 				void UpdateFpsCounter();
-				static void ToGLMVertices(Eigen::MatrixX3f& from_vertices, std::vector<glm::vec4>& to_vertices);
+				void DrawGrid(float groundLevel);
+				void GenerateObjectIndex(renderable::Renderable* renderable);
+				static void ToGLMVertices(Eigen::Matrix<float, -1, 3, Eigen::RowMajor>& from_vertices, std::vector<glm::vec4>& to_vertices);
 
-				GLuint* vbo_;
-				GLuint* vao_;
+				std::vector<ObjectIndexOpenGL> object_indices_;
 				GLuint vertex_shader_;
 				GLuint fragment_shader_;
 				GLuint shader_program_;

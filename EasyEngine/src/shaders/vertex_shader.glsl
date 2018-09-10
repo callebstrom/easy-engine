@@ -1,12 +1,13 @@
-#version 330 
+#version 450
 
 layout (location = 0) in vec3 inPosition; 
-layout (location = 1) in vec3 inColor; 
+layout (location = 1) in vec3 inColor;
 
-smooth out vec3 color; 
+smooth out vec3 color;
 
-void main() 
-{ 
+uniform mat4 MVP;
+
+void main() { 
    gl_Position = vec4(inPosition, 1.0); 
-   color = inColor; 
+   color = vec3(1.0, 1.0, 1.0); 
 }

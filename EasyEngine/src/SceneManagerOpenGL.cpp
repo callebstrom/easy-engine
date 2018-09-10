@@ -23,9 +23,13 @@ namespace easy_engine {
 
 		void SceneManagerOpenGL::RenderScene() {
 			
-			this->render_manager->RenderQueuePush(this->current_scene->Get());
-
-			this->render_manager->Render();
+			for (auto &element : this->current_scene->Get())
+				this->render_manager->AddRenderable(element);
+			
+			// Game loop
+			while (true) {
+				this->render_manager->Render();
+			}
 		}
 
 		void SceneManagerOpenGL::CreateScene(std::string name) {

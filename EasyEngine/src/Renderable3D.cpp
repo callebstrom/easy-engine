@@ -11,11 +11,14 @@
 namespace easy_engine {
 	namespace renderable {
 
+		/**
+		 * Index vertices based on vertex_indices
+		**/
 		float* Renderable3D::GetVertexArray() {
-			
+
 			int rows = this->vertices_.rows();
 			int cols = this->vertices_.cols();
-			
+
 			float* vertex_array = new float[rows * cols];
 
 			int index = 0;
@@ -35,6 +38,10 @@ namespace easy_engine {
 
 		float* Renderable3D::GetVertexNormalArray(func_ptr_t compute_normals_func) {
 			return compute_normals_func(this);
+		}
+
+		void Renderable3D::Draw(func_ptr_t draw_func) {
+			draw_func(this);
 		}
 	}
 }

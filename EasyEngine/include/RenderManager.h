@@ -15,8 +15,7 @@ namespace easy_engine {
 	namespace render_manager {
 		class RenderManager {
 			public:
-				void RenderQueuePush(renderable::Renderable* renderable);
-				void RenderManager::RenderQueuePush(std::vector<renderable::Renderable*> renderable);
+				void AddRenderable(renderable::Renderable* renderable);
 				virtual void Render() = 0;
 			protected:
 				configuration::RenderConfiguration_t* render_config_;

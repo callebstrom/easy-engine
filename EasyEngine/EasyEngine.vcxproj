@@ -23,6 +23,7 @@
     <ClInclude Include="include\GroupNode.h" />
     <ClInclude Include="include\Logger.h" />
     <ClInclude Include="include\Node.h" />
+    <ClInclude Include="include\ObjectIndexOpenGL.h" />
     <ClInclude Include="include\Renderable3D.h" />
     <ClInclude Include="include\Renderable.h" />
     <ClInclude Include="include\RenderConfiguration.h" />

@@ -30,11 +30,11 @@ namespace easy_engine {
 			while (std::getline(ifs, line)) {
 				std::stringstream string_stream_outer(line.c_str());
 
-				std::string first_char;
-				string_stream_outer >> first_char;
+				std::string first_char, second_char;
+				string_stream_outer >> first_char >> second_char;
 
 				// If obj vertex annotation
-				if (strcmp(first_char.c_str(), "v") == 0) {
+				if (strcmp(first_char.c_str(), "v") == 0 && strcmp(second_char.c_str(), " ")) {
 					vertex_count++;
 					__int64 current_index = renderable->vertices_.rows();
 					std::stringstream string_stream_inner(line.c_str());
@@ -54,10 +54,10 @@ namespace easy_engine {
 					std::vector<std::string> face_coords;
 					boost::split(face_coords, line_trimmed, boost::is_any_of(" ")); // ["1/3/4","3/4/3",...]
 
-					for (auto const& fc : face_coords) {
+					for (auto const& fc : face_coords) { // Index
 						std::vector<std::string> face_coords_exploded;
-						boost::split(face_coords_exploded, fc, boost::is_any_of("/")); // ["1","3","4",...]
-						renderable->faces_.push_back(boost::lexical_cast<short>(face_coords_exploded.at(0)) - 1);
+						boost::split(face_coords_exploded, fc, boost::is_any_of("/")); // ["1","3","4"]
+						renderable->vertex_indices_.push_back(boost::lexical_cast<ushort_t>(face_coords_exploded.at(0)) - 1);  // OBJ index starts at 1
 					}
 				}
 			}

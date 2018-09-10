@@ -1,7 +1,7 @@
-#version 330 
+#version 450 
 
 smooth in vec3 color; 
-out vec4 outputColor; 
+out vec4 outputColor;
 
 void main() 
 { 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <thread>
+
 #include <RenderManagerOpenGL.h>
 #include <SceneManager.h>
 #include <Renderable3D.h>
