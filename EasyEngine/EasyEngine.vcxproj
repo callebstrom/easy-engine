@@ -21,7 +21,9 @@
   <ItemGroup>
     <ClInclude Include="include\Configuration.h" />
     <ClInclude Include="include\GroupNode.h" />
+    <ClInclude Include="include\InputManager.h" />
     <ClInclude Include="include\Logger.h" />
+    <ClInclude Include="include\ManagerLocator.h" />
     <ClInclude Include="include\Node.h" />
     <ClInclude Include="include\ObjectIndexOpenGL.h" />
     <ClInclude Include="include\Renderable3D.h" />
@@ -35,16 +37,20 @@
     <ClInclude Include="include\Scene.h" />
     <ClInclude Include="include\Scene3D.h" />
     <ClInclude Include="include\Scene3DOpenGL.h" />
-    <ClInclude Include="include\SceneConfiguration.h" />
+    <ClInclude Include="include\WindowConfiguration.h" />
     <ClInclude Include="include\SceneGraph3D.h" />
     <ClInclude Include="include\SceneManager.h" />
     <ClInclude Include="include\SceneManagerOpenGL.h" />
     <ClInclude Include="include\RenderableNode.h" />
     <ClInclude Include="include\TransformationNode.h" />
+    <ClInclude Include="include\WindowManager.h" />
+    <ClInclude Include="include\WindowManagerGLFW.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\RenderManager.cpp" />
+    <ClCompile Include="include\WindowManagerGLFW.cpp" />
     <ClCompile Include="src\Logger.cpp" />
+    <ClCompile Include="src\ManagerLocator.cpp" />
     <ClCompile Include="src\Node.cpp" />
     <ClCompile Include="src\Renderable3D.cpp" />
     <ClCompile Include="src\RenderableNode.cpp" />

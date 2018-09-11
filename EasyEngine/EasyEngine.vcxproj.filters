@@ -49,6 +49,15 @@
     <Filter Include="Source Files\scene_manager\scene_graph">
       <UniqueIdentifier>{bc7d0ed2-4bbf-40e9-9d5d-f72eaa61a011}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\input_manager">
+      <UniqueIdentifier>{6bab48b8-7e59-40f1-a728-e60b70025a35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\input_manager">
+      <UniqueIdentifier>{9f82d419-05af-4dab-bb8b-88bcd38f8f78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\window_manager">
+      <UniqueIdentifier>{7769a570-eff1-4738-aaa2-e714cb625771}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\SceneManager.h">
@@ -111,11 +120,23 @@
     <ClInclude Include="include\RenderConfiguration.h">
       <Filter>Header Files\configuration</Filter>
     </ClInclude>
-    <ClInclude Include="include\SceneConfiguration.h">
-      <Filter>Header Files\configuration</Filter>
-    </ClInclude>
     <ClInclude Include="include\ObjectIndexOpenGL.h">
       <Filter>Header Files\render_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\InputManager.h">
+      <Filter>Header Files\input_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\WindowManager.h">
+      <Filter>Header Files\window_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\WindowManagerGLFW.h">
+      <Filter>Header Files\window_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\WindowConfiguration.h">
+      <Filter>Header Files\configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ManagerLocator.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +178,12 @@
     </ClCompile>
     <ClCompile Include="src\Scene.cpp">
       <Filter>Source Files\scene_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ManagerLocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\WindowManagerGLFW.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

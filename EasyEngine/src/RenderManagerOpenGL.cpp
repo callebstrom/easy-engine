@@ -76,6 +76,7 @@ namespace easy_engine {
 		void RenderManagerOpenGL::Render() {
 
 			if (glfwWindowShouldClose(this->window_)) {
+				glfwTerminate();
 				return;
 			}
 			
@@ -124,14 +125,14 @@ namespace easy_engine {
 			horizontalAngle += mouseSpeed * deltaTime * float(1280 / 2 - x);
 			verticalAngle += mouseSpeed * deltaTime * float(720 / 2 - y);
 
-			glm::vec3 direction(
+			// This should be controlled by input config. "Invert mouse"
+			glm::vec3 inverse(-1.0, -1.0, -1.0);
+
+			glm::vec3 direction = glm::vec3(
 				cos(verticalAngle) * sin(horizontalAngle),
 				sin(verticalAngle),
 				cos(verticalAngle) * cos(horizontalAngle)
-			);
-
-			// This should be controlled by input config. "Invert mouse"
-			glm::vec3 inverse(-1.0, -1.0, -1.0);
+			) * inverse;
 
 			// Right vector
 			glm::vec3 right = glm::vec3(
@@ -141,7 +142,7 @@ namespace easy_engine {
 			);
 			
 			// Up vector : perpendicular to both direction and right
-			glm::vec3 up = glm::cross(right, direction * inverse);
+			glm::vec3 up = glm::cross(right, direction);
 
 			float FoV = initialFoV;
 
@@ -149,13 +150,13 @@ namespace easy_engine {
 			static glm::mat4 view_matrix;
 
 			// Projection matrix : 45&deg; Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-			projection_matrix = glm::perspective(glm::radians(FoV), 4.0f / 3.0f, 0.1f, 100.0f);
+			projection_matrix = glm::perspective(glm::radians(FoV), 16.0f / 9.0f, 0.1f, 100.0f);
 
 			// Camera matrix
 			view_matrix = glm::lookAt(
 				position,           // Camera is here
 				position + direction, // and looks here : at the same position, plus "direction"
-				up * inverse                 // Head is up (set to 0,-1,0 to look upside-down)
+				up                 // Head is up (set to 0,-1,0 to look upside-down)
 			);
 
 			glm::mat4 model_matrix = glm::mat4(1.0);
@@ -200,6 +201,7 @@ namespace easy_engine {
 			);
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, 0, (void*)0); // Tell OpenGL about our data format
 
+			// RANDOM_COLOR_PER_VERTEX
 			std::vector<GLfloat> color_buffer_data;
 			for (int c = 0; c < renderable->vertices_.size() / 3; c++) {
 				color_buffer_data.push_back(static_cast<float>(rand()) / static_cast<float>(RAND_MAX));
@@ -215,7 +217,8 @@ namespace easy_engine {
 
 			glEnableVertexAttribArray(1);
 			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0); // Tell OpenGL about our data
-						
+			// !RANDOM_COLOR_PER_VERTEX
+
 			// Create an element array
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo); 
 			glBufferData(

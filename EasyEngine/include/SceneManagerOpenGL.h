@@ -6,10 +6,7 @@
 #include <SceneManager.h>
 #include <Renderable3D.h>
 #include <Scene3DOpenGL.h>
-#include <RenderConfiguration.h>
-#include <SceneConfiguration.h>
-
-using easy_engine::configuration::SceneConfiguration_t;
+#include <ManagerLocator.h>
 
 #ifndef SCENE_MANAGER_OPEN_GL_H
 namespace easy_engine {
@@ -18,9 +15,6 @@ namespace easy_engine {
 			public:
 				void RenderScene();
 				void CreateScene(std::string name);
-				SceneManagerOpenGL(SceneConfiguration_t* configuration);
-			private:
-				render_manager::RenderManagerOpenGL* render_manager;
 		};
 	}
 }
