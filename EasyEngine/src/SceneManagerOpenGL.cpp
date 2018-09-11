@@ -12,8 +12,8 @@ namespace easy_engine {
 			// TODO Reference to render manager should be fetched by service locater
 			configuration::RenderConfiguration_t* render_configuration = new configuration::RenderConfiguration_t();
 			
-			render_configuration->Set(r_config_params_t::RESOLUTION_X, configuration->Get(SceneConfigurationParams::SCENE_RESOLUTION_X));
-			render_configuration->Set(r_config_params_t::RESOLUTION_Y, configuration->Get(SceneConfigurationParams::SCENE_RESOLUTION_X));
+			render_configuration->Set(r_config_params_t::RESOLUTION_X, "1280"); // configuration->Get(SceneConfigurationParams::SCENE_RESOLUTION_X));
+			render_configuration->Set(r_config_params_t::RESOLUTION_Y, "720"); // configuration->Get(SceneConfigurationParams::SCENE_RESOLUTION_X));
 			render_configuration->Set(r_config_params_t::ANTIALIASING, "8");
 			render_configuration->Set(r_config_params_t::VERTEX_SHADER_SOURCE_LOCATION, "D:\\Dropbox\\dev\\EasyEngine\\EasyEngine\\src\\shaders\\vertex_shader.glsl");
 			render_configuration->Set(r_config_params_t::FRAGMENT_SHADER_SOURCE_LOCATION, "D:\\Dropbox\\dev\\EasyEngine\\EasyEngine\\src\\shaders\\fragment_shader.glsl");

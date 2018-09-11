@@ -15,8 +15,8 @@ using easy_engine::configuration::SceneConfigurationParams;
 int main() {
 
 	SceneConfiguration_t* scene_configuration = new SceneConfiguration_t();
-	scene_configuration->Set(SceneConfigurationParams::SCENE_RESOLUTION_X, "720");
-	scene_configuration->Set(SceneConfigurationParams::SCENE_RESOLUTION_Y, "1280");
+	scene_configuration->Set(SceneConfigurationParams::SCENE_RESOLUTION_X, "720"); // This should be part of WindowManager passed to SceneManager
+	scene_configuration->Set(SceneConfigurationParams::SCENE_RESOLUTION_Y, "1280"); // This should be part of WindowManager passed to SceneManager
 
 	scene_manager::SceneManagerOpenGL* sm3 = new scene_manager::SceneManagerOpenGL(scene_configuration);
 	resource_manager::ResourceManager3D* rm3d = new resource_manager::ResourceManager3D("C:\\test\\");

@@ -5,9 +5,10 @@
 #include <thread>
 #include <algorithm>
 
+easy_engine::render_manager::RenderManagerOpenGL* MouseCallback::render_manager = NULL;
+
 namespace easy_engine {
 	namespace render_manager {
-
 		typedef configuration::RenderConfigurationParams c_params_;
 
 		logger::Logger* RenderManagerOpenGL::log = new logger::Logger("RenderManagerOpenGL");
@@ -54,18 +55,10 @@ namespace easy_engine {
 				atoi(this->render_config_->Get(c_params_::RESOLUTION_Y).c_str())
 			);
 
-			// CAMERA
-			glm::mat4 Projection = glm::perspective(glm::radians(45.0f), (float)720 / (float)1280, 0.1f, 100.0f);
-			glm::mat4 View = glm::lookAt(
-				glm::vec3(2, 2, 2), // Camera is at (4,3,3), in World Space
-				glm::vec3(0, 0, 0), // and looks at the origin
-				glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
-			);
-			glm::mat4 Model = glm::mat4(1.0f);
-			glm::mat4 mvp = Projection * View * Model; // Remember, matrix multiplication is the other way around
-			GLuint matrix_id = glGetUniformLocation(this->vertex_shader_, "MVP");
-			glUniformMatrix4fv(matrix_id, 1, GL_FALSE, &mvp[0][0]);
-			// CAMERA_END
+			MouseCallback::render_manager = this;
+			glfwSetCursorPosCallback(this->window_, &MouseCallback::callback);
+
+			glfwSetInputMode(this->window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		};
 
 		void RenderManagerOpenGL::AddRenderable(renderable::Renderable* renderable) {
@@ -83,7 +76,6 @@ namespace easy_engine {
 		void RenderManagerOpenGL::Render() {
 
 			if (glfwWindowShouldClose(this->window_)) {
-				log->warning("Window should close");
 				return;
 			}
 			
@@ -96,6 +88,7 @@ namespace easy_engine {
 				glfwSetWindowShouldClose(this->window_, GL_TRUE);
 
 			for (auto &object_index : this->object_indices_) {
+
 				// Activate the triangle vertex array object
 				glBindVertexArray(object_index.vao);
 
@@ -104,6 +97,72 @@ namespace easy_engine {
 			}
 
 			glfwSwapBuffers(this->window_);
+		}
+
+		// TODO this should be handled by WindowManager using glfwSetWindowUserPointer
+		void RenderManagerOpenGL::MouseCallback(GLFWwindow* window, double x, double y) {
+
+			static float lastTime;
+			static double currentTime = glfwGetTime();
+			static float deltaTime = float(currentTime - lastTime);
+
+			// position
+			glm::vec3 position = glm::vec3(0, 0, 5);
+
+			// horizontal angle : toward -Z
+			float horizontalAngle = 3.14f;
+
+			// vertical angle : 0, look at the horizon
+			float verticalAngle = 0.0f;
+
+			// Initial Field of View
+			static const  float initialFoV = 45.0f;
+
+			static const  float speed = 3.0f; // 3 units / second
+			static const float mouseSpeed = 0.0025f;
+
+			horizontalAngle += mouseSpeed * deltaTime * float(1280 / 2 - x);
+			verticalAngle += mouseSpeed * deltaTime * float(720 / 2 - y);
+
+			glm::vec3 direction(
+				cos(verticalAngle) * sin(horizontalAngle),
+				sin(verticalAngle),
+				cos(verticalAngle) * cos(horizontalAngle)
+			);
+
+			// This should be controlled by input config. "Invert mouse"
+			glm::vec3 inverse(-1.0, -1.0, -1.0);
+
+			// Right vector
+			glm::vec3 right = glm::vec3(
+				sin(horizontalAngle - 3.14f / 2.0f),
+				0,
+				cos(horizontalAngle - 3.14f / 2.0f)
+			);
+			
+			// Up vector : perpendicular to both direction and right
+			glm::vec3 up = glm::cross(right, direction * inverse);
+
+			float FoV = initialFoV;
+
+			static glm::mat4 projection_matrix;
+			static glm::mat4 view_matrix;
+
+			// Projection matrix : 45&deg; Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
+			projection_matrix = glm::perspective(glm::radians(FoV), 4.0f / 3.0f, 0.1f, 100.0f);
+
+			// Camera matrix
+			view_matrix = glm::lookAt(
+				position,           // Camera is here
+				position + direction, // and looks here : at the same position, plus "direction"
+				up * inverse                 // Head is up (set to 0,-1,0 to look upside-down)
+			);
+
+			glm::mat4 model_matrix = glm::mat4(1.0);
+			glm::mat4 mvp = projection_matrix * view_matrix * model_matrix;
+
+			GLint uniMvp = glGetUniformLocation(this->shader_program_, "mvp");
+			glUniformMatrix4fv(uniMvp, 1, GL_FALSE, glm::value_ptr(mvp));
 		}
 
 		void RenderManagerOpenGL::GenerateObjectIndex(renderable::Renderable* renderable_) {
@@ -117,13 +176,15 @@ namespace easy_engine {
 			// Set active VAO
 			glBindVertexArray(object_index.vao);
 
-			GLuint vbo, ebo;
+			GLuint vbo, ebo, color_buffer;
 
 			glGenBuffers(1, &vbo);
 			log->debug("Generated vertex buffer object for " + renderable->name);
 
 			glGenBuffers(1, &ebo);
 			log->debug("Generated element array for " + renderable->name);
+
+			glGenBuffers(1, &color_buffer);
 
 			// Set active VBO to position VBO
 			glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -138,6 +199,22 @@ namespace easy_engine {
 				GL_STATIC_DRAW
 			);
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, 0, (void*)0); // Tell OpenGL about our data format
+
+			std::vector<GLfloat> color_buffer_data;
+			for (int c = 0; c < renderable->vertices_.size() / 3; c++) {
+				color_buffer_data.push_back(static_cast<float>(rand()) / static_cast<float>(RAND_MAX));
+			}
+
+			glBindBuffer(GL_ARRAY_BUFFER, color_buffer);
+			glBufferData(
+				GL_ARRAY_BUFFER, 
+				color_buffer_data.size() * sizeof(GLfloat),
+				&color_buffer_data[0],
+				GL_STATIC_DRAW
+			);
+
+			glEnableVertexAttribArray(1);
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0); // Tell OpenGL about our data
 						
 			// Create an element array
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo); 
@@ -154,31 +231,11 @@ namespace easy_engine {
 			// VBO and EBO can be deleted as VAO hold a reference to these
 			glDeleteBuffers(1, &vbo);
 			glDeleteBuffers(1, &ebo);
+			glDeleteBuffers(1, &color_buffer);
 
 			object_index.ebo_size = renderable->vertex_indices_.size();
 
 			this->object_indices_.push_back(object_index);
-		}
-
-		void RenderManagerOpenGL::DrawGrid(float groundLevel) {
-			GLfloat extent = 600.0f; // How far on the Z-Axis and X-Axis the ground extends
-			GLfloat stepSize = 20.0f;  // The size of the separation between points
-
-			glColor3ub(255, 255, 255);
-
-			// Draw our ground grid
-			glBegin(GL_LINES);
-			for (GLint loop = -extent; loop < extent; loop += stepSize)
-			{
-				// Draw lines along Z-Axis
-				glVertex3f(loop, groundLevel, extent);
-				glVertex3f(loop, groundLevel, -extent);
-
-				// Draw lines across X-Axis
-				glVertex3f(-extent, groundLevel, loop);
-				glVertex3f(extent, groundLevel, loop);
-			}
-			glEnd();
 		}
 
 		std::vector<glm::vec3> RenderManagerOpenGL::ComputeNormals(renderable::Renderable3D* renderable) {
@@ -276,28 +333,26 @@ namespace easy_engine {
 			glGetShaderiv(this->vertex_shader_, GL_COMPILE_STATUS, &vertex_status);
 			glGetShaderiv(this->fragment_shader_, GL_COMPILE_STATUS, &fragment_status);
 
+			char shader_log_buffer[512];
+
 			if (vertex_status != GL_TRUE) {
-				const std::string message = "Could not compile vertex shader";
-				log->fatal(message);
+				const std::string message = "Could not compile vertex shader: ";
+				glGetShaderInfoLog(this->vertex_shader_, 512, NULL, shader_log_buffer);
+				log->fatal(message + shader_log_buffer);
 			} else if (fragment_status != GL_TRUE) {
-				const std::string message = "Could not compile fragment shader";
-				log->fatal(message);
+				const std::string message = "Could not compile fragment shader: ";
+				glGetShaderInfoLog(this->fragment_shader_, 512, NULL, shader_log_buffer);
+				log->fatal(message + shader_log_buffer);
 			}
 
 			this->shader_program_ = glCreateProgram();
 			glAttachShader(this->shader_program_, this->vertex_shader_);
 			glAttachShader(this->shader_program_, this->fragment_shader_);
 
-			glBindFragDataLocation(this->shader_program_, 0, "outColor");
+			glBindFragDataLocation(this->shader_program_, 1, "outColor");
 
 			glLinkProgram(this->shader_program_);
 			glUseProgram(this->shader_program_);
-
-			char shader_log_buffer[512];
-			glGetShaderInfoLog(this->vertex_shader_, 512, NULL, shader_log_buffer);
-
-			if(shader_log_buffer[0] != NULL)
-				log->debug("Shader compilation log: " + std::string(shader_log_buffer));
 		}
 
 	}

@@ -8,6 +8,7 @@
 #include <GL/GLU.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <boost/lexical_cast.hpp>
 
@@ -17,6 +18,7 @@
 #include <ObjectIndexOpenGL.h>
 
 #ifndef RENDER_MANAGER_3D_OPEN_GL_H
+
 namespace easy_engine {
 	namespace render_manager {
 
@@ -29,6 +31,7 @@ namespace easy_engine {
 
 				void Render();
 				void AddRenderable(renderable::Renderable* renderable);
+				void MouseCallback(GLFWwindow* window, double a, double b);
 
 				std::vector<GLfloat> vertex_buffer_data_;
 				GLFWwindow* window_;
@@ -38,7 +41,6 @@ namespace easy_engine {
 
 				void LoadShaders();
 				void UpdateFpsCounter();
-				void DrawGrid(float groundLevel);
 				void GenerateObjectIndex(renderable::Renderable* renderable);
 				static void ToGLMVertices(Eigen::Matrix<float, -1, 3, Eigen::RowMajor>& from_vertices, std::vector<glm::vec4>& to_vertices);
 
@@ -48,9 +50,17 @@ namespace easy_engine {
 				GLuint shader_program_;
 				GLint pos_attrib_;
 				GLint uniform_attrib_;
-				GLint col_attrib_;
+				GLint col_attrib_;				
 		};
-
 	}
 }
+
+struct MouseCallback {
+	static easy_engine::render_manager::RenderManagerOpenGL* render_manager;
+
+	static void callback(GLFWwindow* window, double x, double y) {
+		render_manager->MouseCallback(window, x, y);
+	}
+};
+
 #endif
