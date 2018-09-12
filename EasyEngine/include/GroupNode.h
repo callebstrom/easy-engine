@@ -1,8 +1,7 @@
-#include <Node.h>
-
 #pragma once
 
-#ifndef SCENE_GRAPH_GROUP_NODE
+#include <Node.h>
+
 namespace easy_engine {
 	namespace scene_manager {
 		namespace scene_graph {
@@ -12,5 +11,3 @@ namespace easy_engine {
 		}
 	}
 }
-#endif // !SCENE_GRAPH_GROUP_NODE
-#pragma once

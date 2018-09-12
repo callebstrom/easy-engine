@@ -58,6 +58,9 @@
     <Filter Include="Header Files\window_manager">
       <UniqueIdentifier>{7769a570-eff1-4738-aaa2-e714cb625771}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\window_manager">
+      <UniqueIdentifier>{9561de4d-8f7e-445f-93d3-16a3982e7305}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\SceneManager.h">
@@ -138,6 +141,9 @@
     <ClInclude Include="include\ManagerLocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\InputCallbackGLFW.h">
+      <Filter>Header Files\window_manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -183,7 +189,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="include\WindowManagerGLFW.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\window_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InputManager.cpp">
+      <Filter>Source Files\input_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InputCallbackGLFW.cpp">
+      <Filter>Source Files\window_manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

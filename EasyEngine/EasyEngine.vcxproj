@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Configuration.h" />
+    <ClInclude Include="include\InputCallbackGLFW.h" />
     <ClInclude Include="include\GroupNode.h" />
     <ClInclude Include="include\InputManager.h" />
     <ClInclude Include="include\Logger.h" />
@@ -49,6 +50,8 @@
   <ItemGroup>
     <ClCompile Include="include\RenderManager.cpp" />
     <ClCompile Include="include\WindowManagerGLFW.cpp" />
+    <ClCompile Include="src\InputCallbackGLFW.cpp" />
+    <ClCompile Include="src\InputManager.cpp" />
     <ClCompile Include="src\Logger.cpp" />
     <ClCompile Include="src\ManagerLocator.cpp" />
     <ClCompile Include="src\Node.cpp" />

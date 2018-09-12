@@ -3,7 +3,6 @@
 
 #include <Configuration.h>
 
-#ifndef RENDER_CONFIGURATION_H
 namespace easy_engine {
 	namespace configuration {
 		enum RenderConfigurationParams : int {
@@ -17,4 +16,3 @@ namespace easy_engine {
 		typedef Configuration<int, std::string> RenderConfiguration_t;
 	}
 }
-#endif // !RENDER_CONFIGURATION_H

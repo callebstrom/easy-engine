@@ -2,7 +2,6 @@
 
 #include <Common.h>
 
-#ifndef RESOURCE_MANAGER_H
 namespace easy_engine {
 	namespace resource_manager {
 		class ResourceManager
@@ -14,4 +13,3 @@ namespace easy_engine {
 		};
 	}
 }
-#endif // !RESOURCE_MANAGER_H

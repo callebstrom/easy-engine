@@ -4,7 +4,6 @@
 #include <Renderable3D.h>
 #include <SceneGraph3D.h>
 
-#ifndef SCENE_3D_H
 namespace easy_engine {
 	namespace scene_manager {
 		class Scene3D : public Scene {
@@ -17,4 +16,3 @@ namespace easy_engine {
 		};
 	}
 }
-#endif // !SCENE_3D_H

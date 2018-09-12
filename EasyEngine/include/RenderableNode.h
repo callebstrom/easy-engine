@@ -1,9 +1,8 @@
+#pragma once
+
 #include <Node.h>
 #include <Renderable.h>
 
-#pragma once
-
-#ifndef SCENE_GRAPH_RENDERABLE_NODE
 namespace easy_engine {
 	namespace scene_manager {
 		namespace scene_graph {
@@ -16,5 +15,3 @@ namespace easy_engine {
 		}
 	}
 }
-#endif // !SCENE_GRAPH_RENDERABLE_NODE
-#pragma once

@@ -3,19 +3,22 @@
 #include <glfw3.h>
 
 #include <WindowManager.h>
-
-#ifndef WINDOW_MANAGER_H
+#include <ManagerLocator.h>
+#include <Logger.h>
+#include <InputCallbackGLFW.h>
 
 namespace easy_engine {
 	namespace window_manager {
 
-		class WindowManager : public WindowManager {
+		class WindowManagerGLFW : public WindowManager {
 			public:
 				void registerMousePositionCallback(GLFWcursorposfun callback);
 				void registerMouseCallback(GLFWmousebuttonfun callback);
 				void registerKeyboardCallback(GLFWkeyfun callback);
-				void createWindow();
+				void createWindow(configuration::WindowConfiguration_t* configuration);
+			private:
+				static logger::Logger* log;
+				GLFWwindow* window_;
 		};
 	}
 }
-#endif // !WINDOW_MANAGER_H

@@ -2,7 +2,6 @@
 
 #include <Configuration.h>
 
-#ifndef WINDOW_CONFIGURATION_H
 namespace easy_engine {
 	namespace configuration {
 		enum WindowConfigurationParams {
@@ -14,4 +13,3 @@ namespace easy_engine {
 		typedef Configuration<WindowConfigurationParams, std::string> WindowConfiguration_t;
 	}
 }
-#endif // !WINDOW_CONFIGURATION_H

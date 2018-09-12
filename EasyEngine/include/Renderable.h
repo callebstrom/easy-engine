@@ -4,7 +4,6 @@
 
 #include <Common.h>
 
-#ifndef RENDERABLE_H
 namespace easy_engine {
 	namespace renderable {
 		class Renderable {
@@ -14,4 +13,3 @@ namespace easy_engine {
 		};
 	}
 }
-#endif // !RENDERABLE_H

@@ -3,7 +3,6 @@
 #include <Scene.h>
 #include <map>
 
-#ifndef SCENE_MANAGER_H
 namespace easy_engine {
 	namespace scene_manager {
 		class SceneManager {
@@ -23,4 +22,3 @@ namespace easy_engine {
 		};
 	}
 }
-#endif // !SCENE_MANAGER_H

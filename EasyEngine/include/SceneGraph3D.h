@@ -1,6 +1,5 @@
 #pragma once
 
-#ifndef SCENE_GRAPH_3D
 namespace easy_engine {
 	namespace scene_manager {
 		namespace scene_graph {
@@ -10,5 +9,3 @@ namespace easy_engine {
 		}
 	}
 }
-#endif // !SCENE_GRAPH_3D
-#pragma once

@@ -2,8 +2,6 @@
 
 #include <GL/glew.h>
 
-#ifndef OBJECT_INDEX_OPEN_GL_H
-
 namespace easy_engine {
 	namespace render_manager {
 		struct ObjectIndexOpenGL {
@@ -12,4 +10,3 @@ namespace easy_engine {
 		};
 	}
 }
-#endif // !OBJECT_INDEX_OPEN_GL_H

@@ -3,7 +3,6 @@
 #include <Renderable.h>
 #include <Eigen\Core>
 
-#ifndef RENDERABLE_3D_H
 namespace easy_engine {
 	namespace renderable {
 
@@ -31,4 +30,3 @@ namespace easy_engine {
 		};
 	}
 }
-#endif // !RENDERABLE_3D_H

@@ -8,7 +8,6 @@
 #include <Scene3DOpenGL.h>
 #include <ManagerLocator.h>
 
-#ifndef SCENE_MANAGER_OPEN_GL_H
 namespace easy_engine {
 	namespace scene_manager {
 		class SceneManagerOpenGL : public SceneManager {
@@ -18,4 +17,3 @@ namespace easy_engine {
 		};
 	}
 }
-#endif // !SCENE_MANAGER_3D_OPEN_GL_H

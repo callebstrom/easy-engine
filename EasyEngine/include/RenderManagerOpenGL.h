@@ -17,8 +17,6 @@
 #include <Renderable3D.h>
 #include <ObjectIndexOpenGL.h>
 
-#ifndef RENDER_MANAGER_3D_OPEN_GL_H
-
 namespace easy_engine {
 	namespace render_manager {
 
@@ -62,5 +60,3 @@ struct MouseCallback {
 		render_manager->MouseCallback(window, x, y);
 	}
 };
-
-#endif

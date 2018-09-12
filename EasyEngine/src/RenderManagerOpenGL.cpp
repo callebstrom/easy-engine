@@ -59,6 +59,9 @@ namespace easy_engine {
 			glfwSetCursorPosCallback(this->window_, &MouseCallback::callback);
 
 			glfwSetInputMode(this->window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+			// Don't render triangles with normal facing away from camera
+			glEnable(GL_CULL_FACE);
 		};
 
 		void RenderManagerOpenGL::AddRenderable(renderable::Renderable* renderable) {

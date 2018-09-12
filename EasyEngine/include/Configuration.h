@@ -3,7 +3,6 @@
 #include <map>
 #include <string>
 
-#ifndef CONFIGURATION_H
 namespace easy_engine {
 	namespace configuration {
 		template <typename K, typename V> 
@@ -22,4 +21,3 @@ namespace easy_engine {
 		};
 	}
 }
-#endif // !CONFIGURATION_H

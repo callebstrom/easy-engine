@@ -5,7 +5,6 @@
 #include <iostream>
 #include <map>
 
-#ifndef SCENE_H
 namespace easy_engine {
 	namespace scene_manager {
 		class Scene {
@@ -18,4 +17,3 @@ namespace easy_engine {
 		};
 	}
 }
-#endif // !SCENE_MANAGER_3D_H

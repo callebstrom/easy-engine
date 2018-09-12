@@ -9,8 +9,6 @@
 #include <RenderConfiguration.h>
 #include <Common.h>
 
-#ifndef RENDER_MANAGER_H
-
 namespace easy_engine {
 	namespace render_manager {
 		class RenderManager {
@@ -24,4 +22,3 @@ namespace easy_engine {
 		};
 	}
 }
-#endif // !RENDER_MANAGER_H

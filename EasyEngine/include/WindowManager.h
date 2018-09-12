@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef WINDOW_MANAGER_H
+#include <WindowConfiguration.h>
 
 namespace easy_engine {
 	namespace window_manager {
@@ -9,11 +9,7 @@ namespace easy_engine {
 			typedef void(*func_type)(void);
 
 			public:
-				virtual void registerMousePositionCallback(func_type func_ptr) = 0;
-				virtual void registerMouseCallback(func_type func_ptr) = 0;
-				virtual void registerKeyboardCallback(func_type func_ptr) = 0;
-				virtual void createWindow() = 0;
+				virtual void createWindow(configuration::WindowConfiguration_t* configuration) = 0;
 		};
 	}
 }
-#endif // !WINDOW_MANAGER_H

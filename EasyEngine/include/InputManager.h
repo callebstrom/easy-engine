@@ -1,12 +1,12 @@
 #pragma once
 
-#ifndef INPUT_MANAGER_H
-
 namespace easy_engine {
 	namespace input_manager {
 		class InputManager {
 			public:
+				void HandleMousePosUpdate(double x, double y);
+				void HandleMouseButtonPress(int button, int modifier);
+				void HandleMouseButtonRelease(int button, int modifier);
 		};
 	}
 }
-#endif // !INPUT_MANAGER_H
