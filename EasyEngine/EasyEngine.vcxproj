@@ -26,7 +26,7 @@
     <ClInclude Include="include\Logger.h" />
     <ClInclude Include="include\ManagerLocator.h" />
     <ClInclude Include="include\Node.h" />
-    <ClInclude Include="include\ObjectIndexOpenGL.h" />
+    <ClInclude Include="include\ObjectIndex.h" />
     <ClInclude Include="include\Renderable3D.h" />
     <ClInclude Include="include\Renderable.h" />
     <ClInclude Include="include\RenderConfiguration.h" />
@@ -35,21 +35,20 @@
     <ClInclude Include="include\RenderManagerOpenGL.h" />
     <ClInclude Include="include\RenderManager.h" />
     <ClInclude Include="include\ResourceManager.h" />
+    <ClInclude Include="include\RootNode.h" />
     <ClInclude Include="include\Scene.h" />
     <ClInclude Include="include\Scene3D.h" />
-    <ClInclude Include="include\Scene3DOpenGL.h" />
+    <ClInclude Include="include\SceneGraph.h" />
     <ClInclude Include="include\WindowConfiguration.h" />
     <ClInclude Include="include\SceneGraph3D.h" />
     <ClInclude Include="include\SceneManager.h" />
-    <ClInclude Include="include\SceneManagerOpenGL.h" />
+    <ClInclude Include="include\SceneManager3D.h" />
     <ClInclude Include="include\RenderableNode.h" />
     <ClInclude Include="include\TransformationNode.h" />
     <ClInclude Include="include\WindowManager.h" />
     <ClInclude Include="include\WindowManagerGLFW.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\RenderManager.cpp" />
-    <ClCompile Include="include\WindowManagerGLFW.cpp" />
     <ClCompile Include="src\InputCallbackGLFW.cpp" />
     <ClCompile Include="src\InputManager.cpp" />
     <ClCompile Include="src\Logger.cpp" />
@@ -63,8 +62,10 @@
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Scene3D.cpp" />
+    <ClCompile Include="src\SceneGraph3D.cpp" />
     <ClCompile Include="src\SceneManager.cpp" />
-    <ClCompile Include="src\SceneManagerOpenGL.cpp" />
+    <ClCompile Include="src\SceneManager3D.cpp" />
+    <ClCompile Include="src\WindowManagerGLFW.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\fragment_shader.glsl" />

@@ -5,12 +5,12 @@
 #include <RenderManagerOpenGL.h>
 #include <SceneManager.h>
 #include <Renderable3D.h>
-#include <Scene3DOpenGL.h>
+#include <Scene3D.h>
 #include <ManagerLocator.h>
 
 namespace easy_engine {
 	namespace scene_manager {
-		class SceneManagerOpenGL : public SceneManager {
+		class SceneManager3D : public SceneManager {
 			public:
 				void RenderScene();
 				void CreateScene(std::string name);

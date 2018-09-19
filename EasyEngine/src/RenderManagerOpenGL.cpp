@@ -5,8 +5,6 @@
 #include <thread>
 #include <algorithm>
 
-easy_engine::render_manager::RenderManagerOpenGL* MouseCallback::render_manager = NULL;
-
 namespace easy_engine {
 	namespace render_manager {
 		typedef configuration::RenderConfigurationParams c_params_;
@@ -15,28 +13,13 @@ namespace easy_engine {
 		
 		RenderManagerOpenGL::RenderManagerOpenGL(configuration::RenderConfiguration_t* rc) {
 			this->render_config_ = rc;
-			
-			glfwInit();
-			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
-			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-			glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-			
-			glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
-			int resX = atoi(this->render_config_->Get(c_params_::RESOLUTION_X).c_str());
-			int resY = atoi(this->render_config_->Get(c_params_::RESOLUTION_Y).c_str());
-
-			// this->window_ = glfwCreateWindow(resX, resY, "Easy	Engine", glfwGetPrimaryMonitor(), nullptr); // Fullscreen
-			this->window_ = glfwCreateWindow(resX, resY, "EasyEngine", nullptr, nullptr); // Windowed
-							
-			glfwMakeContextCurrent(this->window_);
 
 			glewExperimental = GL_TRUE;
-			glewInit();
-			
-			log->debug("Renderer: " + std::string(reinterpret_cast<char*>(const_cast<GLubyte*>(glGetString(GL_RENDERER)))));
-			log->debug("OpenGL version supported: " + std::string(reinterpret_cast<char*>(const_cast<GLubyte*>(glGetString(GL_VERSION)))));
+			GLenum glew_error = glewInit();
+
+			if (glew_error != GLEW_OK) {
+				log->fatal("Failed to init GLEW: " + boost::lexical_cast<std::string>(glewGetErrorString(glew_error)));
+			}
 
 			// tell GL to only draw onto a pixel if the shape is closer to the viewer
 			glEnable(GL_DEPTH_TEST); // enable depth-testing
@@ -54,60 +37,53 @@ namespace easy_engine {
 				atoi(this->render_config_->Get(c_params_::RESOLUTION_X).c_str()),
 				atoi(this->render_config_->Get(c_params_::RESOLUTION_Y).c_str())
 			);
-
-			MouseCallback::render_manager = this;
-			glfwSetCursorPosCallback(this->window_, &MouseCallback::callback);
-
-			glfwSetInputMode(this->window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
+			
 			// Don't render triangles with normal facing away from camera
 			glEnable(GL_CULL_FACE);
 		};
-
-		void RenderManagerOpenGL::AddRenderable(renderable::Renderable* renderable) {
-			RenderManager::AddRenderable(renderable);
-			this->GenerateObjectIndex(renderable);
-		}
 
 		RenderManagerOpenGL::~RenderManagerOpenGL() {
 			glDeleteProgram(this->shader_program_);
 			glDeleteShader(this->fragment_shader_);
 			glDeleteShader(this->vertex_shader_);
-			glfwTerminate();
 		}
 
-		void RenderManagerOpenGL::Render() {
+		void RenderManagerOpenGL::Render(renderable::Renderable* renderable) {
 
-			if (glfwWindowShouldClose(this->window_)) {
+			if (this->object_indices_.find(renderable->name) == this->object_indices_.end()) {
+				this->GenerateObjectIndex(renderable);
+			}
+
+			ObjectIndex object_index = this->object_indices_.at(renderable->name);
+
+			/*if (glfwWindowShouldClose(this->window_)) {
 				glfwTerminate();
 				return;
-			}
-			
-			this->UpdateFpsCounter();
+			}*/
+
+			// this->UpdateFpsCounter();
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			glfwPollEvents();
+			/*if (glfwGetKey(this->window_, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+				glfwSetWindowShouldClose(this->window_, GL_TRUE);*/
 
-			if (glfwGetKey(this->window_, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-				glfwSetWindowShouldClose(this->window_, GL_TRUE);
+			// Activate the triangle vertex array object
+			glBindVertexArray(object_index.vao);
 
-			for (auto &object_index : this->object_indices_) {
+			// Draw vertices based on faces
+			glDrawElements(GL_TRIANGLES, object_index.ebo_size, GL_UNSIGNED_SHORT, NULL);
+		}
 
-				// Activate the triangle vertex array object
-				glBindVertexArray(object_index.vao);
-
-				// Draw vertices based on faces
-				glDrawElements(GL_TRIANGLES, object_index.ebo_size, GL_UNSIGNED_SHORT, NULL);
-			}
-
-			glfwSwapBuffers(this->window_);
+		void RenderManagerOpenGL::GetRenderInfo() {
+			log->debug("Renderer: " + std::string(reinterpret_cast<char*>(const_cast<GLubyte*>(glGetString(GL_RENDERER)))));
+			log->debug("OpenGL version supported: " + std::string(reinterpret_cast<char*>(const_cast<GLubyte*>(glGetString(GL_VERSION)))));
 		}
 
 		// TODO this should be handled by WindowManager using glfwSetWindowUserPointer
-		void RenderManagerOpenGL::MouseCallback(GLFWwindow* window, double x, double y) {
+		void RenderManagerOpenGL::UpdateCameraAngle(double x, double y) {
 
 			static float lastTime;
-			static double currentTime = glfwGetTime();
+			static double currentTime = 0; // glfwGetTime();
 			static float deltaTime = float(currentTime - lastTime);
 
 			// position
@@ -121,12 +97,12 @@ namespace easy_engine {
 
 			// Initial Field of View
 			static const  float initialFoV = 45.0f;
-
+			
 			static const  float speed = 3.0f; // 3 units / second
 			static const float mouseSpeed = 0.0025f;
 
-			horizontalAngle += mouseSpeed * deltaTime * float(1280 / 2 - x);
-			verticalAngle += mouseSpeed * deltaTime * float(720 / 2 - y);
+			horizontalAngle += mouseSpeed * deltaTime * float(boost::lexical_cast<int>(this->render_config_->Get(configuration::RenderConfigurationParams::RESOLUTION_X)) / 2 - x);
+			verticalAngle += mouseSpeed * deltaTime * float(boost::lexical_cast<int>(this->render_config_->Get(configuration::RenderConfigurationParams::RESOLUTION_Y)) / 2 - y);
 
 			// This should be controlled by input config. "Invert mouse"
 			glm::vec3 inverse(-1.0, -1.0, -1.0);
@@ -172,7 +148,7 @@ namespace easy_engine {
 		void RenderManagerOpenGL::GenerateObjectIndex(renderable::Renderable* renderable_) {
 
 			renderable::Renderable3D* renderable = static_cast<renderable::Renderable3D*>(renderable_);
-			ObjectIndexOpenGL object_index;
+			ObjectIndex object_index;
 
 			glGenVertexArrays(1, &object_index.vao);
 			log->debug("Generated vertex array object for " + renderable->name);
@@ -240,8 +216,8 @@ namespace easy_engine {
 			glDeleteBuffers(1, &color_buffer);
 
 			object_index.ebo_size = renderable->vertex_indices_.size();
-
-			this->object_indices_.push_back(object_index);
+			
+			this->object_indices_.insert(std::pair<std::string, ObjectIndex>(renderable->name, object_index));
 		}
 
 		std::vector<glm::vec3> RenderManagerOpenGL::ComputeNormals(renderable::Renderable3D* renderable) {
@@ -289,25 +265,6 @@ namespace easy_engine {
 					to_vertices.push_back(vec);
 				}
 			}
-		}
-
-		void RenderManagerOpenGL::UpdateFpsCounter() {
-			static double previous_seconds = glfwGetTime();
-			static int frame_count;
-			double current_seconds = glfwGetTime();
-			double elapsed_seconds = current_seconds - previous_seconds;
-			if (elapsed_seconds > 1) {
-				previous_seconds = current_seconds;
-				double fps = (double)frame_count / elapsed_seconds;
-
-				char tmp[128];
-				sprintf_s(tmp, 128, "FPS: %f", fps);
-
-				glfwSetWindowTitle(this->window_, tmp);
-				frame_count = 0;
-			}
-			frame_count++;
-			
 		}
 
 		void RenderManagerOpenGL::LoadShaders() {

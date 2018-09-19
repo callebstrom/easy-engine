@@ -81,9 +81,6 @@
     <ClInclude Include="include\Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\SceneManagerOpenGL.h">
-      <Filter>Header Files\scene_manager</Filter>
-    </ClInclude>
     <ClInclude Include="include\SceneGraph3D.h">
       <Filter>Header Files\scene_manager\scene_graph</Filter>
     </ClInclude>
@@ -94,9 +91,6 @@
       <Filter>Header Files\scene_manager</Filter>
     </ClInclude>
     <ClInclude Include="include\Scene3D.h">
-      <Filter>Header Files\scene_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Scene3DOpenGL.h">
       <Filter>Header Files\scene_manager</Filter>
     </ClInclude>
     <ClInclude Include="include\Renderable.h">
@@ -123,9 +117,6 @@
     <ClInclude Include="include\RenderConfiguration.h">
       <Filter>Header Files\configuration</Filter>
     </ClInclude>
-    <ClInclude Include="include\ObjectIndexOpenGL.h">
-      <Filter>Header Files\render_manager</Filter>
-    </ClInclude>
     <ClInclude Include="include\InputManager.h">
       <Filter>Header Files\input_manager</Filter>
     </ClInclude>
@@ -144,6 +135,18 @@
     <ClInclude Include="include\InputCallbackGLFW.h">
       <Filter>Header Files\window_manager</Filter>
     </ClInclude>
+    <ClInclude Include="include\SceneManager3D.h">
+      <Filter>Header Files\scene_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ObjectIndex.h">
+      <Filter>Header Files\render_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SceneGraph.h">
+      <Filter>Header Files\scene_manager\scene_graph</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RootNode.h">
+      <Filter>Header Files\scene_manager\scene_graph</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -152,14 +155,8 @@
     <ClCompile Include="src\RenderManagerOpenGL.cpp">
       <Filter>Source Files\render_manager</Filter>
     </ClCompile>
-    <ClCompile Include="include\RenderManager.cpp">
-      <Filter>Source Files\render_manager</Filter>
-    </ClCompile>
     <ClCompile Include="src\Logger.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\SceneManagerOpenGL.cpp">
-      <Filter>Source Files\scene_manager</Filter>
     </ClCompile>
     <ClCompile Include="src\Scene3D.cpp">
       <Filter>Source Files\scene_manager</Filter>
@@ -188,14 +185,20 @@
     <ClCompile Include="src\ManagerLocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\WindowManagerGLFW.cpp">
-      <Filter>Source Files\window_manager</Filter>
-    </ClCompile>
     <ClCompile Include="src\InputManager.cpp">
       <Filter>Source Files\input_manager</Filter>
     </ClCompile>
     <ClCompile Include="src\InputCallbackGLFW.cpp">
       <Filter>Source Files\window_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SceneManager3D.cpp">
+      <Filter>Source Files\scene_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WindowManagerGLFW.cpp">
+      <Filter>Source Files\window_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SceneGraph3D.cpp">
+      <Filter>Source Files\scene_manager\scene_graph</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

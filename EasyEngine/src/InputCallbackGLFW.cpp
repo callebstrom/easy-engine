@@ -9,8 +9,7 @@ void InputCallbackGLFW::MousePosCallback(GLFWwindow* window, double x, double y)
 void InputCallbackGLFW::MouseButtonCallback(GLFWwindow* window, int button, int action, int modifiers) {
 	if (action == GLFW_PRESS) {
 		input_manager->HandleMouseButtonPress(button, modifiers);
-	}
-	else if (action == GLFW_RELEASE) {
+	} else if (action == GLFW_RELEASE) {
 		input_manager->HandleMouseButtonRelease(button, modifiers);
 	}
 };

@@ -1,14 +1,13 @@
 #pragma once
 
+#include <Common.h>
 #include <Node.h>
-#include <Eigen\Core>
 
 namespace easy_engine {
 	namespace scene_manager {
 		namespace scene_graph {
-			class TransformationNode : public Node {
-				public:
-					Eigen::Matrix4f transformation_;
+			class RootNode : public Node {
+				using Node::Node;
 			};
 		}
 	}

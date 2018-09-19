@@ -1,6 +1,7 @@
 #pragma once
 
 #include <WindowConfiguration.h>
+#include <Common.h>
 
 namespace easy_engine {
 	namespace window_manager {
@@ -9,7 +10,8 @@ namespace easy_engine {
 			typedef void(*func_type)(void);
 
 			public:
-				virtual void createWindow(configuration::WindowConfiguration_t* configuration) = 0;
+				virtual void CreateWindow(configuration::WindowConfiguration_t* configuration) = 0;
+				virtual void SwapBuffers() = 0;
 		};
 	}
 }

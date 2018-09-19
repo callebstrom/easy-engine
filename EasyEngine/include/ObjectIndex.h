@@ -4,9 +4,13 @@
 
 namespace easy_engine {
 	namespace render_manager {
-		struct ObjectIndexOpenGL {
+		struct ObjectIndex {
 			GLuint vao;
 			GLuint ebo_size;
+
+			bool operator< (const ObjectIndex &right) const {
+				return vao < right.vao;
+			}
 		};
 	}
 }

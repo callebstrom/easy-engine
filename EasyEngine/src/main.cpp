@@ -3,7 +3,7 @@
 #include <RenderManagerOpenGL.h>
 #include <RenderConfiguration.h>
 #include <ResourceManager3D.h>
-#include <SceneManagerOpenGL.h>
+#include <SceneManager3D.h>
 #include <Renderable.h>
 #include <WindowConfiguration.h>
 #include <ManagerLocator.h>
@@ -23,6 +23,14 @@ using easy_engine::configuration::RenderConfigurationParams;
 
 int main() {
 
+	ManagerLocator::input_manager = new input_manager::InputManager();
+
+	ManagerLocator::window_manager = dynamic_cast<WindowManager*>(new WindowManagerGLFW());
+	WindowConfiguration_t* window_configuration = new WindowConfiguration_t();
+	window_configuration->Set(WindowConfigurationParams::WIDTH, "1920");
+	window_configuration->Set(WindowConfigurationParams::HEIGHT, "1080");
+	ManagerLocator::window_manager->CreateWindow(window_configuration);
+
 	RenderConfiguration_t* render_configuration = new RenderConfiguration_t();
 	render_configuration->Set(RenderConfigurationParams::RESOLUTION_X, "1280");
 	render_configuration->Set(RenderConfigurationParams::RESOLUTION_Y, "720");
@@ -31,14 +39,7 @@ int main() {
 	render_configuration->Set(RenderConfigurationParams::FRAGMENT_SHADER_SOURCE_LOCATION, "D:\\Dropbox\\dev\\EasyEngine\\EasyEngine\\src\\shaders\\fragment_shader.glsl");
 	ManagerLocator::render_manager = dynamic_cast<RenderManager*>(new RenderManagerOpenGL(render_configuration));
 
-	ManagerLocator::window_manager = dynamic_cast<WindowManager*>(new WindowManagerGLFW());
-
-	WindowConfiguration_t* window_configuration = new WindowConfiguration_t();
-	window_configuration->Set(WindowConfigurationParams::WIDTH, "1280");
-	window_configuration->Set(WindowConfigurationParams::HEIGHT, "720");
-	ManagerLocator::window_manager->createWindow(window_configuration);
-
-	scene_manager::SceneManagerOpenGL* sm3 = new scene_manager::SceneManagerOpenGL();
+	scene_manager::SceneManager3D* sm3 = new scene_manager::SceneManager3D();
 	resource_manager::ResourceManager3D* rm3d = new resource_manager::ResourceManager3D("C:\\test\\");
 
 	renderable::Renderable3D* ptr = rm3d->LoadObj("basic_sword_low_poly.obj");

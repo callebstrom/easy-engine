@@ -12,13 +12,17 @@ namespace easy_engine {
 
 		class WindowManagerGLFW : public WindowManager {
 			public:
-				void registerMousePositionCallback(GLFWcursorposfun callback);
-				void registerMouseCallback(GLFWmousebuttonfun callback);
-				void registerKeyboardCallback(GLFWkeyfun callback);
-				void createWindow(configuration::WindowConfiguration_t* configuration);
+				void RegisterMousePositionCallback(GLFWcursorposfun callback);
+				void RegisterMouseCallback(GLFWmousebuttonfun callback);
+				void RegisterKeyboardCallback(GLFWkeyfun callback);
+				void RegisterResizeCallback(void* func);
+				void CreateWindow(configuration::WindowConfiguration_t* configuration);
+				void SwapBuffers();
+				~WindowManagerGLFW();
 			private:
 				static logger::Logger* log;
 				GLFWwindow* window_;
+				void UpdateFpsCounter();
 		};
 	}
 }

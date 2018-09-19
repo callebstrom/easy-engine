@@ -1,15 +1,15 @@
 #pragma once
 
+#include <Common.h>
+
 namespace easy_engine {
 	namespace scene_manager {
 		namespace scene_graph {
 			class Node {
-			protected:
-				Node();
-				Node(Node* parent, Node* left, Node* right);
-				Node* left;
-				Node* right;
-				Node* parent;
+				public:
+					Node(Node* parent, std::vector<Node*> nodes);
+					std::vector<Node*> nodes;
+					Node* parent;
 			};
 		}
 	}
