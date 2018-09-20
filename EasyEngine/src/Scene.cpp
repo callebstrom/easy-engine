@@ -4,8 +4,12 @@
 
 namespace easy_engine {
 	namespace scene_manager {
+
+		logger::Logger* Scene::log = new logger::Logger("Scene");
+
 		void Scene::Add(renderable::Renderable* renderable) {
-			this->renderable_map.insert(std::pair<std::string, renderable::Renderable*>(renderable->name, renderable));
+			log->debug("Adding renderable to scene");
+			this->scene_graph_->root->nodes.push_back(new RenderableNode(renderable));
 		}
 
 		std::vector<renderable::Renderable*> Scene::Get() {

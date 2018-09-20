@@ -3,6 +3,8 @@
 namespace easy_engine {
 	namespace scene_manager {
 
+		logger::Logger* SceneManager3D::log = new logger::Logger("SceneManager3D");
+
 		void SceneManager3D::RenderScene() {
 
 			render_manager::RenderManagerOpenGL* render_manager = static_cast<render_manager::RenderManagerOpenGL*>(ManagerLocator::render_manager);

@@ -1,3 +1,5 @@
+#ifndef SCENE_GRAPH_H
+#define SCENE_GRAPH_H
 #pragma once
 
 #include <RootNode.h>
@@ -5,12 +7,12 @@
 
 namespace easy_engine {
 	namespace scene_manager {
-		namespace scene_graph {
-			class SceneGraph {
-				public:
-					virtual void traverse() = 0;
-					RootNode* root;
-			};
-		}
+		class SceneGraph {
+			public:
+				virtual void traverse() = 0;
+				RootNode* root;
+		};
 	}
 }
+
+#endif

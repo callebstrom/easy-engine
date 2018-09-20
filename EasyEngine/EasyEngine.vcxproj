@@ -71,6 +71,12 @@
     <None Include="src\shaders\fragment_shader.glsl" />
     <None Include="src\shaders\vertex_shader.glsl" />
   </ItemGroup>
+  <ItemGroup>
+    <Object Include="res\basic_sword_low_poly.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </Object>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C70CAC80-3B82-456D-88D2-D2216A7A9624}</ProjectGuid>
     <RootNamespace>EasyEngine</RootNamespace>
@@ -143,14 +149,14 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>D:\Dropbox\dev\EasyEngine\EasyEngine\include\GL;D:\Dropbox\dev\EasyEngine\EasyEngine\include\Eigen;D:\Dropbox\dev\EasyEngine\EasyEngine\include;D:\Dropbox\dev\EasyEngine\EasyEngine\include\boost-1_64;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
-      <PreprocessorDefinitions>BOOST_ALL_DYN_LINK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;BOOST_ALL_DYN_LINK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\glew32.lib;D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\glew32s.lib;D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\glfw3.lib;D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\glfw3dll.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\boost-1_64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\lib\x64;$(ProjectDir)\lib\x64\boost-1_64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -177,13 +183,13 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>D:\Dropbox\dev\EasyEngine\EasyEngine\include\GL;D:\Dropbox\dev\EasyEngine\EasyEngine\include\Eigen;D:\Dropbox\dev\EasyEngine\EasyEngine\include;D:\Dropbox\dev\EasyEngine\EasyEngine\include\boost-1_64;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_ALL_DYN_LINK;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;BOOST_ALL_DYN_LINK;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\glew32.lib;D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\glew32s.lib;D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\glfw3.lib;D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\glfw3dll.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\Dropbox\dev\EasyEngine\EasyEngine\lib\x64\boost-1_64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\lib\x64;$(ProjectDir)\lib\x64\boost-1_64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

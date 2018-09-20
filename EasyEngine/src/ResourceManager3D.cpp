@@ -4,23 +4,15 @@
 
 namespace easy_engine {
 	namespace resource_manager {
-		ResourceManager3D::ResourceManager3D(std::string base_path_)
-		{
-			this->base_path_ = base_path_;
-		}
-		ResourceManager3D::~ResourceManager3D()
-		{
-		}
 
-		renderable::Renderable3D* ResourceManager3D::LoadObj(std::string path_relative_to_base)
-		{
+		renderable::Renderable3D* ResourceManager3D::LoadObj(std::string file_path) {
 			renderable::Renderable3D* renderable = new renderable::Renderable3D();
 
 			renderable->name = "test";
 
-			std::ifstream ifs(base_path_ + path_relative_to_base);
+			std::ifstream ifs(file_path);
 			if (!ifs.is_open()) {
-				std::cout << "Failed to open file " + path_relative_to_base;
+				std::cout << "Failed to open file " + file_path;
 			}
 			std::string line;
 			std::string fileString;

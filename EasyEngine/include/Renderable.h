@@ -1,3 +1,5 @@
+#ifndef RENDERABLE_H
+#define RENDERABLE_H
 #pragma once
 
 #include <string>
@@ -13,3 +15,5 @@ namespace easy_engine {
 		};
 	}
 }
+
+#endif // !RENDERABLE_H

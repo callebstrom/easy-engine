@@ -1,3 +1,5 @@
+#ifndef SCENE_GRAPH_3D_h
+#define SCENE_GRAPH_3D_h
 #pragma once
 
 #include <Eigen/Core>
@@ -7,13 +9,13 @@
 
 namespace easy_engine {
 	namespace scene_manager {
-		namespace scene_graph {
-			class SceneGraph3D : public SceneGraph {
-				public:
-					void traverse();
-				private:
-					Eigen::Matrix4f current_translation_;
-			};
-		}
+		class SceneGraph3D : public SceneGraph {
+		public:
+			void traverse();
+		private:
+			Eigen::Matrix4f current_translation_;
+			static logger::Logger* log;
+		};
 	}
 }
+#endif // !SCENE_GRAPH_3D_h

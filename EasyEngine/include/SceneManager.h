@@ -1,7 +1,11 @@
+#ifndef SCENE_MANAGER
+#define SCENE_MANAGER
 #pragma once
 
 #include <Scene.h>
 #include <map>
+
+class Scene;
 
 namespace easy_engine {
 	namespace scene_manager {
@@ -22,3 +26,4 @@ namespace easy_engine {
 		};
 	}
 }
+#endif SCENE_MANAGER

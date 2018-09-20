@@ -1,3 +1,5 @@
+#ifndef RENDER_MANAGER_OPEN_GL_H
+#define RENDER_MANAGER_OPEN_GL_H
 #pragma once
 
 #include <Common.h>
@@ -20,31 +22,32 @@ namespace easy_engine {
 	namespace render_manager {
 
 		class RenderManagerOpenGL : public RenderManager {
-			public:
-				RenderManagerOpenGL(configuration::RenderConfiguration_t* rc);
-				RenderManagerOpenGL::~RenderManagerOpenGL();
+		public:
+			RenderManagerOpenGL(configuration::RenderConfiguration_t* rc);
+			RenderManagerOpenGL::~RenderManagerOpenGL();
 
-				static std::vector<glm::vec3> ComputeNormals(renderable::Renderable3D* renderable);
+			static std::vector<glm::vec3> ComputeNormals(renderable::Renderable3D* renderable);
 
-				void Render(renderable::Renderable* renderable);
-				void UpdateCameraAngle(double x, double y);
+			void Render(renderable::Renderable* renderable);
+			void UpdateCameraAngle(double x, double y);
 
-			private:
-				static logger::Logger* log;
-				std::vector<GLfloat> vertex_buffer_data_;
+		private:
+			static logger::Logger* log;
+			std::vector<GLfloat> vertex_buffer_data_;
 
-				void GetRenderInfo();
-				void LoadShaders();
-				void GenerateObjectIndex(renderable::Renderable* renderable);
-				static void ToGLMVertices(Eigen::Matrix<float, -1, 3, Eigen::RowMajor>& from_vertices, std::vector<glm::vec4>& to_vertices);
+			void GetRenderInfo();
+			void LoadShaders();
+			void GenerateObjectIndex(renderable::Renderable* renderable);
+			static void ToGLMVertices(Eigen::Matrix<float, -1, 3, Eigen::RowMajor>& from_vertices, std::vector<glm::vec4>& to_vertices);
 
-				std::map<std::string, ObjectIndex> object_indices_;
-				GLuint vertex_shader_;
-				GLuint fragment_shader_;
-				GLuint shader_program_;
-				GLint pos_attrib_;
-				GLint uniform_attrib_;
-				GLint col_attrib_;				
+			std::map<std::string, ObjectIndex> object_indices_;
+			GLuint vertex_shader_;
+			GLuint fragment_shader_;
+			GLuint shader_program_;
+			GLint pos_attrib_;
+			GLint uniform_attrib_;
+			GLint col_attrib_;
 		};
 	}
 }
+#endif // !RENDER_MANAGER_OPEN_GL_H

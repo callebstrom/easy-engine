@@ -11,7 +11,7 @@
     </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms;obj</Extensions>
     </Filter>
     <Filter Include="Source Files\shader">
       <UniqueIdentifier>{548e2cb2-e1f5-42e6-b136-dedeffb1404c}</UniqueIdentifier>
@@ -42,12 +42,6 @@
     </Filter>
     <Filter Include="Header Files\resource_manager">
       <UniqueIdentifier>{57140ccf-4a9d-4ce4-8540-524ab8910f29}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\scene_manager\scene_graph">
-      <UniqueIdentifier>{b03870c8-df5b-49cc-a2bb-e6572a12a260}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\scene_manager\scene_graph">
-      <UniqueIdentifier>{bc7d0ed2-4bbf-40e9-9d5d-f72eaa61a011}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\input_manager">
       <UniqueIdentifier>{6bab48b8-7e59-40f1-a728-e60b70025a35}</UniqueIdentifier>
@@ -81,12 +75,6 @@
     <ClInclude Include="include\Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\SceneGraph3D.h">
-      <Filter>Header Files\scene_manager\scene_graph</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Node.h">
-      <Filter>Header Files\scene_manager\scene_graph</Filter>
-    </ClInclude>
     <ClInclude Include="include\Scene.h">
       <Filter>Header Files\scene_manager</Filter>
     </ClInclude>
@@ -104,15 +92,6 @@
     </ClInclude>
     <ClInclude Include="include\ResourceManager3D.h">
       <Filter>Header Files\resource_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GroupNode.h">
-      <Filter>Header Files\scene_manager\scene_graph</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TransformationNode.h">
-      <Filter>Header Files\scene_manager\scene_graph</Filter>
-    </ClInclude>
-    <ClInclude Include="include\RenderableNode.h">
-      <Filter>Header Files\scene_manager\scene_graph</Filter>
     </ClInclude>
     <ClInclude Include="include\RenderConfiguration.h">
       <Filter>Header Files\configuration</Filter>
@@ -141,11 +120,26 @@
     <ClInclude Include="include\ObjectIndex.h">
       <Filter>Header Files\render_manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\SceneGraph.h">
-      <Filter>Header Files\scene_manager\scene_graph</Filter>
+    <ClInclude Include="include\TransformationNode.h">
+      <Filter>Header Files\scene_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GroupNode.h">
+      <Filter>Header Files\scene_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Node.h">
+      <Filter>Header Files\scene_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RenderableNode.h">
+      <Filter>Header Files\scene_manager</Filter>
     </ClInclude>
     <ClInclude Include="include\RootNode.h">
-      <Filter>Header Files\scene_manager\scene_graph</Filter>
+      <Filter>Header Files\scene_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SceneGraph.h">
+      <Filter>Header Files\scene_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SceneGraph3D.h">
+      <Filter>Header Files\scene_manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -170,12 +164,6 @@
     <ClCompile Include="src\ResourceManager3D.cpp">
       <Filter>Source Files\resource_manager</Filter>
     </ClCompile>
-    <ClCompile Include="src\Node.cpp">
-      <Filter>Source Files\scene_manager\scene_graph</Filter>
-    </ClCompile>
-    <ClCompile Include="src\RenderableNode.cpp">
-      <Filter>Source Files\scene_manager\scene_graph</Filter>
-    </ClCompile>
     <ClCompile Include="src\SceneManager.cpp">
       <Filter>Source Files\scene_manager</Filter>
     </ClCompile>
@@ -198,7 +186,13 @@
       <Filter>Source Files\window_manager</Filter>
     </ClCompile>
     <ClCompile Include="src\SceneGraph3D.cpp">
-      <Filter>Source Files\scene_manager\scene_graph</Filter>
+      <Filter>Source Files\scene_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Node.cpp">
+      <Filter>Source Files\scene_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderableNode.cpp">
+      <Filter>Source Files\scene_manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -208,5 +202,10 @@
     <None Include="src\shaders\vertex_shader.glsl">
       <Filter>Source Files\shader</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="res\basic_sword_low_poly.obj">
+      <Filter>Resource Files</Filter>
+    </Object>
   </ItemGroup>
 </Project>

@@ -1,3 +1,5 @@
+#ifndef RENDER_MANAGER_H
+#define RENDER_MANAGER_H
 #pragma once
 
 #include <vector>
@@ -12,12 +14,13 @@
 namespace easy_engine {
 	namespace render_manager {
 		class RenderManager {
-			public:
-				virtual void Render(renderable::Renderable* renderable) = 0;
-			protected:
-				configuration::RenderConfiguration_t* render_config_;
-				std::vector<renderable::Renderable*> render_queue;
-				
+		public:
+			virtual void Render(renderable::Renderable* renderable) = 0;
+		protected:
+			configuration::RenderConfiguration_t* render_config_;
+			std::vector<renderable::Renderable*> render_queue;
+
 		};
 	}
 }
+#endif // !RENDER_MANAGER_H

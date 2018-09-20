@@ -32,17 +32,17 @@ int main() {
 	ManagerLocator::window_manager->CreateWindow(window_configuration);
 
 	RenderConfiguration_t* render_configuration = new RenderConfiguration_t();
-	render_configuration->Set(RenderConfigurationParams::RESOLUTION_X, "1280");
-	render_configuration->Set(RenderConfigurationParams::RESOLUTION_Y, "720");
+	render_configuration->Set(RenderConfigurationParams::RESOLUTION_X, "1920");
+	render_configuration->Set(RenderConfigurationParams::RESOLUTION_Y, "1080");
 	render_configuration->Set(RenderConfigurationParams::ANTIALIASING, "8");
-	render_configuration->Set(RenderConfigurationParams::VERTEX_SHADER_SOURCE_LOCATION, "D:\\Dropbox\\dev\\EasyEngine\\EasyEngine\\src\\shaders\\vertex_shader.glsl");
-	render_configuration->Set(RenderConfigurationParams::FRAGMENT_SHADER_SOURCE_LOCATION, "D:\\Dropbox\\dev\\EasyEngine\\EasyEngine\\src\\shaders\\fragment_shader.glsl");
+	render_configuration->Set(RenderConfigurationParams::VERTEX_SHADER_SOURCE_LOCATION, "..\\..\\EasyEngine\\EasyEngine\\src\\shaders\\vertex_shader.glsl");
+	render_configuration->Set(RenderConfigurationParams::FRAGMENT_SHADER_SOURCE_LOCATION, "..\\..\\EasyEngine\\EasyEngine\\src\\shaders\\fragment_shader.glsl");
 	ManagerLocator::render_manager = dynamic_cast<RenderManager*>(new RenderManagerOpenGL(render_configuration));
 
 	scene_manager::SceneManager3D* sm3 = new scene_manager::SceneManager3D();
-	resource_manager::ResourceManager3D* rm3d = new resource_manager::ResourceManager3D("C:\\test\\");
+	resource_manager::ResourceManager3D* rm3d = new resource_manager::ResourceManager3D();
 
-	renderable::Renderable3D* ptr = rm3d->LoadObj("basic_sword_low_poly.obj");
+	renderable::Renderable3D* ptr = rm3d->LoadObj("..\\..\\EasyEngine\\EasyEngine\\res\\basic_sword_low_poly.obj");
 
 	sm3->CreateScene("main");
 	sm3->Add(ptr, "main");

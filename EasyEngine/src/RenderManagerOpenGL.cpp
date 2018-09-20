@@ -21,7 +21,6 @@ namespace easy_engine {
 				log->fatal("Failed to init GLEW: " + boost::lexical_cast<std::string>(glewGetErrorString(glew_error)));
 			}
 
-			// tell GL to only draw onto a pixel if the shape is closer to the viewer
 			glEnable(GL_DEPTH_TEST); // enable depth-testing
 			glDepthFunc(GL_LESS); // depth-testing interprets a smaller value as "closer"
 
@@ -67,10 +66,7 @@ namespace easy_engine {
 			/*if (glfwGetKey(this->window_, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 				glfwSetWindowShouldClose(this->window_, GL_TRUE);*/
 
-			// Activate the triangle vertex array object
 			glBindVertexArray(object_index.vao);
-
-			// Draw vertices based on faces
 			glDrawElements(GL_TRIANGLES, object_index.ebo_size, GL_UNSIGNED_SHORT, NULL);
 		}
 
