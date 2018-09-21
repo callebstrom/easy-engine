@@ -246,8 +246,8 @@ namespace easy_engine {
 		}
 
 		void RenderManagerOpenGL::ToGLMVertices(Eigen::Matrix<float, -1, 3, Eigen::RowMajor>& from_vertices, std::vector<glm::vec4>& to_vertices) {
-			int rows = from_vertices.rows();
-			int cols = from_vertices.cols();
+			int64_t rows = from_vertices.rows();
+			int64_t cols = from_vertices.cols();
 
 			for (int i = 0; i < rows; i++) {
 				for (int x = 0; x < cols; x++) {

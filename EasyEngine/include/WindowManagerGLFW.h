@@ -16,7 +16,7 @@ namespace easy_engine {
 				void RegisterMouseCallback(GLFWmousebuttonfun callback);
 				void RegisterKeyboardCallback(GLFWkeyfun callback);
 				void RegisterResizeCallback(void* func);
-				void CreateWindow(configuration::WindowConfiguration_t* configuration);
+				void CreateWindow(configuration::WindowConfiguration_t* configuration) override;
 				void SwapBuffers();
 				~WindowManagerGLFW();
 			private:

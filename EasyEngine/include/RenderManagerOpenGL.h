@@ -28,7 +28,7 @@ namespace easy_engine {
 
 			static std::vector<glm::vec3> ComputeNormals(renderable::Renderable3D* renderable);
 
-			void Render(renderable::Renderable* renderable);
+			void Render(renderable::Renderable* renderable) override;
 			void UpdateCameraAngle(double x, double y);
 
 		private:
