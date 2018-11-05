@@ -206,6 +206,9 @@
     <ClCompile Include="src\Texture.cpp">
       <Filter>Source Files\renderable</Filter>
     </ClCompile>
+    <ClCompile Include="src\Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\fragment_shader.glsl">
