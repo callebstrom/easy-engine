@@ -57,92 +57,101 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\SceneManager.h">
-      <Filter>Header Files\scene_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\RenderManagerOpenGL.h">
-      <Filter>Header Files\render_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\RenderManager.h">
-      <Filter>Header Files\render_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Configuration.h">
+    <ClInclude Include="include\EasyEngine\configuration\RenderConfiguration.h">
       <Filter>Header Files\configuration</Filter>
     </ClInclude>
-    <ClInclude Include="include\Common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Logger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Scene.h">
-      <Filter>Header Files\scene_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Scene3D.h">
-      <Filter>Header Files\scene_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Renderable.h">
-      <Filter>Header Files\renderable</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Renderable3D.h">
-      <Filter>Header Files\renderable</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ResourceManager.h">
-      <Filter>Header Files\resource_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ResourceManager3D.h">
-      <Filter>Header Files\resource_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\RenderConfiguration.h">
+    <ClInclude Include="include\EasyEngine\configuration\WindowConfiguration.h">
       <Filter>Header Files\configuration</Filter>
     </ClInclude>
-    <ClInclude Include="include\InputManager.h">
+    <ClInclude Include="include\EasyEngine\configuration\Configuration.h">
+      <Filter>Header Files\configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\input_manager\InputManager.h">
       <Filter>Header Files\input_manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\WindowManager.h">
-      <Filter>Header Files\window_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\WindowManagerGLFW.h">
-      <Filter>Header Files\window_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\WindowConfiguration.h">
-      <Filter>Header Files\configuration</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ManagerLocator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\InputCallbackGLFW.h">
-      <Filter>Header Files\window_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SceneManager3D.h">
-      <Filter>Header Files\scene_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ObjectIndex.h">
+    <ClInclude Include="include\EasyEngine\render_manager\RenderManager.h">
       <Filter>Header Files\render_manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\TransformationNode.h">
-      <Filter>Header Files\scene_manager</Filter>
+    <ClInclude Include="include\EasyEngine\render_manager\RenderManagerOpenGL.h">
+      <Filter>Header Files\render_manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\GroupNode.h">
-      <Filter>Header Files\scene_manager</Filter>
+    <ClInclude Include="include\EasyEngine\render_manager\ObjectIndex.h">
+      <Filter>Header Files\render_manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\Node.h">
-      <Filter>Header Files\scene_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\RenderableNode.h">
-      <Filter>Header Files\scene_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\RootNode.h">
-      <Filter>Header Files\scene_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SceneGraph.h">
-      <Filter>Header Files\scene_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SceneGraph3D.h">
-      <Filter>Header Files\scene_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Texture.h">
+    <ClInclude Include="include\EasyEngine\renderable\Renderable3D.h">
       <Filter>Header Files\renderable</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\renderable\Texture.h">
+      <Filter>Header Files\renderable</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\renderable\Renderable.h">
+      <Filter>Header Files\renderable</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\resource_manager\ResourceManager.h">
+      <Filter>Header Files\resource_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\resource_manager\ResourceManager3D.h">
+      <Filter>Header Files\resource_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\scene_manager\RenderableNode.h">
+      <Filter>Header Files\scene_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\scene_manager\RootNode.h">
+      <Filter>Header Files\scene_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\scene_manager\Scene.h">
+      <Filter>Header Files\scene_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\scene_manager\Scene3D.h">
+      <Filter>Header Files\scene_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\scene_manager\SceneGraph.h">
+      <Filter>Header Files\scene_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\scene_manager\SceneGraph3D.h">
+      <Filter>Header Files\scene_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\scene_manager\SceneManager.h">
+      <Filter>Header Files\scene_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\scene_manager\SceneManager3D.h">
+      <Filter>Header Files\scene_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\scene_manager\TransformationNode.h">
+      <Filter>Header Files\scene_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\scene_manager\GroupNode.h">
+      <Filter>Header Files\scene_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\scene_manager\Node.h">
+      <Filter>Header Files\scene_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\window_manager\WindowManager.h">
+      <Filter>Header Files\window_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\window_manager\WindowManagerGLFW.h">
+      <Filter>Header Files\window_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\window_manager\InputCallbackGLFW.h">
+      <Filter>Header Files\window_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\Common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\EasyEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\Logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\ManagerLocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\Application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\EntryPoint.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

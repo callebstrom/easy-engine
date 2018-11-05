@@ -1,4 +1,4 @@
-#include "SceneGraph3D.h"
+#include <EasyEngine/scene_manager/SceneGraph3D.h>
 
 namespace easy_engine {
 	namespace scene_manager {

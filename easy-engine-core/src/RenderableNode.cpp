@@ -1,4 +1,4 @@
-#include <RenderableNode.h>
+#include <EasyEngine/scene_manager/RenderableNode.h>
 
 namespace easy_engine {
 	namespace scene_manager {

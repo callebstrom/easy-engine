@@ -66,7 +66,7 @@ template<class E> BOOST_NORETURN inline void throw_exception( E const & e )
     throw_exception_assert_compatibility(e);
 
 #ifndef BOOST_EXCEPTION_DISABLE
-    throw enable_current_exception(enable_error_info(e));
+     throw enable_current_exception(enable_error_info(e));
 #else
     throw e;
 #endif

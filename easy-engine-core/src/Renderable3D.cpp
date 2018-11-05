@@ -1,12 +1,5 @@
-#include <vector>
-#include <algorithm>
-#include <iostream>
-#include <vector>
-#include <iterator>
-#include <numeric>
-
-#include <Renderable3D.h>
-#include <RenderManagerOpenGL.h>
+#include <EasyEngine/renderable/Renderable3D.h>
+#include <EasyEngine/render_manager/RenderManagerOpenGL.h>
 
 namespace easy_engine {
 	namespace renderable {

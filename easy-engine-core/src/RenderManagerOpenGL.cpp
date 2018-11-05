@@ -1,15 +1,24 @@
-#include <RenderManagerOpenGL.h>
-#include <RenderConfiguration.h>
-#include <iostream>
+﻿#include <iostream>
 #include <fstream>
 #include <thread>
 #include <algorithm>
+
+#include <EasyEngine/render_manager/RenderManagerOpenGL.h>
+#include <EasyEngine/configuration/RenderConfiguration.h>
+
+using easy_engine::logger::Logger;
+
+void GLAPIENTRY Debug(GLenum source​, GLenum type​, GLuint id​, GLenum severity​, GLsizei length​, const GLchar* message​, const void* userParam) {
+	// log->debug(message​);
+	// log->debug("hello");
+	std::cout << "hello";
+};
 
 namespace easy_engine {
 	namespace render_manager {
 		typedef configuration::RenderConfigurationParams c_params_;
 
-		logger::Logger* RenderManagerOpenGL::log = new logger::Logger("RenderManagerOpenGL");
+		Logger* RenderManagerOpenGL::log = new Logger("RenderManagerOpenGL");
 		
 		RenderManagerOpenGL::RenderManagerOpenGL(configuration::RenderConfiguration_t* rc) {
 			this->render_config_ = rc;
@@ -39,6 +48,7 @@ namespace easy_engine {
 			
 			// Don't render triangles with normal facing away from camera
 			glEnable(GL_CULL_FACE);
+			// glDebugMessageCallback(&Debug, nullptr);
 		};
 
 		RenderManagerOpenGL::~RenderManagerOpenGL() {
@@ -51,6 +61,7 @@ namespace easy_engine {
 
 			renderable::Renderable3D* renderable = static_cast<renderable::Renderable3D*>(renderable_);
 
+			// Should the object index be built lazily?
 			if (this->object_indices_.find(renderable->name) == this->object_indices_.end()) {
 				this->GenerateObjectIndex(renderable);
 			}
@@ -82,6 +93,10 @@ namespace easy_engine {
 			}
 
 			glBindVertexArray(object_index.vao);
+
+			GLint uniMvp = glGetUniformLocation(this->shader_program_, "mvp");
+			glUniformMatrix4fv(uniMvp, 1, GL_FALSE, glm::value_ptr(this->mvp));
+
 			glDrawElements(GL_TRIANGLES, object_index.ebo_size, GL_UNSIGNED_SHORT, NULL);
 		}
 
@@ -93,36 +108,29 @@ namespace easy_engine {
 		// TODO this should be handled by WindowManager using glfwSetWindowUserPointer
 		void RenderManagerOpenGL::UpdateCameraAngle(double x, double y) {
 
-			static float lastTime;
-			static double currentTime = 0; // glfwGetTime();
-			static float deltaTime = float(currentTime - lastTime);
+			static double lastTime = glfwGetTime();
+			double currentTime = glfwGetTime();
+			float deltaTime = float(currentTime - lastTime);
 
 			// position
-			glm::vec3 position = glm::vec3(0, 0, 5);
+			glm::vec3 position = glm::vec3(0, 0, 10);
 
 			// horizontal angle : toward -Z
 			float horizontalAngle = 3.14f;
 
 			// vertical angle : 0, look at the horizon
 			float verticalAngle = 0.0f;
-
-			// Initial Field of View
-			static const  float initialFoV = 45.0f;
 			
-			static const  float speed = 3.0f; // 3 units / second
-			static const float mouseSpeed = 0.0025f;
+			static const float mouseSpeed = 0.1f;
 
 			horizontalAngle += mouseSpeed * deltaTime * float(boost::lexical_cast<int>(this->render_config_->Get(configuration::RenderConfigurationParams::RESOLUTION_X)) / 2 - x);
 			verticalAngle += mouseSpeed * deltaTime * float(boost::lexical_cast<int>(this->render_config_->Get(configuration::RenderConfigurationParams::RESOLUTION_Y)) / 2 - y);
-
-			// This should be controlled by input config. "Invert mouse"
-			glm::vec3 inverse(-1.0, -1.0, -1.0);
 
 			glm::vec3 direction = glm::vec3(
 				cos(verticalAngle) * sin(horizontalAngle),
 				sin(verticalAngle),
 				cos(verticalAngle) * cos(horizontalAngle)
-			) * inverse;
+			);
 
 			// Right vector
 			glm::vec3 right = glm::vec3(
@@ -134,26 +142,22 @@ namespace easy_engine {
 			// Up vector : perpendicular to both direction and right
 			glm::vec3 up = glm::cross(right, direction);
 
-			float FoV = initialFoV;
+			float FoV = 45.0f;
 
-			static glm::mat4 projection_matrix;
-			static glm::mat4 view_matrix;
+			static glm::mat4 projection_matrix = glm::perspective(glm::radians(FoV), 16.0f / 9.0f, 0.1f, 100.0f);
 
-			// Projection matrix : 45&deg; Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-			projection_matrix = glm::perspective(glm::radians(FoV), 16.0f / 9.0f, 0.1f, 100.0f);
+			glm::mat4 view_matrix;
 
 			// Camera matrix
 			view_matrix = glm::lookAt(
-				position,           // Camera is here
-				position + direction, // and looks here : at the same position, plus "direction"
-				up                 // Head is up (set to 0,-1,0 to look upside-down)
+				position,				// Camera is here
+				position + direction,	// and looks here : at the same position, plus "direction"
+				up						// Head is up (set to 0,-1,0 to look upside-down)
 			);
 
 			glm::mat4 model_matrix = glm::mat4(1.0);
-			glm::mat4 mvp = projection_matrix * view_matrix * model_matrix;
-
-			GLint uniMvp = glGetUniformLocation(this->shader_program_, "mvp");
-			glUniformMatrix4fv(uniMvp, 1, GL_FALSE, glm::value_ptr(mvp));
+			this->mvp = projection_matrix * view_matrix * glm::scale(model_matrix, glm::vec3(2, 2, 2));
+			lastTime = lastTime + deltaTime;
 		}
 
 		void RenderManagerOpenGL::GenerateObjectIndex(renderable::Renderable* renderable_) {

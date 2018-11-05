@@ -1,4 +1,4 @@
-#include <ManagerLocator.h>
+#include <EasyEngine/ManagerLocator.h>
 
 easy_engine::render_manager::RenderManager* ManagerLocator::render_manager = NULL;
 easy_engine::window_manager::WindowManager* ManagerLocator::window_manager = NULL;

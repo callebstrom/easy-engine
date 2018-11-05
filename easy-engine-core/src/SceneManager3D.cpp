@@ -1,4 +1,4 @@
-#include <SceneManager3D.h>
+#include <EasyEngine/scene_manager/SceneManager3D.h>
 
 namespace easy_engine {
 	namespace scene_manager {
@@ -13,7 +13,6 @@ namespace easy_engine {
 			while (true) {
 				ManagerLocator::input_manager->PollEvents();
 				static_cast<Scene3D*>(this->current_scene)->scene_graph_->traverse();
-				// ManagerLocator::render_manager->Render(this->current_scene->Get().at(0));
 				ManagerLocator::window_manager->SwapBuffers(); // should perhaps be triggered as post-render callback?
 			}
 		}

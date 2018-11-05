@@ -1,4 +1,4 @@
-#include <Texture.h>
+#include <EasyEngine/renderable/Texture.h>
 
 namespace easy_engine {
 	namespace renderable {

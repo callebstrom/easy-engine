@@ -27,35 +27,38 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Configuration.h" />
-    <ClInclude Include="include\InputCallbackGLFW.h" />
-    <ClInclude Include="include\GroupNode.h" />
-    <ClInclude Include="include\InputManager.h" />
-    <ClInclude Include="include\Logger.h" />
-    <ClInclude Include="include\ManagerLocator.h" />
-    <ClInclude Include="include\Node.h" />
-    <ClInclude Include="include\ObjectIndex.h" />
-    <ClInclude Include="include\Renderable3D.h" />
-    <ClInclude Include="include\Renderable.h" />
-    <ClInclude Include="include\RenderConfiguration.h" />
-    <ClInclude Include="include\ResourceManager3D.h" />
-    <ClInclude Include="include\Common.h" />
-    <ClInclude Include="include\RenderManagerOpenGL.h" />
-    <ClInclude Include="include\RenderManager.h" />
-    <ClInclude Include="include\ResourceManager.h" />
-    <ClInclude Include="include\RootNode.h" />
-    <ClInclude Include="include\Scene.h" />
-    <ClInclude Include="include\Scene3D.h" />
-    <ClInclude Include="include\SceneGraph.h" />
-    <ClInclude Include="include\Texture.h" />
-    <ClInclude Include="include\WindowConfiguration.h" />
-    <ClInclude Include="include\SceneGraph3D.h" />
-    <ClInclude Include="include\SceneManager.h" />
-    <ClInclude Include="include\SceneManager3D.h" />
-    <ClInclude Include="include\RenderableNode.h" />
-    <ClInclude Include="include\TransformationNode.h" />
-    <ClInclude Include="include\WindowManager.h" />
-    <ClInclude Include="include\WindowManagerGLFW.h" />
+    <ClInclude Include="include\EasyEngine\Application.h" />
+    <ClInclude Include="include\EasyEngine\Common.h" />
+    <ClInclude Include="include\EasyEngine\configuration\Configuration.h" />
+    <ClInclude Include="include\EasyEngine\configuration\RenderConfiguration.h" />
+    <ClInclude Include="include\EasyEngine\configuration\WindowConfiguration.h" />
+    <ClInclude Include="include\EasyEngine\EasyEngine.h" />
+    <ClInclude Include="include\EasyEngine\EntryPoint.h" />
+    <ClInclude Include="include\EasyEngine\input_manager\InputManager.h" />
+    <ClInclude Include="include\EasyEngine\Logger.h" />
+    <ClInclude Include="include\EasyEngine\ManagerLocator.h" />
+    <ClInclude Include="include\EasyEngine\renderable\Renderable.h" />
+    <ClInclude Include="include\EasyEngine\renderable\Renderable3D.h" />
+    <ClInclude Include="include\EasyEngine\renderable\Texture.h" />
+    <ClInclude Include="include\EasyEngine\render_manager\ObjectIndex.h" />
+    <ClInclude Include="include\EasyEngine\render_manager\RenderManager.h" />
+    <ClInclude Include="include\EasyEngine\render_manager\RenderManagerOpenGL.h" />
+    <ClInclude Include="include\EasyEngine\resource_manager\ResourceManager.h" />
+    <ClInclude Include="include\EasyEngine\resource_manager\ResourceManager3D.h" />
+    <ClInclude Include="include\EasyEngine\scene_manager\GroupNode.h" />
+    <ClInclude Include="include\EasyEngine\scene_manager\Node.h" />
+    <ClInclude Include="include\EasyEngine\scene_manager\RenderableNode.h" />
+    <ClInclude Include="include\EasyEngine\scene_manager\RootNode.h" />
+    <ClInclude Include="include\EasyEngine\scene_manager\Scene.h" />
+    <ClInclude Include="include\EasyEngine\scene_manager\Scene3D.h" />
+    <ClInclude Include="include\EasyEngine\scene_manager\SceneGraph.h" />
+    <ClInclude Include="include\EasyEngine\scene_manager\SceneGraph3D.h" />
+    <ClInclude Include="include\EasyEngine\scene_manager\SceneManager.h" />
+    <ClInclude Include="include\EasyEngine\scene_manager\SceneManager3D.h" />
+    <ClInclude Include="include\EasyEngine\scene_manager\TransformationNode.h" />
+    <ClInclude Include="include\EasyEngine\window_manager\InputCallbackGLFW.h" />
+    <ClInclude Include="include\EasyEngine\window_manager\WindowManager.h" />
+    <ClInclude Include="include\EasyEngine\window_manager\WindowManagerGLFW.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\InputCallbackGLFW.cpp" />
@@ -166,12 +169,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug tools|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)bin\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)bin\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)bin\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -202,7 +208,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
-      <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS</AdditionalOptions>
@@ -222,7 +228,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
-      <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS</AdditionalOptions>
@@ -256,7 +262,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

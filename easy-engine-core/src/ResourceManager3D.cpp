@@ -1,6 +1,7 @@
-#include <ResourceManager3D.h>
 #include <iostream>
 #include <iomanip>
+
+#include <EasyEngine/resource_manager/ResourceManager3D.h>
 
 namespace easy_engine {
 	namespace resource_manager {

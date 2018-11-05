@@ -6,11 +6,11 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "easy-engine-core", "easy-engine-core\easy-engine-core.vcxproj", "{C70CAC80-3B82-456D-88D2-D2216A7A9624}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "easy-engine-tools", "easy-engine-tools\easy-engine-tools.vcxproj", "{DD8F5097-5759-43B2-AE0B-08EBDA59CAA4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "easy-engine-core-tests", "easy-engine-core-tests\easy-engine-core-tests.vcxproj", "{1C6617A6-8D45-4B38-B62A-FA965E83C2AD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C70CAC80-3B82-456D-88D2-D2216A7A9624} = {C70CAC80-3B82-456D-88D2-D2216A7A9624}
 	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "easy-engine-core-tests", "easy-engine-core-tests\easy-engine-core-tests.vcxproj", "{1C6617A6-8D45-4B38-B62A-FA965E83C2AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

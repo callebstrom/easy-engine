@@ -1,4 +1,4 @@
-#include "..\include\Node.h"
+#include <EasyEngine/scene_manager/Node.h>
 
 namespace easy_engine {
 	namespace scene_manager {

@@ -1,4 +1,5 @@
-#include <InputManager.h>
+#include <EasyEngine/input_manager/InputManager.h>
+#include <EasyEngine/ManagerLocator.h>
 
 namespace easy_engine {
 	namespace input_manager {
@@ -27,6 +28,8 @@ namespace easy_engine {
 			* and the Camera3D class is responsible for generating the model view projection matrix and calling the callback. 
 			* HandleMousePosUpdate is only responsible for forwarding, and possibly inversing the mouse position.
 			*/
+			ManagerLocator::render_manager->UpdateCameraAngle(x, y);
 		}
+	
 	}
 }

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Scene3D.h>
 #include <typeinfo>
+#include <EasyEngine/scene_manager/Scene3D.h>
 
 namespace easy_engine {
 	namespace scene_manager {

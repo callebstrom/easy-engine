@@ -1,4 +1,4 @@
-#include <InputCallbackGLFW.h>
+#include <EasyEngine/window_manager/InputCallbackGLFW.h>
 
 easy_engine::input_manager::InputManager* InputCallbackGLFW::input_manager = NULL;
 

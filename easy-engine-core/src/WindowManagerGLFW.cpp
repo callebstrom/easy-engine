@@ -1,4 +1,4 @@
-#include <WindowManagerGLFW.h>
+#include <EasyEngine/window_manager/WindowManagerGLFW.h>
 
 namespace easy_engine {
 	namespace window_manager {
@@ -57,8 +57,6 @@ namespace easy_engine {
 				RegisterMousePositionCallback(&InputCallbackGLFW::MousePosCallback);
 				RegisterMouseCallback(&InputCallbackGLFW::MouseButtonCallback);
 				RegisterKeyboardCallback(&InputCallbackGLFW::KeyboardCallback);
-
-				// TODO create the actual window using GLFW
 			} else {
 				log->warning("No input manager set");
 			}

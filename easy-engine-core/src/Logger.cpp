@@ -1,4 +1,4 @@
-#include <Logger.h>
+#include <EasyEngine/Logger.h>
 
 namespace easy_engine {
 	namespace logger {
