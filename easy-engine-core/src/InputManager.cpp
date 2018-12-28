@@ -4,8 +4,6 @@
 namespace easy_engine {
 	namespace input_manager {
 
-		logger::Logger* InputManager::log = new logger::Logger("InputManager");
-
 		void InputManager::HandleMouseButtonPress(int button, int modifier) {
 
 		}

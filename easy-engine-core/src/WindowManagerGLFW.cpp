@@ -3,8 +3,6 @@
 namespace easy_engine {
 	namespace window_manager {
 
-		logger::Logger* WindowManagerGLFW::log = new logger::Logger("WindowManagerGLFW");
-
 		void WindowManagerGLFW::RegisterMousePositionCallback(GLFWcursorposfun callback) {
 			glfwSetCursorPosCallback(this->window_, callback);
 		}
@@ -21,8 +19,7 @@ namespace easy_engine {
 			// glfwSetWindowSizeCallback(func);
 		}
 		
-		void WindowManagerGLFW::CreateWindow(configuration::WindowConfiguration_t* configuration) {
-
+		void WindowManagerGLFW::CreateWindowEE(configuration::WindowConfiguration_t* configuration) {
 			glfwInit();
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
@@ -38,7 +35,7 @@ namespace easy_engine {
 
 			if (!this->window_) {
 				glfwTerminate();
-				log->fatal("Failed to create window");
+				EE_CORE_CRITICAL("Failed to create window");
 			}
 
 			glfwMakeContextCurrent(this->window_);
@@ -58,7 +55,7 @@ namespace easy_engine {
 				RegisterMouseCallback(&InputCallbackGLFW::MouseButtonCallback);
 				RegisterKeyboardCallback(&InputCallbackGLFW::KeyboardCallback);
 			} else {
-				log->warning("No input manager set");
+				EE_CORE_WARN("No input manager set");
 			}
 		};
 

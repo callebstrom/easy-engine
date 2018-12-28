@@ -149,7 +149,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;EASY_ENGINE_DYNAMIC;BOOST_ALL_DYN_LINK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(SolutionDir)easy-engine-core\include;$(SolutionDir)easy-engine-core\include\boost-1_64;$(SolutionDir)easy-engine-core\include\Eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)easy-engine-core\lib\spdlog\include;$(ProjectDir)\include;$(SolutionDir)easy-engine-core\include;$(SolutionDir)easy-engine-core\include\boost-1_64;$(SolutionDir)easy-engine-core\include\Eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -166,7 +166,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;EASY_ENGINE_DYNAMIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(SolutionDir)easy-engine-core\include;$(SolutionDir)easy-engine-core\include\boost-1_64;$(SolutionDir)easy-engine-core\include\Eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)easy-engine-core\lib\spdlog\include;$(ProjectDir)\include;$(SolutionDir)easy-engine-core\include;$(SolutionDir)easy-engine-core\include\boost-1_64;$(SolutionDir)easy-engine-core\include\Eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -201,7 +201,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;EASY_ENGINE_DYNAMIC;BOOST_ALL_DYN_LINK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(SolutionDir)easy-engine-core\include;$(SolutionDir)easy-engine-core\include\boost-1_64;$(SolutionDir)easy-engine-core\include\Eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)easy-engine-core\lib\spdlog\include;$(ProjectDir)\include;$(SolutionDir)easy-engine-core\include;$(SolutionDir)easy-engine-core\include\boost-1_64;$(SolutionDir)easy-engine-core\include\Eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>

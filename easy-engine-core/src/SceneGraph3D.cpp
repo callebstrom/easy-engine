@@ -2,9 +2,6 @@
 
 namespace easy_engine {
 	namespace scene_manager {
-
-		logger::Logger* SceneGraph3D::log = new logger::Logger("SceneGraph3D");
-
 		void SceneGraph3D::traverse() {
 			for (Node* node : this->root->nodes) {
 				if (node->node_type == NODE_TYPE::RENDERABLE) {

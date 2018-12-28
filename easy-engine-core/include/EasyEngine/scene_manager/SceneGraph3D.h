@@ -14,7 +14,6 @@ namespace easy_engine {
 			void traverse();
 		private:
 			Eigen::Matrix4f current_translation_;
-			static logger::Logger* log;
 		};
 	}
 }

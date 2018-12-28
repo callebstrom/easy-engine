@@ -1,0 +1,3 @@
+[submodule "easy-engine-core/include/spdlog_complete"]
+	path = easy-engine-core/include/spdlog_complete
+	url = git@github.com:gabime/spdlog.git

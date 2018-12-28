@@ -16,9 +16,6 @@ namespace easy_engine {
 		public:
 			void RenderScene();
 			void CreateScene(std::string name);
-
-		private:
-			static logger::Logger* log;
 		};
 	}
 }

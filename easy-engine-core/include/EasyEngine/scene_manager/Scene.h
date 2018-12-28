@@ -2,12 +2,10 @@
 #define SCENE_H
 #pragma once
 
-#include <vector>
-#include <iostream>
-#include <map>
-
 #include <EasyEngine/renderable/Renderable.h>
 #include <EasyEngine/scene_manager/SceneGraph.h>
+#include <EasyEngine/Common.h>
+#include <EasyEngine/Logger.h>
 
 class SceneGraph;
 
@@ -23,8 +21,6 @@ namespace easy_engine {
 				std::map<std::string, renderable::Renderable*> renderable_map; // Map containing renderables as value and reference as key
 			protected:
 				SceneGraph* scene_graph_;
-			private:
-				static logger::Logger* log;
 		};
 	}
 }

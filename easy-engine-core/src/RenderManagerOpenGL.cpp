@@ -1,24 +1,15 @@
-﻿#include <iostream>
-#include <fstream>
-#include <thread>
-#include <algorithm>
-
-#include <EasyEngine/render_manager/RenderManagerOpenGL.h>
+﻿#include <EasyEngine/render_manager/RenderManagerOpenGL.h>
 #include <EasyEngine/configuration/RenderConfiguration.h>
 
-using easy_engine::logger::Logger;
-
 void GLAPIENTRY Debug(GLenum source​, GLenum type​, GLuint id​, GLenum severity​, GLsizei length​, const GLchar* message​, const void* userParam) {
-	// log->debug(message​);
-	// log->debug("hello");
+	// EE_CORE_TRACE(message​);
+	// EE_CORE_TRACE("hello");
 	std::cout << "hello";
 };
 
 namespace easy_engine {
 	namespace render_manager {
 		typedef configuration::RenderConfigurationParams c_params_;
-
-		Logger* RenderManagerOpenGL::log = new Logger("RenderManagerOpenGL");
 		
 		RenderManagerOpenGL::RenderManagerOpenGL(configuration::RenderConfiguration_t* rc) {
 			this->render_config_ = rc;
@@ -27,7 +18,7 @@ namespace easy_engine {
 			GLenum glew_error = glewInit();
 
 			if (glew_error != GLEW_OK) {
-				log->fatal("Failed to init GLEW: " + boost::lexical_cast<std::string>(glewGetErrorString(glew_error)));
+				EE_CORE_CRITICAL("Failed to init GLEW: " + boost::lexical_cast<std::string>(glewGetErrorString(glew_error)));
 			}
 
 			glEnable(GL_DEPTH_TEST); // enable depth-testing
@@ -101,8 +92,8 @@ namespace easy_engine {
 		}
 
 		void RenderManagerOpenGL::GetRenderInfo() {
-			log->debug("Renderer: " + std::string(reinterpret_cast<char*>(const_cast<GLubyte*>(glGetString(GL_RENDERER)))));
-			log->debug("OpenGL version supported: " + std::string(reinterpret_cast<char*>(const_cast<GLubyte*>(glGetString(GL_VERSION)))));
+			EE_CORE_TRACE("Renderer: " + std::string(reinterpret_cast<char*>(const_cast<GLubyte*>(glGetString(GL_RENDERER)))));
+			EE_CORE_TRACE("OpenGL version supported: " + std::string(reinterpret_cast<char*>(const_cast<GLubyte*>(glGetString(GL_VERSION)))));
 		}
 
 		// TODO this should be handled by WindowManager using glfwSetWindowUserPointer
@@ -166,7 +157,7 @@ namespace easy_engine {
 			ObjectIndex object_index;
 
 			glGenVertexArrays(1, &object_index.vao);
-			log->debug("Generated vertex array object for " + renderable->name);
+			EE_CORE_TRACE("Generated vertex array object for " + renderable->name);
 
 			// Set active VAO
 			glBindVertexArray(object_index.vao);
@@ -174,10 +165,10 @@ namespace easy_engine {
 			GLuint vbo, ebo, color_buffer;
 
 			glGenBuffers(1, &vbo);
-			log->debug("Generated vertex buffer object for " + renderable->name);
+			EE_CORE_TRACE("Generated vertex buffer object for " + renderable->name);
 
 			glGenBuffers(1, &ebo);
-			log->debug("Generated element array for " + renderable->name);
+			EE_CORE_TRACE("Generated element array for " + renderable->name);
 
 			glGenBuffers(1, &color_buffer);
 
@@ -251,8 +242,8 @@ namespace easy_engine {
 			
 			RenderManagerOpenGL::ToGLMVertices(renderable->GetVertices(), vertices);
 
-			log->info("faces.size(): " + faces.size());
-			log->debug("vertices.size(): " + vertices.size());
+			EE_CORE_INFO("faces.size(): " + faces.size());
+			EE_CORE_TRACE("vertices.size(): " + vertices.size());
 
 			for (int i = 0; i < faces.size(); i += 3) {
 				ushort_t ia = faces[i];
@@ -323,11 +314,11 @@ namespace easy_engine {
 			if (vertex_status != GL_TRUE) {
 				const std::string message = "Could not compile vertex shader: ";
 				glGetShaderInfoLog(this->vertex_shader_, 256, NULL, shader_log_buffer);
-				log->fatal(message + shader_log_buffer);
+				EE_CORE_CRITICAL(message + shader_log_buffer);
 			} else if (fragment_status != GL_TRUE) {
 				const std::string message = "Could not compile fragment shader: ";
 				glGetShaderInfoLog(this->fragment_shader_, 256, NULL, shader_log_buffer);
-				log->fatal(message + shader_log_buffer);
+				EE_CORE_CRITICAL(message + shader_log_buffer);
 			}
 
 			this->shader_program_ = glCreateProgram();

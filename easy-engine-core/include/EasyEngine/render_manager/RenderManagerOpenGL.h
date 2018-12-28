@@ -33,7 +33,6 @@ namespace easy_engine {
 			void UpdateCameraAngle(double x, double y) override;
 
 		private:
-			static logger::Logger* log;
 			std::vector<GLfloat> vertex_buffer_data_;
 
 			void GetRenderInfo();

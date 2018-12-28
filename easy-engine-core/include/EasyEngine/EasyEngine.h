@@ -1,4 +1,8 @@
+#ifndef EASY_ENGINE_H
+#define EASY_ENGINE_H
 #pragma once
 
-#include "Application.h"
-#include "EntryPoint.h"
+#include <EasyEngine/Application.h>
+#include <EasyEngine/EntryPoint.h>
+
+#endif // !EASY_ENGINE_H

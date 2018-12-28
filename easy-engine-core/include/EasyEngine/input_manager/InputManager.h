@@ -17,8 +17,6 @@ namespace easy_engine {
 				void HandleMouseButtonPress(int button, int modifier);
 				void HandleMouseButtonRelease(int button, int modifier);
 				void PollEvents();
-			private:
-				static logger::Logger* log;
 		};
 	}
 }

@@ -1,4 +1,6 @@
-#include <EasyEngine/Application.h>
+#include <EasyEngine/EasyEngine.h>
+
+using namespace easy_engine;
 
 using easy_engine::configuration::WindowConfiguration_t;
 using easy_engine::configuration::WindowConfigurationParams;
@@ -14,10 +16,14 @@ using easy_engine::input_manager::InputManager;
 using easy_engine::resource_manager::ResourceManager3D;
 using easy_engine::renderable::Renderable3D;
 
-class StaticSceneTest : public easy_engine::Application {
+class StaticSceneTest : public Application {
 	public:
 		StaticSceneTest() {
 
+			renderable::Renderable3D* ptr = this->resource_manager_3d->LoadObj("..\\..\\EasyEngine\\easy-engine-core\\res\\basic_sword_low_poly.obj");
+			this->scene_manager_3d->CreateScene("main");
+			this->scene_manager_3d->Add(ptr, "main");
+			this->scene_manager_3d->RenderScene();
 		}
 
 		~StaticSceneTest() {

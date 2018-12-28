@@ -16,9 +16,6 @@ namespace easy_engine {
 			friend class SceneManager3D;
 			public:
 				Scene3D::Scene3D();
-
-			private:
-				static logger::Logger* log;
 		};
 	}
 }
