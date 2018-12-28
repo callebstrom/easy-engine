@@ -4,7 +4,7 @@
 
 #include <EasyEngine/renderable/Renderable.h>
 #include <EasyEngine/scene_manager/SceneGraph.h>
-#include <EasyEngine/Common.h>
+
 #include <EasyEngine/Logger.h>
 
 class SceneGraph;

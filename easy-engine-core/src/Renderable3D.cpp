@@ -1,3 +1,4 @@
+#include <EasyEngine/eepch.h>
 #include <EasyEngine/renderable/Renderable3D.h>
 #include <EasyEngine/render_manager/RenderManagerOpenGL.h>
 

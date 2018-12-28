@@ -8,9 +8,7 @@
 
 #include <EasyEngine/renderable/Renderable.h>
 #include <EasyEngine/renderable/Renderable3D.h>
-#include <EasyEngine/configuration/RenderConfiguration.h>
-#include <EasyEngine/Common.h>
-
+#include <EasyEngine/configuration/RenderConfiguration.h>
 namespace easy_engine {
 	namespace render_manager {
 		class EASY_ENGINE_API RenderManager {

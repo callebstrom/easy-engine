@@ -1,4 +1,5 @@
-﻿#include <EasyEngine/render_manager/RenderManagerOpenGL.h>
+﻿#include <EasyEngine/eepch.h>
+#include <EasyEngine/render_manager/RenderManagerOpenGL.h>
 #include <EasyEngine/configuration/RenderConfiguration.h>
 
 void GLAPIENTRY Debug(GLenum source​, GLenum type​, GLuint id​, GLenum severity​, GLsizei length​, const GLchar* message​, const void* userParam) {

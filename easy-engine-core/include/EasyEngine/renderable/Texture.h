@@ -2,7 +2,7 @@
 #define TEXTURE_H
 #pragma once
 
-#include <EasyEngine/Common.h>
+
 
 namespace easy_engine {
 	namespace renderable {

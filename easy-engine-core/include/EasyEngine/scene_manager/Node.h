@@ -2,7 +2,7 @@
 #define NODE_H
 #pragma once
 
-#include <EasyEngine/Common.h>
+
 
 namespace easy_engine {
 	namespace scene_manager {

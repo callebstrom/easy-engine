@@ -135,9 +135,6 @@
     <ClInclude Include="include\EasyEngine\window_manager\InputCallbackGLFW.h">
       <Filter>Header Files\window_manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\EasyEngine\Common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\EasyEngine\EasyEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -151,6 +148,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\EasyEngine\EntryPoint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\eepch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -207,6 +207,9 @@
       <Filter>Source Files\renderable</Filter>
     </ClCompile>
     <ClCompile Include="src\Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\eepch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,3 +1,4 @@
+#include <EasyEngine/eepch.h>
 #include <EasyEngine/window_manager/WindowManagerGLFW.h>
 
 namespace easy_engine {

@@ -1,6 +1,4 @@
-#include <iostream>
-#include <iomanip>
-
+#include <EasyEngine/eepch.h>
 #include <EasyEngine/resource_manager/ResourceManager3D.h>
 
 namespace easy_engine {

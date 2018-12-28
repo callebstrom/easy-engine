@@ -3,7 +3,7 @@
 #pragma once
 
 #include <EasyEngine/Application.h>
-#include <EasyEngine/Common.h>
+
 
 extern easy_engine::Application* easy_engine::CreateApplication();
 

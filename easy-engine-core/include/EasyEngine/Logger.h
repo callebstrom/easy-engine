@@ -1,9 +1,7 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 #pragma once
-
-#include <EasyEngine/Common.h>
-#include <spdlog/spdlog.h>
+#include <spdlog/spdlog.h>
 #include <spdlog/fmt/ostr.h>
 
 namespace easy_engine {

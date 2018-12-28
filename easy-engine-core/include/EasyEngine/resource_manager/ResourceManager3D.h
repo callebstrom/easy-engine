@@ -14,7 +14,7 @@
 #include <boost/lexical_cast.hpp>
 
 // Internal headers
-#include <EasyEngine/Common.h>
+
 #include <EasyEngine/resource_manager/ResourceManager.h>
 #include <EasyEngine/renderable/Renderable3D.h>
 

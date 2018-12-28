@@ -1,3 +1,4 @@
+#include <EasyEngine/eepch.h>
 #include <EasyEngine/Application.h>
 
 namespace easy_engine {

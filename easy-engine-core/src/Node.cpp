@@ -1,3 +1,4 @@
+#include <EasyEngine/eepch.h>
 #include <EasyEngine/scene_manager/Node.h>
 
 namespace easy_engine {

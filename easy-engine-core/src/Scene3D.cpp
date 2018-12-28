@@ -1,6 +1,6 @@
 #pragma once
 
-#include <typeinfo>
+#include <EasyEngine/eepch.h>
 #include <EasyEngine/scene_manager/Scene3D.h>
 
 namespace easy_engine {

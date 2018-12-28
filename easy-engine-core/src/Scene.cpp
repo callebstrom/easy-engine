@@ -1,3 +1,4 @@
+#include <EasyEngine/eepch.h>
 #include <EasyEngine/scene_manager/Scene.h>
 #include <EasyEngine/scene_manager/RenderableNode.h>
 #include <EasyEngine/renderable/Renderable3D.h>

@@ -1,8 +1,6 @@
-#define STB_IMAGE_IMPLEMENTATION
 
-#include <iostream>
-#include <fstream>
-#include <string>
+#include <EasyEngine/eepch.h>
+#define STB_IMAGE_IMPLEMENTATION
 #include <stb/std_image.h>
 #include <experimental/filesystem>
 

@@ -1,3 +1,4 @@
+#include <EasyEngine/eepch.h>
 #include <EasyEngine/Logger.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 

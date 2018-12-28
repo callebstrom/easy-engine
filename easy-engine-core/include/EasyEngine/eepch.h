@@ -2,14 +2,16 @@
 #define COMMON_H
 #pragma once
 
-#include <fstream>
-#include <thread>
 #include <algorithm>
-#include <vector>
+#include <fstream>
+#include <iomanip>
 #include <iostream>
-#include <set>
 #include <memory>
 #include <map>
+#include <set>
+#include <thread>
+#include <typeinfo>
+#include <vector>
 
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/base_object.hpp>

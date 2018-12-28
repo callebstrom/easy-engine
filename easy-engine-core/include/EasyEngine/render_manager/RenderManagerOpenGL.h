@@ -2,7 +2,7 @@
 #define RENDER_MANAGER_OPEN_GL_H
 #pragma once
 
-#include <EasyEngine/Common.h>
+#include <EasyEngine/eepch.h>
 
 #include <GL/glew.h>
 #include <GL/GLU.h>

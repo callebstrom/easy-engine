@@ -1,3 +1,4 @@
+#include <EasyEngine/eepch.h>
 #include <EasyEngine/scene_manager/SceneGraph3D.h>
 
 namespace easy_engine {

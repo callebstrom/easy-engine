@@ -1,3 +1,4 @@
+#include <EasyEngine/eepch.h>
 #include <EasyEngine/input_manager/InputManager.h>
 #include <EasyEngine/ManagerLocator.h>
 

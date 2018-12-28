@@ -1,3 +1,4 @@
+#include <EasyEngine/eepch.h>
 #include <EasyEngine/renderable/Texture.h>
 
 namespace easy_engine {

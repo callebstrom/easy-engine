@@ -4,7 +4,7 @@
 
 #include <string>
 
-#include <EasyEngine/Common.h>
+
 
 namespace easy_engine {
 	namespace renderable {
