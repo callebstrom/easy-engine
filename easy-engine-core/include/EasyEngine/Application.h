@@ -26,6 +26,7 @@ namespace easy_engine {
 			input_manager::InputManager* input_manager;
 			window_manager::WindowManagerGLFW* window_manager;
 			render_manager::RenderManagerOpenGL* render_manager;
+			event_manager::EventManager* event_manager;
 		private:
 			bool is_running_ = false;
 	};

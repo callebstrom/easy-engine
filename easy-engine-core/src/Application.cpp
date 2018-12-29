@@ -18,6 +18,7 @@ namespace easy_engine {
 		window_configuration->Set(configuration::WindowConfigurationParams::WIDTH, "1920");
 		window_configuration->Set(configuration::WindowConfigurationParams::HEIGHT, "1080");
 
+		this->event_manager = new event_manager::EventManager();
 		this->scene_manager_3d = new scene_manager::SceneManager3D();
 		this->resource_manager_3d = new resource_manager::ResourceManager3D();
 		this->input_manager = new input_manager::InputManager();
@@ -35,8 +36,14 @@ namespace easy_engine {
 
 	void Application::Run() {
 		this->is_running_ = true;
+		EE_CORE_INFO("Application is now running");
 		while (this->is_running_) {
+			this->input_manager->PollEvents();
 			this->scene_manager_3d->RenderScene();
+			this->event_manager->ConsumeEventBuffer(event_manager::EventType::NodeRenderable);
+			this->event_manager->ConsumeEventBuffer(event_manager::EventType::Rendered);
+			this->window_manager->SwapBuffers(); // should be triggered on post-render
+
 		}
 	}
 

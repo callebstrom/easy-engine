@@ -1,7 +1,8 @@
 #pragma once
 
 #include <GL/glfw3.h>
-
+
+
 namespace easy_engine {
 
 	namespace render_manager {

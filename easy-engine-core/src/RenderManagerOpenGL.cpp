@@ -41,6 +41,12 @@ namespace easy_engine {
 			// Don't render triangles with normal facing away from camera
 			glEnable(GL_CULL_FACE);
 			// glDebugMessageCallback(&Debug, nullptr);
+
+			ManagerLocator::event_manager->Subscribe(
+				event_manager::EventType::NodeRenderable,
+				this,
+				(Callback) &RenderManagerOpenGL::OnNodeRenderable
+			);
 		};
 
 		RenderManagerOpenGL::~RenderManagerOpenGL() {
@@ -90,6 +96,10 @@ namespace easy_engine {
 			glUniformMatrix4fv(uniMvp, 1, GL_FALSE, glm::value_ptr(this->mvp));
 
 			glDrawElements(GL_TRIANGLES, object_index.ebo_size, GL_UNSIGNED_SHORT, NULL);
+		}
+
+		void RenderManagerOpenGL::OnNodeRenderable(event_manager::Event* event) {
+			EE_CORE_TRACE("Got NodeRenderable event");
 		}
 
 		void RenderManagerOpenGL::GetRenderInfo() {

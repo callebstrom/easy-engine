@@ -55,6 +55,12 @@
     <Filter Include="Source Files\window_manager">
       <UniqueIdentifier>{9561de4d-8f7e-445f-93d3-16a3982e7305}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\event_manager">
+      <UniqueIdentifier>{9edad49c-5b89-4164-8ae2-c636cb3bc1a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\event_manager">
+      <UniqueIdentifier>{8009a8a5-e365-4beb-8d4c-0153a8663251}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\EasyEngine\configuration\RenderConfiguration.h">
@@ -153,6 +159,15 @@
     <ClInclude Include="include\EasyEngine\eepch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\EasyEngine\event_manager\EventManager.h">
+      <Filter>Header Files\event_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\event_manager\Event.h">
+      <Filter>Header Files\event_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\event_manager\IObserver.h">
+      <Filter>Header Files\event_manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RenderManagerOpenGL.cpp">
@@ -211,6 +226,9 @@
     </ClCompile>
     <ClCompile Include="src\eepch.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\EasyEngine\event_manager\EventManager.cpp">
+      <Filter>Source Files\event_manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -2,8 +2,6 @@
 #define RENDER_MANAGER_OPEN_GL_H
 #pragma once
 
-#include <EasyEngine/eepch.h>
-
 #include <GL/glew.h>
 #include <GL/GLU.h>
 #include <glm/glm.hpp>
@@ -13,16 +11,18 @@
 
 #include <boost/lexical_cast.hpp>
 
+#include <EasyEngine/event_manager/IObserver.h>
 #include <EasyEngine/Logger.h>
 #include <EasyEngine/render_manager/RenderManager.h>
 #include <EasyEngine/renderable/Renderable3D.h>
 #include <EasyEngine/render_manager/ObjectIndex.h>
+#include <EasyEngine/ManagerLocator.h>
 
 namespace easy_engine {
 
 	namespace render_manager {
 
-		class EASY_ENGINE_API RenderManagerOpenGL : public RenderManager {
+		class EASY_ENGINE_API RenderManagerOpenGL : public RenderManager, public event_manager::IObserver {
 		public:
 			RenderManagerOpenGL(configuration::RenderConfiguration_t* rc);
 			RenderManagerOpenGL::~RenderManagerOpenGL();
@@ -31,10 +31,10 @@ namespace easy_engine {
 
 			void Render(renderable::Renderable* renderable) override;
 			void UpdateCameraAngle(double x, double y) override;
+			void OnNodeRenderable(event_manager::Event* event);
 
 		private:
 			std::vector<GLfloat> vertex_buffer_data_;
-
 			void GetRenderInfo();
 			void LoadShaders();
 			void GenerateObjectIndex(renderable::Renderable* renderable);
