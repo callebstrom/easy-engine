@@ -28,8 +28,7 @@ namespace alignment {
 
 template<class T, std::size_t Alignment>
 class aligned_allocator {
-    BOOST_STATIC_ASSERT(detail::
-        is_alignment_constant<Alignment>::value);
+    BOOST_STATIC_ASSERT(detail::is_alignment_constant<Alignment>::value);
 
 public:
     typedef T value_type;
@@ -42,13 +41,6 @@ public:
     typedef T& reference;
     typedef const T& const_reference;
 
-private:
-    enum {
-        min_align = detail::max_size<Alignment,
-            alignment_of<value_type>::value>::value
-    };
-
-public:
     template<class U>
     struct rebind {
         typedef aligned_allocator<U, Alignment> other;
@@ -73,10 +65,14 @@ public:
     }
 
     pointer allocate(size_type size, const_void_pointer = 0) {
+        enum {
+            m = detail::max_size<Alignment,
+                alignment_of<value_type>::value>::value
+        };
         if (size == 0) {
             return 0;
         }
-        void* p = aligned_alloc(min_align, sizeof(T) * size);
+        void* p = boost::alignment::aligned_alloc(m, sizeof(T) * size);
         if (!p) {
             boost::throw_exception(std::bad_alloc());
         }
@@ -124,8 +120,7 @@ public:
 
 template<std::size_t Alignment>
 class aligned_allocator<void, Alignment> {
-    BOOST_STATIC_ASSERT(detail::
-        is_alignment_constant<Alignment>::value);
+    BOOST_STATIC_ASSERT(detail::is_alignment_constant<Alignment>::value);
 
 public:
     typedef void value_type;

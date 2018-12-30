@@ -32,10 +32,12 @@
 // **************    Non-auto (explicit) test case interface   ************** //
 // ************************************************************************** //
 
-#define BOOST_TEST_CASE( test_function )                                   \
+#define BOOST_TEST_CASE_NAME( test_function, test_name )                   \
 boost::unit_test::make_test_case( boost::function<void ()>(test_function), \
-                                  BOOST_TEST_STRINGIZE( test_function ),   \
+                                  test_name ,                              \
                                   __FILE__, __LINE__ )
+#define BOOST_TEST_CASE( test_function )                                   \
+BOOST_TEST_CASE_NAME(test_function, BOOST_TEST_STRINGIZE( test_function) )
 #define BOOST_CLASS_TEST_CASE( test_function, tc_instance )                \
 boost::unit_test::make_test_case( (test_function),                         \
                                   BOOST_TEST_STRINGIZE( test_function ),   \
@@ -63,7 +65,7 @@ BOOST_AUTO_TU_REGISTRAR( suite_name )(                                  \
 #define BOOST_AUTO_TEST_SUITE_NO_DECOR( suite_name )                    \
     BOOST_AUTO_TEST_SUITE_WITH_DECOR(                                   \
         suite_name,                                                     \
-        boost::unit_test::decorator::collector::instance() )            \
+        boost::unit_test::decorator::collector_t::instance() )          \
 /**/
 
 #if BOOST_PP_VARIADICS
@@ -143,11 +145,15 @@ struct test_name : public F { void test_method(); };                    \
                                                                         \
 static void BOOST_AUTO_TC_INVOKER( test_name )()                        \
 {                                                                       \
-    BOOST_TEST_CHECKPOINT('"' << #test_name << "\" fixture entry.");    \
+    BOOST_TEST_CHECKPOINT('"' << #test_name << "\" fixture ctor");      \
     test_name t;                                                        \
-    BOOST_TEST_CHECKPOINT('"' << #test_name << "\" entry.");            \
+    BOOST_TEST_CHECKPOINT('"' << #test_name << "\" fixture setup");     \
+    boost::unit_test::setup_conditional(t);                             \
+    BOOST_TEST_CHECKPOINT('"' << #test_name << "\" test entry");        \
     t.test_method();                                                    \
-    BOOST_TEST_CHECKPOINT('"' << #test_name << "\" exit.");             \
+    BOOST_TEST_CHECKPOINT('"' << #test_name << "\" fixture teardown");  \
+    boost::unit_test::teardown_conditional(t);                          \
+    BOOST_TEST_CHECKPOINT('"' << #test_name << "\" fixture dtor");      \
 }                                                                       \
                                                                         \
 struct BOOST_AUTO_TC_UNIQUE_ID( test_name ) {};                         \
@@ -163,7 +169,7 @@ void test_name::test_method()                                           \
 
 #define BOOST_FIXTURE_TEST_CASE_NO_DECOR( test_name, F )                \
 BOOST_FIXTURE_TEST_CASE_WITH_DECOR( test_name, F,                       \
-    boost::unit_test::decorator::collector::instance() )                \
+    boost::unit_test::decorator::collector_t::instance() )              \
 /**/
 
 #if BOOST_PP_VARIADICS
@@ -230,10 +236,11 @@ struct BOOST_AUTO_TC_INVOKER( test_name ) {                             \
     static void run( boost::type<TestType>* = 0 )                       \
     {                                                                   \
         BOOST_TEST_CHECKPOINT('"' << #test_name <<"\" fixture entry."); \
-        test_name<TestType> t;                                          \
+        test_name<TestType> t; boost::unit_test::setup_conditional(t);  \
         BOOST_TEST_CHECKPOINT('"' << #test_name << "\" entry.");        \
         t.test_method();                                                \
         BOOST_TEST_CHECKPOINT('"' << #test_name << "\" exit.");         \
+        boost::unit_test::teardown_conditional(t);                      \
     }                                                                   \
 };                                                                      \
                                                                         \
@@ -241,7 +248,7 @@ BOOST_AUTO_TU_REGISTRAR( test_name )(                                   \
     boost::unit_test::ut_detail::template_test_case_gen<                \
         BOOST_AUTO_TC_INVOKER( test_name ),TL >(                        \
           BOOST_STRINGIZE( test_name ), __FILE__, __LINE__ ),           \
-    boost::unit_test::decorator::collector::instance() );               \
+    boost::unit_test::decorator::collector_t::instance() );             \
                                                                         \
 template<typename type_name>                                            \
 void test_name<type_name>::test_method()                                \
@@ -290,6 +297,22 @@ void BOOST_JOIN( name, _impl )( boost::type<type_name>* )               \
 // ************************************************************************** //
 
 #define BOOST_GLOBAL_FIXTURE( F ) \
+static boost::unit_test::ut_detail::global_configuration_impl<F> BOOST_JOIN( gf_, F ) \
+/**/
+
+// ************************************************************************** //
+// **************      BOOST_TEST_GLOBAL_CONFIGURATION         ************** //
+// ************************************************************************** //
+
+#define BOOST_TEST_GLOBAL_CONFIGURATION( F ) \
+static boost::unit_test::ut_detail::global_configuration_impl<F> BOOST_JOIN( gf_, F ) \
+/**/
+
+// ************************************************************************** //
+// **************         BOOST_TEST_GLOBAL_FIXTURE            ************** //
+// ************************************************************************** //
+
+#define BOOST_TEST_GLOBAL_FIXTURE( F ) \
 static boost::unit_test::ut_detail::global_fixture_impl<F> BOOST_JOIN( gf_, F ) \
 /**/
 
@@ -298,7 +321,7 @@ static boost::unit_test::ut_detail::global_fixture_impl<F> BOOST_JOIN( gf_, F ) 
 // ************************************************************************** //
 
 #define BOOST_TEST_DECORATOR( D )                                       \
-static boost::unit_test::decorator::collector const&                    \
+static boost::unit_test::decorator::collector_t const&                  \
 BOOST_TEST_APPEND_UNIQUE_ID(decorator_collector) = D;                   \
 /**/
 
@@ -322,7 +345,7 @@ typedef ::boost::unit_test::ut_detail::nil_t BOOST_AUTO_TEST_CASE_FIXTURE;
 // ************************************************************************** //
 
 // Facility for having a unique name based on __LINE__ and __COUNTER__ (later if available)
-#if defined(__COUNTER__) 
+#if defined(__COUNTER__)
   #define BOOST_TEST_INTERNAL_HAS_COUNTER
 #endif
 

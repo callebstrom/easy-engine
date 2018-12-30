@@ -45,7 +45,7 @@ inline int execvpe(const char* filename, char * const arg_list[], char* env[])
 
         if (e != nullptr)
         {
-            std::vector<std::string> path; 
+            std::vector<std::string> path;
             boost::split(path, *e, boost::is_any_of(":"));
 
             for (const std::string & pp : path)
@@ -85,7 +85,7 @@ struct on_error_t
     template<typename T>
     void operator()(T & t) const
     {
-           t.on_error(exec, error);
+        t.on_error(exec, error);
     }
 };
 
@@ -157,13 +157,13 @@ struct on_fork_success_t
 };
 
 template<typename Executor> on_setup_t  <Executor> call_on_setup  (Executor & exec) {return exec;}
-template<typename Executor> on_error_t  <Executor> call_on_error  (Executor & exec, const std::error_code & ec) 
+template<typename Executor> on_error_t  <Executor> call_on_error  (Executor & exec, const std::error_code & ec)
 {
     return on_error_t<Executor> (exec, ec);
 }
 template<typename Executor> on_success_t<Executor> call_on_success(Executor & exec) {return exec;}
 
-template<typename Executor> on_fork_error_t  <Executor> call_on_fork_error  (Executor & exec, const std::error_code & ec) 
+template<typename Executor> on_fork_error_t  <Executor> call_on_fork_error  (Executor & exec, const std::error_code & ec)
 {
     return on_fork_error_t<Executor> (exec, ec);
 }
@@ -180,7 +180,7 @@ template<typename Sequence>
 class executor
 {
     template<typename HasHandler, typename UseVFork>
-    void internal_error_handle(const std::error_code &ec, const char* msg, HasHandler, boost::mpl::true_, UseVFork) {}
+    void internal_error_handle(const std::error_code&, const char*, HasHandler, boost::mpl::true_, UseVFork) {}
 
     int _pipe_sink = -1;
 
@@ -233,7 +233,8 @@ class executor
     void check_error(boost::mpl::true_) {};
     void check_error(boost::mpl::false_)
     {
-        throw process_error(_ec, _msg);
+        if (_ec)
+            throw process_error(_ec, _msg);
     }
 
     typedef typename ::boost::process::detail::has_error_handler<Sequence>::type has_error_handler;
@@ -292,10 +293,14 @@ class executor
             auto err = errno;
             if ((err == EBADF) || (err == EPERM))//that should occur on success, therefore return.
                 return;
-            //EAGAIN not yet forked, EINTR interrupted, i.e. try again
+                //EAGAIN not yet forked, EINTR interrupted, i.e. try again
             else if ((err != EAGAIN ) && (err != EINTR))
+            {
+                ::close(source);
                 set_error(std::error_code(err, std::system_category()), "Error read pipe");
+            }
         }
+        ::close(source);
         set_error(ec, std::move(msg));
     }
 
@@ -375,7 +380,10 @@ child executor<Sequence>::invoke(boost::mpl::false_, boost::mpl::false_)
     }
     if (::fcntl(p[1], F_SETFD, FD_CLOEXEC) == -1)
     {
-        set_error(::boost::process::detail::get_last_error(), "fcntl(2) failed");
+        auto err = ::boost::process::detail::get_last_error();
+        ::close(p[0]);
+        ::close(p[1]);
+        set_error(err, "fcntl(2) failed");
         return child();
     }
     _ec.clear();
@@ -419,11 +427,8 @@ child executor<Sequence>::invoke(boost::mpl::false_, boost::mpl::false_)
 
     child c(child_handle(pid), exit_status);
 
-
-
     ::close(p[1]);
     _read_error(p[0]);
-    ::close(p[0]);
 
     if (_ec)
     {
