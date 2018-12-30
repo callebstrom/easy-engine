@@ -23,6 +23,7 @@ namespace easy_engine {
 	namespace render_manager {
 
 		class EASY_ENGINE_API RenderManagerOpenGL : public RenderManager, public event_manager::IObserver {
+
 		public:
 			RenderManagerOpenGL(configuration::RenderConfiguration_t* rc);
 			RenderManagerOpenGL::~RenderManagerOpenGL();
@@ -31,11 +32,12 @@ namespace easy_engine {
 
 			void Render(renderable::Renderable* renderable) override;
 			void UpdateCameraAngle(double x, double y) override;
-			void OnNodeRenderable(event_manager::Event* event);
+			void OnNodeRenderable(event_manager::Event event) override;
+			void OnPostRender(event_manager::Event event) {};
 
 		private:
 			std::vector<GLfloat> vertex_buffer_data_;
-			void GetRenderInfo();
+			void LogRenderInfo();
 			void LoadShaders();
 			void GenerateObjectIndex(renderable::Renderable* renderable);
 			static void ToGLMVertices(Eigen::Matrix<float, -1, 3, Eigen::RowMajor>& from_vertices, std::vector<glm::vec4>& to_vertices);

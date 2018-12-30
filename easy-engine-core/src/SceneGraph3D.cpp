@@ -6,15 +6,18 @@ namespace easy_engine {
 		void SceneGraph3D::traverse() {
 			for (Node* node : this->root->nodes) {
 				if (node->node_type == NODE_TYPE::RENDERABLE) {
-
 					event_manager::Event render_event = event_manager::Event();
-					render_event.data = static_cast<RenderableNode*>(node)->renderable_;
+					renderable::Renderable* renderable = static_cast<RenderableNode*>(node)->renderable_;
+					render_event.data = renderable;
 					render_event.event_type = event_manager::EventType::NodeRenderable;
+					render_event.message_id = atoi(renderable->name.c_str());
 					ManagerLocator::event_manager->Dispatch(render_event);
-
-					ManagerLocator::render_manager->Render(static_cast<RenderableNode*>(node)->renderable_);
 				}
 			}
+
+			event_manager::Event post_render_event = event_manager::Event();
+			post_render_event.event_type = event_manager::EventType::PostRender;
+			ManagerLocator::event_manager->Dispatch(post_render_event);
 		};
 	}
 }

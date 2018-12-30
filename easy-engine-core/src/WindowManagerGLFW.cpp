@@ -83,6 +83,21 @@ namespace easy_engine {
 
 		}
 
+		void WindowManagerGLFW::OnPostRender(event_manager::Event event) {
+			this->SwapBuffers();
+		}
+
+		void WindowManagerGLFW::OnNodeRenderable(event_manager::Event event) {
+		}
+
+		WindowManagerGLFW::WindowManagerGLFW() {
+			ManagerLocator::event_manager->Subscribe(
+				event_manager::EventType::PostRender,
+				this,
+				(Callback)&WindowManagerGLFW::OnPostRender
+			);
+		}
+
 		WindowManagerGLFW::~WindowManagerGLFW() {
 			glfwTerminate();
 		}

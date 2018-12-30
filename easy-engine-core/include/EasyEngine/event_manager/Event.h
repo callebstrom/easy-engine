@@ -6,8 +6,8 @@ namespace easy_engine {
 	namespace event_manager {
 		enum class EventType {
 			GlobalTick,
-			Rendered,
 			NodeRenderable,
+			PostRender,
 			KeyPressed,
 			KeyReleased,
 			MouseButtonPressed,

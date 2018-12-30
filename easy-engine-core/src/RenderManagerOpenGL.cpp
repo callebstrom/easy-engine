@@ -47,6 +47,8 @@ namespace easy_engine {
 				this,
 				(Callback) &RenderManagerOpenGL::OnNodeRenderable
 			);
+
+			this->LogRenderInfo();
 		};
 
 		RenderManagerOpenGL::~RenderManagerOpenGL() {
@@ -98,13 +100,14 @@ namespace easy_engine {
 			glDrawElements(GL_TRIANGLES, object_index.ebo_size, GL_UNSIGNED_SHORT, NULL);
 		}
 
-		void RenderManagerOpenGL::OnNodeRenderable(event_manager::Event* event) {
-			EE_CORE_TRACE("Got NodeRenderable event");
+		void RenderManagerOpenGL::OnNodeRenderable(event_manager::Event event) {
+			renderable::Renderable* renderable = static_cast<renderable::Renderable*>(event.data);
+			this->Render(renderable);
 		}
 
-		void RenderManagerOpenGL::GetRenderInfo() {
-			EE_CORE_TRACE("Renderer: " + std::string(reinterpret_cast<char*>(const_cast<GLubyte*>(glGetString(GL_RENDERER)))));
-			EE_CORE_TRACE("OpenGL version supported: " + std::string(reinterpret_cast<char*>(const_cast<GLubyte*>(glGetString(GL_VERSION)))));
+		void RenderManagerOpenGL::LogRenderInfo() {
+			EE_CORE_INFO("Renderer: {}", std::string(reinterpret_cast<char*>(const_cast<GLubyte*>(glGetString(GL_RENDERER)))));
+			EE_CORE_INFO("OpenGL version supported: {}", std::string(reinterpret_cast<char*>(const_cast<GLubyte*>(glGetString(GL_VERSION)))));
 		}
 
 		// TODO this should be handled by WindowManager using glfwSetWindowUserPointer

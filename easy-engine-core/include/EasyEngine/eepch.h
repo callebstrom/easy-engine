@@ -12,6 +12,7 @@
 #include <thread>
 #include <typeinfo>
 #include <vector>
+#include <queue>
 
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/base_object.hpp>

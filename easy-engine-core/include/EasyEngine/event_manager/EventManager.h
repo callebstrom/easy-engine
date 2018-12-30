@@ -10,7 +10,7 @@ namespace easy_engine {
 	namespace event_manager {
 
 		class EASY_ENGINE_API EventManager {
-
+			 
 			class EventDelegate {
 				public: 
 					IObserver* observer;
@@ -28,7 +28,7 @@ namespace easy_engine {
 
 			private:
 				std::map<EventType, std::vector<EventDelegate>> event_delegates_;
-				std::map<EventType, std::vector<Event>> event_buffer_; // to be consumed during given phases of the game loop
+				std::map<EventType, std::queue<Event>> event_buffer_; // to be consumed during given phases of the game loop
 		};
 
 	}

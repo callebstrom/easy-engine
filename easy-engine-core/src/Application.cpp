@@ -6,6 +6,8 @@ namespace easy_engine {
 	Application::Application() {
 
 		logger::Logger::Init();
+		this->event_manager = new event_manager::EventManager();
+		ManagerLocator::event_manager = this->event_manager;
 
 		configuration::RenderConfiguration_t* render_configuration = new configuration::RenderConfiguration_t();
 		render_configuration->Set(configuration::RenderConfigurationParams::RESOLUTION_X, "1920");
@@ -18,7 +20,6 @@ namespace easy_engine {
 		window_configuration->Set(configuration::WindowConfigurationParams::WIDTH, "1920");
 		window_configuration->Set(configuration::WindowConfigurationParams::HEIGHT, "1080");
 
-		this->event_manager = new event_manager::EventManager();
 		this->scene_manager_3d = new scene_manager::SceneManager3D();
 		this->resource_manager_3d = new resource_manager::ResourceManager3D();
 		this->input_manager = new input_manager::InputManager();
@@ -41,9 +42,7 @@ namespace easy_engine {
 			this->input_manager->PollEvents();
 			this->scene_manager_3d->RenderScene();
 			this->event_manager->ConsumeEventBuffer(event_manager::EventType::NodeRenderable);
-			this->event_manager->ConsumeEventBuffer(event_manager::EventType::Rendered);
-			this->window_manager->SwapBuffers(); // should be triggered on post-render
-
+			this->event_manager->ConsumeEventBuffer(event_manager::EventType::PostRender);
 		}
 	}
 
