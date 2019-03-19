@@ -30,7 +30,8 @@
     <ClInclude Include="include\EasyEngine\Application.h" />
     <ClInclude Include="include\EasyEngine\components\Render3DComponent.h" />
     <ClInclude Include="include\EasyEngine\components\TransformComponent.h" />
-    <ClInclude Include="include\EasyEngine\component_manager\IComponentManager.h" />
+    <ClInclude Include="include\EasyEngine\component_manager\AbstractComponentManager.h" />
+    <ClInclude Include="include\EasyEngine\component_manager\ComponentManager.h" />
     <ClInclude Include="include\EasyEngine\eepch.h" />
     <ClInclude Include="include\EasyEngine\configuration\Configuration.h" />
     <ClInclude Include="include\EasyEngine\configuration\RenderConfiguration.h" />
@@ -43,6 +44,7 @@
     <ClInclude Include="include\EasyEngine\event_manager\EventManager.h" />
     <ClInclude Include="include\EasyEngine\event_manager\IObserver.h" />
     <ClInclude Include="include\EasyEngine\input_manager\InputManager.h" />
+    <ClInclude Include="include\EasyEngine\ISystem.h" />
     <ClInclude Include="include\EasyEngine\Logger.h" />
     <ClInclude Include="include\EasyEngine\ManagerLocator.h" />
     <ClInclude Include="include\EasyEngine\renderable\Renderable.h" />
@@ -72,6 +74,7 @@
   <ItemGroup>
     <ClCompile Include="include\EasyEngine\event_manager\EventManager.cpp" />
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\ComponentManager.cpp" />
     <ClCompile Include="src\eepch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EasyEngine\eepch.h</PrecompiledHeaderFile>

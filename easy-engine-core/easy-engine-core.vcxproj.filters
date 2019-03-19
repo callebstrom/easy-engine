@@ -189,9 +189,6 @@
     <ClInclude Include="include\EasyEngine\entity\Entity.h">
       <Filter>Header Files\entity</Filter>
     </ClInclude>
-    <ClInclude Include="include\EasyEngine\component_manager\IComponentManager.h">
-      <Filter>Header Files\component_manager</Filter>
-    </ClInclude>
     <ClInclude Include="include\EasyEngine\components\TransformComponent.h">
       <Filter>Header Files\component</Filter>
     </ClInclude>
@@ -203,6 +200,15 @@
     </ClInclude>
     <ClInclude Include="include\EasyEngine\entity\EntityHandle.h">
       <Filter>Header Files\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\ISystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\component_manager\ComponentManager.h">
+      <Filter>Header Files\component_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\component_manager\AbstractComponentManager.h">
+      <Filter>Header Files\component_manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -268,6 +274,9 @@
     </ClCompile>
     <ClCompile Include="src\World.cpp">
       <Filter>Source Files\world</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ComponentManager.cpp">
+      <Filter>Source Files\component_manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

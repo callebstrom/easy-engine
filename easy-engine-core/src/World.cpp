@@ -26,10 +26,14 @@ namespace easy_engine {
 		}
 
 		template<typename ComponentType>
-		component_manager::IComponentManager<ComponentType>* World::GetComponentManager()
+		component_manager::ComponentManager<ComponentType>* World::GetComponentManager()
 		{
 			return nullptr_t;
 		}
+
+		void World::Update(float dt) {
+
+		};
 	}
 
 }
