@@ -23,6 +23,7 @@ namespace easy_engine {
 
 			public:
 				void Subscribe(EventType event_type, IObserver* observer, Callback callback);
+				void Unsubscribe(EventType event_type, IObserver* observer, Callback callback);
 				void Dispatch(Event event);
 				void ConsumeEventBuffer(EventType eventType);
 

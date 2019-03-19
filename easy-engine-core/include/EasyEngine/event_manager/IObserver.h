@@ -1,6 +1,6 @@
-#pragma once
 #ifndef I_OBSERVER_H
 #define I_OBSERVER_H
+#pragma once
 
 #include <EasyEngine/event_manager/Event.h>
 

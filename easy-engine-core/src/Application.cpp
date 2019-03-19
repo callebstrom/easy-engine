@@ -43,6 +43,9 @@ namespace easy_engine {
 			this->scene_manager_3d->RenderScene();
 			this->event_manager->ConsumeEventBuffer(event_manager::EventType::NodeRenderable);
 			this->event_manager->ConsumeEventBuffer(event_manager::EventType::PostRender);
+			event_manager::Event event = event_manager::Event();
+			event.event_type = event_manager::EventType::GlobalTick;
+			this->event_manager->Dispatch(event);
 		}
 	}
 

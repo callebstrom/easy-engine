@@ -1,4 +1,3 @@
-
 #include <EasyEngine/eepch.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/std_image.h>
@@ -24,9 +23,9 @@ namespace easy_engine {
 			int width, height, bpp;
 			stbi_load(file_path.c_str(), &width, &height, &bpp, 4);
 
-			texture->SetWidth(width);
-			texture->SetHeight(height);
-			texture->SetBitsPerPixel(bpp);
+			texture->width = width;
+			texture->height = height;
+			texture->bitsPerPixel = bpp;
 
 			return std::shared_ptr<Texture>(texture);
 		}

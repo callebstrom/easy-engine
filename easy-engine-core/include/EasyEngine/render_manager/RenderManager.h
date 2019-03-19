@@ -2,8 +2,6 @@
 #define RENDER_MANAGER_H
 #pragma once
 
-#include <vector>
-
 #include <Eigen/Core>
 
 #include <EasyEngine/renderable/Renderable.h>

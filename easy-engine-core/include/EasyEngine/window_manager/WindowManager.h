@@ -1,6 +1,7 @@
 #pragma once
 
-#include <EasyEngine/configuration/WindowConfiguration.h>
+#include <EasyEngine/configuration/WindowConfiguration.h>
+
 namespace easy_engine {
 	namespace window_manager {
 		class EASY_ENGINE_API WindowManager {

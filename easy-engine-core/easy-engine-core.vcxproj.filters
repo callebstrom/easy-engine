@@ -61,6 +61,24 @@
     <Filter Include="Source Files\event_manager">
       <UniqueIdentifier>{8009a8a5-e365-4beb-8d4c-0153a8663251}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\component_manager">
+      <UniqueIdentifier>{ec7af3d5-8334-4113-a10b-d6ee048b0f7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\entity">
+      <UniqueIdentifier>{5a2f0834-76b3-4ed3-b959-49848d275f59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\component_manager">
+      <UniqueIdentifier>{6cc0512f-022d-47f2-8df6-e6f801813d21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\component">
+      <UniqueIdentifier>{ac96e0b2-29c3-41a5-bca7-68f06e861f1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\world">
+      <UniqueIdentifier>{7c38175f-806c-45e0-8591-45ed9ff15151}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\world">
+      <UniqueIdentifier>{075cb61f-9ab6-4721-abf8-b551f285102b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\EasyEngine\configuration\RenderConfiguration.h">
@@ -168,6 +186,24 @@
     <ClInclude Include="include\EasyEngine\event_manager\IObserver.h">
       <Filter>Header Files\event_manager</Filter>
     </ClInclude>
+    <ClInclude Include="include\EasyEngine\entity\Entity.h">
+      <Filter>Header Files\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\component_manager\IComponentManager.h">
+      <Filter>Header Files\component_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\components\TransformComponent.h">
+      <Filter>Header Files\component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\components\Render3DComponent.h">
+      <Filter>Header Files\component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\world\World.h">
+      <Filter>Header Files\world</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\entity\EntityHandle.h">
+      <Filter>Header Files\entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RenderManagerOpenGL.cpp">
@@ -229,6 +265,9 @@
     </ClCompile>
     <ClCompile Include="include\EasyEngine\event_manager\EventManager.cpp">
       <Filter>Source Files\event_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\World.cpp">
+      <Filter>Source Files\world</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

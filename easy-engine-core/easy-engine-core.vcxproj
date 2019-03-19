@@ -28,11 +28,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\EasyEngine\Application.h" />
+    <ClInclude Include="include\EasyEngine\components\Render3DComponent.h" />
+    <ClInclude Include="include\EasyEngine\components\TransformComponent.h" />
+    <ClInclude Include="include\EasyEngine\component_manager\IComponentManager.h" />
     <ClInclude Include="include\EasyEngine\eepch.h" />
     <ClInclude Include="include\EasyEngine\configuration\Configuration.h" />
     <ClInclude Include="include\EasyEngine\configuration\RenderConfiguration.h" />
     <ClInclude Include="include\EasyEngine\configuration\WindowConfiguration.h" />
     <ClInclude Include="include\EasyEngine\EasyEngine.h" />
+    <ClInclude Include="include\EasyEngine\entity\Entity.h" />
+    <ClInclude Include="include\EasyEngine\entity\EntityHandle.h" />
     <ClInclude Include="include\EasyEngine\EntryPoint.h" />
     <ClInclude Include="include\EasyEngine\event_manager\Event.h" />
     <ClInclude Include="include\EasyEngine\event_manager\EventManager.h" />
@@ -62,6 +67,7 @@
     <ClInclude Include="include\EasyEngine\window_manager\InputCallbackGLFW.h" />
     <ClInclude Include="include\EasyEngine\window_manager\WindowManager.h" />
     <ClInclude Include="include\EasyEngine\window_manager\WindowManagerGLFW.h" />
+    <ClInclude Include="include\EasyEngine\world\World.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\EasyEngine\event_manager\EventManager.cpp" />
@@ -91,6 +97,7 @@
     <ClCompile Include="src\SceneManager3D.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\WindowManagerGLFW.cpp" />
+    <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\fragment_shader.glsl" />
@@ -106,45 +113,45 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C70CAC80-3B82-456D-88D2-D2216A7A9624}</ProjectGuid>
     <RootNamespace>EasyEngine</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>easy-engine-core</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug tools|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug tools|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>

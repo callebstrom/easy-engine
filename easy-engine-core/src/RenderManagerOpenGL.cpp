@@ -83,12 +83,12 @@ namespace easy_engine {
 			renderable::Texture* texture = renderable->GetTexture().get();
 
 			if (texture != nullptr) {
-				glBindTexture(GL_TEXTURE_2D, texture->GetRendererId());
+				glBindTexture(GL_TEXTURE_2D, texture->renderer_id);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->GetWidth(), texture->GetHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->GetRaw());
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width, texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->raw);
 				glBindTexture(GL_TEXTURE_2D, 0);
 			}
 
@@ -118,7 +118,7 @@ namespace easy_engine {
 			float deltaTime = float(currentTime - lastTime);
 
 			// position
-			glm::vec3 position = glm::vec3(0, 0, 10);
+			glm::vec3 position = glm::vec3(0, 0, 20);
 
 			// horizontal angle : toward -Z
 			float horizontalAngle = 3.14f;
@@ -242,7 +242,7 @@ namespace easy_engine {
 			if (renderable->GetTexture().get() != nullptr) {
 				GLuint renderer_id;
 				glGenTextures(1, &renderer_id);
-				renderable->GetTexture()->SetRendererId(renderer_id);
+				renderable->GetTexture()->renderer_id = renderer_id;
 			}
 
 		}
