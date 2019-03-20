@@ -13,9 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\unit">
+      <UniqueIdentifier>{c76b1264-37dc-4362-bcbd-d35687d4177b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\integration">
+      <UniqueIdentifier>{982e4574-e402-481d-af91-e19ade9500b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\unit\WorldTest.cpp">
+      <Filter>Source Files\unit</Filter>
+    </ClCompile>
     <ClCompile Include="src\StaticSceneTest.cpp">
+      <Filter>Source Files\integration</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EasyEngineTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

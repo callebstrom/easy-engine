@@ -4,7 +4,8 @@
 
 namespace easy_engine {
 	namespace world {
-		entity::EntityHandle World::CreateEntity() {
+		entity::EntityHandle World::CreateEntity()
+		{
 			entity::Entity entity = entity::Entity(this->entity_id_seq_++);
 			this->entities_.push_back(entity);
 			entity::EntityHandle entity_handle = entity::EntityHandle();
@@ -21,8 +22,16 @@ namespace easy_engine {
 		}
 
 		template<typename Component>
-		void World::AddComponent(entity::Entity* entity, Component component) {
+		void World::AddComponent(entity::Entity* entity, Component component)
+		{
 			return nullptr_t;
+		}
+
+		template<typename Component, typename ...Args>
+		OrderedTypeMap<Component> World::GetComponentsByType(Component component, Args ...types)
+		{
+			static auto const& orderedTypeMap = new OrderedTypeMap<Component>();
+		
 		}
 
 		template<typename ComponentType>
@@ -31,7 +40,8 @@ namespace easy_engine {
 			return nullptr_t;
 		}
 
-		void World::Update(float dt) {
+		void World::Update(float dt)
+		{
 
 		};
 	}

@@ -13,6 +13,9 @@
 #include <typeinfo>
 #include <vector>
 #include <queue>
+#include <typeinfo>
+#include <typeindex>
+#include <future>
 
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/base_object.hpp>
@@ -26,6 +29,9 @@
 
 typedef unsigned char byte;
 typedef unsigned short ushort_t;
+
+template<typename OrderedDataType>
+using OrderedTypeMap = std::map<std::type_index, std::vector<OrderedDataType>>;
 
 #endif // !COMMON_H
 

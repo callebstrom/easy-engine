@@ -9,7 +9,7 @@ namespace easy_engine {
 
 		class Entity;
 
-		class EntityHandle {
+		class EASY_ENGINE_API EntityHandle {
 
 		public:
 

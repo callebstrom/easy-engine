@@ -4,7 +4,6 @@
 namespace easy_engine {
 
 	Application::Application() {
-
 		logger::Logger::Init();
 		this->event_manager = new event_manager::EventManager();
 		ManagerLocator::event_manager = this->event_manager;
@@ -33,6 +32,7 @@ namespace easy_engine {
 	}
 
 	Application::~Application() {
+
 	}
 
 	void Application::Run() {
@@ -47,6 +47,16 @@ namespace easy_engine {
 			event.event_type = event_manager::EventType::GlobalTick;
 			this->event_manager->Dispatch(event);
 		}
+	}
+
+	std::future<void> Application::RunAsync() {
+		return std::async([this]() {
+			this->Run();
+		});
+	}
+
+	void Application::Close() {
+		this->is_running_ = false;
 	}
 
 }

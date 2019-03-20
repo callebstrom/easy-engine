@@ -13,6 +13,8 @@
 #include <EasyEngine/renderable/Renderable.h>
 #include <EasyEngine/ManagerLocator.h>
 #include <EasyEngine/window_manager/WindowManagerGLFW.h>
+#include <EasyEngine/world/World.h>
+#include <EasyEngine/entity/EntityHandle.h>
 
 namespace easy_engine {
 	class EASY_ENGINE_API Application {
@@ -20,6 +22,8 @@ namespace easy_engine {
 			Application();
 			virtual ~Application();
 			void Run();
+			void Close();
+			std::future<void> RunAsync();
 		protected:
 			scene_manager::SceneManager3D* scene_manager_3d;
 			resource_manager::ResourceManager3D* resource_manager_3d;
