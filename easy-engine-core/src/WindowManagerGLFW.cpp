@@ -60,6 +60,10 @@ namespace easy_engine {
 			}
 		};
 
+		void WindowManagerGLFW::CloseWindowEE() {
+			glfwDestroyWindow(this->window_);
+		}
+
 		void WindowManagerGLFW::SwapBuffers() {
 			glfwSwapBuffers(this->window_);
 		}

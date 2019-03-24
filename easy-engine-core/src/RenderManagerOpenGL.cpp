@@ -166,6 +166,18 @@ namespace easy_engine {
 		}
 
 		void RenderManagerOpenGL::GenerateObjectIndex(renderable::Renderable* renderable_) {
+			if (glGenVertexArrays == NULL) {
+				EE_CORE_CRITICAL("glGenVertexArrays is not supported");
+				throw new std::runtime_error("glGenVertexArrays is not supported");
+			}
+
+			{
+				const void* address = static_cast<const void*>(glGenVertexArrays);
+				std::stringstream ss;
+				ss << address;
+				std::string glGenVertexArraysAddr = ss.str();
+				EE_CORE_TRACE("glGenVertexArrays [" + glGenVertexArraysAddr + "]");
+			}
 
 			renderable::Renderable3D* renderable = static_cast<renderable::Renderable3D*>(renderable_);
 			ObjectIndex object_index;

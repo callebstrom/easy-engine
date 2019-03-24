@@ -20,10 +20,11 @@ namespace easy_engine {
 				void WindowManager::CreateWindowEE(configuration::WindowConfiguration_t* configuration) override;
 				void OnPostRender(event_manager::Event event);
 				void OnNodeRenderable(event_manager::Event event) override;
+				void CloseWindowEE() override;
+				void SwapBuffers() override;
 				WindowManagerGLFW();
 				~WindowManagerGLFW();
 			private:
-				void SwapBuffers();
 				GLFWwindow* window_;
 				void UpdateFpsCounter();
 		};

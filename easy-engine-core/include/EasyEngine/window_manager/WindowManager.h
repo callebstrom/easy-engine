@@ -10,6 +10,7 @@ namespace easy_engine {
 
 			public:
 				virtual void CreateWindowEE(configuration::WindowConfiguration_t* configuration) = 0;
+				virtual void CloseWindowEE() = 0;
 				virtual void SwapBuffers() = 0;
 		};
 	}

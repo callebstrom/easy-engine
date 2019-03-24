@@ -1,6 +1,7 @@
 #include <EasyEngine/eepch.h>
 #include <EasyEngine/world/World.h>
 #include <EasyEngine/entity/EntityHandle.h>
+#include <EasyEngine/entity/Entity.h>
 
 namespace easy_engine {
 	namespace world {
@@ -14,16 +15,21 @@ namespace easy_engine {
 			return entity_handle;
 		}
 
-		void World::RemoveEntity(entity::Entity * entity)
+		void World::RemoveEntity(entity::Entity const &entity)
 		{
 		}
-		void World::RemoveComponent(entity::Entity * entity)
+		void World::RemoveComponent(entity::Entity const &entity)
 		{
 		}
 
 		template<typename Component>
-		void World::AddComponent(entity::Entity* entity, Component component)
+		void World::AddComponent(entity::Entity const &entity, Component component)
 		{
+			/** TODO register entity in correct ISystem if all ComponentTypes are met for entity.
+			 *  Add component to correct component manager
+			 */
+
+			this->component_managers_[std::type_index(typeid(component))] = component;
 			return nullptr_t;
 		}
 
@@ -43,6 +49,11 @@ namespace easy_engine {
 		void World::Update(float dt)
 		{
 
+		}
+
+		void World::AddSystem(std::unique_ptr<ISystem> system)
+		{
+			this->systems_.push_back(std::move(system).get());
 		};
 	}
 

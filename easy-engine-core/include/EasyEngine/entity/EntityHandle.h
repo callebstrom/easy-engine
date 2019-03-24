@@ -2,9 +2,12 @@
 #define ENTITY_HANDLE_H
 #pragma once
 
-#include <EasyEngine/world/World.h>
-
 namespace easy_engine {
+
+	namespace world {
+		class World;
+	}
+
 	namespace entity {
 
 		class Entity;
@@ -17,17 +20,17 @@ namespace easy_engine {
 			world::World* world;
 
 			void destroy() {
-				this->world->RemoveEntity(entity);
+				this->world->RemoveEntity(*entity);
 			}
 
 			template<typename ComponentType>
 			void AddComponent(ComponentType c) {
-				this->world->AddComponent(entity, c);
+				this->world->AddComponent(*entity, c);
 			}
 
 			template<typename ComponentType>
 			void RemoveComponent() {
-				this->world->RemoveComponent<ComponentType>(entity);
+				this->world->RemoveComponent<ComponentType>(*entity);
 			}
 
 			

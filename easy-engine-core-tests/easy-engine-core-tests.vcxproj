@@ -194,6 +194,9 @@
     <ClCompile Include="src\StaticSceneTest.cpp" />
     <ClCompile Include="src\unit\WorldTest.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\StaticSceneTest.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

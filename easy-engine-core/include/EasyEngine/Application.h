@@ -15,6 +15,7 @@
 #include <EasyEngine/window_manager/WindowManagerGLFW.h>
 #include <EasyEngine/world/World.h>
 #include <EasyEngine/entity/EntityHandle.h>
+#include <EasyEngine/ISystem.h>
 
 namespace easy_engine {
 	class EASY_ENGINE_API Application {

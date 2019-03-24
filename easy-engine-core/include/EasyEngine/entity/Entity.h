@@ -4,7 +4,7 @@
 
 namespace easy_engine {
 	namespace entity {
-		class Entity {
+		class EASY_ENGINE_API Entity {
 		public:
 			float id;
 			Entity(float id) { this->id = id; }
