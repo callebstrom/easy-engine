@@ -4,7 +4,10 @@
 
 #include <EasyEngine/event_manager/Event.h>
 #include <EasyEngine/event_manager/IObserver.h>
+
+#ifdef DLLDIR_EX
 #include <EasyEngine/Logger.h>
+#endif
 
 namespace easy_engine {
 	namespace event_manager {

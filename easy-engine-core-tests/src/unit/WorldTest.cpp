@@ -14,7 +14,7 @@ BOOST_AUTO_TEST_CASE(create_entity_id_sequence)
 	BOOST_CHECK_EQUAL(entityHandle.world, world);
 }
 
-struct TestComponent {
+struct TestComponent : public component::IComponent {
 	int x, y = 25;
 };
 
@@ -33,7 +33,12 @@ BOOST_AUTO_TEST_CASE(get_components_by_type)
 	world->AddSystem(std::move(testSystem));
 
 	auto entity = world->CreateEntity();
-	world->AddComponent<TestComponent>(*entity.entity, TestComponent());
+
+	// TODO should be created on the fly in world if given ComponentManager does not exist yet
+	auto component_manager = std::unique_ptr<component_manager::ComponentManager>(new component_manager::ComponentManager());
+
+	world->AddComponentManager<TestComponent>(std::move(component_manager));
+	world->AddComponent<TestComponent>(entity.entity, std::unique_ptr<TestComponent>(new TestComponent()));
 
 	BOOST_CHECK_EQUAL(entity.world, world);
 }

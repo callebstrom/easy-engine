@@ -2,7 +2,7 @@
 #define COMPONENT_MANAGER_H
 #pragma once
 
-#include <EasyEngine/component_manager/AbstractComponentManager.h>
+#include <EasyEngine/components/IComponent.h>
 
 namespace easy_engine {
 
@@ -11,13 +11,21 @@ namespace easy_engine {
 	}
 
 	namespace component_manager {
-		template <typename Component>
-		class ComponentManager : public AbstractComponentManager {
+		class EASY_ENGINE_API ComponentManager {
 		public:
-			void RegisterEntity(entity::Entity& entity, Component&& component);
+			ComponentManager() = default;
+			virtual ~ComponentManager() = default;
+			ComponentManager(const ComponentManager&) = default;
+			ComponentManager& operator=(const ComponentManager&) = default;
+			ComponentManager(ComponentManager&&) = default;
+			ComponentManager& operator=(ComponentManager&&) = default;
+
+			void RegisterEntity(entity::Entity* entity, std::unique_ptr<component::IComponent> component);
 		protected:
+			// Maps component index with a given entity
 			std::map<int, entity::Entity*> registered_entities_;
-			std::vector<Component> registered_components_;
+			// Holds all components of the type associated with a given ComponentManager
+			std::vector<component::IComponent*> registered_components_ = std::vector<component::IComponent*>();
 		};
 	}
 }

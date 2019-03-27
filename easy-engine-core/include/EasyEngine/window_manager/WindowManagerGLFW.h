@@ -4,9 +4,12 @@
 
 #include <EasyEngine/window_manager/WindowManager.h>
 #include <EasyEngine/ManagerLocator.h>
-#include <EasyEngine/Logger.h>
 #include <EasyEngine/window_manager/InputCallbackGLFW.h>
 #include <EasyEngine/event_manager/IObserver.h>
+
+#ifdef DLLDIR_EX
+#include <EasyEngine/Logger.h>
+#endif
 
 namespace easy_engine {
 	namespace window_manager {

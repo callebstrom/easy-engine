@@ -36,9 +36,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\EasyEngine\Application.h" />
+    <ClInclude Include="include\EasyEngine\components\IComponent.h" />
     <ClInclude Include="include\EasyEngine\components\Render3DComponent.h" />
     <ClInclude Include="include\EasyEngine\components\TransformComponent.h" />
-    <ClInclude Include="include\EasyEngine\component_manager\AbstractComponentManager.h" />
     <ClInclude Include="include\EasyEngine\component_manager\ComponentManager.h" />
     <ClInclude Include="include\EasyEngine\eepch.h" />
     <ClInclude Include="include\EasyEngine\configuration\Configuration.h" />
@@ -285,6 +285,7 @@
       <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS</AdditionalOptions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -307,6 +308,7 @@
       <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS</AdditionalOptions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -329,6 +331,7 @@
       <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS</AdditionalOptions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -362,6 +365,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

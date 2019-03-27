@@ -3,9 +3,8 @@
 
 namespace easy_engine {
 	namespace component_manager {
-		template<typename Component>
-		void ComponentManager<Component>::RegisterEntity(entity::Entity& entity, Component&& component) {
-			this->registered_components_.push_back(component);
+		void ComponentManager::RegisterEntity(entity::Entity* entity, std::unique_ptr<component::IComponent> component) {
+			this->registered_components_.push_back(std::move(component).get());
 			this->registered_entities_[this->registered_components_.size() - 1] = entity;
 		}
 	}

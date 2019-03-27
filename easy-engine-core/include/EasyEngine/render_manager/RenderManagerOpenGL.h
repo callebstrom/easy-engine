@@ -12,11 +12,14 @@
 #include <boost/lexical_cast.hpp>
 
 #include <EasyEngine/event_manager/IObserver.h>
-#include <EasyEngine/Logger.h>
 #include <EasyEngine/render_manager/RenderManager.h>
 #include <EasyEngine/renderable/Renderable3D.h>
 #include <EasyEngine/render_manager/ObjectIndex.h>
 #include <EasyEngine/ManagerLocator.h>
+
+#ifdef DLLDIR_EX
+#include <EasyEngine/Logger.h>
+#endif
 
 namespace easy_engine {
 
@@ -26,7 +29,6 @@ namespace easy_engine {
 
 		public:
 			RenderManagerOpenGL(configuration::RenderConfiguration_t* rc);
-			RenderManagerOpenGL::~RenderManagerOpenGL();
 
 			static std::vector<glm::vec3> ComputeNormals(renderable::Renderable3D* renderable);
 
@@ -36,6 +38,7 @@ namespace easy_engine {
 			void OnPostRender(event_manager::Event event) {};
 
 		private:
+			~RenderManagerOpenGL();
 			std::vector<GLfloat> vertex_buffer_data_;
 			void LogRenderInfo();
 			void LoadShaders();

@@ -1,3 +1,6 @@
 [submodule "easy-engine-core/include/spdlog_complete"]
 	path = easy-engine-core/include/spdlog_complete
 	url = git@github.com:gabime/spdlog.git
+[submodule "easy-engine-script-bindings/include/ChaiScript"]
+	path = easy-engine-script-bindings/include/ChaiScript
+	url = git@github.com:ChaiScript/ChaiScript.git

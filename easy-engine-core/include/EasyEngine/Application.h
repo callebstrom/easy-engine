@@ -16,6 +16,8 @@
 #include <EasyEngine/world/World.h>
 #include <EasyEngine/entity/EntityHandle.h>
 #include <EasyEngine/ISystem.h>
+#include <EasyEngine/components/IComponent.h>
+#include <EasyEngine/component_manager/ComponentManager.h>
 
 namespace easy_engine {
 	class EASY_ENGINE_API Application {

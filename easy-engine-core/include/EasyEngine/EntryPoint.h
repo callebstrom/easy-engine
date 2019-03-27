@@ -7,7 +7,7 @@
 
 extern easy_engine::Application* easy_engine::CreateApplication();
 
-#ifndef EE_TESTS
+#ifndef NO_ENTRYPOINT
 int main(int argc, char** argv) {
 	auto app = easy_engine::CreateApplication();
 	app->Run();

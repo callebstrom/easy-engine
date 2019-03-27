@@ -8,10 +8,9 @@ namespace easy_engine {
 	namespace event_manager {
 		class EASY_ENGINE_API IObserver {
 			friend class EventManager;
-
-			protected:
-				virtual void OnNodeRenderable(event_manager::Event event) = 0;
-				virtual void OnPostRender(event_manager::Event event) = 0;
+		protected:
+			virtual void OnNodeRenderable(event_manager::Event event) = 0;
+			virtual void OnPostRender(event_manager::Event event) = 0;
 		};
 
 	}

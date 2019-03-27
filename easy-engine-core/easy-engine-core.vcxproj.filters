@@ -207,8 +207,8 @@
     <ClInclude Include="include\EasyEngine\component_manager\ComponentManager.h">
       <Filter>Header Files\component_manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\EasyEngine\component_manager\AbstractComponentManager.h">
-      <Filter>Header Files\component_manager</Filter>
+    <ClInclude Include="include\EasyEngine\components\IComponent.h">
+      <Filter>Header Files\component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,9 @@
 #include <EasyEngine/renderable/Renderable.h>
 #include <EasyEngine/scene_manager/SceneGraph.h>
 
+#ifdef DLLDIR_EX
 #include <EasyEngine/Logger.h>
+#endif
 
 class SceneGraph;
 

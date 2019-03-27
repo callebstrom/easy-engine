@@ -2,6 +2,8 @@
 #include <EasyEngine/world/World.h>
 #include <EasyEngine/entity/EntityHandle.h>
 #include <EasyEngine/entity/Entity.h>
+#include <EasyEngine/components/IComponent.h>
+#include <EasyEngine/component_manager/ComponentManager.h>
 
 namespace easy_engine {
 	namespace world {
@@ -18,32 +20,11 @@ namespace easy_engine {
 		void World::RemoveEntity(entity::Entity const &entity)
 		{
 		}
-		void World::RemoveComponent(entity::Entity const &entity)
-		{
-		}
 
-		template<typename Component>
-		void World::AddComponent(entity::Entity const &entity, Component component)
+		template<typename ComponentType, typename std::enable_if<std::is_base_of<component::IComponent, ComponentType>::value>::type*>
+		component_manager::ComponentManager* World::GetComponentManager()
 		{
-			/** TODO register entity in correct ISystem if all ComponentTypes are met for entity.
-			 *  Add component to correct component manager
-			 */
-
-			this->component_managers_[std::type_index(typeid(component))] = component;
-			return nullptr_t;
-		}
-
-		template<typename Component, typename ...Args>
-		OrderedTypeMap<Component> World::GetComponentsByType(Component component, Args ...types)
-		{
-			static auto const& orderedTypeMap = new OrderedTypeMap<Component>();
-		
-		}
-
-		template<typename ComponentType>
-		component_manager::ComponentManager<ComponentType>* World::GetComponentManager()
-		{
-			return nullptr_t;
+			return NULL;
 		}
 
 		void World::Update(float dt)
@@ -54,7 +35,13 @@ namespace easy_engine {
 		void World::AddSystem(std::unique_ptr<ISystem> system)
 		{
 			this->systems_.push_back(std::move(system).get());
-		};
+		}
+
+		void World::RemoveComponent(entity::Entity const& entity, component::IComponent component)
+		{
+
+		}
+
 	}
 
 }
