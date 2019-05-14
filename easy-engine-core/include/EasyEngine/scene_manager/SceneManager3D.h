@@ -2,8 +2,6 @@
 #define SCENE_MANAGER_3D_H
 #pragma once
 
-#include <thread>
-
 #include <EasyEngine/scene_manager/SceneManager.h>
 #include <EasyEngine/scene_manager/Scene3D.h>
 #include <EasyEngine/render_manager/RenderManagerOpenGL.h>

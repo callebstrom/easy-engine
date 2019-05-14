@@ -20,6 +20,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "easy-engine-script-bindings
 		{C70CAC80-3B82-456D-88D2-D2216A7A9624} = {C70CAC80-3B82-456D-88D2-D2216A7A9624}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "easy-engine-script-bindings-tests", "easy-engine-script-bindings-tests\easy-engine-script-bindings-tests.vcxproj", "{3AEADF81-E2F0-406B-BEBD-F56EE06D0D40}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1B81003C-3B82-4D50-93B1-D8A45A7A0020} = {1B81003C-3B82-4D50-93B1-D8A45A7A0020}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -61,6 +66,14 @@ Global
 		{1B81003C-3B82-4D50-93B1-D8A45A7A0020}.Release|x64.Build.0 = Debug|x64
 		{1B81003C-3B82-4D50-93B1-D8A45A7A0020}.Release|x86.ActiveCfg = Release|Win32
 		{1B81003C-3B82-4D50-93B1-D8A45A7A0020}.Release|x86.Build.0 = Release|Win32
+		{3AEADF81-E2F0-406B-BEBD-F56EE06D0D40}.Debug|x64.ActiveCfg = Debug|x64
+		{3AEADF81-E2F0-406B-BEBD-F56EE06D0D40}.Debug|x64.Build.0 = Debug|x64
+		{3AEADF81-E2F0-406B-BEBD-F56EE06D0D40}.Debug|x86.ActiveCfg = Debug|Win32
+		{3AEADF81-E2F0-406B-BEBD-F56EE06D0D40}.Debug|x86.Build.0 = Debug|Win32
+		{3AEADF81-E2F0-406B-BEBD-F56EE06D0D40}.Release|x64.ActiveCfg = Release|x64
+		{3AEADF81-E2F0-406B-BEBD-F56EE06D0D40}.Release|x64.Build.0 = Release|x64
+		{3AEADF81-E2F0-406B-BEBD-F56EE06D0D40}.Release|x86.ActiveCfg = Release|Win32
+		{3AEADF81-E2F0-406B-BEBD-F56EE06D0D40}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

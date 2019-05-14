@@ -7,7 +7,7 @@
 
 namespace easy_engine {
 	namespace logger {
-		class EASY_ENGINE_API Logger {
+		class Logger {
 			public:
 				static void Init();
 

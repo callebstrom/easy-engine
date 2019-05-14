@@ -156,9 +156,6 @@
     <ClInclude Include="include\EasyEngine\window_manager\WindowManagerGLFW.h">
       <Filter>Header Files\window_manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\EasyEngine\window_manager\InputCallbackGLFW.h">
-      <Filter>Header Files\window_manager</Filter>
-    </ClInclude>
     <ClInclude Include="include\EasyEngine\EasyEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -241,9 +238,6 @@
     </ClCompile>
     <ClCompile Include="src\InputManager.cpp">
       <Filter>Source Files\input_manager</Filter>
-    </ClCompile>
-    <ClCompile Include="src\InputCallbackGLFW.cpp">
-      <Filter>Source Files\window_manager</Filter>
     </ClCompile>
     <ClCompile Include="src\SceneManager3D.cpp">
       <Filter>Source Files\scene_manager</Filter>

@@ -26,28 +26,37 @@ namespace easy_engine {
 			void AddSystem(std::unique_ptr<ISystem> system);
 
 			template <typename ComponentType>
-			void AddComponentManager(std::unique_ptr<component_manager::ComponentManager> component_manager) {
-				auto test = std::type_index(typeid(ComponentType));
-				this->component_managers_[typeid(ComponentType)] = std::move(component_manager).get();
-			}
-
-			template <typename ComponentType>
 			void AddComponent(entity::Entity* entity, std::unique_ptr<component::IComponent> component)
 			{
+				auto component_type = std::type_index(typeid(ComponentType));
+				if (!this->component_managers_.count(component_type)) {
+					auto component_manager = new component_manager::ComponentManager();
+					this->component_managers_[component_type] = component_manager;
+				}
 				/** TODO register entity in correct ISystem if all ComponentTypes are met for entity.
 				 *  Add component to correct component manager
 				 */
-				auto test = std::type_index(typeid(ComponentType));
-				component_manager::ComponentManager* component_manager = this->component_managers_[typeid(ComponentType)];
-				component_manager->RegisterEntity(entity, std::move(component));
+				component_manager::ComponentManager* component_manager = this->component_managers_[component_type];
+				component_manager->RegisterEntity(entity, std::move(component));				
 			}
 			void RemoveComponent(entity::Entity const& entity, component::IComponent component);
 
 			template<typename Component, typename ...Args>
-			OrderedTypeMap<Component> GetComponentsByType(Component component, Args ...types)
+			OrderedTypeMap<Component> GetComponentsByType(Component component)
 			{
 				static auto const& orderedTypeMap = new OrderedTypeMap<Component>();
 			}
+
+			template<typename ComponentType, typename std::enable_if<std::is_base_of<component::IComponent, ComponentType>::value>::type* = nullptr>
+			OrderedTypeMap<std::vector<ComponentType>> GetComponentsByType()
+			{
+				auto component_type = std::type_index(typeid(ComponentType));
+				component_manager::ComponentManager* component_manager = this->component_managers_.at(component_type);
+				OrderedTypeMap<std::vector<ComponentType>> orderedTypeMap;
+				// orderedTypeMap[component_type] = component_manager->registered_components_;
+				return OrderedTypeMap<std::vector<ComponentType>>();
+			}
+
 		private:
 			template<typename ComponentType, typename std::enable_if<std::is_base_of<component::IComponent, ComponentType>::value>::type* = nullptr>
 			component_manager::ComponentManager* GetComponentManager();

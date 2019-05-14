@@ -10,7 +10,7 @@ namespace easy_engine {
 				uint32_t renderer_id;
 				std::string file_path;
 				byte* raw;
-				int width, height, bitsPerPixel;
+				int width, height, bpp;
 
 				Texture(const std::string& file_path);
 		};

@@ -24,7 +24,7 @@ public:
 BOOST_AUTO_TEST_CASE(static_scene_application_run)
 {
 	StaticSceneApplication* application = new StaticSceneApplication();
-	std::future<void> asyncApplication = application->RunAsync(); // TODO fix access violations when running async
+	std::future<void> asyncApplication = application->RunAsync();
 	std::this_thread::sleep_for(std::chrono::seconds(5));
 	application->Close();
 	BOOST_CHECK_EQUAL("static_scene_test", "static_scene_test");

@@ -2,20 +2,9 @@
 #define RENDER_MANAGER_OPEN_GL_H
 #pragma once
 
-#include <GL/glew.h>
-#include <GL/GLU.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <GL/glfw3.h>
-
-#include <boost/lexical_cast.hpp>
-
 #include <EasyEngine/event_manager/IObserver.h>
 #include <EasyEngine/render_manager/RenderManager.h>
 #include <EasyEngine/renderable/Renderable3D.h>
-#include <EasyEngine/render_manager/ObjectIndex.h>
-#include <EasyEngine/ManagerLocator.h>
 
 #ifdef DLLDIR_EX
 #include <EasyEngine/Logger.h>
@@ -29,8 +18,9 @@ namespace easy_engine {
 
 		public:
 			RenderManagerOpenGL(configuration::RenderConfiguration_t* rc);
-
-			static std::vector<glm::vec3> ComputeNormals(renderable::Renderable3D* renderable);
+			~RenderManagerOpenGL();
+			RenderManagerOpenGL(const RenderManagerOpenGL& other);
+			RenderManagerOpenGL& operator=(RenderManagerOpenGL other);
 
 			void Render(renderable::Renderable* renderable) override;
 			void UpdateCameraAngle(double x, double y) override;
@@ -38,22 +28,8 @@ namespace easy_engine {
 			void OnPostRender(event_manager::Event event) {};
 
 		private:
-			~RenderManagerOpenGL();
-			std::vector<GLfloat> vertex_buffer_data_;
-			void LogRenderInfo();
-			void LoadShaders();
-			void GenerateObjectIndex(renderable::Renderable* renderable);
-			static void ToGLMVertices(Eigen::Matrix<float, -1, 3, Eigen::RowMajor>& from_vertices, std::vector<glm::vec4>& to_vertices);
-
-			glm::mat4 mvp = glm::mat4(1.0);
-			std::map<std::string, ObjectIndex> object_indices_;
-			float last_time_;
-			GLuint vertex_shader_;
-			GLuint fragment_shader_;
-			GLuint shader_program_;
-			GLint pos_attrib_;
-			GLint uniform_attrib_;
-			GLint col_attrib_;
+			struct Impl;
+			std::unique_ptr<Impl> p_impl_;
 		};
 	}
 }

@@ -2,19 +2,6 @@
 #define RESOURCE_MANAGER_3D_H
 #pragma once
 
-// std headers
-#include <fstream>
-#include <sstream>
-
-// Eigen
-#include <Eigen/Core>
-
-// Boost
-#include <boost/algorithm/string.hpp>
-#include <boost/lexical_cast.hpp>
-
-// Internal headers
-
 #include <EasyEngine/resource_manager/ResourceManager.h>
 #include <EasyEngine/renderable/Renderable3D.h>
 

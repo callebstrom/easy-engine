@@ -2,7 +2,6 @@
 #define RESOURCE_MANAGER_H
 #pragma once
 
-
 #include <EasyEngine/renderable/Texture.h>
 
 namespace easy_engine {

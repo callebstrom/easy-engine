@@ -2,7 +2,6 @@
 #define ROOT_NODE_H
 #pragma once
 
-
 #include <EasyEngine/scene_manager/Node.h>
 
 namespace easy_engine {

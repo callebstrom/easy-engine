@@ -1,25 +1,51 @@
 #include <EasyEngine/eepch.h>
+
+#include <GL/glfw3.h>
+
 #include <EasyEngine/window_manager/WindowManagerGLFW.h>
+#include <EasyEngine/input_manager/InputManager.h>
+
+struct InputCallbackGLFW {
+
+	static void InputCallbackGLFW::MousePosCallback(GLFWwindow* window, double x, double y) {
+		// Emit events
+	};
+
+	static void InputCallbackGLFW::MouseButtonCallback(GLFWwindow* window, int button, int action, int modifiers) {
+		// Emit events
+	};
+
+	static void InputCallbackGLFW::KeyboardCallback(GLFWwindow* window, int key, int scancode, int action, int modifiers) {
+		// Emit events
+	};
+};
 
 namespace easy_engine {
 	namespace window_manager {
 
-		void WindowManagerGLFW::RegisterMousePositionCallback(GLFWcursorposfun callback) {
-			glfwSetCursorPosCallback(this->window_, callback);
-		}
+		struct WindowManagerGLFW::Impl {
 
-		void WindowManagerGLFW::RegisterMouseCallback(GLFWmousebuttonfun callback) {
-		
-		}
+			void UpdateFpsCounter() {
+				static double previous_seconds = glfwGetTime();
+				static int frame_count;
+				double current_seconds = glfwGetTime();
+				double elapsed_seconds = current_seconds - previous_seconds;
+				if (elapsed_seconds > 1) {
+					previous_seconds = current_seconds;
+					double fps = (double)frame_count / elapsed_seconds;
 
-		void WindowManagerGLFW::RegisterKeyboardCallback(GLFWkeyfun callback) {
-		
-		}
+					char tmp[128];
+					sprintf_s(tmp, 128, "FPS: %f", fps);
 
-		void WindowManagerGLFW::RegisterResizeCallback(void* func) {
-			// glfwSetWindowSizeCallback(func);
-		}
-		
+					glfwSetWindowTitle(this->window_, tmp);
+					frame_count = 0;
+				}
+				frame_count++;
+			}
+
+			GLFWwindow* window_;
+		};
+
 		void WindowManagerGLFW::CreateWindowEE(configuration::WindowConfiguration_t* configuration) {
 			glfwInit();
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -32,14 +58,14 @@ namespace easy_engine {
 			int resY = atoi(configuration->Get(configuration::WindowConfigurationParams::HEIGHT).c_str());
 
 			// this->window_ = glfwCreateWindow(resX, resY, "Easy	Engine", glfwGetPrimaryMonitor(), nullptr); // Fullscreen
-			this->window_ = glfwCreateWindow(resX, resY, "EasyEngine", nullptr, nullptr); // Windowed
+			this->p_impl_->window_ = glfwCreateWindow(resX, resY, "EasyEngine", nullptr, nullptr); // Windowed
 
-			if (!this->window_) {
+			if (!this->p_impl_->window_) {
 				glfwTerminate();
 				EE_CORE_CRITICAL("Failed to create window");
 			}
 
-			glfwMakeContextCurrent(this->window_);
+			glfwMakeContextCurrent(this->p_impl_->window_);
 
 			GLenum error = glGetError();
 
@@ -47,44 +73,19 @@ namespace easy_engine {
 				std::cout << "OpenGL Error: " << error << std::endl;
 			}
 
-			glfwSetInputMode(this->window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			glfwSetInputMode(this->p_impl_->window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-			if (ManagerLocator::input_manager != NULL) {
-				// Forward input events to the InputManager
-				InputCallbackGLFW::input_manager = ManagerLocator::input_manager;
-				RegisterMousePositionCallback(&InputCallbackGLFW::MousePosCallback);
-				RegisterMouseCallback(&InputCallbackGLFW::MouseButtonCallback);
-				RegisterKeyboardCallback(&InputCallbackGLFW::KeyboardCallback);
-			} else {
-				EE_CORE_WARN("No input manager set");
-			}
+			glfwSetCursorPosCallback(this->p_impl_->window_, &InputCallbackGLFW::MousePosCallback);
+			glfwSetMouseButtonCallback(this->p_impl_->window_, &InputCallbackGLFW::MouseButtonCallback);
+			glfwSetKeyCallback(this->p_impl_->window_, &InputCallbackGLFW::KeyboardCallback);
 		};
 
 		void WindowManagerGLFW::CloseWindowEE() {
-			glfwDestroyWindow(this->window_);
+			glfwDestroyWindow(this->p_impl_->window_);
 		}
 
 		void WindowManagerGLFW::SwapBuffers() {
-			glfwSwapBuffers(this->window_);
-		}
-
-		void WindowManagerGLFW::UpdateFpsCounter() {
-			static double previous_seconds = glfwGetTime();
-			static int frame_count;
-			double current_seconds = glfwGetTime();
-			double elapsed_seconds = current_seconds - previous_seconds;
-			if (elapsed_seconds > 1) {
-				previous_seconds = current_seconds;
-				double fps = (double)frame_count / elapsed_seconds;
-
-				char tmp[128];
-				sprintf_s(tmp, 128, "FPS: %f", fps);
-
-				glfwSetWindowTitle(this->window_, tmp);
-				frame_count = 0;
-			}
-			frame_count++;
-
+			glfwSwapBuffers(this->p_impl_->window_);
 		}
 
 		void WindowManagerGLFW::OnPostRender(event_manager::Event event) {
@@ -94,7 +95,8 @@ namespace easy_engine {
 		void WindowManagerGLFW::OnNodeRenderable(event_manager::Event event) {
 		}
 
-		WindowManagerGLFW::WindowManagerGLFW() {
+		WindowManagerGLFW::WindowManagerGLFW()
+			: p_impl_(new Impl()) {
 			ManagerLocator::event_manager->Subscribe(
 				event_manager::EventType::PostRender,
 				this,
@@ -103,6 +105,7 @@ namespace easy_engine {
 		}
 
 		WindowManagerGLFW::~WindowManagerGLFW() {
+			this->p_impl_.reset();
 			glfwTerminate();
 		}
 	}

@@ -1,6 +1,11 @@
 #include <EasyEngine/eepch.h>
 #include <EasyEngine/resource_manager/ResourceManager3D.h>
 
+#include <Eigen/Core>
+
+#include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>
+
 namespace easy_engine {
 	namespace resource_manager {
 

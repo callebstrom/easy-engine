@@ -1,10 +1,7 @@
 #pragma once
 
-#include <GL/glfw3.h>
-
 #include <EasyEngine/window_manager/WindowManager.h>
 #include <EasyEngine/ManagerLocator.h>
-#include <EasyEngine/window_manager/InputCallbackGLFW.h>
 #include <EasyEngine/event_manager/IObserver.h>
 
 #ifdef DLLDIR_EX
@@ -16,20 +13,17 @@ namespace easy_engine {
 
 		class EASY_ENGINE_API WindowManagerGLFW : public WindowManager, public event_manager::IObserver {
 			public:
-				void RegisterMousePositionCallback(GLFWcursorposfun callback);
-				void RegisterMouseCallback(GLFWmousebuttonfun callback);
-				void RegisterKeyboardCallback(GLFWkeyfun callback);
-				void RegisterResizeCallback(void* func);
+				WindowManagerGLFW();
+				~WindowManagerGLFW();
+
 				void WindowManager::CreateWindowEE(configuration::WindowConfiguration_t* configuration) override;
 				void OnPostRender(event_manager::Event event);
 				void OnNodeRenderable(event_manager::Event event) override;
 				void CloseWindowEE() override;
 				void SwapBuffers() override;
-				WindowManagerGLFW();
-				~WindowManagerGLFW();
 			private:
-				GLFWwindow* window_;
-				void UpdateFpsCounter();
+				struct Impl;
+				std::unique_ptr<Impl> p_impl_;
 		};
 	}
 }

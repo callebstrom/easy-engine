@@ -74,7 +74,6 @@
     <ClInclude Include="include\EasyEngine\scene_manager\SceneManager.h" />
     <ClInclude Include="include\EasyEngine\scene_manager\SceneManager3D.h" />
     <ClInclude Include="include\EasyEngine\scene_manager\TransformationNode.h" />
-    <ClInclude Include="include\EasyEngine\window_manager\InputCallbackGLFW.h" />
     <ClInclude Include="include\EasyEngine\window_manager\WindowManager.h" />
     <ClInclude Include="include\EasyEngine\window_manager\WindowManagerGLFW.h" />
     <ClInclude Include="include\EasyEngine\world\World.h" />
@@ -93,7 +92,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">EasyEngine\eepch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\InputCallbackGLFW.cpp" />
     <ClCompile Include="src\InputManager.cpp" />
     <ClCompile Include="src\Logger.cpp" />
     <ClCompile Include="src\ManagerLocator.cpp" />

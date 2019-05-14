@@ -6,13 +6,18 @@
 
 namespace easy_engine {
 	namespace script_engine {
-		ScriptEngine::ScriptEngine() 
+		void ScriptEngine::Eval(std::string source)
 		{
-			
+			this->chai.eval(source);
 		}
+
+		ScriptEngine::ScriptEngine()
+		{
+		}
+
 		void ScriptEngine::RegisterApiTypes()
 		{
-			// chai.add(chaiscript::user_type<Application>(), "Application");
+			this->chai.add(chaiscript::user_type<Application>(), "Application");
 		}
 	}
 }

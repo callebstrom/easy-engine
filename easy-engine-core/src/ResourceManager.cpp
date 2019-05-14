@@ -25,7 +25,7 @@ namespace easy_engine {
 
 			texture->width = width;
 			texture->height = height;
-			texture->bitsPerPixel = bpp;
+			texture->bpp = bpp;
 
 			return std::shared_ptr<Texture>(texture);
 		}

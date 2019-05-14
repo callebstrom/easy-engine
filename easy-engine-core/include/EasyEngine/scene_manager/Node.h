@@ -2,8 +2,6 @@
 #define NODE_H
 #pragma once
 
-
-
 namespace easy_engine {
 	namespace scene_manager {
 		class EASY_ENGINE_API Node {

@@ -4,7 +4,6 @@
 
 #include <EasyEngine/Application.h>
 
-
 extern easy_engine::Application* easy_engine::CreateApplication();
 
 #ifndef NO_ENTRYPOINT

@@ -85,12 +85,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Dropbox\dev\EasyEngine\easy-engine-core\include;D:\Dropbox\dev\EasyEngine\easy-engine-script-bindings\include\ChaiScript\include;D:\Dropbox\dev\EasyEngine\easy-engine-script-bindings\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)easy-engine-core\include\spdlog_complete\include;$(SolutionDir)easy-engine-core\include;$(SolutionDir)easy-engine-script-bindings\include\ChaiScript\include;$(SolutionDir)easy-engine-script-bindings\include</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp14</LanguageStandard>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <PreprocessorDefinitions>NO_ENTRYPOINT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NO_ENTRYPOINT;SCRIPT_BINDINGS_DLLDIR_EX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,18 +131,19 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Dropbox\dev\EasyEngine\easy-engine-core\include;D:\Dropbox\dev\EasyEngine\easy-engine-script-bindings\include\ChaiScript\include;D:\Dropbox\dev\EasyEngine\easy-engine-script-bindings\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)easy-engine-core\include\spdlog_complete\include;$(SolutionDir)easy-engine-core\include;$(SolutionDir)easy-engine-script-bindings\include\ChaiScript\include;$(SolutionDir)easy-engine-script-bindings\include</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp14</LanguageStandard>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
-      <PreprocessorDefinitions>NO_ENTRYPOINT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NO_ENTRYPOINT;SCRIPT_BINDINGS_DLLDIR_EX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>$(SolutionDir)bin\x64\Release\easy-engine-core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)easy-engine-core\lib\x64;$(ProjectDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
