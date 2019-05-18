@@ -100,7 +100,7 @@ namespace easy_engine {
 			ManagerLocator::event_manager->Subscribe(
 				event_manager::EventType::PostRender,
 				this,
-				(Callback)&WindowManagerGLFW::OnPostRender
+				(Callback)& WindowManagerGLFW::OnPostRender
 			);
 		}
 

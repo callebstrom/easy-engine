@@ -8,10 +8,10 @@ namespace easy_engine {
 
 			typedef void(*func_type)(void);
 
-			public:
-				virtual void CreateWindowEE(configuration::WindowConfiguration_t* configuration) = 0;
-				virtual void CloseWindowEE() = 0;
-				virtual void SwapBuffers() = 0;
+		public:
+			virtual void CreateWindowEE(configuration::WindowConfiguration_t* configuration) = 0;
+			virtual void CloseWindowEE() = 0;
+			virtual void SwapBuffers() = 0;
 		};
 	}
 }

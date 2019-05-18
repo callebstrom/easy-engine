@@ -25,13 +25,13 @@ namespace easy_engine {
 			ComponentManager(ComponentManager&&) = default;
 			ComponentManager& operator=(ComponentManager&&) = default;
 
-			void RegisterEntity(entity::Entity* entity, std::unique_ptr<component::IComponent> component);
+			void RegisterEntity(entity::Entity* entity, std::shared_ptr<component::IComponent> component);
 		protected:
 			friend class world::World;
 			// Maps component index with a given entity
 			std::map<int, entity::Entity*> registered_entities_;
 			// Holds all components of the type associated with a given ComponentManager
-			std::vector<component::IComponent*> registered_components_;
+			std::vector<std::shared_ptr<component::IComponent>> registered_components_;
 		};
 	}
 }

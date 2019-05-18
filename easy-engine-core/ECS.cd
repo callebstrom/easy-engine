@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="easy_engine::entity::Entity">
+    <Position X="0.75" Y="1.5" Width="1.5" />
+    <Members>
+      <Method Name="Entity" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>include\EasyEngine\entity\Entity.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="easy_engine::component_manager::ComponentManager">
+    <Position X="5.75" Y="2" Width="2" />
+    <Members>
+      <Method Name="~ComponentManager" Hidden="true" />
+      <Method Name="ComponentManager" Hidden="true" />
+      <Method Name="operator=" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAABAAEAAAAAAgAAAAAAAEgAAAAAAA=</HashCode>
+      <FileName>include\EasyEngine\component_manager\ComponentManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="easy_engine::entity::EntityHandle">
+    <Position X="0.75" Y="3.25" Width="3.5" />
+    <Members>
+      <Method Name="destroy" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAEBAAAAAIAAAAAAAAAEAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>include\EasyEngine\entity\EntityHandle.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="world" />
+      <Field Name="entity" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="easy_engine::world::World" Collapsed="true">
+    <Position X="2.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAEAAIAAIAAgABAAAAAAACAQAEAAAEBAAAAAA=</HashCode>
+      <FileName>include\EasyEngine\world\World.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

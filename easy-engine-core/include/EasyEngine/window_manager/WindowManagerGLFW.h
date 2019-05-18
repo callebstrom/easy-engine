@@ -12,18 +12,18 @@ namespace easy_engine {
 	namespace window_manager {
 
 		class EASY_ENGINE_API WindowManagerGLFW : public WindowManager, public event_manager::IObserver {
-			public:
-				WindowManagerGLFW();
-				~WindowManagerGLFW();
+		public:
+			WindowManagerGLFW();
+			~WindowManagerGLFW();
 
-				void WindowManager::CreateWindowEE(configuration::WindowConfiguration_t* configuration) override;
-				void OnPostRender(event_manager::Event event);
-				void OnNodeRenderable(event_manager::Event event) override;
-				void CloseWindowEE() override;
-				void SwapBuffers() override;
-			private:
-				struct Impl;
-				std::unique_ptr<Impl> p_impl_;
+			void WindowManager::CreateWindowEE(configuration::WindowConfiguration_t* configuration) override;
+			void OnPostRender(event_manager::Event event);
+			void OnNodeRenderable(event_manager::Event event) override;
+			void CloseWindowEE() override;
+			void SwapBuffers() override;
+		private:
+			struct Impl;
+			std::unique_ptr<Impl> p_impl_;
 		};
 	}
 }

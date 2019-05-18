@@ -28,16 +28,20 @@ class TestSystem : public ISystem {
 
 BOOST_AUTO_TEST_CASE(get_components_by_type)
 {
-
 	auto world = new world::World();
-	auto testSystem = std::make_unique<TestSystem>();
-	world->AddSystem(std::move(testSystem));
+	auto test_system = std::make_unique<TestSystem>();
+	world->AddSystem(std::move(test_system));
 
 	auto entity = world->CreateEntity();
 
-	world->AddComponent<TestComponent>(entity.entity, std::move(std::unique_ptr<TestComponent>(new TestComponent())));
+	std::shared_ptr<TestComponent> test_component(new TestComponent);
+	world->AddComponent<TestComponent>(entity.entity, test_component);
 
-	world->GetComponentsByType<TestComponent>();
+	auto test_components = world->GetComponentsByType<TestComponent>();
+	auto key = std::type_index(typeid(TestComponent));
+
+	BOOST_CHECK_EQUAL(test_components[key].at(0)->x, 10);
+	BOOST_CHECK_EQUAL(test_components[key].at(0)->y, 25);
 }
 
 

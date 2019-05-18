@@ -56,7 +56,7 @@ namespace easy_engine {
 	std::future<void> Application::RunAsync() {
 		return std::async([this]() -> void {
 			this->Run();
-		});
+			});
 	}
 
 	void Application::Close() {

@@ -8,9 +8,9 @@
 namespace easy_engine {
 	namespace scene_manager {
 		class EASY_ENGINE_API RenderableNode : public Node {
-			public:
-				RenderableNode(renderable::Renderable* renderable);
-				renderable::Renderable* renderable_;
+		public:
+			RenderableNode(renderable::Renderable* renderable);
+			renderable::Renderable* renderable_;
 		};
 	}
 }

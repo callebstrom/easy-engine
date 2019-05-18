@@ -10,12 +10,12 @@ namespace easy_engine {
 		using renderable::Texture;
 
 		class EASY_ENGINE_API ResourceManager {
-			public:
-				std::string GetEngineDirectory();
-				std::shared_ptr<Texture> LoadTexture(std::string file_path);
-			protected:
-				byte* resourceCache;
-				byte* LoadResourceByName(std::string pathRelativeToBase);
+		public:
+			std::string GetEngineDirectory();
+			std::shared_ptr<Texture> LoadTexture(std::string file_path);
+		protected:
+			byte* resourceCache;
+			byte* LoadResourceByName(std::string pathRelativeToBase);
 		};
 	}
 }

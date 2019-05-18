@@ -87,7 +87,7 @@ namespace easy_engine {
 				EE_CORE_INFO("OpenGL version supported: {}", std::string(reinterpret_cast<char*>(const_cast<GLubyte*>(glGetString(GL_VERSION)))));
 			}
 
-			void GenerateObjectIndex(renderable::Renderable* renderable_) {
+			void GenerateObjectIndex(renderable::Renderable * renderable_) {
 				if (glGenVertexArrays == NULL) {
 					EE_CORE_CRITICAL("glGenVertexArrays is not supported");
 					throw new std::runtime_error("glGenVertexArrays is not supported");
@@ -181,7 +181,7 @@ namespace easy_engine {
 
 			};
 
-			void ToGLMVertices(Eigen::Matrix<float, -1, 3, Eigen::RowMajor> & from_vertices, std::vector<glm::vec4>& to_vertices) {
+			void ToGLMVertices(Eigen::Matrix<float, -1, 3, Eigen::RowMajor> & from_vertices, std::vector<glm::vec4> & to_vertices) {
 				int64_t rows = from_vertices.rows();
 				int64_t cols = from_vertices.cols();
 
@@ -199,7 +199,7 @@ namespace easy_engine {
 				}
 			};
 
-			std::vector<glm::vec3> ComputeNormals(renderable::Renderable3D* renderable) {
+			std::vector<glm::vec3> ComputeNormals(renderable::Renderable3D * renderable) {
 				std::vector<glm::vec3> normals;
 				normals.resize(renderable->GetVertexCount(), glm::vec3(0.0, 0.0, 0.0));
 
@@ -243,8 +243,8 @@ namespace easy_engine {
 			GLint uniform_attrib_;
 			GLint col_attrib_;
 		};
-		
-		RenderManagerOpenGL::RenderManagerOpenGL(configuration::RenderConfiguration_t* rc)
+
+		RenderManagerOpenGL::RenderManagerOpenGL(configuration::RenderConfiguration_t * rc)
 			: p_impl_(new Impl(rc)) {
 
 			glewExperimental = GL_TRUE;
@@ -269,7 +269,7 @@ namespace easy_engine {
 				atoi(this->p_impl_->render_config_->Get(c_params_::RESOLUTION_X).c_str()),
 				atoi(this->p_impl_->render_config_->Get(c_params_::RESOLUTION_Y).c_str())
 			);
-			
+
 			// Don't render triangles with normal facing away from camera
 			glEnable(GL_CULL_FACE);
 			// glDebugMessageCallback(&Debug, nullptr);
@@ -277,7 +277,7 @@ namespace easy_engine {
 			ManagerLocator::event_manager->Subscribe(
 				event_manager::EventType::NodeRenderable,
 				this,
-				(Callback) &RenderManagerOpenGL::OnNodeRenderable
+				(Callback)& RenderManagerOpenGL::OnNodeRenderable
 			);
 
 			this->p_impl_->LogRenderInfo();
@@ -289,7 +289,7 @@ namespace easy_engine {
 			glDeleteShader(this->p_impl_->vertex_shader_);
 		}
 
-		void RenderManagerOpenGL::Render(renderable::Renderable* renderable_) {
+		void RenderManagerOpenGL::Render(renderable::Renderable * renderable_) {
 
 			renderable::Renderable3D* renderable = static_cast<renderable::Renderable3D*>(renderable_);
 
@@ -311,8 +311,8 @@ namespace easy_engine {
 			/*if (glfwGetKey(this->window_, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 				glfwSetWindowShouldClose(this->window_, GL_TRUE);*/
 
-			// TODO this should probably happen at the same time as the ObjectIndex is built..
-			renderable::Texture* texture = renderable->GetTexture().get();
+				// TODO this should probably happen at the same time as the ObjectIndex is built..
+			renderable::Texture * texture = renderable->GetTexture().get();
 
 			if (texture != nullptr) {
 				glBindTexture(GL_TEXTURE_2D, texture->renderer_id);
@@ -352,7 +352,7 @@ namespace easy_engine {
 
 			// vertical angle : 0, look at the horizon
 			float verticalAngle = 0.0f;
-			
+
 			static const float mouseSpeed = 0.1f;
 
 			horizontalAngle += mouseSpeed * deltaTime * float(boost::lexical_cast<int>(this->p_impl_->render_config_->Get(configuration::RenderConfigurationParams::RESOLUTION_X)) / 2 - x);
@@ -370,7 +370,7 @@ namespace easy_engine {
 				0,
 				cos(horizontalAngle - 3.14f / 2.0f)
 			);
-			
+
 			// Up vector : perpendicular to both direction and right
 			glm::vec3 up = glm::cross(right, direction);
 

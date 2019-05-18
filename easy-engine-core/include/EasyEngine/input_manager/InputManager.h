@@ -11,11 +11,11 @@ namespace easy_engine {
 
 	namespace input_manager {
 		class EASY_ENGINE_API InputManager {
-			public:
-				void HandleMousePosUpdate(double x, double y);
-				void HandleMouseButtonPress(int button, int modifier);
-				void HandleMouseButtonRelease(int button, int modifier);
-				void PollEvents();
+		public:
+			void HandleMousePosUpdate(double x, double y);
+			void HandleMouseButtonPress(int button, int modifier);
+			void HandleMouseButtonRelease(int button, int modifier);
+			void PollEvents();
 		};
 	}
 }

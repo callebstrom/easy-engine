@@ -9,9 +9,9 @@
 namespace easy_engine {
 	namespace renderable {
 		class EASY_ENGINE_API Renderable {
-			public:
-				std::string name;
-				virtual ~Renderable() {};
+		public:
+			std::string name;
+			virtual ~Renderable() {};
 		};
 	}
 }

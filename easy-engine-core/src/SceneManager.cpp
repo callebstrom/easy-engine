@@ -10,7 +10,7 @@ namespace easy_engine {
 			scene->Add(renderable);
 		}
 
-		void SceneManager::Add(renderable::Renderable * renderable)
+		void SceneManager::Add(renderable::Renderable* renderable)
 		{
 			this->current_scene->Add(renderable);
 		}

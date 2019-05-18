@@ -15,6 +15,6 @@ namespace easy_engine {
 
 			s_ClientLogger_ = spdlog::stdout_color_mt("EasyEngine Application");
 			s_ClientLogger_->set_level(spdlog::level::trace);
-		}		
+		}
 	}
 }

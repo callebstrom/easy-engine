@@ -17,7 +17,7 @@ namespace easy_engine {
 			return entity_handle;
 		}
 
-		void World::RemoveEntity(entity::Entity const &entity)
+		void World::RemoveEntity(entity::Entity const& entity)
 		{
 		}
 

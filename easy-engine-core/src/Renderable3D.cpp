@@ -10,15 +10,15 @@ namespace easy_engine {
 		}
 
 		template<class Archive>
-		void Renderable3D::serialize(Archive & archive, const unsigned int version) {
+		void Renderable3D::serialize(Archive& archive, const unsigned int version) {
 
-			archive & boost::serialization::base_object<Renderable>(*this);
-			archive & this->faces_;
-			archive & this->name;
-			archive & this->vertex_count_;
-			archive & this->vertex_indices_;
-			archive & this->vertex_normals_;
-			archive & this->vertices_;
+			archive& boost::serialization::base_object<Renderable>(*this);
+			archive& this->faces_;
+			archive& this->name;
+			archive& this->vertex_count_;
+			archive& this->vertex_indices_;
+			archive& this->vertex_normals_;
+			archive& this->vertices_;
 		}
 	}
 }

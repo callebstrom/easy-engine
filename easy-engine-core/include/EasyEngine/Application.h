@@ -21,21 +21,21 @@
 
 namespace easy_engine {
 	class EASY_ENGINE_API Application {
-		public:
-			Application();
-			virtual ~Application();
-			void Run();
-			void Close();
-			std::future<void> RunAsync();
-		protected:
-			scene_manager::SceneManager3D* scene_manager_3d;
-			resource_manager::ResourceManager3D* resource_manager_3d;
-			input_manager::InputManager* input_manager;
-			window_manager::WindowManagerGLFW* window_manager;
-			render_manager::RenderManagerOpenGL* render_manager;
-			event_manager::EventManager* event_manager;
-		private:
-			bool is_running_ = false;
+	public:
+		Application();
+		virtual ~Application();
+		void Run();
+		void Close();
+		std::future<void> RunAsync();
+	protected:
+		scene_manager::SceneManager3D* scene_manager_3d;
+		resource_manager::ResourceManager3D* resource_manager_3d;
+		input_manager::InputManager* input_manager;
+		window_manager::WindowManagerGLFW* window_manager;
+		render_manager::RenderManagerOpenGL* render_manager;
+		event_manager::EventManager* event_manager;
+	private:
+		bool is_running_ = false;
 	};
 
 	Application* CreateApplication();

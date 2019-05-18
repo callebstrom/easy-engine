@@ -6,13 +6,13 @@ namespace easy_engine {
 	namespace renderable {
 		class Texture {
 
-			public:
-				uint32_t renderer_id;
-				std::string file_path;
-				byte* raw;
-				int width, height, bpp;
+		public:
+			uint32_t renderer_id;
+			std::string file_path;
+			byte* raw;
+			int width, height, bpp;
 
-				Texture(const std::string& file_path);
+			Texture(const std::string& file_path);
 		};
 	}
 }

@@ -14,7 +14,7 @@ namespace easy_engine {
 		public:
 			virtual void Render(renderable::Renderable* renderable) = 0;
 			virtual void UpdateCameraAngle(double x, double y) = 0;
-			virtual ~RenderManager() = default;			
+			virtual ~RenderManager() = default;
 		};
 	}
 }

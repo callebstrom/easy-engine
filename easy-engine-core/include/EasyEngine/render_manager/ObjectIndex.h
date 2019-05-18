@@ -8,7 +8,7 @@ namespace easy_engine {
 			GLuint vao;
 			GLuint ebo_size;
 
-			bool operator< (const ObjectIndex &right) const {
+			bool operator< (const ObjectIndex& right) const {
 				return vao < right.vao;
 			}
 		};

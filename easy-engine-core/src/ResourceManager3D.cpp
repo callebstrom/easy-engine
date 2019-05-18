@@ -40,14 +40,15 @@ namespace easy_engine {
 					std::string v, x, y, z;
 
 					string_stream_inner >> v >> x >> y >> z;
-					
+
 					Eigen::Vector3f vec;
 
 					vec << (float)std::atof(x.c_str()), (float)std::atof(y.c_str()), (float)std::atof(z.c_str());
 
 					vertices.conservativeResize(vertices.rows() + 1, Eigen::NoChange);
 					vertices.row(vertices.rows() - 1) = vec;
-				} else if (strcmp(first_char.c_str(), "f") == 0) {
+				}
+				else if (strcmp(first_char.c_str(), "f") == 0) {
 					std::string line_trimmed = line.substr(2);// "1/3/4 3/4/3"
 
 					std::vector<std::string> face_coords;

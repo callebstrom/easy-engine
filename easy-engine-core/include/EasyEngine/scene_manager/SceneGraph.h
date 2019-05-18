@@ -8,9 +8,9 @@
 namespace easy_engine {
 	namespace scene_manager {
 		class EASY_ENGINE_API SceneGraph {
-			public:
-				virtual void traverse() = 0;
-				RootNode* root;
+		public:
+			virtual void traverse() = 0;
+			RootNode* root;
 		};
 	}
 }

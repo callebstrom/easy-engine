@@ -8,9 +8,9 @@
 namespace easy_engine {
 	namespace resource_manager {
 		class EASY_ENGINE_API ResourceManager3D : public ResourceManager {
-			public:
-				renderable::Renderable3D* LoadObj(std::string file_path);
-				
+		public:
+			renderable::Renderable3D* LoadObj(std::string file_path);
+
 		};
 	}
 }

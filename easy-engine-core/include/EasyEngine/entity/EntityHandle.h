@@ -33,7 +33,7 @@ namespace easy_engine {
 				this->world->RemoveComponent<ComponentType>(*entity);
 			}
 
-			
+
 		};
 	}
 }

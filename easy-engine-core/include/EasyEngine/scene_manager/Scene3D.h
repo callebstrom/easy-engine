@@ -14,11 +14,11 @@
 
 namespace easy_engine {
 	namespace scene_manager {
-		
+
 		class EASY_ENGINE_API Scene3D : public Scene {
 			friend class SceneManager3D;
-			public:
-				Scene3D();
+		public:
+			Scene3D();
 		};
 	}
 }

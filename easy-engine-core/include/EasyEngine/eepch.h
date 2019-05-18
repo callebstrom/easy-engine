@@ -35,4 +35,3 @@ template<typename OrderedDataType>
 using OrderedTypeMap = std::map<std::type_index, OrderedDataType>;
 
 #endif // !COMMON_H
-
