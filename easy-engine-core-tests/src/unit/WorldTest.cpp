@@ -14,65 +14,49 @@ BOOST_AUTO_TEST_CASE(create_entity_id_sequence)
 	BOOST_CHECK_EQUAL(entityHandle.world, world);
 }
 
-struct TestComponent : public component::IComponent {
+struct TransformComponent : public component::IComponent {
 	int x = 10,
 		y = 25;
 };
 
-struct SpeedComponent : public component::IComponent {
+struct VelocityComponent : public component::IComponent {
 	int velocity = 33;
 };
 
 class TestSystem : public ISystem {
 	void Update(float dt) override
 	{
+		auto test_component = this->world->GetComponentForEntity<TransformComponent>(this->entities_[0]);
+		auto velocity_component = this->world->GetComponentForEntity<VelocityComponent>(this->entities_[0]);
 
+		test_component->x += velocity_component->velocity;
 	};
 };
-
-BOOST_AUTO_TEST_CASE(get_component_signature)
-{
-
-}
-
-/*BOOST_AUTO_TEST_CASE(get_components_by_type)
+BOOST_AUTO_TEST_CASE(should_register_eligable_entity_for_multi_component_system)
 {
 	auto world = new world::World();
-	auto test_system = std::make_unique<TestSystem>();
-	world->AddSystem(std::move(test_system));
+	world->AddSystem<TransformComponent, VelocityComponent>(std::unique_ptr<TestSystem>(new TestSystem));
 
-	auto entity = world->CreateEntity();
+	auto entity1 = world->CreateEntity();
+	auto entity2 = world->CreateEntity();
 
-	std::shared_ptr<TestComponent> test_component(new TestComponent);
-	world->AddComponent<TestComponent>(entity.entity, test_component);
+	std::shared_ptr<TransformComponent> transform_component(new TransformComponent);
+	std::shared_ptr<VelocityComponent> velocity_component(new VelocityComponent);
+	std::shared_ptr<TransformComponent> transform_component2(new TransformComponent);
 
-	auto test_components = world->GetComponentsByType<TestComponent>();
-	auto key = std::type_index(typeid(TestComponent));
+	// Only entity1 should be handle by TestSystem
+	world->AddComponent<TransformComponent>(entity1.entity, transform_component);
+	world->AddComponent<VelocityComponent>(entity1.entity, velocity_component);
+	world->AddComponent<TransformComponent>(entity2.entity, transform_component2);
 
-	BOOST_CHECK_EQUAL(test_components.GetComponents<TestComponent>().at(0)->x, 10);
-	BOOST_CHECK_EQUAL(test_components.GetComponents<TestComponent>().at(0)->y, 23);
-}*/
+	// Simulate app tick with 1ms delta time
+	world->Update(1.0f);
 
-BOOST_AUTO_TEST_CASE(get_components_by_type_variadic)
-{
-	auto world = new world::World();
-	auto test_system = std::make_unique<TestSystem>();
-	world->AddSystem<TestComponent, SpeedComponent>(std::move(test_system));
+	// TransformComponent for entity2 should remain unchanged as TestSystem should not operate on this entity
+	BOOST_CHECK_EQUAL(transform_component2->x, 10);
 
-	auto entity = world->CreateEntity();
-
-	std::shared_ptr<TestComponent> test_component(new TestComponent);
-	std::shared_ptr<SpeedComponent> speed_component(new SpeedComponent);
-
-	world->AddComponent<TestComponent>(entity.entity, test_component);
-	world->AddComponent<SpeedComponent>(entity.entity, speed_component);
-
-	// auto hello = world->GetComponentForEntity<TestComponent>(entity.entity);
-	auto test2 = "";
-	/*auto registered_components = world->GetComponentsByType<TestComponent, SpeedComponent>();
-
-	auto test_component_key = std::type_index(typeid(TestComponent));
-	auto speed_component_key = std::type_index(typeid(SpeedComponent));*/
+	// TestSystem should have operated on entity2 and added the velocity to the transform
+	BOOST_CHECK_EQUAL(transform_component->x, 10 + 33);
 }
 
 

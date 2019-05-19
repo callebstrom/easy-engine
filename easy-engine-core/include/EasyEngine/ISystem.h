@@ -32,7 +32,7 @@ namespace easy_engine {
 		}
 
 	protected:
-		std::vector<entity::Entity*> entities_ = std::vector<entity::Entity*>();
+		std::vector<entity::Entity*> entities_;
 		world::World* world;
 	};
 }
