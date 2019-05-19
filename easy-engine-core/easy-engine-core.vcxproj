@@ -82,7 +82,6 @@
   <ItemGroup>
     <ClCompile Include="include\EasyEngine\event_manager\EventManager.cpp" />
     <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\ComponentCollection.cpp" />
     <ClCompile Include="src\ComponentManager.cpp" />
     <ClCompile Include="src\eepch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

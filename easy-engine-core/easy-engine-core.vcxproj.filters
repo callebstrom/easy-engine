@@ -278,9 +278,6 @@
     <ClCompile Include="src\ComponentManager.cpp">
       <Filter>Source Files\component_manager</Filter>
     </ClCompile>
-    <ClCompile Include="src\ComponentCollection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\IComponent.cpp">
       <Filter>Source Files\component</Filter>
     </ClCompile>

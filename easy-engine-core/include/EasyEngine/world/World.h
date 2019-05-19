@@ -37,7 +37,7 @@ namespace easy_engine {
 				component_signature[component::GetComponentFamily<ComponentTypes...>()] = true;
 
 				// Associate component combination with a system
-				this->component_signature_system_map_[component_signature].emplace_back(system_);
+				this->component_signature_systems_map_[component_signature].emplace_back(system_);
 			}
 
 			template <typename ComponentType>
