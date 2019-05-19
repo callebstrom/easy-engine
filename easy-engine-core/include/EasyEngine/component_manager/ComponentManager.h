@@ -3,6 +3,7 @@
 #pragma once
 
 #include <EasyEngine/components/IComponent.h>
+#include <EasyEngine/Common.h>
 
 namespace easy_engine {
 
@@ -28,8 +29,8 @@ namespace easy_engine {
 			void RegisterEntity(entity::Entity* entity, std::shared_ptr<component::IComponent> component);
 		protected:
 			friend class world::World;
-			// Maps component index with a given entity
-			std::map<int, entity::Entity*> registered_entities_;
+			// Maps entity id to component index
+			std::map<float, int> entity_id_component_index_map_;
 			// Holds all components of the type associated with a given ComponentManager
 			std::vector<std::shared_ptr<component::IComponent>> registered_components_;
 		};

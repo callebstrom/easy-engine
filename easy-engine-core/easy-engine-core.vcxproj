@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\EasyEngine\Application.h" />
+    <ClInclude Include="include\EasyEngine\Common.h" />
     <ClInclude Include="include\EasyEngine\components\IComponent.h" />
     <ClInclude Include="include\EasyEngine\components\Render3DComponent.h" />
     <ClInclude Include="include\EasyEngine\components\TransformComponent.h" />
@@ -81,6 +82,7 @@
   <ItemGroup>
     <ClCompile Include="include\EasyEngine\event_manager\EventManager.cpp" />
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\ComponentCollection.cpp" />
     <ClCompile Include="src\ComponentManager.cpp" />
     <ClCompile Include="src\eepch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -92,6 +94,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">EasyEngine\eepch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\IComponent.cpp" />
     <ClCompile Include="src\InputManager.cpp" />
     <ClCompile Include="src\Logger.cpp" />
     <ClCompile Include="src\ManagerLocator.cpp" />

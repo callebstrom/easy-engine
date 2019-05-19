@@ -21,20 +21,9 @@ namespace easy_engine {
 		{
 		}
 
-		template<typename ComponentType, typename std::enable_if<std::is_base_of<component::IComponent, ComponentType>::value>::type*>
-		component_manager::ComponentManager* World::GetComponentManager()
-		{
-			return NULL;
-		}
-
 		void World::Update(float dt)
 		{
 
-		}
-
-		void World::AddSystem(std::unique_ptr<ISystem> system)
-		{
-			this->systems_.push_back(std::move(system).get());
 		}
 
 		void World::RemoveComponent(entity::Entity const& entity, component::IComponent component)

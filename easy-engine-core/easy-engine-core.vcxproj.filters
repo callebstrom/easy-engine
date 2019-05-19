@@ -79,6 +79,9 @@
     <Filter Include="Source Files\world">
       <UniqueIdentifier>{075cb61f-9ab6-4721-abf8-b551f285102b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\component">
+      <UniqueIdentifier>{b7a7f6b9-2e94-4941-a1fd-3ea9c0b95685}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\EasyEngine\configuration\RenderConfiguration.h">
@@ -207,6 +210,9 @@
     <ClInclude Include="include\EasyEngine\components\IComponent.h">
       <Filter>Header Files\component</Filter>
     </ClInclude>
+    <ClInclude Include="include\EasyEngine\Common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RenderManagerOpenGL.cpp">
@@ -271,6 +277,12 @@
     </ClCompile>
     <ClCompile Include="src\ComponentManager.cpp">
       <Filter>Source Files\component_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ComponentCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IComponent.cpp">
+      <Filter>Source Files\component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,5 @@
-#ifndef COMMON_H
-#define COMMON_H
+#ifndef EEPCH_H
+#define EEPCH_H
 #pragma once
 
 #include <algorithm>
@@ -17,6 +17,8 @@
 #include <typeinfo>
 #include <typeindex>
 #include <future>
+#include <bitset>
+#include <type_traits>
 
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/base_object.hpp>
@@ -31,7 +33,4 @@
 typedef unsigned char byte;
 typedef unsigned short ushort_t;
 
-template<typename OrderedDataType>
-using OrderedTypeMap = std::map<std::type_index, OrderedDataType>;
-
-#endif // !COMMON_H
+#endif // !EEPCH_H

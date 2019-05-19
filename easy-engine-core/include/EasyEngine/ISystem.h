@@ -3,6 +3,7 @@
 #pragma once
 
 #include <EasyEngine/entity/Entity.h>
+#include <EasyEngine/Common.h>
 
 namespace easy_engine {
 
@@ -29,6 +30,7 @@ namespace easy_engine {
 		{
 			this->entities_.push_back(entity);
 		}
+
 	protected:
 		std::vector<entity::Entity*> entities_ = std::vector<entity::Entity*>();
 		world::World* world;
