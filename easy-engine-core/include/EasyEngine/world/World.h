@@ -28,9 +28,8 @@ namespace easy_engine {
 
 			// TODO this should handle unique_ptr
 			template <typename ComponentType, typename... ComponentTypes>
-			void AddSystem(std::unique_ptr<ISystem> system_)
+			void AddSystem(ISystem* system)
 			{
-				auto system = std::move(system_).get();
 				system->RegisterWorld(this);
 				this->systems_.push_back(system);
 

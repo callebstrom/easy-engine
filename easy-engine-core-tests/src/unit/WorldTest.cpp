@@ -35,7 +35,7 @@ class TestSystem : public ISystem {
 BOOST_AUTO_TEST_CASE(should_register_eligable_entity_for_multi_component_system)
 {
 	auto world = new world::World();
-	world->AddSystem<TransformComponent, VelocityComponent>(std::unique_ptr<TestSystem>(new TestSystem));
+	world->AddSystem<TransformComponent, VelocityComponent>(new TestSystem);
 
 	auto entity1 = world->CreateEntity();
 	auto entity2 = world->CreateEntity();
