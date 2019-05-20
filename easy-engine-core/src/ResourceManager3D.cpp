@@ -9,8 +9,8 @@
 namespace easy_engine {
 	namespace resource_manager {
 
-		renderable::Renderable3D* ResourceManager3D::LoadObj(std::string file_path) {
-			renderable::Renderable3D* renderable = new renderable::Renderable3D();
+		resource::Mesh* ResourceManager3D::LoadObj(std::string file_path) {
+			resource::Mesh* renderable = new resource::Mesh();
 
 			renderable->name = "test";
 

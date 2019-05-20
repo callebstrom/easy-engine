@@ -5,7 +5,7 @@
 #include <EasyEngine/scene_manager/SceneManager.h>
 #include <EasyEngine/scene_manager/Scene3D.h>
 #include <EasyEngine/render_manager/RenderManagerOpenGL.h>
-#include <EasyEngine/renderable/Renderable3D.h>
+#include <EasyEngine/resource/Mesh.h>
 #include <EasyEngine/ManagerLocator.h>
 
 namespace easy_engine {

@@ -4,7 +4,7 @@
 #include <experimental/filesystem>
 
 #include <EasyEngine/resource_manager/ResourceManager.h>
-#include <EasyEngine/renderable/Texture.h>
+#include <EasyEngine/resource/Texture.h>
 
 namespace easy_engine {
 	namespace resource_manager {

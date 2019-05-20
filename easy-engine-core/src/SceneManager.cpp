@@ -1,16 +1,16 @@
 #include <EasyEngine/eepch.h>
 #include <EasyEngine/scene_manager/SceneManager.h>
-#include <EasyEngine/renderable/Renderable3D.h>
+#include <EasyEngine/resource/Mesh.h>
 
 namespace easy_engine {
 	namespace scene_manager {
-		void SceneManager::Add(renderable::Renderable* renderable, std::string scene_name)
+		void SceneManager::Add(resource::Renderable* renderable, std::string scene_name)
 		{
 			Scene* scene = this->scene_map.at(scene_name);
 			scene->Add(renderable);
 		}
 
-		void SceneManager::Add(renderable::Renderable* renderable)
+		void SceneManager::Add(resource::Renderable* renderable)
 		{
 			this->current_scene->Add(renderable);
 		}

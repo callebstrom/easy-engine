@@ -3,8 +3,8 @@
 #pragma once
 
 #include <EasyEngine/ISystem.h>
-#include <EasyEngine/entity/Entity.h>
-#include <EasyEngine/components/IComponent.h>
+#include <EasyEngine/ecs/entity/Entity.h>
+#include <EasyEngine/ecs/component/Component.h>
 #include <EasyEngine/Common.h>
 #include <type_traits>
 
@@ -42,7 +42,7 @@ namespace easy_engine {
 			}
 
 			template <typename ComponentType>
-			void AddComponent(entity::Entity* entity, std::shared_ptr<component::IComponent> component)
+			void AddComponent(entity::Entity* entity, std::shared_ptr<component::Component> component)
 			{
 				auto component_type = std::type_index(typeid(ComponentType));
 				if (!this->component_managers_.count(component_type)) {
@@ -66,7 +66,7 @@ namespace easy_engine {
 					}
 				}
 			}
-			void RemoveComponent(entity::Entity const& entity, component::IComponent component);
+			void RemoveComponent(entity::Entity const& entity, component::Component component);
 
 			template<typename ComponentType>
 			std::shared_ptr<ComponentType> GetComponentForEntity(entity::Entity* entity)
@@ -74,7 +74,7 @@ namespace easy_engine {
 				auto component_type = std::type_index(typeid(ComponentType));
 				component_manager::ComponentManager* component_manager = this->component_managers_[component_type];
 
-				return std::dynamic_pointer_cast<ComponentType, component::IComponent>(component_manager->registered_components_[component_manager->entity_id_component_index_map_[entity->id]]);
+				return std::dynamic_pointer_cast<ComponentType, component::Component>(component_manager->registered_components_[component_manager->entity_id_component_index_map_[entity->id]]);
 			}
 
 		private:

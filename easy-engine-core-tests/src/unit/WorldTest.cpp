@@ -14,12 +14,12 @@ BOOST_AUTO_TEST_CASE(create_entity_id_sequence)
 	BOOST_CHECK_EQUAL(entityHandle.world, world);
 }
 
-struct TransformComponent : public component::IComponent {
+struct TransformComponent : public component::Component {
 	int x = 10,
 		y = 25;
 };
 
-struct VelocityComponent : public component::IComponent {
+struct VelocityComponent : public component::Component {
 	int velocity = 33;
 };
 

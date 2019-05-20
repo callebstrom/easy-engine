@@ -3,13 +3,13 @@
 #pragma once
 
 #include <EasyEngine/resource_manager/ResourceManager.h>
-#include <EasyEngine/renderable/Renderable3D.h>
+#include <EasyEngine/resource/Mesh.h>
 
 namespace easy_engine {
 	namespace resource_manager {
 		class EASY_ENGINE_API ResourceManager3D : public ResourceManager {
 		public:
-			renderable::Renderable3D* LoadObj(std::string file_path);
+			resource::Mesh* LoadObj(std::string file_path);
 
 		};
 	}

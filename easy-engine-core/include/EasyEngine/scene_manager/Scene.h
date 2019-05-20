@@ -2,7 +2,7 @@
 #define SCENE_H
 #pragma once
 
-#include <EasyEngine/renderable/Renderable.h>
+#include <EasyEngine/resource/Renderable.h>
 #include <EasyEngine/scene_manager/SceneGraph.h>
 
 #ifdef DLLDIR_EX
@@ -18,9 +18,9 @@ namespace easy_engine {
 		public:
 			std::string name;
 			float size;
-			void Add(renderable::Renderable* renderable);
-			std::vector<renderable::Renderable*> Get();
-			std::map<std::string, renderable::Renderable*> renderable_map; // Map containing renderables as value and reference as key
+			void Add(resource::Renderable* renderable);
+			std::vector<resource::Renderable*> Get();
+			std::map<std::string, resource::Renderable*> renderable_map; // Map containing renderables as value and reference as key
 		protected:
 			SceneGraph* scene_graph_;
 		};

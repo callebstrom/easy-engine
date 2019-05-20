@@ -5,17 +5,17 @@
 #include <Eigen/Core>
 #include <boost/scoped_ptr.hpp>
 
-#include <EasyEngine/renderable/Renderable.h>
-#include <EasyEngine/renderable/Texture.h>
+#include <EasyEngine/resource/Renderable.h>
+#include <EasyEngine/resource/Texture.h>
 
 namespace easy_engine {
-	namespace renderable {
+	namespace resource {
 
-		class EASY_ENGINE_API Renderable3D : public Renderable {
+		class EASY_ENGINE_API Mesh : public Renderable {
 
 			friend class boost::serialization::access;
 
-			typedef float* (*func_ptr_t)(Renderable3D*);
+			typedef float* (*func_ptr_t)(Mesh*);
 
 		public:
 			float* GetVertexNormalArray(func_ptr_t compute_normals_func);

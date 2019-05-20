@@ -7,7 +7,7 @@ namespace easy_engine {
 			for (Node* node : this->root->nodes) {
 				if (node->node_type == NODE_TYPE::RENDERABLE) {
 					event_manager::Event render_event = event_manager::Event();
-					renderable::Renderable* renderable = static_cast<RenderableNode*>(node)->renderable_;
+					resource::Renderable* renderable = static_cast<RenderableNode*>(node)->renderable_;
 					render_event.data = renderable;
 					render_event.event_type = event_manager::EventType::NodeRenderable;
 					render_event.message_id = atoi(renderable->name.c_str());

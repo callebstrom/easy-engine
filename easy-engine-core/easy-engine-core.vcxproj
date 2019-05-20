@@ -37,17 +37,18 @@
   <ItemGroup>
     <ClInclude Include="include\EasyEngine\Application.h" />
     <ClInclude Include="include\EasyEngine\Common.h" />
-    <ClInclude Include="include\EasyEngine\components\IComponent.h" />
-    <ClInclude Include="include\EasyEngine\components\Render3DComponent.h" />
-    <ClInclude Include="include\EasyEngine\components\TransformComponent.h" />
-    <ClInclude Include="include\EasyEngine\component_manager\ComponentManager.h" />
+    <ClInclude Include="include\EasyEngine\ecs\component\Component.h" />
+    <ClInclude Include="include\EasyEngine\ecs\component\MeshComponent.h" />
+    <ClInclude Include="include\EasyEngine\ecs\component\TextureComponent.h" />
+    <ClInclude Include="include\EasyEngine\ecs\component\TransformComponent.h" />
+    <ClInclude Include="include\EasyEngine\ecs\component_manager\ComponentManager.h" />
+    <ClInclude Include="include\EasyEngine\ecs\entity\Entity.h" />
+    <ClInclude Include="include\EasyEngine\ecs\entity\EntityHandle.h" />
     <ClInclude Include="include\EasyEngine\eepch.h" />
     <ClInclude Include="include\EasyEngine\configuration\Configuration.h" />
     <ClInclude Include="include\EasyEngine\configuration\RenderConfiguration.h" />
     <ClInclude Include="include\EasyEngine\configuration\WindowConfiguration.h" />
     <ClInclude Include="include\EasyEngine\EasyEngine.h" />
-    <ClInclude Include="include\EasyEngine\entity\Entity.h" />
-    <ClInclude Include="include\EasyEngine\entity\EntityHandle.h" />
     <ClInclude Include="include\EasyEngine\EntryPoint.h" />
     <ClInclude Include="include\EasyEngine\event_manager\Event.h" />
     <ClInclude Include="include\EasyEngine\event_manager\EventManager.h" />
@@ -56,12 +57,12 @@
     <ClInclude Include="include\EasyEngine\ISystem.h" />
     <ClInclude Include="include\EasyEngine\Logger.h" />
     <ClInclude Include="include\EasyEngine\ManagerLocator.h" />
-    <ClInclude Include="include\EasyEngine\renderable\Renderable.h" />
-    <ClInclude Include="include\EasyEngine\renderable\Renderable3D.h" />
-    <ClInclude Include="include\EasyEngine\renderable\Texture.h" />
     <ClInclude Include="include\EasyEngine\render_manager\ObjectIndex.h" />
     <ClInclude Include="include\EasyEngine\render_manager\RenderManager.h" />
     <ClInclude Include="include\EasyEngine\render_manager\RenderManagerOpenGL.h" />
+    <ClInclude Include="include\EasyEngine\resource\Renderable.h" />
+    <ClInclude Include="include\EasyEngine\resource\Mesh.h" />
+    <ClInclude Include="include\EasyEngine\resource\Texture.h" />
     <ClInclude Include="include\EasyEngine\resource_manager\ResourceManager.h" />
     <ClInclude Include="include\EasyEngine\resource_manager\ResourceManager3D.h" />
     <ClInclude Include="include\EasyEngine\scene_manager\GroupNode.h" />
@@ -93,12 +94,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">EasyEngine\eepch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\IComponent.cpp" />
+    <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\InputManager.cpp" />
     <ClCompile Include="src\Logger.cpp" />
     <ClCompile Include="src\ManagerLocator.cpp" />
     <ClCompile Include="src\Node.cpp" />
-    <ClCompile Include="src\Renderable3D.cpp" />
+    <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\RenderableNode.cpp" />
     <ClCompile Include="src\ResourceManager3D.cpp" />
     <ClCompile Include="src\RenderManagerOpenGL.cpp" />

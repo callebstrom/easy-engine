@@ -31,12 +31,6 @@
     <Filter Include="Source Files\scene_manager">
       <UniqueIdentifier>{18f92dd5-e0f8-4fde-b837-272850f3c35f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\renderable">
-      <UniqueIdentifier>{bf939fed-1136-48ba-b018-eb05ea1b39bc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\renderable">
-      <UniqueIdentifier>{06efdd62-30de-4fcb-a10b-eafc217642c1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\resource_manager">
       <UniqueIdentifier>{bc6bd521-9008-4ed4-8e3d-b4f06f8281a5}</UniqueIdentifier>
     </Filter>
@@ -61,26 +55,35 @@
     <Filter Include="Source Files\event_manager">
       <UniqueIdentifier>{8009a8a5-e365-4beb-8d4c-0153a8663251}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\component_manager">
-      <UniqueIdentifier>{ec7af3d5-8334-4113-a10b-d6ee048b0f7b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\entity">
-      <UniqueIdentifier>{5a2f0834-76b3-4ed3-b959-49848d275f59}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\component_manager">
       <UniqueIdentifier>{6cc0512f-022d-47f2-8df6-e6f801813d21}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\component">
-      <UniqueIdentifier>{ac96e0b2-29c3-41a5-bca7-68f06e861f1d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\world">
-      <UniqueIdentifier>{7c38175f-806c-45e0-8591-45ed9ff15151}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\world">
       <UniqueIdentifier>{075cb61f-9ab6-4721-abf8-b551f285102b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\component">
       <UniqueIdentifier>{b7a7f6b9-2e94-4941-a1fd-3ea9c0b95685}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ecs">
+      <UniqueIdentifier>{97543043-21d3-4bbd-ad3e-c0649542e1f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ecs\component">
+      <UniqueIdentifier>{b2bbc48b-7a00-4c0d-8b5f-630c9c9020d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ecs\component_manager">
+      <UniqueIdentifier>{ec7af3d5-8334-4113-a10b-d6ee048b0f7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\world">
+      <UniqueIdentifier>{7c38175f-806c-45e0-8591-45ed9ff15151}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ecs\entity">
+      <UniqueIdentifier>{5a2f0834-76b3-4ed3-b959-49848d275f59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\resource">
+      <UniqueIdentifier>{36bbe077-a3d2-444e-9f82-0410706fec4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\resource">
+      <UniqueIdentifier>{06efdd62-30de-4fcb-a10b-eafc217642c1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -104,15 +107,6 @@
     </ClInclude>
     <ClInclude Include="include\EasyEngine\render_manager\ObjectIndex.h">
       <Filter>Header Files\render_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\EasyEngine\renderable\Renderable3D.h">
-      <Filter>Header Files\renderable</Filter>
-    </ClInclude>
-    <ClInclude Include="include\EasyEngine\renderable\Texture.h">
-      <Filter>Header Files\renderable</Filter>
-    </ClInclude>
-    <ClInclude Include="include\EasyEngine\renderable\Renderable.h">
-      <Filter>Header Files\renderable</Filter>
     </ClInclude>
     <ClInclude Include="include\EasyEngine\resource_manager\ResourceManager.h">
       <Filter>Header Files\resource_manager</Filter>
@@ -186,32 +180,44 @@
     <ClInclude Include="include\EasyEngine\event_manager\IObserver.h">
       <Filter>Header Files\event_manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\EasyEngine\entity\Entity.h">
-      <Filter>Header Files\entity</Filter>
-    </ClInclude>
-    <ClInclude Include="include\EasyEngine\components\TransformComponent.h">
-      <Filter>Header Files\component</Filter>
-    </ClInclude>
-    <ClInclude Include="include\EasyEngine\components\Render3DComponent.h">
-      <Filter>Header Files\component</Filter>
-    </ClInclude>
     <ClInclude Include="include\EasyEngine\world\World.h">
       <Filter>Header Files\world</Filter>
     </ClInclude>
-    <ClInclude Include="include\EasyEngine\entity\EntityHandle.h">
-      <Filter>Header Files\entity</Filter>
-    </ClInclude>
-    <ClInclude Include="include\EasyEngine\ISystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\EasyEngine\component_manager\ComponentManager.h">
-      <Filter>Header Files\component_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\EasyEngine\components\IComponent.h">
-      <Filter>Header Files\component</Filter>
-    </ClInclude>
     <ClInclude Include="include\EasyEngine\Common.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\ISystem.h">
+      <Filter>Header Files\ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\ecs\component\TransformComponent.h">
+      <Filter>Header Files\ecs\component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\ecs\component_manager\ComponentManager.h">
+      <Filter>Header Files\ecs\component_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\ecs\entity\Entity.h">
+      <Filter>Header Files\ecs\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\ecs\entity\EntityHandle.h">
+      <Filter>Header Files\ecs\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\ecs\component\MeshComponent.h">
+      <Filter>Header Files\ecs\component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\ecs\component\Component.h">
+      <Filter>Header Files\ecs\component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\resource\Texture.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\resource\Renderable.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\resource\Mesh.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\ecs\component\TextureComponent.h">
+      <Filter>Header Files\ecs\component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -223,9 +229,6 @@
     </ClCompile>
     <ClCompile Include="src\Scene3D.cpp">
       <Filter>Source Files\scene_manager</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Renderable3D.cpp">
-      <Filter>Source Files\renderable</Filter>
     </ClCompile>
     <ClCompile Include="src\ResourceManager.cpp">
       <Filter>Source Files\resource_manager</Filter>
@@ -261,7 +264,7 @@
       <Filter>Source Files\scene_manager</Filter>
     </ClCompile>
     <ClCompile Include="src\Texture.cpp">
-      <Filter>Source Files\renderable</Filter>
+      <Filter>Source Files\resource</Filter>
     </ClCompile>
     <ClCompile Include="src\Application.cpp">
       <Filter>Source Files</Filter>
@@ -278,7 +281,10 @@
     <ClCompile Include="src\ComponentManager.cpp">
       <Filter>Source Files\component_manager</Filter>
     </ClCompile>
-    <ClCompile Include="src\IComponent.cpp">
+    <ClCompile Include="src\Mesh.cpp">
+      <Filter>Source Files\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Component.cpp">
       <Filter>Source Files\component</Filter>
     </ClCompile>
   </ItemGroup>

@@ -3,7 +3,7 @@
 #pragma once
 
 #include <EasyEngine/scene_manager/Scene.h>
-#include <EasyEngine/renderable/Renderable3D.h>
+#include <EasyEngine/resource/Mesh.h>
 #include <EasyEngine/scene_manager/RootNode.h>
 #include <EasyEngine/scene_manager/RenderableNode.h>
 #include <EasyEngine/scene_manager/SceneGraph3D.h>

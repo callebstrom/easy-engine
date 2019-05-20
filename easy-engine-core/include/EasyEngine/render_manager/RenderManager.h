@@ -4,15 +4,15 @@
 
 #include <Eigen/Core>
 
-#include <EasyEngine/renderable/Renderable.h>
-#include <EasyEngine/renderable/Renderable3D.h>
+#include <EasyEngine/resource/Renderable.h>
+#include <EasyEngine/resource/Mesh.h>
 #include <EasyEngine/configuration/RenderConfiguration.h>
 
 namespace easy_engine {
 	namespace render_manager {
 		class EASY_ENGINE_API RenderManager {
 		public:
-			virtual void Render(renderable::Renderable* renderable) = 0;
+			virtual void Render(resource::Renderable* renderable) = 0;
 			virtual void UpdateCameraAngle(double x, double y) = 0;
 			virtual ~RenderManager() = default;
 		};

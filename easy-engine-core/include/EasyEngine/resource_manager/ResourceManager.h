@@ -2,12 +2,12 @@
 #define RESOURCE_MANAGER_H
 #pragma once
 
-#include <EasyEngine/renderable/Texture.h>
+#include <EasyEngine/resource/Texture.h>
 
 namespace easy_engine {
 	namespace resource_manager {
 
-		using renderable::Texture;
+		using resource::Texture;
 
 		class EASY_ENGINE_API ResourceManager {
 		public:

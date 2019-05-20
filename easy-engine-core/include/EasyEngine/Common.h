@@ -2,7 +2,7 @@
 #define COMMON_H
 #pragma once
 
-#include <EasyEngine/components/IComponent.h>
+#include <EasyEngine/ecs/component/Component.h>
 
 template<typename OrderedDataType>
 using OrderedTypeMap = std::map<std::type_index, OrderedDataType>;

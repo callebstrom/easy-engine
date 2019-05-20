@@ -87,7 +87,7 @@ namespace easy_engine {
 				EE_CORE_INFO("OpenGL version supported: {}", std::string(reinterpret_cast<char*>(const_cast<GLubyte*>(glGetString(GL_VERSION)))));
 			}
 
-			void GenerateObjectIndex(renderable::Renderable * renderable_) {
+			void GenerateObjectIndex(resource::Renderable * renderable_) {
 				if (glGenVertexArrays == NULL) {
 					EE_CORE_CRITICAL("glGenVertexArrays is not supported");
 					throw new std::runtime_error("glGenVertexArrays is not supported");
@@ -101,7 +101,7 @@ namespace easy_engine {
 					EE_CORE_TRACE("glGenVertexArrays [" + glGenVertexArraysAddr + "]");
 				}
 
-				renderable::Renderable3D* renderable = static_cast<renderable::Renderable3D*>(renderable_);
+				resource::Mesh* renderable = static_cast<resource::Mesh*>(renderable_);
 				ObjectIndex object_index;
 
 				glGenVertexArrays(1, &object_index.vao);
@@ -199,7 +199,7 @@ namespace easy_engine {
 				}
 			};
 
-			std::vector<glm::vec3> ComputeNormals(renderable::Renderable3D * renderable) {
+			std::vector<glm::vec3> ComputeNormals(resource::Mesh * renderable) {
 				std::vector<glm::vec3> normals;
 				normals.resize(renderable->GetVertexCount(), glm::vec3(0.0, 0.0, 0.0));
 
@@ -229,7 +229,7 @@ namespace easy_engine {
 			}
 
 			configuration::RenderConfiguration_t* render_config_;
-			std::vector<renderable::Renderable*> render_queue;
+			std::vector<resource::Renderable*> render_queue;
 
 			float last_time_;
 
@@ -289,9 +289,9 @@ namespace easy_engine {
 			glDeleteShader(this->p_impl_->vertex_shader_);
 		}
 
-		void RenderManagerOpenGL::Render(renderable::Renderable * renderable_) {
+		void RenderManagerOpenGL::Render(resource::Renderable * renderable_) {
 
-			renderable::Renderable3D* renderable = static_cast<renderable::Renderable3D*>(renderable_);
+			resource::Mesh* renderable = static_cast<resource::Mesh*>(renderable_);
 
 			// Should the object index be built lazily?
 			if (this->p_impl_->object_indices_.find(renderable->name) == this->p_impl_->object_indices_.end()) {
@@ -312,7 +312,7 @@ namespace easy_engine {
 				glfwSetWindowShouldClose(this->window_, GL_TRUE);*/
 
 				// TODO this should probably happen at the same time as the ObjectIndex is built..
-			renderable::Texture * texture = renderable->GetTexture().get();
+			resource::Texture * texture = renderable->GetTexture().get();
 
 			if (texture != nullptr) {
 				glBindTexture(GL_TEXTURE_2D, texture->renderer_id);
@@ -333,7 +333,7 @@ namespace easy_engine {
 		}
 
 		void RenderManagerOpenGL::OnNodeRenderable(event_manager::Event event) {
-			renderable::Renderable* renderable = static_cast<renderable::Renderable*>(event.data);
+			resource::Renderable* renderable = static_cast<resource::Renderable*>(event.data);
 			this->Render(renderable);
 		}
 

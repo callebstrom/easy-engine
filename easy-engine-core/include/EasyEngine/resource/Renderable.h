@@ -4,10 +4,8 @@
 
 #include <string>
 
-
-
 namespace easy_engine {
-	namespace renderable {
+	namespace resource {
 		class EASY_ENGINE_API Renderable {
 		public:
 			std::string name;

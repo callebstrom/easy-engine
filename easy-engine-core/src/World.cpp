@@ -1,9 +1,9 @@
 #include <EasyEngine/eepch.h>
 #include <EasyEngine/world/World.h>
-#include <EasyEngine/entity/EntityHandle.h>
-#include <EasyEngine/entity/Entity.h>
-#include <EasyEngine/components/IComponent.h>
-#include <EasyEngine/component_manager/ComponentManager.h>
+#include <EasyEngine/ecs/entity/EntityHandle.h>
+#include <EasyEngine/ecs/entity/Entity.h>
+#include <EasyEngine/ecs/component/Component.h>
+#include <EasyEngine/ecs/component_manager/ComponentManager.h>
 
 namespace easy_engine {
 	namespace world {
@@ -29,7 +29,7 @@ namespace easy_engine {
 
 		}
 
-		void World::RemoveComponent(entity::Entity const& entity, component::IComponent component)
+		void World::RemoveComponent(entity::Entity const& entity, component::Component component)
 		{
 
 		}

@@ -3,14 +3,14 @@
 #pragma once
 
 #include <EasyEngine/scene_manager/Node.h>
-#include <EasyEngine/renderable/Renderable.h>
+#include <EasyEngine/resource/Renderable.h>
 
 namespace easy_engine {
 	namespace scene_manager {
 		class EASY_ENGINE_API RenderableNode : public Node {
 		public:
-			RenderableNode(renderable::Renderable* renderable);
-			renderable::Renderable* renderable_;
+			RenderableNode(resource::Renderable* renderable);
+			resource::Renderable* renderable_;
 		};
 	}
 }

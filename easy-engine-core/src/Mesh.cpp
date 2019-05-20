@@ -1,16 +1,16 @@
 #include <EasyEngine/eepch.h>
-#include <EasyEngine/renderable/Renderable3D.h>
+#include <EasyEngine/resource/Mesh.h>
 #include <EasyEngine/render_manager/RenderManagerOpenGL.h>
 
 namespace easy_engine {
-	namespace renderable {
+	namespace resource {
 
-		float* Renderable3D::GetVertexNormalArray(func_ptr_t compute_normals_func) {
+		float* Mesh::GetVertexNormalArray(func_ptr_t compute_normals_func) {
 			return compute_normals_func(this);
 		}
 
 		template<class Archive>
-		void Renderable3D::serialize(Archive& archive, const unsigned int version) {
+		void Mesh::serialize(Archive& archive, const unsigned int version) {
 
 			archive& boost::serialization::base_object<Renderable>(*this);
 			archive& this->faces_;

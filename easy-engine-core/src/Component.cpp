@@ -1,5 +1,5 @@
 #include <EasyEngine/eepch.h>
-#include <EasyEngine/components/IComponent.h>
+#include <EasyEngine/ecs/component/Component.h>
 
 namespace easy_engine {
 	namespace component {

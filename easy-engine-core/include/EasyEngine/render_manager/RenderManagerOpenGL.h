@@ -4,7 +4,7 @@
 
 #include <EasyEngine/event_manager/IObserver.h>
 #include <EasyEngine/render_manager/RenderManager.h>
-#include <EasyEngine/renderable/Renderable3D.h>
+#include <EasyEngine/resource/Mesh.h>
 
 #ifdef DLLDIR_EX
 #include <EasyEngine/Logger.h>
@@ -22,7 +22,7 @@ namespace easy_engine {
 			RenderManagerOpenGL(const RenderManagerOpenGL& other);
 			RenderManagerOpenGL& operator=(RenderManagerOpenGL other);
 
-			void Render(renderable::Renderable* renderable) override;
+			void Render(resource::Renderable* renderable) override;
 			void UpdateCameraAngle(double x, double y) override;
 			void OnNodeRenderable(event_manager::Event event) override;
 			void OnPostRender(event_manager::Event event) {};

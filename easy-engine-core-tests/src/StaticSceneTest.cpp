@@ -11,7 +11,7 @@ using namespace easy_engine;
 class StaticSceneApplication : public Application {
 public:
 	StaticSceneApplication() {
-		renderable::Renderable3D* ptr = this->resource_manager_3d->LoadObj("..\\easy-engine-core\\res\\basic_sword_low_poly.obj");
+		resource::Mesh* ptr = this->resource_manager_3d->LoadObj("..\\easy-engine-core\\res\\basic_sword_low_poly.obj");
 		this->scene_manager_3d->CreateScene("main");
 		this->scene_manager_3d->Add(ptr, "main");
 	}

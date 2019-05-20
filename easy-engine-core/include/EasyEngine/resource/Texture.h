@@ -3,7 +3,7 @@
 #pragma once
 
 namespace easy_engine {
-	namespace renderable {
+	namespace resource {
 		class Texture {
 
 		public:

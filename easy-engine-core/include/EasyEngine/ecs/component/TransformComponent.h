@@ -6,7 +6,7 @@
 
 namespace easy_engine {
 	namespace component {
-		class TransformComponent {
+		class TransformComponent : public Component {
 		public:
 			Eigen::Matrix4f transformation;
 		};

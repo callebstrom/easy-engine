@@ -2,7 +2,7 @@
 #define I_SYSTEM_H
 #pragma once
 
-#include <EasyEngine/entity/Entity.h>
+#include <EasyEngine/ecs/entity/Entity.h>
 #include <EasyEngine/Common.h>
 
 namespace easy_engine {
