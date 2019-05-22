@@ -55,8 +55,10 @@ BOOST_AUTO_TEST_CASE(should_register_eligable_entity_for_multi_component_system)
 	// The transform of entity_handle2 should be untouched
 	BOOST_CHECK_EQUAL(world->GetComponentForEntity<TransformComponent>(entity_handle2.entity)->x, 10);
 
+	auto EXPECTED_ADDED_VELOCITY = 33;
+
 	// entity_handle1 should have velocity added as its fulfills the component requirements of TestSystem
-	BOOST_CHECK_EQUAL(world->GetComponentForEntity<TransformComponent>(entity_handle1.entity)->x, 10 + 33);
+	BOOST_CHECK_EQUAL(world->GetComponentForEntity<TransformComponent>(entity_handle1.entity)->x, transform_component.x + EXPECTED_ADDED_VELOCITY);
 }
 
 
