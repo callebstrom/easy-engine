@@ -57,6 +57,7 @@
     <ClInclude Include="include\EasyEngine\ISystem.h" />
     <ClInclude Include="include\EasyEngine\Logger.h" />
     <ClInclude Include="include\EasyEngine\ManagerLocator.h" />
+    <ClInclude Include="include\EasyEngine\memory\LinearAllocator.h" />
     <ClInclude Include="include\EasyEngine\render_manager\ObjectIndex.h" />
     <ClInclude Include="include\EasyEngine\render_manager\RenderManager.h" />
     <ClInclude Include="include\EasyEngine\render_manager\RenderManagerOpenGL.h" />
@@ -96,6 +97,7 @@
     </ClCompile>
     <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\InputManager.cpp" />
+    <ClCompile Include="src\LinearAllocator.cpp" />
     <ClCompile Include="src\Logger.cpp" />
     <ClCompile Include="src\ManagerLocator.cpp" />
     <ClCompile Include="src\Node.cpp" />

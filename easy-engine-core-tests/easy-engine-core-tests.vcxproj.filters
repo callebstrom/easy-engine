@@ -30,5 +30,8 @@
     <ClCompile Include="src\EasyEngineTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\unit\LinearAllocatorTest.cpp">
+      <Filter>Source Files\unit</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

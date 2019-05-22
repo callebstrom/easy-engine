@@ -4,15 +4,10 @@
 
 #include <EasyEngine/ISystem.h>
 #include <EasyEngine/ecs/entity/Entity.h>
-#include <EasyEngine/ecs/component/Component.h>
-#include <EasyEngine/Common.h>
+#include <EasyEngine/ecs/component_manager/ComponentManager.h>
 #include <type_traits>
 
 namespace easy_engine {
-
-	namespace component_manager {
-		class ComponentManager;
-	}
 
 	namespace entity {
 		class EntityHandle;
@@ -42,18 +37,18 @@ namespace easy_engine {
 			}
 
 			template <typename ComponentType>
-			void AddComponent(entity::Entity* entity, std::shared_ptr<component::Component> component)
+			void AddComponent(entity::Entity* entity, ComponentType& component)
 			{
 				auto component_type = std::type_index(typeid(ComponentType));
 				if (!this->component_managers_.count(component_type)) {
-					auto component_manager = new component_manager::ComponentManager();
-					this->component_managers_[component_type] = component_manager;
+					auto component_manager = new component_manager::ComponentManager<ComponentType>();
+					this->component_managers_[component_type] = reinterpret_cast<void*>(component_manager);
 				}
 				/** TODO register entity in correct ISystem if all ComponentTypes are met for entity.
 				 *  Add component to correct component manager
 				 */
-				component_manager::ComponentManager* component_manager = this->component_managers_[component_type];
-				component_manager->RegisterEntity(entity, component);
+				component_manager::ComponentManager<ComponentType>* component_manager = reinterpret_cast<component_manager::ComponentManager<ComponentType>*>(this->component_managers_[component_type]);
+				component_manager->RegisterEntity(entity, &component);
 
 				this->entity_component_signature_map_[entity][component::GetComponentFamily<ComponentType>()] = true;
 
@@ -69,19 +64,19 @@ namespace easy_engine {
 			void RemoveComponent(entity::Entity const& entity, component::Component component);
 
 			template<typename ComponentType>
-			std::shared_ptr<ComponentType> GetComponentForEntity(entity::Entity* entity)
+			ComponentType* GetComponentForEntity(entity::Entity* entity)
 			{
 				auto component_type = std::type_index(typeid(ComponentType));
-				component_manager::ComponentManager* component_manager = this->component_managers_[component_type];
+				component_manager::ComponentManager<ComponentType>* component_manager = reinterpret_cast<component_manager::ComponentManager<ComponentType>*>(this->component_managers_[component_type]);
 
-				return std::dynamic_pointer_cast<ComponentType, component::Component>(component_manager->registered_components_[component_manager->entity_id_component_index_map_[entity->id]]);
+				return component_manager->GetComponentForEntity(entity);
 			}
 
 		private:
 			float entity_id_seq_ = 0; // Should be in EntityManager
 			std::vector<entity::Entity*> entities_;
 			// std::vector<std::unique_ptr<ISystem>> systems_; // World owns systems (aka *Manager classes implementing ISystem, not to be confused with component managers)
-			OrderedTypeMap<component_manager::ComponentManager*> component_managers_;
+			OrderedTypeMap<void*> component_managers_; // TODO how to make this type-safe? Aka avoid void*. Dummy interface?
 			std::vector<ISystem*> systems_;
 			std::map<ISystem*, ComponentSignature> system_component_signature_map_;
 			std::map<entity::Entity*, ComponentSignature> entity_component_signature_map_;

@@ -37,26 +37,26 @@ BOOST_AUTO_TEST_CASE(should_register_eligable_entity_for_multi_component_system)
 	auto world = new world::World();
 	world->AddSystem<TransformComponent, VelocityComponent>(new TestSystem);
 
-	auto entity1 = world->CreateEntity();
-	auto entity2 = world->CreateEntity();
+	auto entity_handle1 = world->CreateEntity();
+	auto entity_handle2 = world->CreateEntity();
 
-	std::shared_ptr<TransformComponent> transform_component(new TransformComponent);
-	std::shared_ptr<VelocityComponent> velocity_component(new VelocityComponent);
-	std::shared_ptr<TransformComponent> transform_component2(new TransformComponent);
+	TransformComponent transform_component;
+	VelocityComponent velocity_component;
+	TransformComponent transform_component2;
 
 	// Only entity1 should be handle by TestSystem
-	world->AddComponent<TransformComponent>(entity1.entity, transform_component);
-	world->AddComponent<VelocityComponent>(entity1.entity, velocity_component);
-	world->AddComponent<TransformComponent>(entity2.entity, transform_component2);
+	world->AddComponent<TransformComponent>(entity_handle1.entity, transform_component);
+	world->AddComponent<VelocityComponent>(entity_handle1.entity, velocity_component);
+	world->AddComponent<TransformComponent>(entity_handle2.entity, transform_component2);
 
 	// Simulate app tick with 1ms delta time
 	world->Update(1.0f);
 
-	// TransformComponent for entity2 should remain unchanged as TestSystem should not operate on this entity
-	BOOST_CHECK_EQUAL(transform_component2->x, 10);
+	// The transform of entity_handle2 should be untouched
+	BOOST_CHECK_EQUAL(world->GetComponentForEntity<TransformComponent>(entity_handle2.entity)->x, 10);
 
-	// TestSystem should have operated on entity2 and added the velocity to the transform
-	BOOST_CHECK_EQUAL(transform_component->x, 10 + 33);
+	// entity_handle1 should have velocity added as its fulfills the component requirements of TestSystem
+	BOOST_CHECK_EQUAL(world->GetComponentForEntity<TransformComponent>(entity_handle1.entity)->x, 10 + 33);
 }
 
 
