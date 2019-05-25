@@ -14,27 +14,36 @@ BOOST_AUTO_TEST_CASE(create_entity_id_sequence)
 	BOOST_CHECK_EQUAL(entityHandle.world, world);
 }
 
-struct TransformComponent : public component::Component {
+struct TransformComponent : public ecs::component::Component {
 	int x = 10,
 		y = 25;
 };
 
-struct VelocityComponent : public component::Component {
+struct VelocityComponent : public ecs::component::Component {
 	int velocity = 33;
 };
 
-class TestSystem : public ISystem {
+class TestSystem : public ecs::ISystem {
 	void Update(float dt) override
 	{
-		auto test_component = this->world->GetComponentForEntity<TransformComponent>(this->entities_[0]);
-		auto velocity_component = this->world->GetComponentForEntity<VelocityComponent>(this->entities_[0]);
+		for (auto entity : this->entities_) {
+			auto test_component = this->world->GetComponentForEntity<TransformComponent>(entity);
+			auto velocity_component = this->world->GetComponentForEntity<VelocityComponent>(entity);
 
-		test_component->x += velocity_component->velocity;
+			test_component->x += velocity_component->velocity;
+		}
+	};
+};
+
+class VoidSystem : public ecs::ISystem {
+	void Update(float dt) override
+	{
 	};
 };
 BOOST_AUTO_TEST_CASE(should_register_eligable_entity_for_multi_component_system)
 {
 	auto world = new world::World();
+
 	world->AddSystem<TransformComponent, VelocityComponent>(new TestSystem);
 
 	auto entity_handle1 = world->CreateEntity();
@@ -42,11 +51,13 @@ BOOST_AUTO_TEST_CASE(should_register_eligable_entity_for_multi_component_system)
 
 	TransformComponent transform_component;
 	VelocityComponent velocity_component;
+	ecs::component::MeshComponent mesh_component;
 	TransformComponent transform_component2;
 
 	// Only entity1 should be handle by TestSystem
 	world->AddComponent<TransformComponent>(entity_handle1.entity, transform_component);
 	world->AddComponent<VelocityComponent>(entity_handle1.entity, velocity_component);
+
 	world->AddComponent<TransformComponent>(entity_handle2.entity, transform_component2);
 
 	// Simulate app tick with 1ms delta time

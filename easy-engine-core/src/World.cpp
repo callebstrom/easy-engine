@@ -29,7 +29,7 @@ namespace easy_engine {
 
 		}
 
-		void World::RemoveComponent(entity::Entity const& entity, component::Component component)
+		void World::RemoveComponent(entity::Entity const& entity, ecs::component::Component component)
 		{
 
 		}

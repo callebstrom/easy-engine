@@ -10,11 +10,13 @@ namespace easy_engine {
 		class Mesh;
 	}
 
-	namespace component {
-		class MeshComponent : public Component {
-		public:
-			resource::Mesh* renderable;
-		};
+	namespace ecs {
+		namespace component {
+			class MeshComponent : public Component {
+			public:
+				resource::Mesh* renderable;
+			};
+		}
 	}
 }
 

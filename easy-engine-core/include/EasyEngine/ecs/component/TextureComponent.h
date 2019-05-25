@@ -10,11 +10,13 @@ namespace easy_engine {
 		class Texture;
 	}
 
-	namespace component {
-		class TextureComponent : public Component {
-		public:
-			resource::Texture* texture;
-		};
+	namespace ecs {
+		namespace component {
+			class TextureComponent : public Component {
+			public:
+				resource::Texture* texture;
+			};
+		}
 	}
 }
 

@@ -44,6 +44,7 @@
     <ClInclude Include="include\EasyEngine\ecs\component_manager\ComponentManager.h" />
     <ClInclude Include="include\EasyEngine\ecs\entity\Entity.h" />
     <ClInclude Include="include\EasyEngine\ecs\entity\EntityHandle.h" />
+    <ClInclude Include="include\EasyEngine\ecs\ISystem.h" />
     <ClInclude Include="include\EasyEngine\eepch.h" />
     <ClInclude Include="include\EasyEngine\configuration\Configuration.h" />
     <ClInclude Include="include\EasyEngine\configuration\RenderConfiguration.h" />
@@ -54,13 +55,13 @@
     <ClInclude Include="include\EasyEngine\event_manager\EventManager.h" />
     <ClInclude Include="include\EasyEngine\event_manager\IObserver.h" />
     <ClInclude Include="include\EasyEngine\input_manager\InputManager.h" />
-    <ClInclude Include="include\EasyEngine\ISystem.h" />
     <ClInclude Include="include\EasyEngine\Logger.h" />
     <ClInclude Include="include\EasyEngine\ManagerLocator.h" />
     <ClInclude Include="include\EasyEngine\memory\LinearAllocator.h" />
     <ClInclude Include="include\EasyEngine\render_manager\ObjectIndex.h" />
     <ClInclude Include="include\EasyEngine\render_manager\RenderManager.h" />
     <ClInclude Include="include\EasyEngine\render_manager\RenderManagerOpenGL.h" />
+    <ClInclude Include="include\EasyEngine\render_manager\RenderSystem.h" />
     <ClInclude Include="include\EasyEngine\resource\Renderable.h" />
     <ClInclude Include="include\EasyEngine\resource\Mesh.h" />
     <ClInclude Include="include\EasyEngine\resource\Texture.h" />
@@ -80,6 +81,7 @@
     <ClInclude Include="include\EasyEngine\window_manager\WindowManager.h" />
     <ClInclude Include="include\EasyEngine\window_manager\WindowManagerGLFW.h" />
     <ClInclude Include="include\EasyEngine\world\World.h" />
+    <ClInclude Include="RenderSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\EasyEngine\event_manager\EventManager.cpp" />
@@ -103,6 +105,7 @@
     <ClCompile Include="src\Node.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\RenderableNode.cpp" />
+    <ClCompile Include="src\RenderSystem.cpp" />
     <ClCompile Include="src\ResourceManager3D.cpp" />
     <ClCompile Include="src\RenderManagerOpenGL.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />

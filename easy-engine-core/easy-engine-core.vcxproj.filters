@@ -192,9 +192,6 @@
     <ClInclude Include="include\EasyEngine\Common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\EasyEngine\ISystem.h">
-      <Filter>Header Files\ecs</Filter>
-    </ClInclude>
     <ClInclude Include="include\EasyEngine\ecs\component\TransformComponent.h">
       <Filter>Header Files\ecs\component</Filter>
     </ClInclude>
@@ -227,6 +224,15 @@
     </ClInclude>
     <ClInclude Include="include\EasyEngine\memory\LinearAllocator.h">
       <Filter>Header Files\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\render_manager\RenderSystem.h">
+      <Filter>Header Files\render_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\ecs\ISystem.h">
+      <Filter>Header Files\ecs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -298,6 +304,9 @@
     </ClCompile>
     <ClCompile Include="src\LinearAllocator.cpp">
       <Filter>Source Files\memory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderSystem.cpp">
+      <Filter>Source Files\render_manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

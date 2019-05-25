@@ -16,7 +16,8 @@
 #include <EasyEngine/world/World.h>
 #include <EasyEngine/ecs/entity/EntityHandle.h>
 #include <EasyEngine/ecs/component_manager/ComponentManager.h>
-#include <EasyEngine/ISystem.h>
+#include <EasyEngine/ecs/ISystem.h>
+#include <EasyEngine/ecs/component/MeshComponent.h>
 
 namespace easy_engine {
 	class EASY_ENGINE_API Application {
@@ -33,8 +34,10 @@ namespace easy_engine {
 		window_manager::WindowManagerGLFW* window_manager;
 		render_manager::RenderManagerOpenGL* render_manager;
 		event_manager::EventManager* event_manager;
+		world::World* world;
 	private:
 		bool is_running_ = false;
+		void InitializeDefaultSystems();
 	};
 
 	Application* CreateApplication();

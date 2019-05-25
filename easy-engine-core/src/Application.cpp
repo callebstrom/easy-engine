@@ -1,5 +1,8 @@
 #include <EasyEngine/eepch.h>
 #include <EasyEngine/Application.h>
+#include <EasyEngine/render_manager/RenderSystem.h>
+#include <EasyEngine/ecs/component/TransformComponent.h>
+#include <EasyEngine/ecs/component/MeshComponent.h>
 
 namespace easy_engine {
 
@@ -11,6 +14,9 @@ namespace easy_engine {
 		this->scene_manager_3d = new scene_manager::SceneManager3D();
 		this->resource_manager_3d = new resource_manager::ResourceManager3D();
 		this->input_manager = new input_manager::InputManager();
+		this->world = new world::World();
+
+		this->InitializeDefaultSystems();
 	}
 
 	Application::~Application() {
@@ -40,14 +46,29 @@ namespace easy_engine {
 
 		this->is_running_ = true;
 		EE_CORE_INFO("Application is now running");
+
+		std::chrono::high_resolution_clock timer;
+		using ms = std::chrono::duration<float, std::milli>;
+
+		auto start = timer.now();
+		auto stop = timer.now();
+		float deltaTime = 0;
+
 		while (this->is_running_) {
+
+			deltaTime = std::chrono::duration_cast<ms>(stop - start).count();
+			start = timer.now();
+
 			this->input_manager->PollEvents();
+			this->world->Update(deltaTime);
 			this->scene_manager_3d->RenderScene();
 			this->event_manager->ConsumeEventBuffer(event_manager::EventType::NodeRenderable);
 			this->event_manager->ConsumeEventBuffer(event_manager::EventType::PostRender);
 			event_manager::Event event = event_manager::Event();
 			event.event_type = event_manager::EventType::GlobalTick;
 			this->event_manager->Dispatch(event);
+
+			stop = timer.now();
 		}
 
 		this->window_manager->CloseWindowEE();
@@ -57,6 +78,13 @@ namespace easy_engine {
 		return std::async([this]() -> void {
 			this->Run();
 			});
+	}
+
+	void Application::InitializeDefaultSystems()
+	{
+		auto render_system = new render_manager::RenderSystem();
+
+		world->AddSystem<ecs::component::MeshComponent>(render_system);
 	}
 
 	void Application::Close() {

@@ -19,6 +19,7 @@
 #include <future>
 #include <bitset>
 #include <type_traits>
+#include <chrono>
 
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/base_object.hpp>

@@ -2,7 +2,7 @@
 #define WORLD_H
 #pragma once
 
-#include <EasyEngine/ISystem.h>
+#include <EasyEngine/ecs/ISystem.h>
 #include <EasyEngine/ecs/entity/Entity.h>
 #include <EasyEngine/ecs/component_manager/ComponentManager.h>
 #include <type_traits>
@@ -22,15 +22,16 @@ namespace easy_engine {
 			void Update(float dt);
 
 			// TODO this should handle unique_ptr
-			template <typename ComponentType, typename... ComponentTypes>
-			void AddSystem(ISystem* system)
+			template <typename... ComponentTypes>
+			void AddSystem(ecs::ISystem* system)
 			{
 				system->RegisterWorld(this);
 				this->systems_.push_back(system);
 
 				ComponentSignature component_signature;
-				component_signature[component::GetComponentFamily<ComponentType>()] = true;
-				component_signature[component::GetComponentFamily<ComponentTypes...>()] = true;
+
+				int _[] = { 0, (component_signature[ecs::component::Component::GetComponentFamily<ComponentTypes>()] = true, 0)... };
+				(void)_;
 
 				// Associate the system with a component signature
 				this->system_component_signature_map_[system] = component_signature;
@@ -50,7 +51,7 @@ namespace easy_engine {
 				component_manager::ComponentManager<ComponentType>* component_manager = reinterpret_cast<component_manager::ComponentManager<ComponentType>*>(this->component_managers_[component_type]);
 				component_manager->RegisterEntity(entity, &component);
 
-				this->entity_component_signature_map_[entity][component::GetComponentFamily<ComponentType>()] = true;
+				this->entity_component_signature_map_[entity][ecs::component::Component::GetComponentFamily<ComponentType>()] = true;
 
 				for (auto system : this->systems_) {
 					auto component_mask = this->entity_component_signature_map_[entity] &= this->system_component_signature_map_[system];
@@ -61,7 +62,7 @@ namespace easy_engine {
 					}
 				}
 			}
-			void RemoveComponent(entity::Entity const& entity, component::Component component);
+			void RemoveComponent(entity::Entity const& entity, ecs::component::Component component);
 
 			template<typename ComponentType>
 			ComponentType* GetComponentForEntity(entity::Entity* entity)
@@ -77,8 +78,8 @@ namespace easy_engine {
 			std::vector<entity::Entity*> entities_;
 			// std::vector<std::unique_ptr<ISystem>> systems_; // World owns systems (aka *Manager classes implementing ISystem, not to be confused with component managers)
 			OrderedTypeMap<void*> component_managers_; // TODO how to make this type-safe? Aka avoid void*. Dummy interface?
-			std::vector<ISystem*> systems_;
-			std::map<ISystem*, ComponentSignature> system_component_signature_map_;
+			std::vector<ecs::ISystem*> systems_;
+			std::map<ecs::ISystem*, ComponentSignature> system_component_signature_map_;
 			std::map<entity::Entity*, ComponentSignature> entity_component_signature_map_;
 		};
 	}
