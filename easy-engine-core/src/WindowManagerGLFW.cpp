@@ -88,19 +88,19 @@ namespace easy_engine {
 			glfwSwapBuffers(this->p_impl_->window_);
 		}
 
-		void WindowManagerGLFW::OnPostRender(event_manager::Event event) {
+		void WindowManagerGLFW::On3DPostRender(event_manager::Event event) {
 			this->SwapBuffers();
 		}
 
-		void WindowManagerGLFW::OnNodeRenderable(event_manager::Event event) {
+		void WindowManagerGLFW::On3DObjectRenderable(event_manager::Event event) {
 		}
 
 		WindowManagerGLFW::WindowManagerGLFW()
 			: p_impl_(new Impl()) {
 			ManagerLocator::event_manager->Subscribe(
-				event_manager::EventType::PostRender,
+				event_manager::EventType::_3DPostRender,
 				this,
-				(Callback)& WindowManagerGLFW::OnPostRender
+				(Callback)& WindowManagerGLFW::On3DPostRender
 			);
 		}
 

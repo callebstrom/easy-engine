@@ -45,9 +45,7 @@ namespace easy_engine {
 					auto component_manager = new component_manager::ComponentManager<ComponentType>();
 					this->component_managers_[component_type] = reinterpret_cast<void*>(component_manager);
 				}
-				/** TODO register entity in correct ISystem if all ComponentTypes are met for entity.
-				 *  Add component to correct component manager
-				 */
+
 				component_manager::ComponentManager<ComponentType>* component_manager = reinterpret_cast<component_manager::ComponentManager<ComponentType>*>(this->component_managers_[component_type]);
 				component_manager->RegisterEntity(entity, &component);
 

@@ -61,9 +61,8 @@ namespace easy_engine {
 
 			this->input_manager->PollEvents();
 			this->world->Update(deltaTime);
-			this->scene_manager_3d->RenderScene();
-			this->event_manager->ConsumeEventBuffer(event_manager::EventType::NodeRenderable);
-			this->event_manager->ConsumeEventBuffer(event_manager::EventType::PostRender);
+			this->event_manager->ConsumeEventBuffer(event_manager::EventType::_3DObjectRenderable);
+			this->event_manager->ConsumeEventBuffer(event_manager::EventType::_3DPostRender);
 			event_manager::Event event = event_manager::Event();
 			event.event_type = event_manager::EventType::GlobalTick;
 			this->event_manager->Dispatch(event);
@@ -83,7 +82,6 @@ namespace easy_engine {
 	void Application::InitializeDefaultSystems()
 	{
 		auto render_system = new render_manager::RenderSystem();
-
 		world->AddSystem<ecs::component::MeshComponent>(render_system);
 	}
 

@@ -20,6 +20,7 @@
 #include <EasyEngine/ecs/component/MeshComponent.h>
 
 namespace easy_engine {
+
 	class EASY_ENGINE_API Application {
 	public:
 		Application();
@@ -41,6 +42,9 @@ namespace easy_engine {
 	};
 
 	Application* CreateApplication();
+
+	EASY_ENGINE_EXTERN_TEMPLATE EASY_ENGINE_API int ecs::component::Component::GetComponentFamily<ecs::component::MeshComponent>();
 }
+
 
 #endif // !APPLICATION_H

@@ -2,8 +2,6 @@
 #include <boost/test/unit_test.hpp>
 #include <EasyEngine/EasyEngine.h>
 
-#include <chrono>
-
 BOOST_AUTO_TEST_SUITE(StaticSceneTest)
 
 using namespace easy_engine;
@@ -12,8 +10,11 @@ class StaticSceneApplication : public Application {
 public:
 	StaticSceneApplication() {
 		resource::Mesh* ptr = this->resource_manager_3d->LoadObj("..\\easy-engine-core\\res\\basic_sword_low_poly.obj");
-		this->scene_manager_3d->CreateScene("main");
-		this->scene_manager_3d->Add(ptr, "main");
+		ecs::component::MeshComponent mesh_component;
+		mesh_component.mesh = ptr;
+
+		auto sword = this->world->CreateEntity();
+		this->world->AddComponent<ecs::component::MeshComponent>(sword.entity, mesh_component);
 	}
 
 	~StaticSceneApplication() {

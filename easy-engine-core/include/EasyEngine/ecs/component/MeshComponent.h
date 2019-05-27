@@ -12,9 +12,9 @@ namespace easy_engine {
 
 	namespace ecs {
 		namespace component {
-			class MeshComponent : public Component {
+			class EASY_ENGINE_API MeshComponent : public Component {
 			public:
-				resource::Mesh* renderable;
+				resource::Mesh* mesh;
 			};
 		}
 	}

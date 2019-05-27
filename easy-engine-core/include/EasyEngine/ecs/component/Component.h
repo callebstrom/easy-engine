@@ -1,5 +1,5 @@
-#ifndef I_COMPONENT_H
-#define I_COMPONENT_H
+#ifndef COMPONENT_H
+#define COMPONENT_H
 #pragma once
 
 #include <EasyEngine/Common.h>
@@ -33,5 +33,4 @@ namespace easy_engine {
 	}
 }
 
-
-#endif // !I_COMPONENT_H
+#endif // !COMPONENT_H

@@ -9,8 +9,8 @@ namespace easy_engine {
 		class EASY_ENGINE_API IObserver {
 			friend class EventManager;
 		protected:
-			virtual void OnNodeRenderable(event_manager::Event event) = 0;
-			virtual void OnPostRender(event_manager::Event event) = 0;
+			virtual void On3DObjectRenderable(event_manager::Event event) = 0;
+			virtual void On3DPostRender(event_manager::Event event) = 0;
 		};
 
 	}

@@ -27,8 +27,10 @@
 
 #ifdef DLLDIR_EX
 #define EASY_ENGINE_API  __declspec(dllexport)   // export DLL information
+#define EASY_ENGINE_EXTERN_TEMPLATE template
 #else
 #define EASY_ENGINE_API  __declspec(dllimport)   // import DLL information
+#define EASY_ENGINE_EXTERN_TEMPLATE extern template
 #endif 
 
 typedef unsigned char byte;
