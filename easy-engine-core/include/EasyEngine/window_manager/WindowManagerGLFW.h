@@ -17,8 +17,7 @@ namespace easy_engine {
 			~WindowManagerGLFW();
 
 			void WindowManager::CreateWindowEE(configuration::WindowConfiguration_t* configuration) override;
-			void On3DPostRender(event_manager::Event event);
-			void On3DObjectRenderable(event_manager::Event event) override;
+			void OnEvent(event_manager::Event event) override;
 			void CloseWindowEE() override;
 			void SwapBuffers() override;
 		private:

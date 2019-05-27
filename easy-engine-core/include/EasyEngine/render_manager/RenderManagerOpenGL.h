@@ -24,8 +24,7 @@ namespace easy_engine {
 
 			void Render(resource::Renderable* renderable) override;
 			void UpdateCameraAngle(double x, double y) override;
-			void On3DObjectRenderable(event_manager::Event event) override;
-			void On3DPostRender(event_manager::Event event) {};
+			void OnEvent(event_manager::Event event) override;
 
 		private:
 			struct Impl;

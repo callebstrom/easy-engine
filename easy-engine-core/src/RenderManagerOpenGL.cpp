@@ -276,8 +276,7 @@ namespace easy_engine {
 
 			ManagerLocator::event_manager->Subscribe(
 				event_manager::EventType::_3DObjectRenderable,
-				this,
-				(Callback)& RenderManagerOpenGL::On3DObjectRenderable
+				this
 			);
 
 			this->p_impl_->LogRenderInfo();
@@ -332,7 +331,7 @@ namespace easy_engine {
 			glDrawElements(GL_TRIANGLES, object_index.ebo_size, GL_UNSIGNED_SHORT, NULL);
 		}
 
-		void RenderManagerOpenGL::On3DObjectRenderable(event_manager::Event event) {
+		void RenderManagerOpenGL::OnEvent(event_manager::Event event) {
 			resource::Renderable* renderable = static_cast<resource::Renderable*>(event.data);
 			this->Render(renderable);
 		}

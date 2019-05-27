@@ -234,6 +234,9 @@
     <ClInclude Include="include\EasyEngine\ecs\ISystem.h">
       <Filter>Header Files\ecs</Filter>
     </ClInclude>
+    <ClInclude Include="include\EasyEngine\render_manager\_3DObjectRenderable.h">
+      <Filter>Header Files\render_manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RenderManagerOpenGL.cpp">
