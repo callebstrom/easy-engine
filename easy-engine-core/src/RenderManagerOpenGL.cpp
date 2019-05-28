@@ -13,6 +13,7 @@
 #include <EasyEngine/render_manager/RenderManagerOpenGL.h>
 #include <EasyEngine/configuration/RenderConfiguration.h>
 #include <EasyEngine/ManagerLocator.h>
+#include <EasyEngine/render_manager/Camera.h>
 
 void GLAPIENTRY Debug(GLenum source​, GLenum type​, GLuint id​, GLenum severity​, GLsizei length​, const GLchar* message​, const void* userParam) {
 	// EE_CORE_TRACE(message​);
@@ -27,7 +28,7 @@ namespace easy_engine {
 		struct RenderManagerOpenGL::Impl {
 
 			Impl(configuration::RenderConfiguration_t* rc)
-				: render_config_(rc) {}
+				: render_config_(rc), camera(new Camera) {}
 
 			void LogRenderInfo() const;
 			void LoadShaders() {
@@ -242,6 +243,8 @@ namespace easy_engine {
 			GLint pos_attrib_;
 			GLint uniform_attrib_;
 			GLint col_attrib_;
+			Camera* camera;
+			float factor = 1.0f;
 		};
 
 		RenderManagerOpenGL::RenderManagerOpenGL(configuration::RenderConfiguration_t * rc)
@@ -322,11 +325,27 @@ namespace easy_engine {
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width, texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->raw);
 				glBindTexture(GL_TEXTURE_2D, 0);
 			}
+			float FoV = 70.0f;
 
-			glBindVertexArray(object_index.vao);
+			auto width = boost::lexical_cast<float>(this->p_impl_->render_config_->Get(c_params_::RESOLUTION_X));
+			auto height = boost::lexical_cast<float>(this->p_impl_->render_config_->Get(c_params_::RESOLUTION_Y));
+			GLfloat aspect_ratio = width / height;
+
+			glm::mat4 projection_matrix = glm::perspective(
+				glm::radians(FoV),
+				aspect_ratio,
+				0.1f,
+				100.0f
+			);
+
+			auto model_matrix = glm::mat4(1.f);
+			auto view_matrix = this->p_impl_->camera->view_matrix;
+			glm::mat4 mvp = projection_matrix * view_matrix * glm::scale(model_matrix, glm::vec3(1.f, 1.f, 1.f));
 
 			GLint uniMvp = glGetUniformLocation(this->p_impl_->shader_program_, "mvp");
-			glUniformMatrix4fv(uniMvp, 1, GL_FALSE, glm::value_ptr(this->p_impl_->mvp));
+			glUniformMatrix4fv(uniMvp, 1, GL_FALSE, glm::value_ptr(mvp));
+
+			glBindVertexArray(object_index.vao);
 
 			glDrawElements(GL_TRIANGLES, object_index.ebo_size, GL_UNSIGNED_SHORT, NULL);
 		}
@@ -387,7 +406,7 @@ namespace easy_engine {
 			);
 
 			glm::mat4 model_matrix = glm::mat4(1.0);
-			this->p_impl_->mvp = projection_matrix * view_matrix * glm::scale(model_matrix, glm::vec3(2, 2, 2));
+			this->p_impl_->mvp = projection_matrix * view_matrix * glm::scale(model_matrix, glm::vec3(1, 1, 1));
 			lastTime = lastTime + deltaTime;
 		}
 	}

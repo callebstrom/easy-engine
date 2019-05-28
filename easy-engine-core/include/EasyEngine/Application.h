@@ -28,6 +28,7 @@ namespace easy_engine {
 		void Run();
 		void Close();
 		std::future<void> RunAsync();
+		static std::string GetEngineDirectory();
 	protected:
 		scene_manager::SceneManager3D* scene_manager_3d;
 		resource_manager::ResourceManager3D* resource_manager_3d;

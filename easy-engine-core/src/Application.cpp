@@ -3,6 +3,7 @@
 #include <EasyEngine/render_manager/RenderSystem.h>
 #include <EasyEngine/ecs/component/TransformComponent.h>
 #include <EasyEngine/ecs/component/MeshComponent.h>
+#include <experimental/filesystem>
 
 namespace easy_engine {
 
@@ -29,10 +30,10 @@ namespace easy_engine {
 		render_configuration->Set(configuration::RenderConfigurationParams::RESOLUTION_X, "1024");
 		render_configuration->Set(configuration::RenderConfigurationParams::RESOLUTION_Y, "768");
 		render_configuration->Set(configuration::RenderConfigurationParams::ANTIALIASING, "8");
-		render_configuration->Set(configuration::RenderConfigurationParams::VERTEX_SHADER_SOURCE_LOCATION, "shaders\\vertex_shader.glsl");
-		render_configuration->Set(configuration::RenderConfigurationParams::FRAGMENT_SHADER_SOURCE_LOCATION, "shaders\\fragment_shader.glsl");
+		render_configuration->Set(configuration::RenderConfigurationParams::VERTEX_SHADER_SOURCE_LOCATION, Application::GetEngineDirectory() + "\\easy-engine-core\\src\\shaders\\vertex_shader.glsl");
+		render_configuration->Set(configuration::RenderConfigurationParams::FRAGMENT_SHADER_SOURCE_LOCATION, Application::GetEngineDirectory() + "\\easy-engine-core\\src\\shaders\\fragment_shader.glsl");
 
-		configuration::WindowConfiguration_t* window_configuration = new configuration::WindowConfiguration_t();
+		configuration::WindowConfiguration_t * window_configuration = new configuration::WindowConfiguration_t();
 		window_configuration->Set(configuration::WindowConfigurationParams::WIDTH, "1024");
 		window_configuration->Set(configuration::WindowConfigurationParams::HEIGHT, "768");
 
@@ -77,6 +78,11 @@ namespace easy_engine {
 		return std::async([this]() -> void {
 			this->Run();
 			});
+	}
+
+	std::string Application::GetEngineDirectory()
+	{
+		return std::experimental::filesystem::current_path().remove_filename().u8string();
 	}
 
 	void Application::InitializeDefaultSystems()

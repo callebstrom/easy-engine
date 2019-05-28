@@ -12,10 +12,6 @@ namespace easy_engine {
 			return nullptr;
 		}
 
-		std::string ResourceManager::GetEngineDirectory() {
-			return std::experimental::filesystem::current_path().remove_filename().u8string();
-		}
-
 		std::shared_ptr<Texture> ResourceManager::LoadTexture(std::string file_path) {
 			Texture* texture = new Texture(file_path);
 			stbi_set_flip_vertically_on_load(1);
