@@ -191,6 +191,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\DynamicScene.cpp" />
     <ClCompile Include="src\EasyEngineTests.cpp" />
     <ClCompile Include="src\StaticSceneTest.cpp" />
     <ClCompile Include="src\unit\LinearAllocatorTest.cpp" />

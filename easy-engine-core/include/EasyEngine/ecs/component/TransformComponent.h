@@ -18,7 +18,7 @@ namespace easy_engine {
 
 				TransformComponent* Rotation(float radians, float privot_x = 0, float pivot_y = 0, float pivot_z = 0) // Default pivot is origin
 				{
-					this->rotation = Eigen::AngleAxis<float>(radians, Eigen::Vector3f(privot_x, pivot_y, pivot_z));
+					this->rotation = Eigen::AngleAxis<float>(this->rotation.angle() + radians, Eigen::Vector3f(privot_x, pivot_y, pivot_z));
 					return this;
 				}
 

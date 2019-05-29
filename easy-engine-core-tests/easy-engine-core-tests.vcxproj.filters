@@ -33,5 +33,8 @@
     <ClCompile Include="src\unit\LinearAllocatorTest.cpp">
       <Filter>Source Files\unit</Filter>
     </ClCompile>
+    <ClCompile Include="src\DynamicScene.cpp">
+      <Filter>Source Files\integration</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

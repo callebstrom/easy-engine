@@ -88,7 +88,7 @@ namespace easy_engine {
 	void Application::InitializeDefaultSystems()
 	{
 		auto render_system = new render_manager::RenderSystem();
-		world->AddSystem<ecs::component::MeshComponent>(render_system);
+		world->AddSystem<ecs::component::MeshComponent, ecs::component::TransformComponent>(render_system);
 	}
 
 	void Application::Close() {

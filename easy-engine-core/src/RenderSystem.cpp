@@ -17,10 +17,13 @@ namespace easy_engine {
 		{
 			for (auto entity : this->entities_) {
 				auto mesh_component = this->world->GetComponentForEntity<ecs::component::MeshComponent>(entity);
+				auto transform_component = this->world->GetComponentForEntity<ecs::component::TransformComponent>(entity);
+
 				event_manager::Event render_event = event_manager::Event();
 
 				auto event_data = new _3DObjectRenderable();
 				event_data->mesh_component = mesh_component;
+				event_data->transform_component = transform_component;
 
 				render_event.data = event_data;
 				render_event.event_type = event_manager::EventType::_3DObjectRenderable;

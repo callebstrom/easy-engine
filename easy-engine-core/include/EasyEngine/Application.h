@@ -18,6 +18,7 @@
 #include <EasyEngine/ecs/component_manager/ComponentManager.h>
 #include <EasyEngine/ecs/ISystem.h>
 #include <EasyEngine/ecs/component/MeshComponent.h>
+#include <EasyEngine/ecs/component/TransformComponent.h>
 
 namespace easy_engine {
 
@@ -45,6 +46,7 @@ namespace easy_engine {
 	Application* CreateApplication();
 
 	EASY_ENGINE_EXTERN_TEMPLATE EASY_ENGINE_API int ecs::component::Component::GetComponentFamily<ecs::component::MeshComponent>();
+	EASY_ENGINE_EXTERN_TEMPLATE EASY_ENGINE_API int ecs::component::Component::GetComponentFamily<ecs::component::TransformComponent>();
 }
 
 
