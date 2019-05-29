@@ -5,6 +5,7 @@
 #include <EasyEngine/ManagerLocator.h>
 #include <EasyEngine/world/World.h>
 #include <EasyEngine/ecs/component/MeshComponent.h>
+#include <EasyEngine/render_manager/_3DObjectRenderable.h>
 
 namespace easy_engine {
 	namespace render_manager {
@@ -17,7 +18,11 @@ namespace easy_engine {
 			for (auto entity : this->entities_) {
 				auto mesh_component = this->world->GetComponentForEntity<ecs::component::MeshComponent>(entity);
 				event_manager::Event render_event = event_manager::Event();
-				render_event.data = mesh_component->mesh;
+
+				auto event_data = new _3DObjectRenderable();
+				event_data->mesh_component = mesh_component;
+
+				render_event.data = event_data;
 				render_event.event_type = event_manager::EventType::_3DObjectRenderable;
 				render_event.message_id = atoi(mesh_component->mesh->name.c_str());
 				EE_CORE_INFO("_3DObjectRenderable event dispatched for entity ", entity->id);

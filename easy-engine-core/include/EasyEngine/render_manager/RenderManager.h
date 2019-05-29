@@ -12,7 +12,7 @@ namespace easy_engine {
 	namespace render_manager {
 		class EASY_ENGINE_API RenderManager {
 		public:
-			virtual void Render(resource::Renderable* renderable) = 0;
+			virtual void Render(resource::Mesh* mesh, Eigen::Matrix4f model_matrix) = 0;
 			virtual void UpdateCameraAngle(double x, double y) = 0;
 			virtual ~RenderManager() = default;
 		};

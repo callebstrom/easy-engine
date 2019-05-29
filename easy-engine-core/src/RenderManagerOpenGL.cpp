@@ -14,6 +14,11 @@
 #include <EasyEngine/configuration/RenderConfiguration.h>
 #include <EasyEngine/ManagerLocator.h>
 #include <EasyEngine/render_manager/Camera.h>
+#include <EasyEngine/render_manager/_3DObjectRenderable.h>
+#include <EasyEngine/ecs/component/MeshComponent.h>
+#include <EasyEngine/ecs/component/TransformComponent.h>
+#include <Eigen/Dense>
+#include <Eigen/Geometry>
 
 void GLAPIENTRY Debug(GLenum source​, GLenum type​, GLuint id​, GLenum severity​, GLsizei length​, const GLchar* message​, const void* userParam) {
 	// EE_CORE_TRACE(message​);
@@ -291,16 +296,14 @@ namespace easy_engine {
 			glDeleteShader(this->p_impl_->vertex_shader_);
 		}
 
-		void RenderManagerOpenGL::Render(resource::Renderable * renderable_) {
-
-			resource::Mesh* renderable = static_cast<resource::Mesh*>(renderable_);
+		void RenderManagerOpenGL::Render(resource::Mesh * mesh, Eigen::Matrix4f model_matrix) {
 
 			// Should the object index be built lazily?
-			if (this->p_impl_->object_indices_.find(renderable->name) == this->p_impl_->object_indices_.end()) {
-				this->p_impl_->GenerateObjectIndex(renderable);
+			if (this->p_impl_->object_indices_.find(mesh->name) == this->p_impl_->object_indices_.end()) {
+				this->p_impl_->GenerateObjectIndex(mesh);
 			}
 
-			ObjectIndex object_index = this->p_impl_->object_indices_.at(renderable->name);
+			ObjectIndex object_index = this->p_impl_->object_indices_.at(mesh->name);
 
 			/*if (glfwWindowShouldClose(this->window_)) {
 				glfwTerminate();
@@ -314,7 +317,7 @@ namespace easy_engine {
 				glfwSetWindowShouldClose(this->window_, GL_TRUE);*/
 
 				// TODO this should probably happen at the same time as the ObjectIndex is built..
-			resource::Texture * texture = renderable->GetTexture().get();
+			resource::Texture * texture = mesh->GetTexture().get();
 
 			if (texture != nullptr) {
 				glBindTexture(GL_TEXTURE_2D, texture->renderer_id);
@@ -338,9 +341,8 @@ namespace easy_engine {
 				100.0f
 			);
 
-			auto model_matrix = glm::mat4(1.f);
 			auto view_matrix = this->p_impl_->camera->view_matrix;
-			glm::mat4 mvp = projection_matrix * view_matrix * glm::scale(model_matrix, glm::vec3(1.f, 1.f, 1.f));
+			glm::mat4 mvp = projection_matrix * view_matrix * glm::make_mat4(model_matrix.data());
 
 			GLint uniMvp = glGetUniformLocation(this->p_impl_->shader_program_, "mvp");
 			glUniformMatrix4fv(uniMvp, 1, GL_FALSE, glm::value_ptr(mvp));
@@ -351,8 +353,15 @@ namespace easy_engine {
 		}
 
 		void RenderManagerOpenGL::OnEvent(event_manager::Event event) {
-			resource::Renderable* renderable = static_cast<resource::Renderable*>(event.data);
-			this->Render(renderable);
+			_3DObjectRenderable* event_data = static_cast<_3DObjectRenderable*>(event.data);
+
+			Eigen::Matrix<GLfloat, 4, 4> model_matrix;
+			model_matrix.setZero();
+			model_matrix.diagonal() << 1, 1, 1, 1;
+
+			model_matrix = event_data->transform_component->GetCombinedAffineTransform() * model_matrix;
+
+			this->Render(event_data->mesh_component->mesh, model_matrix);
 		}
 
 		// TODO this should be handled by WindowManager using glfwSetWindowUserPointer

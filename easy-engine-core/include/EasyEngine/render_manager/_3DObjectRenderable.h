@@ -2,20 +2,20 @@
 #define _3D_OBJECT_RENDERABLE_H
 #pragma once
 
+#include <EasyEngine/ecs/component/TransformComponent.h>
+
 namespace easy_engine {
 
 	namespace ecs {
 		namespace component {
 			class MeshComponent;
-			class TransformComponent;
 		}
 	}
 
 	namespace render_manager {
-		class _3DObjectRenderable
+		struct _3DObjectRenderable
 		{
-		public:
-			ecs::component::TransformComponent* transform_component;
+			ecs::component::TransformComponent* transform_component = new ecs::component::TransformComponent();
 			ecs::component::MeshComponent* mesh_component;
 		};
 	}
