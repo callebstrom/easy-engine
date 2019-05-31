@@ -1,8 +1,5 @@
 #pragma once
 
-#include <GL/glfw3.h>
-
-
 namespace easy_engine {
 
 	namespace render_manager {
@@ -10,12 +7,16 @@ namespace easy_engine {
 	}
 
 	namespace input_manager {
+
+		typedef int GLFW_KEY;
+
 		class EASY_ENGINE_API InputManager {
 		public:
-			void HandleMousePosUpdate(double x, double y);
-			void HandleMouseButtonPress(int button, int modifier);
-			void HandleMouseButtonRelease(int button, int modifier);
+			void HandleMouseEvent(int button, int modifier, double x, double y);
+			void HandeKeyboardEvent(int key, int scancode, int action, int modifiers);
 			void PollEvents();
+		private:
+			std::set<GLFW_KEY> repeated_keys_;
 		};
 	}
 }

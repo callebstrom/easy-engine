@@ -61,7 +61,9 @@ namespace easy_engine {
 			start = timer.now();
 
 			this->input_manager->PollEvents();
+			this->event_manager->ConsumeEventBuffer(event_manager::EventType::Keyboard);
 			this->world->Update(deltaTime);
+			this->event_manager->ConsumeEventBuffer(event_manager::EventType::_3DPreRender);
 			this->event_manager->ConsumeEventBuffer(event_manager::EventType::_3DObjectRenderable);
 			this->event_manager->ConsumeEventBuffer(event_manager::EventType::_3DPostRender);
 			event_manager::Event event = event_manager::Event();

@@ -19,6 +19,7 @@
 #include <EasyEngine/ecs/ISystem.h>
 #include <EasyEngine/ecs/component/MeshComponent.h>
 #include <EasyEngine/ecs/component/TransformComponent.h>
+#include <EasyEngine/input_manager/KeyboardEvent.h>
 
 namespace easy_engine {
 

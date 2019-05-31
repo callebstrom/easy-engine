@@ -36,5 +36,8 @@
     <ClCompile Include="src\DynamicScene.cpp">
       <Filter>Source Files\integration</Filter>
     </ClCompile>
+    <ClCompile Include="src\PlayerTest.cpp">
+      <Filter>Source Files\integration</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

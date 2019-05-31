@@ -7,18 +7,20 @@ namespace easy_engine {
 		enum class EventType {
 			GlobalTick,
 			_3DObjectRenderable,
+			_3DPreRender,
 			_3DPostRender,
-			KeyPressed,
-			KeyReleased,
-			MouseButtonPressed,
-			MouseButtonReleased,
-			MouseMoved,
+			Keyboard,
+			Mouse
 		};
 
 		struct Event {
 			EventType event_type;
 			int message_id;
 			void* data;
+
+			Event() = default;
+			Event(EventType event_type)
+				: event_type(event_type) {}
 		};
 	}
 }

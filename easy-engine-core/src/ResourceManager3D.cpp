@@ -12,7 +12,7 @@ namespace easy_engine {
 		resource::Mesh* ResourceManager3D::LoadObj(std::string file_path) {
 			resource::Mesh* renderable = new resource::Mesh();
 
-			renderable->name = "test";
+			renderable->name = file_path;
 
 			std::ifstream ifs(file_path);
 			if (!ifs.is_open()) {

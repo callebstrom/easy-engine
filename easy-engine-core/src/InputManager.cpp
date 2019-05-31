@@ -1,33 +1,51 @@
 #include <EasyEngine/eepch.h>
+#include <GL/glfw3.h>
 #include <EasyEngine/input_manager/InputManager.h>
+#include <EasyEngine/input_manager/KeyboardEvent.h>
 #include <EasyEngine/ManagerLocator.h>
 
 namespace easy_engine {
 	namespace input_manager {
 
-		void InputManager::HandleMouseButtonPress(int button, int modifier) {
-
+		void InputManager::HandleMouseEvent(int button, int modifier, double x, double y)
+		{
 		}
 
-		void InputManager::HandleMouseButtonRelease(int button, int modifier) {
+		void InputManager::HandeKeyboardEvent(int key, int scancode, int action, int modifiers)
+		{
 
+			// Repeat is handled internally
+			if (action == GLFW_REPEAT) return;
+
+			// TODO action GLFW_REPEAT is only sent for latest button, i.e. need to build support for repeating multiple keys
+			auto event = easy_engine::event_manager::Event(easy_engine::event_manager::EventType::Keyboard);
+
+			auto event_data = new KeyboardEvent();
+			event_data->key = key;
+			event_data->modifiers = modifiers;
+
+			switch (action) {
+			case GLFW_PRESS:
+				event_data->action = EE_KEY_ACTION_PRESSED;
+				this->repeated_keys_.insert(key);
+				break;
+			case GLFW_RELEASE:
+				event_data->action = EE_KEY_ACTION_RELEASED;
+				this->repeated_keys_.erase(key);
+				break;
+			}
+
+			event.data = event_data;
+			ManagerLocator::event_manager->Dispatch(event);
 		}
-
 		void InputManager::PollEvents() {
+			// TODO this should support modifiers. Perhaps store a tuple in repeated_keys_ set?
+			for (auto repeated_key : this->repeated_keys_) {
+				auto event = easy_engine::event_manager::Event(easy_engine::event_manager::EventType::Keyboard);
+				event.data = new KeyboardEvent(repeated_key, 0, EE_KEY_ACTION_PRESSED);
+				ManagerLocator::event_manager->Dispatch(event);
+			}
 			glfwPollEvents();
-		}
-
-		void InputManager::HandleMousePosUpdate(double x, double y) {
-			/**
-			* TODO Forward behaviour to RenderManagerOpenGL::UpdateCameraAngle in some clever way..
-			*
-			* Best solution is probably to express the mvp in UpdateCameraAngle as an Eigen equivalent of glm::mat4 and put all
-			* camera stuff in a generic Camera3D class. The Camera3D class could then have callbacks registered for "onCameraUpdate".
-			* E.g. RenderManagerOpenGL::UpdateCameraAngle is an callback for onCameraUpdate, and takes only an Eigen equivalent of glm::mat4 as arg,
-			* and the Camera3D class is responsible for generating the model view projection matrix and calling the callback.
-			* HandleMousePosUpdate is only responsible for forwarding, and possibly inversing the mouse position.
-			*/
-			ManagerLocator::render_manager->UpdateCameraAngle(x, y);
 		}
 
 	}

@@ -55,6 +55,7 @@
     <ClInclude Include="include\EasyEngine\event_manager\EventManager.h" />
     <ClInclude Include="include\EasyEngine\event_manager\IObserver.h" />
     <ClInclude Include="include\EasyEngine\input_manager\InputManager.h" />
+    <ClInclude Include="include\EasyEngine\input_manager\KeyboardEvent.h" />
     <ClInclude Include="include\EasyEngine\Logger.h" />
     <ClInclude Include="include\EasyEngine\ManagerLocator.h" />
     <ClInclude Include="include\EasyEngine\memory\LinearAllocator.h" />

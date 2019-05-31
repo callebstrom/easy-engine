@@ -240,6 +240,9 @@
     <ClInclude Include="include\EasyEngine\render_manager\Camera.h">
       <Filter>Header Files\render_manager</Filter>
     </ClInclude>
+    <ClInclude Include="include\EasyEngine\input_manager\KeyboardEvent.h">
+      <Filter>Header Files\input_manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RenderManagerOpenGL.cpp">

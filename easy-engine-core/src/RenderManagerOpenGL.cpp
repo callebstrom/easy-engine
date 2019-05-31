@@ -205,6 +205,15 @@ namespace easy_engine {
 				}
 			};
 
+			std::vector<Eigen::Translation3f> InterpolateTranslation3f(Eigen::Translation3f prev, Eigen::Translation3f cur) {
+				static float MIN_LERP_STEP = 0.001f;
+				float x_diff = prev.x() - cur.x();
+				float y_diff = prev.y() - cur.y();
+				float z_diff = prev.z() - cur.z();
+
+				return std::vector<Eigen::Translation3f>();
+			}
+
 			std::vector<glm::vec3> ComputeNormals(resource::Mesh * renderable) {
 				std::vector<glm::vec3> normals;
 				normals.resize(renderable->GetVertexCount(), glm::vec3(0.0, 0.0, 0.0));
@@ -232,6 +241,76 @@ namespace easy_engine {
 				}
 
 				return normals;
+			}
+
+			void On3DObjectRenderable(event_manager::Event event) {
+				_3DObjectRenderable* event_data = static_cast<_3DObjectRenderable*>(event.data);
+
+				Eigen::Matrix<GLfloat, 4, 4> model_matrix;
+				model_matrix.setZero();
+				model_matrix.diagonal() << 1, 1, 1, 1;
+
+				auto prev_translation = event_data->transform_component->prev_translation_;
+				auto translation = event_data->transform_component->translation_;
+
+				// TODO interpolate between the 2 translations above and render for interpolation step for;
+				for (auto translation_interpolation_step : this->InterpolateTranslation3f(prev_translation, translation))
+				{
+
+				}
+
+				auto combined_affine_transform = event_data->transform_component->translation_ * event_data->transform_component->rotation * event_data->transform_component->scale;
+				model_matrix = combined_affine_transform * model_matrix;
+
+				this->Render(event_data->mesh_component->mesh, model_matrix);
+			}
+
+			void Render(resource::Mesh * mesh, Eigen::Matrix4f model_matrix) {
+				// Should the object index be built lazily?
+				if (this->object_indices_.find(mesh->name) == this->object_indices_.end()) {
+					this->GenerateObjectIndex(mesh);
+				}
+
+				ObjectIndex object_index = this->object_indices_.at(mesh->name);
+
+				// TODO this should probably happen at the same time as the ObjectIndex is built..
+				resource::Texture* texture = mesh->GetTexture().get();
+
+				if (texture != nullptr) {
+					glBindTexture(GL_TEXTURE_2D, texture->renderer_id);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width, texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->raw);
+					glBindTexture(GL_TEXTURE_2D, 0);
+				}
+				float FoV = 70.0f;
+
+				auto width = boost::lexical_cast<float>(this->render_config_->Get(c_params_::RESOLUTION_X));
+				auto height = boost::lexical_cast<float>(this->render_config_->Get(c_params_::RESOLUTION_Y));
+				GLfloat aspect_ratio = width / height;
+
+				glm::mat4 projection_matrix = glm::perspective(
+					glm::radians(FoV),
+					aspect_ratio,
+					0.1f,
+					100.0f
+				);
+
+				auto view_matrix = this->camera->view_matrix;
+				glm::mat4 mvp = projection_matrix * view_matrix * glm::make_mat4(model_matrix.data());
+
+				GLint uniMvp = glGetUniformLocation(this->shader_program_, "mvp");
+				glUniformMatrix4fv(uniMvp, 1, GL_FALSE, glm::value_ptr(mvp));
+
+				glBindVertexArray(object_index.vao);
+
+				glDrawElements(GL_TRIANGLES, object_index.ebo_size, GL_UNSIGNED_SHORT, NULL);
+			}
+
+			void OnPreRender() {
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			}
 
 			configuration::RenderConfiguration_t* render_config_;
@@ -283,6 +362,11 @@ namespace easy_engine {
 			// glDebugMessageCallback(&Debug, nullptr);
 
 			ManagerLocator::event_manager->Subscribe(
+				event_manager::EventType::_3DPreRender,
+				this
+			);
+
+			ManagerLocator::event_manager->Subscribe(
 				event_manager::EventType::_3DObjectRenderable,
 				this
 			);
@@ -297,71 +381,18 @@ namespace easy_engine {
 		}
 
 		void RenderManagerOpenGL::Render(resource::Mesh * mesh, Eigen::Matrix4f model_matrix) {
-
-			// Should the object index be built lazily?
-			if (this->p_impl_->object_indices_.find(mesh->name) == this->p_impl_->object_indices_.end()) {
-				this->p_impl_->GenerateObjectIndex(mesh);
-			}
-
-			ObjectIndex object_index = this->p_impl_->object_indices_.at(mesh->name);
-
-			/*if (glfwWindowShouldClose(this->window_)) {
-				glfwTerminate();
-				return;
-			}*/
-
-			// this->UpdateFpsCounter();
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-			/*if (glfwGetKey(this->window_, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-				glfwSetWindowShouldClose(this->window_, GL_TRUE);*/
-
-				// TODO this should probably happen at the same time as the ObjectIndex is built..
-			resource::Texture * texture = mesh->GetTexture().get();
-
-			if (texture != nullptr) {
-				glBindTexture(GL_TEXTURE_2D, texture->renderer_id);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width, texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->raw);
-				glBindTexture(GL_TEXTURE_2D, 0);
-			}
-			float FoV = 70.0f;
-
-			auto width = boost::lexical_cast<float>(this->p_impl_->render_config_->Get(c_params_::RESOLUTION_X));
-			auto height = boost::lexical_cast<float>(this->p_impl_->render_config_->Get(c_params_::RESOLUTION_Y));
-			GLfloat aspect_ratio = width / height;
-
-			glm::mat4 projection_matrix = glm::perspective(
-				glm::radians(FoV),
-				aspect_ratio,
-				0.1f,
-				100.0f
-			);
-
-			auto view_matrix = this->p_impl_->camera->view_matrix;
-			glm::mat4 mvp = projection_matrix * view_matrix * glm::make_mat4(model_matrix.data());
-
-			GLint uniMvp = glGetUniformLocation(this->p_impl_->shader_program_, "mvp");
-			glUniformMatrix4fv(uniMvp, 1, GL_FALSE, glm::value_ptr(mvp));
-
-			glBindVertexArray(object_index.vao);
-
-			glDrawElements(GL_TRIANGLES, object_index.ebo_size, GL_UNSIGNED_SHORT, NULL);
+			this->p_impl_->Render(mesh, model_matrix);
 		}
 
 		void RenderManagerOpenGL::OnEvent(event_manager::Event event) {
-			_3DObjectRenderable* event_data = static_cast<_3DObjectRenderable*>(event.data);
-
-			Eigen::Matrix<GLfloat, 4, 4> model_matrix;
-			model_matrix.setZero();
-			model_matrix.diagonal() << 1, 1, 1, 1;
-
-			model_matrix = event_data->transform_component->GetCombinedAffineTransform() * model_matrix;
-
-			this->Render(event_data->mesh_component->mesh, model_matrix);
+			switch (event.event_type) {
+			case event_manager::EventType::_3DObjectRenderable:
+				this->p_impl_->On3DObjectRenderable(event);
+				break;
+			case event_manager::EventType::_3DPreRender:
+				this->p_impl_->OnPreRender();
+				break;
+			}
 		}
 
 		// TODO this should be handled by WindowManager using glfwSetWindowUserPointer

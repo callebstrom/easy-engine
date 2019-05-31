@@ -4,6 +4,7 @@
 
 #include <EasyEngine/window_manager/WindowManagerGLFW.h>
 #include <EasyEngine/input_manager/InputManager.h>
+#include <EasyEngine/event_manager/Event.h>
 
 struct InputCallbackGLFW {
 
@@ -16,7 +17,7 @@ struct InputCallbackGLFW {
 	};
 
 	static void InputCallbackGLFW::KeyboardCallback(GLFWwindow* window, int key, int scancode, int action, int modifiers) {
-		// Emit events
+		ManagerLocator::input_manager->HandeKeyboardEvent(key, scancode, action, modifiers);
 	};
 };
 
@@ -53,6 +54,7 @@ namespace easy_engine {
 			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 			glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 			glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+			glfwWindowHint(GLFW_DEPTH_BITS, 48);
 
 			int resX = atoi(configuration->Get(configuration::WindowConfigurationParams::WIDTH).c_str());
 			int resY = atoi(configuration->Get(configuration::WindowConfigurationParams::HEIGHT).c_str());

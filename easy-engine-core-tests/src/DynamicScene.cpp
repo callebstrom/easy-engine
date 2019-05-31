@@ -12,7 +12,7 @@ class RotationSystem : public ecs::ISystem
 	{
 		for (auto entity : this->entities_) {
 			auto transform = this->world->GetComponentForEntity<ecs::component::TransformComponent>(entity);
-			transform->Rotation(0.01, 0, 1, 0);
+			transform->RotationAdd(0.01, 0, 1, 0);
 		}
 	}
 };
@@ -24,15 +24,24 @@ public:
 		world->AddSystem<ecs::component::MeshComponent, ecs::component::TransformComponent>(new RotationSystem);
 
 		resource::Mesh* mesh = this->resource_manager_3d->LoadObj("..\\easy-engine-core\\res\\basic_sword_low_poly.obj");
+		resource::Mesh* mesh2 = this->resource_manager_3d->LoadObj("..\\easy-engine-core\\res\\box_simple.obj");
 		ecs::component::MeshComponent mesh_component;
+		ecs::component::MeshComponent mesh_component2;
 		mesh_component.mesh = mesh;
+		mesh_component2.mesh = mesh2;
 
 		ecs::component::TransformComponent transform_component;
+		ecs::component::TransformComponent transform_component2;
+		transform_component2.TranslationAdd(0.5, 0, 0);
 
 		auto sword = this->world->CreateEntity();
+		auto box = this->world->CreateEntity();
 
 		this->world->AddComponent<ecs::component::MeshComponent>(sword.entity, mesh_component);
 		this->world->AddComponent<ecs::component::TransformComponent>(sword.entity, transform_component);
+
+		this->world->AddComponent<ecs::component::MeshComponent>(box.entity, mesh_component2);
+		this->world->AddComponent<ecs::component::TransformComponent>(box.entity, transform_component2);
 	}
 
 	~DynamicSceneApplication() {
