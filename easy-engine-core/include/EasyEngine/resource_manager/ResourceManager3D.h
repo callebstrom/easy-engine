@@ -3,13 +3,23 @@
 #pragma once
 
 #include <EasyEngine/resource_manager/ResourceManager.h>
+#include <EasyEngine/ecs/component/MeshComponent.h>
 #include <EasyEngine/resource/Mesh.h>
 
 namespace easy_engine {
+
 	namespace resource_manager {
 		class EASY_ENGINE_API ResourceManager3D : public ResourceManager {
 		public:
-			resource::Mesh* LoadObj(std::string file_path);
+			ResourceManager3D();
+			~ResourceManager3D();
+			ResourceManager3D(ResourceManager3D&&);
+			ResourceManager3D& operator=(ResourceManager3D&&);
+
+			void Load(std::string file_path, ecs::component::MeshComponent& mesh_component);
+		private:
+			struct Impl;
+			std::unique_ptr<Impl> p_impl_;
 
 		};
 	}

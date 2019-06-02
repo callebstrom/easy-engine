@@ -9,12 +9,13 @@ using namespace easy_engine;
 class StaticSceneApplication : public Application {
 public:
 	StaticSceneApplication() {
-		resource::Mesh* mesh = this->resource_manager_3d->LoadObj("..\\easy-engine-core\\res\\basic_sword_low_poly.obj");
 		ecs::component::MeshComponent mesh_component;
-		mesh_component.mesh = mesh;
+		ecs::component::TransformComponent transform_component;
+		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\susanne.obj", mesh_component);
 
 		auto sword = this->world->CreateEntity();
 		this->world->AddComponent<ecs::component::MeshComponent>(sword.entity, mesh_component);
+		this->world->AddComponent<ecs::component::TransformComponent>(sword.entity, transform_component);
 	}
 
 	~StaticSceneApplication() {

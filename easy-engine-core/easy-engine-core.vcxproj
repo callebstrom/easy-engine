@@ -38,6 +38,7 @@
     <ClInclude Include="include\EasyEngine\Application.h" />
     <ClInclude Include="include\EasyEngine\Common.h" />
     <ClInclude Include="include\EasyEngine\ecs\component\Component.h" />
+    <ClInclude Include="include\EasyEngine\ecs\component\MaterialComponent.h" />
     <ClInclude Include="include\EasyEngine\ecs\component\MeshComponent.h" />
     <ClInclude Include="include\EasyEngine\ecs\component\TextureComponent.h" />
     <ClInclude Include="include\EasyEngine\ecs\component\TransformComponent.h" />
@@ -65,6 +66,7 @@
     <ClInclude Include="include\EasyEngine\render_manager\RenderManager.h" />
     <ClInclude Include="include\EasyEngine\render_manager\RenderManagerOpenGL.h" />
     <ClInclude Include="include\EasyEngine\render_manager\RenderSystem.h" />
+    <ClInclude Include="include\EasyEngine\resource\Animation.h" />
     <ClInclude Include="include\EasyEngine\resource\Renderable.h" />
     <ClInclude Include="include\EasyEngine\resource\Mesh.h" />
     <ClInclude Include="include\EasyEngine\resource\Texture.h" />
@@ -85,6 +87,7 @@
     <ClInclude Include="include\EasyEngine\window_manager\WindowManagerGLFW.h" />
     <ClInclude Include="include\EasyEngine\world\World.h" />
     <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="src\TextureComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\EasyEngine\event_manager\EventManager.cpp" />
@@ -106,6 +109,8 @@
     <ClCompile Include="src\LinearAllocator.cpp" />
     <ClCompile Include="src\Logger.cpp" />
     <ClCompile Include="src\ManagerLocator.cpp" />
+    <ClCompile Include="src\MaterialComponent.cpp" />
+    <ClCompile Include="src\MeshComponent.cpp" />
     <ClCompile Include="src\Node.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\RenderableNode.cpp" />
@@ -119,6 +124,7 @@
     <ClCompile Include="src\SceneManager.cpp" />
     <ClCompile Include="src\SceneManager3D.cpp" />
     <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\TransformComponent.cpp" />
     <ClCompile Include="src\WindowManagerGLFW.cpp" />
     <ClCompile Include="src\World.cpp" />
   </ItemGroup>
@@ -287,7 +293,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)include\spdlog_complete\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include\spdlog_complete\include;D:\Dropbox\dev\EasyEngine\easy-engine-core\lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
       <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
@@ -298,7 +304,7 @@
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;$(ProjectDir)lib\assimp\build\code\Debug\assimp-vc142-mtd.lib;$(ProjectDir)lib\assimp\build\contrib\zlib\Debug\zlibstaticd.lib;$(ProjectDir)lib\assimp\build\contrib\irrXML\Debug\IrrXML.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Bscmake>
@@ -310,7 +316,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)include\spdlog_complete\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include\spdlog_complete\include;D:\Dropbox\dev\EasyEngine\easy-engine-core\lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
       <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
@@ -333,7 +339,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)include\spdlog_complete\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include\spdlog_complete\include;D:\Dropbox\dev\EasyEngine\easy-engine-core\lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
       <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
@@ -371,7 +377,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)include\spdlog_complete\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include\spdlog_complete\include;D:\Dropbox\dev\EasyEngine\easy-engine-core\lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
@@ -380,8 +386,8 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\lib\x64;$(ProjectDir)\lib\x64\boost-1_64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;$(ProjectDir)lib\assimp\build\code\Release\assimp-vc142-mt.lib;$(ProjectDir)lib\assimp\build\contrib\zlib\Release\zlibstaticd.lib;$(ProjectDir)lib\assimp\build\contrib\irrXML\Release\IrrXML.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\x64;$(ProjectDir)lib\assimp\build\code\Release;$(ProjectDir)lib\assimp\build\contrib\zlib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

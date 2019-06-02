@@ -1,5 +1,5 @@
-#ifndef MESH_COMPONENT_H
-#define MESH_COMPONENT_H
+#ifndef MATERIAL_COMPONENT_H
+#define MATERIAL_COMPONENT_H
 #pragma once
 
 #include <EasyEngine/ecs/component/Component.h>
@@ -7,14 +7,14 @@
 namespace easy_engine {
 
 	namespace resource {
-		class Mesh;
+		class Material;
 	}
 
 	namespace ecs {
 		namespace component {
-			class EASY_ENGINE_API MeshComponent : public Component {
+			class EASY_ENGINE_API MaterialComponent : public Component {
 			public:
-				std::vector<resource::Mesh*>* sub_meshes = new std::vector<resource::Mesh*>();
+				std::vector<resource::Material*> materials;
 			};
 		}
 	}

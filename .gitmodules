@@ -4,3 +4,6 @@
 [submodule "easy-engine-script-bindings/include/ChaiScript"]
 	path = easy-engine-script-bindings/include/ChaiScript
 	url = git@github.com:ChaiScript/ChaiScript.git
+[submodule "easy-engine-core\\lib\\assimp"]
+	path = easy-engine-core\\lib\\assimp
+	url = git@github.com:assimp/assimp.git

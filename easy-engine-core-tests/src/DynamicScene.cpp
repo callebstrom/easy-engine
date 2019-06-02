@@ -23,12 +23,10 @@ public:
 
 		world->AddSystem<ecs::component::MeshComponent, ecs::component::TransformComponent>(new RotationSystem);
 
-		resource::Mesh* mesh = this->resource_manager_3d->LoadObj("..\\easy-engine-core\\res\\basic_sword_low_poly.obj");
-		resource::Mesh* mesh2 = this->resource_manager_3d->LoadObj("..\\easy-engine-core\\res\\box_simple.obj");
 		ecs::component::MeshComponent mesh_component;
 		ecs::component::MeshComponent mesh_component2;
-		mesh_component.mesh = mesh;
-		mesh_component2.mesh = mesh2;
+		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\radiator.obj", mesh_component);
+		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\box_simple.obj", mesh_component2);
 
 		ecs::component::TransformComponent transform_component;
 		ecs::component::TransformComponent transform_component2;

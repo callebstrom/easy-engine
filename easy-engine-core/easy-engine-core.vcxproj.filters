@@ -61,9 +61,6 @@
     <Filter Include="Source Files\world">
       <UniqueIdentifier>{075cb61f-9ab6-4721-abf8-b551f285102b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\component">
-      <UniqueIdentifier>{b7a7f6b9-2e94-4941-a1fd-3ea9c0b95685}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\ecs">
       <UniqueIdentifier>{97543043-21d3-4bbd-ad3e-c0649542e1f3}</UniqueIdentifier>
     </Filter>
@@ -90,6 +87,12 @@
     </Filter>
     <Filter Include="Source Files\memory">
       <UniqueIdentifier>{cc35019c-d65b-4b20-8916-123d44b5c2c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ecs">
+      <UniqueIdentifier>{b8461012-c076-44d2-83f3-351152bbfe8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ecs\component">
+      <UniqueIdentifier>{b7a7f6b9-2e94-4941-a1fd-3ea9c0b95685}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -243,6 +246,15 @@
     <ClInclude Include="include\EasyEngine\input_manager\KeyboardEvent.h">
       <Filter>Header Files\input_manager</Filter>
     </ClInclude>
+    <ClInclude Include="include\EasyEngine\resource\Animation.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\ecs\component\MaterialComponent.h">
+      <Filter>Header Files\ecs\component</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextureComponent.cpp">
+      <Filter>Source Files\ecs\component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RenderManagerOpenGL.cpp">
@@ -309,7 +321,7 @@
       <Filter>Source Files\resource</Filter>
     </ClCompile>
     <ClCompile Include="src\Component.cpp">
-      <Filter>Source Files\component</Filter>
+      <Filter>Source Files\ecs\component</Filter>
     </ClCompile>
     <ClCompile Include="src\LinearAllocator.cpp">
       <Filter>Source Files\memory</Filter>
@@ -319,6 +331,15 @@
     </ClCompile>
     <ClCompile Include="src\Camera.cpp">
       <Filter>Source Files\render_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MaterialComponent.cpp">
+      <Filter>Source Files\ecs\component</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MeshComponent.cpp">
+      <Filter>Source Files\ecs\component</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TransformComponent.cpp">
+      <Filter>Source Files\ecs\component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

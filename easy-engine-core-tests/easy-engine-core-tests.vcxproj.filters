@@ -39,5 +39,8 @@
     <ClCompile Include="src\PlayerTest.cpp">
       <Filter>Source Files\integration</Filter>
     </ClCompile>
+    <ClCompile Include="src\unit\ResourceManager3DTest.cpp">
+      <Filter>Source Files\unit</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

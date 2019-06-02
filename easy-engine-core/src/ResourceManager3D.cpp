@@ -1,72 +1,79 @@
 #include <EasyEngine/eepch.h>
-#include <EasyEngine/resource_manager/ResourceManager3D.h>
 
 #include <Eigen/Core>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
+#include <EasyEngine/resource_manager/ResourceManager3D.h>
+
 namespace easy_engine {
 	namespace resource_manager {
+		struct ResourceManager3D::Impl {
+			Assimp::Importer importer;
 
-		resource::Mesh* ResourceManager3D::LoadObj(std::string file_path) {
-			resource::Mesh* renderable = new resource::Mesh();
+			Eigen::Matrix<float, -1, 3, Eigen::RowMajor> ExtractVertices(aiMesh* mesh) {
+				Eigen::Matrix<float, -1, 3, Eigen::RowMajor> vertices;
+				vertices.conservativeResize(mesh->mNumVertices, Eigen::NoChange);
 
-			renderable->name = file_path;
-
-			std::ifstream ifs(file_path);
-			if (!ifs.is_open()) {
-				std::cout << "Failed to open file " + file_path;
-			}
-			std::string line;
-			std::string fileString;
-			int vertex_index = 0;
-			uint32_t vertex_count = 0;
-
-			Eigen::Matrix<float, -1, 3, Eigen::RowMajor> vertices;
-			std::vector<ushort_t> vertex_indices;
-
-			while (std::getline(ifs, line)) {
-				std::stringstream string_stream_outer(line.c_str());
-
-				std::string first_char, second_char;
-				string_stream_outer >> first_char >> second_char;
-
-				// If obj vertex annotation
-				if (strcmp(first_char.c_str(), "v") == 0 && strcmp(second_char.c_str(), " ")) {
-					vertex_count++;
-					__int64 current_index = vertices.rows();
-					std::stringstream string_stream_inner(line.c_str());
-					std::string v, x, y, z;
-
-					string_stream_inner >> v >> x >> y >> z;
-
+				for (uint32_t i = 0; i < mesh->mNumVertices; i++) {
 					Eigen::Vector3f vec;
-
-					vec << (float)std::atof(x.c_str()), (float)std::atof(y.c_str()), (float)std::atof(z.c_str());
-
-					vertices.conservativeResize(vertices.rows() + 1, Eigen::NoChange);
-					vertices.row(vertices.rows() - 1) = vec;
+					vec << mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z;
+					vertices.row(i) = vec;
 				}
-				else if (strcmp(first_char.c_str(), "f") == 0) {
-					std::string line_trimmed = line.substr(2);// "1/3/4 3/4/3"
 
-					std::vector<std::string> face_coords;
-					boost::split(face_coords, line_trimmed, boost::is_any_of(" ")); // ["1/3/4","3/4/3",...]
-
-					for (auto const& fc : face_coords) { // Index
-						std::vector<std::string> face_coords_exploded;
-						boost::split(face_coords_exploded, fc, boost::is_any_of("/")); // ["1","3","4"]
-						vertex_indices.push_back(boost::lexical_cast<ushort_t>(face_coords_exploded.at(0)) - 1);  // OBJ index starts at 1
-					}
-				}
+				return vertices;
 			}
 
-			renderable->SetVertices(vertices);
-			renderable->SetVertexIndices(vertex_indices);
-			renderable->SetVertexCount(vertex_count);
+			std::vector<ushort_t> ExtractFaces(aiMesh* mesh) {
+				std::vector<ushort_t> faces;
+				if (!mesh->HasFaces()) return faces;
 
-			return renderable;
+				for (uint32_t i = 0; i < mesh->mNumFaces; ++i) {
+					const auto face = &mesh->mFaces[i];
+					// Assume triangles (aiProcess_Triangulate)
+					faces.push_back(face->mIndices[0]);
+					faces.push_back(face->mIndices[1]);
+					faces.push_back(face->mIndices[2]);
+				}
+
+				return faces;
+			}
+		};
+
+		void ResourceManager3D::Load(std::string file_path, ecs::component::MeshComponent& mesh_component) {
+			auto scene = this->p_impl_->importer.ReadFile(
+				file_path.c_str(),
+				aiProcess_CalcTangentSpace |
+				aiProcess_Triangulate |
+				aiProcess_JoinIdenticalVertices |
+				aiProcess_SortByPType
+			);
+
+			// Create a submesh for each mesh found in imported scene
+			for (uint32_t i = 0; i < scene->mNumMeshes; i++) {
+				const auto mesh_ = scene->mMeshes[i];
+				auto mesh = new resource::Mesh();
+
+				mesh->name = file_path + "_" + std::to_string(i);
+
+				mesh->vertex_count = mesh_->mNumVertices;
+				mesh->vertices = this->p_impl_->ExtractVertices(mesh_);
+				mesh->faces = this->p_impl_->ExtractFaces(mesh_);
+
+				mesh_component.sub_meshes->push_back(mesh);
+			}
 		}
+
+		ResourceManager3D::ResourceManager3D()
+			: p_impl_(std::make_unique<Impl>()) {}
+
+		ResourceManager3D::~ResourceManager3D() = default;
+		ResourceManager3D::ResourceManager3D(ResourceManager3D&&) = default;
+		ResourceManager3D& ResourceManager3D::operator=(ResourceManager3D&&) = default;
 	}
 }

@@ -12,9 +12,9 @@ namespace easy_engine {
 
 	namespace ecs {
 		namespace component {
-			class TextureComponent : public Component {
+			class EASY_ENGINE_API TextureComponent : public Component {
 			public:
-				resource::Texture* texture;
+				std::vector<resource::Texture*> textures;
 			};
 		}
 	}

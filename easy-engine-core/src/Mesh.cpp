@@ -4,11 +4,6 @@
 
 namespace easy_engine {
 	namespace resource {
-
-		float* Mesh::GetVertexNormalArray(func_ptr_t compute_normals_func) {
-			return compute_normals_func(this);
-		}
-
 		template<class Archive>
 		void Mesh::serialize(Archive& archive, const unsigned int version) {
 

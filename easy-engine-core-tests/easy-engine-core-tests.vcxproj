@@ -195,6 +195,7 @@
     <ClCompile Include="src\EasyEngineTests.cpp" />
     <ClCompile Include="src\StaticSceneTest.cpp" />
     <ClCompile Include="src\unit\LinearAllocatorTest.cpp" />
+    <ClCompile Include="src\unit\ResourceManager3DTest.cpp" />
     <ClCompile Include="src\unit\WorldTest.cpp" />
     <ClCompile Include="src\PlayerTest.cpp" />
   </ItemGroup>

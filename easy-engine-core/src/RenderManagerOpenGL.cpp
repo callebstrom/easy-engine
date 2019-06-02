@@ -134,15 +134,15 @@ namespace easy_engine {
 				// Upload position data to a VBO
 				glBufferData(
 					GL_ARRAY_BUFFER,
-					renderable->GetVertices().size() * sizeof(GLfloat), // Bytes to copy
-					renderable->GetVertices().data(),
+					renderable->vertices.size() * sizeof(GLfloat), // Bytes to copy
+					renderable->vertices.data(),
 					GL_STATIC_DRAW
 				);
 				glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, 0, (void*)0); // Tell OpenGL about our data format
 
 				// RANDOM_COLOR_PER_VERTEX
 				std::vector<GLfloat> color_buffer_data;
-				for (int c = 0; c < renderable->GetVertices().size() / 3; c++) {
+				for (int c = 0; c < renderable->vertices.size() / 3; c++) {
 					color_buffer_data.push_back(static_cast<float>(rand()) / static_cast<float>(RAND_MAX));
 				}
 
@@ -162,8 +162,8 @@ namespace easy_engine {
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 				glBufferData(
 					GL_ELEMENT_ARRAY_BUFFER,
-					renderable->GetVertices().size() * sizeof(GLushort),
-					&renderable->GetVertexIndices()[0],
+					renderable->vertices.size() * sizeof(GLushort),
+					&renderable->faces[0],
 					GL_STATIC_DRAW
 				);
 
@@ -175,15 +175,15 @@ namespace easy_engine {
 				glDeleteBuffers(1, &ebo);
 				glDeleteBuffers(1, &color_buffer);
 
-				object_index.ebo_size = renderable->GetVertices().size();
+				object_index.ebo_size = renderable->vertices.size();
 
 				this->object_indices_.insert(std::pair<std::string, ObjectIndex>(renderable->name, object_index));
 
-				if (renderable->GetTexture().get() != nullptr) {
+				/*if (renderable->GetTexture().get() != nullptr) {
 					GLuint renderer_id;
 					glGenTextures(1, &renderer_id);
 					renderable->GetTexture()->renderer_id = renderer_id;
-				}
+				}*/
 
 			};
 
@@ -214,41 +214,12 @@ namespace easy_engine {
 				return std::vector<Eigen::Translation3f>();
 			}
 
-			std::vector<glm::vec3> ComputeNormals(resource::Mesh * renderable) {
-				std::vector<glm::vec3> normals;
-				normals.resize(renderable->GetVertexCount(), glm::vec3(0.0, 0.0, 0.0));
-
-				std::vector<ushort_t> faces = renderable->GetFaces();
-				std::vector<glm::vec4>vertices;
-
-				this->ToGLMVertices(renderable->GetVertices(), vertices);
-
-				EE_CORE_INFO("faces.size(): " + faces.size());
-				EE_CORE_TRACE("vertices.size(): " + vertices.size());
-
-				for (int i = 0; i < faces.size(); i += 3) {
-					ushort_t ia = faces[i];
-					ushort_t ib = faces[i + 1];
-					ushort_t ic = faces[i + 2];
-
-					glm::vec3 ib_ia_diff = glm::vec3(vertices[ib]) - glm::vec3(vertices[ia]);
-					glm::vec3 ic_ia_diff = glm::vec3(vertices[ic]) - glm::vec3(vertices[ia]);
-
-					glm::vec3 normal = glm::normalize(glm::cross(
-						ib_ia_diff,
-						ic_ia_diff));
-					normals[ia] = normals[ib] = normals[ic] = normal;
-				}
-
-				return normals;
-			}
-
 			void On3DObjectRenderable(event_manager::Event event) {
 				_3DObjectRenderable* event_data = static_cast<_3DObjectRenderable*>(event.data);
 
-				Eigen::Matrix<GLfloat, 4, 4> model_matrix;
-				model_matrix.setZero();
-				model_matrix.diagonal() << 1, 1, 1, 1;
+				Eigen::Matrix<GLfloat, 4, 4> identity_matrix;
+				identity_matrix.setZero();
+				identity_matrix.diagonal() << 1, 1, 1, 1;
 
 				auto prev_translation = event_data->transform_component->prev_translation_;
 				auto translation = event_data->transform_component->translation_;
@@ -260,9 +231,11 @@ namespace easy_engine {
 				}
 
 				auto combined_affine_transform = event_data->transform_component->translation_ * event_data->transform_component->rotation * event_data->transform_component->scale;
-				model_matrix = combined_affine_transform * model_matrix;
+				Eigen::Matrix<GLfloat, 4, 4> model_matrix = combined_affine_transform * identity_matrix;
 
-				this->Render(event_data->mesh_component->mesh, model_matrix);
+				for (auto mesh : *event_data->mesh_component->sub_meshes) {
+					this->Render(mesh, model_matrix);
+				}
 			}
 
 			void Render(resource::Mesh * mesh, Eigen::Matrix4f model_matrix) {
@@ -274,7 +247,7 @@ namespace easy_engine {
 				ObjectIndex object_index = this->object_indices_.at(mesh->name);
 
 				// TODO this should probably happen at the same time as the ObjectIndex is built..
-				resource::Texture* texture = mesh->GetTexture().get();
+				/*resource::Texture* texture = mesh->GetTexture().get();
 
 				if (texture != nullptr) {
 					glBindTexture(GL_TEXTURE_2D, texture->renderer_id);
@@ -284,7 +257,7 @@ namespace easy_engine {
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width, texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->raw);
 					glBindTexture(GL_TEXTURE_2D, 0);
-				}
+				}*/
 				float FoV = 70.0f;
 
 				auto width = boost::lexical_cast<float>(this->render_config_->Get(c_params_::RESOLUTION_X));

@@ -6,48 +6,22 @@
 #include <Eigen/Geometry>
 
 namespace easy_engine {
+
+	namespace render_manager {
+		class RenderManagerOpenGL;
+	}
+
 	namespace ecs {
 		namespace component {
-			class TransformComponent : public Component {
+			class EASY_ENGINE_API TransformComponent : public Component {
 			public:
+				void TranslationAdd(float x, float y, float z);
+				void Translation(float x, float y, float z);
+				void RotationAdd(float radians, float pivot_x = 0, float pivot_y = 0, float pivot_z = 0);
+				void Rotation(float radians, float pivot_x = 0, float pivot_y = 0, float pivot_z = 0);
+				void Scale(float x, float y, float z);
 
-				TransformComponent* TranslationAdd(float x, float y, float z)
-				{
-					return this->Translation(
-						this->translation_.x() + x,
-						this->translation_.y() + y,
-						this->translation_.z() + z
-					);
-				}
-
-				TransformComponent* Translation(float x, float y, float z)
-				{
-					this->prev_translation_ = this->translation_;
-					this->translation_ = Eigen::Translation3f(x, y, z);
-					return this;
-				}
-
-				TransformComponent* RotationAdd(float radians, float pivot_x = 0, float pivot_y = 0, float pivot_z = 0)
-				{
-					return this->Rotation(this->rotation.angle() + radians, pivot_x, pivot_y, pivot_z);
-				}
-
-				TransformComponent* Rotation(float radians, float pivot_x = 0, float pivot_y = 0, float pivot_z = 0) // Default pivot is origin
-				{
-					this->rotation = Eigen::AngleAxis<float>(radians, Eigen::Vector3f(pivot_x, pivot_y, pivot_z));
-					return this;
-				}
-
-				TransformComponent* Scale(float x, float y, float z)
-				{
-					this->scale = Eigen::Scaling(x, y, z);
-					return this;
-				}
-
-				Eigen::Affine3f GetCombinedAffineTransform()
-				{
-					return this->translation_* this->rotation* this->scale;
-				}
+				Eigen::Affine3f GetCombinedAffineTransform();
 
 			private:
 				friend class render_manager::RenderManagerOpenGL;

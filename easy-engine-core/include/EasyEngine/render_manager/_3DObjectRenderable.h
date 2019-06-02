@@ -13,8 +13,7 @@ namespace easy_engine {
 	}
 
 	namespace render_manager {
-		struct _3DObjectRenderable
-		{
+		struct _3DObjectRenderable {
 			ecs::component::TransformComponent* transform_component = new ecs::component::TransformComponent();
 			ecs::component::MeshComponent* mesh_component;
 		};

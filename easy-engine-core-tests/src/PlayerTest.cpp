@@ -63,9 +63,8 @@ public:
 
 		world->AddSystem<ecs::component::MeshComponent, ecs::component::TransformComponent>(new PlayerSystem);
 
-		resource::Mesh* mesh = this->resource_manager_3d->LoadObj("..\\easy-engine-core\\res\\basic_sword_low_poly.obj");
 		ecs::component::MeshComponent mesh_component;
-		mesh_component.mesh = mesh;
+		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\susanne.obj", mesh_component);
 
 		ecs::component::TransformComponent transform_component;
 

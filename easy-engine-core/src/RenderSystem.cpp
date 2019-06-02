@@ -28,7 +28,6 @@ namespace easy_engine {
 				event_data->transform_component = transform_component;
 
 				render_event.data = event_data;
-				render_event.message_id = atoi(mesh_component->mesh->name.c_str());
 				EE_CORE_INFO("_3DObjectRenderable event dispatched for entity ", entity->id);
 				ManagerLocator::event_manager->Dispatch(render_event);
 			}
