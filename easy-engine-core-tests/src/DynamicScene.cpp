@@ -27,6 +27,7 @@ public:
 		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\cube.fbx", mesh_component);
 
 		ecs::component::TransformComponent transform_component;
+		transform_component.TranslationAdd(0, 0, -10);
 		auto cube = this->world->CreateEntity();
 
 		this->world->AddComponent<ecs::component::MeshComponent>(cube.entity, mesh_component);

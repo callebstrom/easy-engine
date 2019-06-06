@@ -71,7 +71,7 @@ public:
 		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\nanosuit.fbx", mesh_component);
 
 		ecs::component::TransformComponent transform_component;
-		transform_component.TranslationAdd(0, -1, -10);
+		transform_component.TranslationAdd(0, -7, -30);
 
 		auto sword = this->world->CreateEntity();
 

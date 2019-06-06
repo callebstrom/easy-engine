@@ -151,7 +151,7 @@ namespace easy_engine {
 				// RANDOM_COLOR_PER_VERTEX
 				std::vector<GLfloat> color_buffer_data;
 				for (int c = 0; c < renderable->vertices.size() * 3; c++) {
-					color_buffer_data.push_back(static_cast<float>(rand()) / static_cast<float>(RAND_MAX));
+					color_buffer_data.push_back(0.9f);
 				}
 
 				glBindBuffer(GL_ARRAY_BUFFER, color_buffer);
@@ -281,9 +281,6 @@ namespace easy_engine {
 				GLint mvp_uniform = glGetUniformLocation(this->shader_program_, "mvp");
 				glUniformMatrix4fv(mvp_uniform, 1, GL_FALSE, glm::value_ptr(mvp));
 
-				GLint mv_uniform = glGetUniformLocation(this->shader_program_, "model_view");
-				glUniformMatrix4fv(mv_uniform, 1, GL_FALSE, glm::value_ptr(view_matrix * model_matrix));
-
 				// Model matrix is required separately to calculate lightning
 				GLint model_uniform = glGetUniformLocation(this->shader_program_, "model");
 				glUniformMatrix4fv(model_uniform, 1, GL_FALSE, glm::value_ptr(model_matrix));
@@ -295,14 +292,14 @@ namespace easy_engine {
 				glm::vec3 light_position(0.f, 1.f, 3.f); // Same as camera for now
 				glm::vec3 light_color(1.f, 1.f, 1.f);
 
+				GLint light_power_uniform = glGetUniformLocation(this->shader_program_, "lightPower");
+				glUniform1f(light_power_uniform, 10.f);
+
 				GLint light_pos_uniform = glGetUniformLocation(this->shader_program_, "lightPosition_worldspace");
 				glUniform3fv(light_pos_uniform, 1, &light_position[0]);
 
 				GLint light_color_uniform = glGetUniformLocation(this->shader_program_, "lightColor");
 				glUniform3fv(light_color_uniform, 1, &light_color[0]);
-
-				/*GLint light_pos_uniform = glGetUniformLocation(this->shader_program_, "lightPosition_worldspace");
-				glUniform3f(light_pos_uniform, 0.f, 0.f, 3.f);*/
 
 				glBindVertexArray(object_index.vao);
 
