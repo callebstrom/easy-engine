@@ -23,8 +23,8 @@ namespace easy_engine {
 
 			Eigen::Matrix<float, -1, 3, Eigen::RowMajor> vertices;
 			uint32_t vertex_count;
-			Eigen::MatrixX3f vertex_normals;
-			std::vector<ushort_t> faces;
+			Eigen::Matrix<float, -1, 3, Eigen::RowMajor> vertex_normals;
+			std::vector<uint32_t> faces;
 		};
 	}
 }

@@ -44,6 +44,10 @@ public:
 					case EE_KEY_D:
 						transform->TranslationAdd(0.01 * dt, 0, 0);
 						break;
+					case EE_KEY_R:
+						auto rotation_direction = event->modifiers == EE_MOD_CONTROL ? -1 : 1;
+						transform->RotationAdd(rotation_direction * 0.01 * dt, 0, 1, 0);
+						break;
 					}
 				}
 			}
@@ -64,11 +68,10 @@ public:
 		world->AddSystem<ecs::component::MeshComponent, ecs::component::TransformComponent>(new PlayerSystem);
 
 		ecs::component::MeshComponent mesh_component;
-		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\player.fbx", mesh_component);
+		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\nanosuit.fbx", mesh_component);
 
 		ecs::component::TransformComponent transform_component;
-		transform_component.Scale(0.05, 0.05, 0.05);
-		transform_component.TranslationAdd(0, -2, -20);
+		transform_component.TranslationAdd(0, -1, -10);
 
 		auto sword = this->world->CreateEntity();
 

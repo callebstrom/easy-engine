@@ -28,6 +28,7 @@ namespace easy_engine {
 
 		private:
 			struct Impl;
+			struct Light;
 			std::unique_ptr<Impl> p_impl_;
 		};
 	}

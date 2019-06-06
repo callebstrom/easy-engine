@@ -30,6 +30,11 @@ namespace easy_engine {
 	namespace render_manager {
 		typedef configuration::RenderConfigurationParams c_params_;
 
+		struct RenderManagerOpenGL::Light {
+			glm::vec3 position;
+			glm::vec3 intensities; //a.k.a. the color of the light
+		};
+
 		struct RenderManagerOpenGL::Impl {
 
 			Impl(configuration::RenderConfiguration_t* rc)
@@ -116,10 +121,13 @@ namespace easy_engine {
 				// Set active VAO
 				glBindVertexArray(object_index.vao);
 
-				GLuint vbo, ebo, color_buffer;
+				GLuint vbo, ebo, color_buffer, normal_buffer;
 
 				glGenBuffers(1, &vbo);
 				EE_CORE_TRACE("Generated vertex buffer object for " + renderable->name);
+
+				glGenBuffers(1, &normal_buffer);
+				EE_CORE_TRACE("Generated normal buffer object for " + renderable->name);
 
 				glGenBuffers(1, &ebo);
 				EE_CORE_TRACE("Generated element array for " + renderable->name);
@@ -128,41 +136,52 @@ namespace easy_engine {
 
 				// Set active VBO to position VBO
 				glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
 				glEnableVertexAttribArray(0);
 
-				// Upload position data to a VBO
+				// VERTEX_BUFFER
 				glBufferData(
 					GL_ARRAY_BUFFER,
-					renderable->vertices.size() * sizeof(GLfloat), // Bytes to copy
+					renderable->vertices.size() * sizeof(GLfloat),
 					renderable->vertices.data(),
 					GL_STATIC_DRAW
 				);
-				glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, 0, (void*)0); // Tell OpenGL about our data format
+				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+				// !VERTEX_BUFFER
 
 				// RANDOM_COLOR_PER_VERTEX
 				std::vector<GLfloat> color_buffer_data;
-				for (int c = 0; c < renderable->vertices.size() / 3; c++) {
+				for (int c = 0; c < renderable->vertices.size() * 3; c++) {
 					color_buffer_data.push_back(static_cast<float>(rand()) / static_cast<float>(RAND_MAX));
 				}
 
 				glBindBuffer(GL_ARRAY_BUFFER, color_buffer);
+				glEnableVertexAttribArray(1);
 				glBufferData(
 					GL_ARRAY_BUFFER,
 					color_buffer_data.size() * sizeof(GLfloat),
 					&color_buffer_data[0],
 					GL_STATIC_DRAW
 				);
-
-				glEnableVertexAttribArray(1);
-				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0); // Tell OpenGL about our data
+				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 				// !RANDOM_COLOR_PER_VERTEX
+
+				// NORMAL BUFFER
+				glBindBuffer(GL_ARRAY_BUFFER, normal_buffer);
+				glEnableVertexAttribArray(2);
+				glBufferData(
+					GL_ARRAY_BUFFER,
+					renderable->vertex_normals.size() * sizeof(GLfloat),
+					renderable->vertex_normals.data(),
+					GL_STATIC_DRAW
+				);
+				glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+				// !NORMAL_BUFFER
 
 				// Create an element array
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 				glBufferData(
 					GL_ELEMENT_ARRAY_BUFFER,
-					renderable->vertices.size() * sizeof(GLushort),
+					renderable->faces.size() * sizeof(GLuint),
 					&renderable->faces[0],
 					GL_STATIC_DRAW
 				);
@@ -175,7 +194,7 @@ namespace easy_engine {
 				glDeleteBuffers(1, &ebo);
 				glDeleteBuffers(1, &color_buffer);
 
-				object_index.ebo_size = renderable->vertices.size();
+				object_index.ebo_size = renderable->faces.size();
 
 				this->object_indices_.insert(std::pair<std::string, ObjectIndex>(renderable->name, object_index));
 
@@ -185,24 +204,6 @@ namespace easy_engine {
 					renderable->GetTexture()->renderer_id = renderer_id;
 				}*/
 
-			};
-
-			void ToGLMVertices(Eigen::Matrix<float, -1, 3, Eigen::RowMajor> & from_vertices, std::vector<glm::vec4> & to_vertices) {
-				int64_t rows = from_vertices.rows();
-				int64_t cols = from_vertices.cols();
-
-				for (int i = 0; i < rows; i++) {
-					for (int x = 0; x < cols; x++) {
-
-						glm::vec4 vec = glm::vec4();
-						vec.x = from_vertices(i, 0);
-						vec.y = from_vertices(i, 0);
-						vec.z = from_vertices(i, 0);
-						vec.w = 1.0f;
-
-						to_vertices.push_back(vec);
-					}
-				}
 			};
 
 			std::vector<Eigen::Translation3f> InterpolateTranslation3f(Eigen::Translation3f prev, Eigen::Translation3f cur) {
@@ -238,7 +239,7 @@ namespace easy_engine {
 				}
 			}
 
-			void Render(resource::Mesh * mesh, Eigen::Matrix4f model_matrix) {
+			void Render(resource::Mesh * mesh, Eigen::Matrix4f model_matrix_) {
 				// Should the object index be built lazily?
 				if (this->object_indices_.find(mesh->name) == this->object_indices_.end()) {
 					this->GenerateObjectIndex(mesh);
@@ -272,14 +273,40 @@ namespace easy_engine {
 				);
 
 				auto view_matrix = this->camera->view_matrix;
-				glm::mat4 mvp = projection_matrix * view_matrix * glm::make_mat4(model_matrix.data());
+				auto model_matrix = glm::make_mat4(model_matrix_.data());
 
-				GLint uniMvp = glGetUniformLocation(this->shader_program_, "mvp");
-				glUniformMatrix4fv(uniMvp, 1, GL_FALSE, glm::value_ptr(mvp));
+				glm::mat4 mvp = projection_matrix * view_matrix * model_matrix;
+
+				// Pre-compute matrices for the shaders
+				GLint mvp_uniform = glGetUniformLocation(this->shader_program_, "mvp");
+				glUniformMatrix4fv(mvp_uniform, 1, GL_FALSE, glm::value_ptr(mvp));
+
+				GLint mv_uniform = glGetUniformLocation(this->shader_program_, "model_view");
+				glUniformMatrix4fv(mv_uniform, 1, GL_FALSE, glm::value_ptr(view_matrix * model_matrix));
+
+				// Model matrix is required separately to calculate lightning
+				GLint model_uniform = glGetUniformLocation(this->shader_program_, "model");
+				glUniformMatrix4fv(model_uniform, 1, GL_FALSE, glm::value_ptr(model_matrix));
+
+				// View matrix is required separately to calculate lightning
+				GLint view_uniform = glGetUniformLocation(this->shader_program_, "view");
+				glUniformMatrix4fv(view_uniform, 1, GL_FALSE, glm::value_ptr(view_matrix));
+
+				glm::vec3 light_position(0.f, 1.f, 3.f); // Same as camera for now
+				glm::vec3 light_color(1.f, 1.f, 1.f);
+
+				GLint light_pos_uniform = glGetUniformLocation(this->shader_program_, "lightPosition_worldspace");
+				glUniform3fv(light_pos_uniform, 1, &light_position[0]);
+
+				GLint light_color_uniform = glGetUniformLocation(this->shader_program_, "lightColor");
+				glUniform3fv(light_color_uniform, 1, &light_color[0]);
+
+				/*GLint light_pos_uniform = glGetUniformLocation(this->shader_program_, "lightPosition_worldspace");
+				glUniform3f(light_pos_uniform, 0.f, 0.f, 3.f);*/
 
 				glBindVertexArray(object_index.vao);
 
-				glDrawElements(GL_TRIANGLES, object_index.ebo_size, GL_UNSIGNED_SHORT, NULL);
+				glDrawElements(GL_TRIANGLES, object_index.ebo_size, GL_UNSIGNED_INT, NULL);
 			}
 
 			void OnPreRender() {

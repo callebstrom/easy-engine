@@ -24,22 +24,13 @@ public:
 		world->AddSystem<ecs::component::MeshComponent, ecs::component::TransformComponent>(new RotationSystem);
 
 		ecs::component::MeshComponent mesh_component;
-		ecs::component::MeshComponent mesh_component2;
-		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\radiator.obj", mesh_component);
-		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\box_simple.obj", mesh_component2);
+		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\cube.fbx", mesh_component);
 
 		ecs::component::TransformComponent transform_component;
-		ecs::component::TransformComponent transform_component2;
-		transform_component2.TranslationAdd(0.5, 0, 0);
+		auto cube = this->world->CreateEntity();
 
-		auto sword = this->world->CreateEntity();
-		auto box = this->world->CreateEntity();
-
-		this->world->AddComponent<ecs::component::MeshComponent>(sword.entity, mesh_component);
-		this->world->AddComponent<ecs::component::TransformComponent>(sword.entity, transform_component);
-
-		this->world->AddComponent<ecs::component::MeshComponent>(box.entity, mesh_component2);
-		this->world->AddComponent<ecs::component::TransformComponent>(box.entity, transform_component2);
+		this->world->AddComponent<ecs::component::MeshComponent>(cube.entity, mesh_component);
+		this->world->AddComponent<ecs::component::TransformComponent>(cube.entity, transform_component);
 	}
 
 	~DynamicSceneApplication() {

@@ -12,7 +12,7 @@ namespace easy_engine {
 			// float deltaTime = float(currentTime - lastTime);
 
 			// position
-			glm::vec3 position = glm::vec3(0.f, 0.f, 3.f);
+			glm::vec3 position = glm::vec3(0.f, 1.f, 3.f);
 
 			glm::vec3 origin = glm::vec3(0.f, 0.f, 0.f);
 
