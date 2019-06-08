@@ -6,13 +6,11 @@ namespace easy_engine {
 	namespace render_manager {
 
 		Camera::Camera()
+			: position(glm::vec3(0.f, 1.f, 3.f))
 		{
 			// static double lastTime = glfwGetTime();
 			// double currentTime = glfwGetTime();
 			// float deltaTime = float(currentTime - lastTime);
-
-			// position
-			glm::vec3 position = glm::vec3(0.f, 1.f, 3.f);
 
 			glm::vec3 origin = glm::vec3(0.f, 0.f, 0.f);
 
@@ -45,8 +43,8 @@ namespace easy_engine {
 
 			// Camera matrix
 			this->view_matrix = glm::lookAt(
-				position,				// Camera is here
-				position + direction,	// and looks here : at the same position, plus "direction"
+				this->position,				// Camera is here
+				this->position + direction,	// and looks here : at the same position, plus "direction"
 				up						// Head is up (set to 0,-1,0 to look upside-down)
 			);
 		}

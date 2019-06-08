@@ -11,6 +11,8 @@
 
 #include <EasyEngine/Logger.h>
 #include <EasyEngine/resource_manager/ResourceManager3D.h>
+#include <EasyEngine/resource/Texture.h>
+#include <EasyEngine/resource/Material.h>
 
 namespace easy_engine {
 	namespace resource_manager {
@@ -60,7 +62,12 @@ namespace easy_engine {
 			}
 		};
 
-		void ResourceManager3D::Load(std::string file_path, ecs::component::MeshComponent& mesh_component) {
+		void ResourceManager3D::Load(
+			std::string file_path,
+			ecs::component::MeshComponent& mesh_component,
+			ecs::component::TextureComponent& texture_component,
+			ecs::component::MaterialComponent& material_component
+		) {
 			auto scene = this->p_impl_->importer.ReadFile(
 				file_path.c_str(),
 				aiProcess_Triangulate |
@@ -83,8 +90,40 @@ namespace easy_engine {
 				mesh->vertices = this->p_impl_->ExtractVertices(mesh_);
 				mesh->faces = this->p_impl_->ExtractFaces(mesh_);
 				mesh->vertex_normals = this->p_impl_->ExtractNormals(mesh_);
+				mesh->texture_index = mesh_->mMaterialIndex;
+				mesh->material_index = mesh_->mMaterialIndex;
 
 				mesh_component.sub_meshes->push_back(mesh);
+
+				if (scene->mNumTextures >= mesh_->mMaterialIndex + 1) {
+					EE_CORE_TRACE("Mesh has embedded texture");
+					auto texture_ = scene->mTextures[mesh_->mMaterialIndex];
+
+					auto texture = new resource::Texture();
+					texture->width = texture_->mWidth == 0 ? 1 : texture_->mWidth;
+					texture->height = texture_->mHeight == 0 ? 1 : texture_->mHeight;
+
+					texture->raw = reinterpret_cast<byte*>(texture_->pcData); // TODO how to do thiz?
+					texture_component.textures->push_back(texture);
+				}
+
+				if (scene->mNumMaterials >= mesh_->mMaterialIndex + 1) {
+					auto material_ = scene->mMaterials[mesh_->mMaterialIndex];
+					auto material = new resource::Material();
+
+					aiColor3D diffuse_color, specular_color;
+					material_->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse_color);
+					material_->Get(AI_MATKEY_COLOR_SPECULAR, specular_color);
+
+					float shininess;
+					material_->Get(AI_MATKEY_SHININESS, shininess);
+
+					material->diffuse_color = Eigen::Vector3f(diffuse_color.r, diffuse_color.g, diffuse_color.b);
+					material->specular_color = Eigen::Vector3f(specular_color.r, specular_color.g, specular_color.b);
+					material->shininess = shininess;
+
+					material_component.materials->push_back(material);
+				}
 			}
 		}
 

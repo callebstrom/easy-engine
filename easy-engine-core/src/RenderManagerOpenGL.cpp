@@ -17,6 +17,8 @@
 #include <EasyEngine/render_manager/_3DObjectRenderable.h>
 #include <EasyEngine/ecs/component/MeshComponent.h>
 #include <EasyEngine/ecs/component/TransformComponent.h>
+#include <EasyEngine/ecs/component/TextureComponent.h>
+#include <EasyEngine/ecs/component/MaterialComponent.h>
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
 
@@ -197,13 +199,6 @@ namespace easy_engine {
 				object_index.ebo_size = renderable->faces.size();
 
 				this->object_indices_.insert(std::pair<std::string, ObjectIndex>(renderable->name, object_index));
-
-				/*if (renderable->GetTexture().get() != nullptr) {
-					GLuint renderer_id;
-					glGenTextures(1, &renderer_id);
-					renderable->GetTexture()->renderer_id = renderer_id;
-				}*/
-
 			};
 
 			std::vector<Eigen::Translation3f> InterpolateTranslation3f(Eigen::Translation3f prev, Eigen::Translation3f cur) {
@@ -235,11 +230,19 @@ namespace easy_engine {
 				Eigen::Matrix<GLfloat, 4, 4> model_matrix = combined_affine_transform * identity_matrix;
 
 				for (auto mesh : *event_data->mesh_component->sub_meshes) {
-					this->Render(mesh, model_matrix);
+					auto texture = event_data->texture_component != nullptr && event_data->has_textures && event_data->texture_component->textures->size() - 1 >= mesh->texture_index
+						? event_data->texture_component->textures->at(mesh->texture_index)
+						: nullptr;
+
+					auto material = event_data->material_component != nullptr && event_data->has_materials && event_data->texture_component->textures->size() - 1 >= mesh->material_index
+						? event_data->material_component->materials->at(mesh->material_index)
+						: nullptr;
+
+					this->Render(mesh, model_matrix, texture, material);
 				}
 			}
 
-			void Render(resource::Mesh * mesh, Eigen::Matrix4f model_matrix_) {
+			void Render(resource::Mesh * mesh, Eigen::Matrix4f model_matrix_, resource::Texture * texture, resource::Material * material) {
 				// Should the object index be built lazily?
 				if (this->object_indices_.find(mesh->name) == this->object_indices_.end()) {
 					this->GenerateObjectIndex(mesh);
@@ -248,9 +251,7 @@ namespace easy_engine {
 				ObjectIndex object_index = this->object_indices_.at(mesh->name);
 
 				// TODO this should probably happen at the same time as the ObjectIndex is built..
-				/*resource::Texture* texture = mesh->GetTexture().get();
-
-				if (texture != nullptr) {
+				/*if (texture != nullptr) {
 					glBindTexture(GL_TEXTURE_2D, texture->renderer_id);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -292,14 +293,32 @@ namespace easy_engine {
 				glm::vec3 light_position(0.f, 1.f, 3.f); // Same as camera for now
 				glm::vec3 light_color(1.f, 1.f, 1.f);
 
-				GLint light_power_uniform = glGetUniformLocation(this->shader_program_, "lightPower");
-				glUniform1f(light_power_uniform, 10.f);
+				GLint lightPower = glGetUniformLocation(this->shader_program_, "lightPower");
+				glUniform1f(lightPower, 400.f);
 
-				GLint light_pos_uniform = glGetUniformLocation(this->shader_program_, "lightPosition_worldspace");
-				glUniform3fv(light_pos_uniform, 1, &light_position[0]);
+				GLint lightPosition_worldspace = glGetUniformLocation(this->shader_program_, "lightPosition_worldspace");
+				glUniform3fv(lightPosition_worldspace, 1, &light_position[0]);
 
-				GLint light_color_uniform = glGetUniformLocation(this->shader_program_, "lightColor");
-				glUniform3fv(light_color_uniform, 1, &light_color[0]);
+				GLint lightColor = glGetUniformLocation(this->shader_program_, "lightColor");
+				glUniform3fv(lightColor, 1, &light_color[0]);
+
+				GLint cameraPosition_worldspace = glGetUniformLocation(this->shader_program_, "cameraPosition_worldspace");
+				glUniform3fv(cameraPosition_worldspace, 1, &this->camera->position[0]);
+
+				// TODO split into separate function RenderMaterial
+				if (material != nullptr) {
+					GLint materialDiffuseColor = glGetUniformLocation(this->shader_program_, "materialDiffuseColor");
+					auto diffuse_color = material->diffuse_color;
+					glUniform3f(materialDiffuseColor, diffuse_color.x(), diffuse_color.y(), diffuse_color.z());
+
+					GLint materialSpecularColor = glGetUniformLocation(this->shader_program_, "materialSpecularColor");
+					auto specular_color = material->specular_color;
+					glUniform3f(materialSpecularColor, specular_color.x(), specular_color.y(), specular_color.z());
+
+					GLint materialShininess = glGetUniformLocation(this->shader_program_, "materialShininess");
+					auto shininess = material->shininess;
+					glUniform1f(materialShininess, shininess);
+				}
 
 				glBindVertexArray(object_index.vao);
 
@@ -377,8 +396,8 @@ namespace easy_engine {
 			glDeleteShader(this->p_impl_->vertex_shader_);
 		}
 
-		void RenderManagerOpenGL::Render(resource::Mesh * mesh, Eigen::Matrix4f model_matrix) {
-			this->p_impl_->Render(mesh, model_matrix);
+		void RenderManagerOpenGL::Render(resource::Mesh * mesh, Eigen::Matrix4f model_matrix, resource::Texture * texture, resource::Material * material) {
+			this->p_impl_->Render(mesh, model_matrix, texture, material);
 		}
 
 		void RenderManagerOpenGL::OnEvent(event_manager::Event event) {

@@ -14,7 +14,7 @@ namespace easy_engine {
 		namespace component {
 			class EASY_ENGINE_API MaterialComponent : public Component {
 			public:
-				std::vector<resource::Material*> materials;
+				std::vector<resource::Material*>* materials = new std::vector<resource::Material*>();
 			};
 		}
 	}

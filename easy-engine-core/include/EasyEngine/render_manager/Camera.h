@@ -16,6 +16,7 @@ namespace easy_engine {
 		private:
 			friend class RenderManagerOpenGL;
 			glm::mat4 view_matrix;
+			glm::vec3 position;
 		};
 	}
 }

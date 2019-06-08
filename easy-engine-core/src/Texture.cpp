@@ -3,8 +3,8 @@
 
 namespace easy_engine {
 	namespace resource {
-		Texture::Texture(const std::string& file_path)
-			: file_path(file_path), raw(nullptr), width(0), height(0) {
+		Texture::Texture()
+			: file_path(""), raw(nullptr), width(0), height(0) {
 
 		}
 	}

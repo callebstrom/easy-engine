@@ -17,8 +17,9 @@ namespace easy_engine {
 			public:
 				void TranslationAdd(float x, float y, float z);
 				void Translation(float x, float y, float z);
-				void RotationAdd(float radians, float pivot_x = 0, float pivot_y = 0, float pivot_z = 0);
-				void Rotation(float radians, float pivot_x = 0, float pivot_y = 0, float pivot_z = 0);
+				void RotationAdd(float radians, float pivot_x, float pivot_y, float pivot_z);
+				void RotationAdd(float radians);
+				void Rotation(float radians, float pivot_x, float pivot_y, float pivot_z);
 				void Scale(float x, float y, float z);
 
 				Eigen::Affine3f GetCombinedAffineTransform();

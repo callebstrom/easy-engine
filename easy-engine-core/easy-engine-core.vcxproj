@@ -67,6 +67,7 @@
     <ClInclude Include="include\EasyEngine\render_manager\RenderManagerOpenGL.h" />
     <ClInclude Include="include\EasyEngine\render_manager\RenderSystem.h" />
     <ClInclude Include="include\EasyEngine\resource\Animation.h" />
+    <ClInclude Include="include\EasyEngine\resource\Material.h" />
     <ClInclude Include="include\EasyEngine\resource\Renderable.h" />
     <ClInclude Include="include\EasyEngine\resource\Mesh.h" />
     <ClInclude Include="include\EasyEngine\resource\Texture.h" />
@@ -109,6 +110,7 @@
     <ClCompile Include="src\LinearAllocator.cpp" />
     <ClCompile Include="src\Logger.cpp" />
     <ClCompile Include="src\ManagerLocator.cpp" />
+    <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\MaterialComponent.cpp" />
     <ClCompile Include="src\MeshComponent.cpp" />
     <ClCompile Include="src\Node.cpp" />

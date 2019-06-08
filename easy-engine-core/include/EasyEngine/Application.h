@@ -48,6 +48,8 @@ namespace easy_engine {
 
 	EASY_ENGINE_EXTERN_TEMPLATE EASY_ENGINE_API int ecs::component::Component::GetComponentFamily<ecs::component::MeshComponent>();
 	EASY_ENGINE_EXTERN_TEMPLATE EASY_ENGINE_API int ecs::component::Component::GetComponentFamily<ecs::component::TransformComponent>();
+	EASY_ENGINE_EXTERN_TEMPLATE EASY_ENGINE_API int ecs::component::Component::GetComponentFamily<ecs::component::TextureComponent>();
+	EASY_ENGINE_EXTERN_TEMPLATE EASY_ENGINE_API int ecs::component::Component::GetComponentFamily<ecs::component::MaterialComponent>();
 }
 
 

@@ -4,7 +4,7 @@
 
 namespace easy_engine {
 	namespace resource {
-		class Texture {
+		class EASY_ENGINE_API Texture {
 
 		public:
 			uint32_t renderer_id;
@@ -12,7 +12,7 @@ namespace easy_engine {
 			byte* raw;
 			int width, height, bpp;
 
-			Texture(const std::string& file_path);
+			Texture();
 		};
 	}
 }

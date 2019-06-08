@@ -13,7 +13,7 @@ namespace easy_engine {
 		}
 
 		std::shared_ptr<Texture> ResourceManager::LoadTexture(std::string file_path) {
-			Texture* texture = new Texture(file_path);
+			Texture* texture = new Texture();
 			stbi_set_flip_vertically_on_load(1);
 
 			int width, height, bpp;

@@ -14,7 +14,7 @@ namespace easy_engine {
 		namespace component {
 			class EASY_ENGINE_API TextureComponent : public Component {
 			public:
-				std::vector<resource::Texture*> textures;
+				std::vector<resource::Texture*>* textures = new std::vector<resource::Texture*>();
 			};
 		}
 	}

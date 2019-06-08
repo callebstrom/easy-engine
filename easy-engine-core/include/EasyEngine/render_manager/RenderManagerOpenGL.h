@@ -22,7 +22,7 @@ namespace easy_engine {
 			RenderManagerOpenGL(const RenderManagerOpenGL& other);
 			RenderManagerOpenGL& operator=(RenderManagerOpenGL other);
 
-			void Render(resource::Mesh* mesh, Eigen::Matrix4f model_matrix) override;
+			void Render(resource::Mesh* mesh, Eigen::Matrix4f model_matrix, resource::Texture* texture, resource::Material* material) override;
 			void UpdateCameraAngle(double x, double y) override;
 			void OnEvent(event_manager::Event event) override;
 

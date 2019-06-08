@@ -10,9 +10,13 @@ class StaticSceneApplication : public Application {
 public:
 	StaticSceneApplication() {
 		ecs::component::MeshComponent mesh_component;
+		ecs::component::TextureComponent texture_component;
 		ecs::component::TransformComponent transform_component;
+		ecs::component::MaterialComponent material_component;
+
+
 		transform_component.RotationAdd(0.5, 0, 1, 0);
-		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\cube.fbx", mesh_component);
+		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\cube.fbx", mesh_component, texture_component, material_component);
 
 		auto sword = this->world->CreateEntity();
 		this->world->AddComponent<ecs::component::MeshComponent>(sword.entity, mesh_component);

@@ -31,6 +31,10 @@ namespace easy_engine {
 
 			ComponentType* GetComponentForEntity(entity::Entity* entity)
 			{
+				if (this->entity_id_component_offset_map_.find(entity->id) == this->entity_id_component_offset_map_.end()) {
+					return nullptr;
+				}
+
 				return this->allocator.buffer + this->entity_id_component_offset_map_[entity->id];
 			}
 

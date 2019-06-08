@@ -22,9 +22,11 @@ namespace easy_engine {
 			void serialize(Archive& ar, const unsigned int version);
 
 			Eigen::Matrix<float, -1, 3, Eigen::RowMajor> vertices;
-			uint32_t vertex_count;
 			Eigen::Matrix<float, -1, 3, Eigen::RowMajor> vertex_normals;
+			uint32_t vertex_count;
 			std::vector<uint32_t> faces;
+			ushort_t texture_index = 0;
+			ushort_t material_index = 0;
 		};
 	}
 }

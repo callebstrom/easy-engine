@@ -46,7 +46,7 @@ public:
 						break;
 					case EE_KEY_R:
 						auto rotation_direction = event->modifiers == EE_MOD_CONTROL ? -1 : 1;
-						transform->RotationAdd(rotation_direction * 0.01 * dt, 0, 1, 0);
+						transform->RotationAdd(rotation_direction * 0.01 * dt);
 						break;
 					}
 				}
@@ -68,15 +68,18 @@ public:
 		world->AddSystem<ecs::component::MeshComponent, ecs::component::TransformComponent>(new PlayerSystem);
 
 		ecs::component::MeshComponent mesh_component;
-		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\nanosuit.fbx", mesh_component);
+		ecs::component::TextureComponent texture_component;
+		ecs::component::MaterialComponent material_component;
+		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\nanosuit.fbx", mesh_component, texture_component, material_component);
 
 		ecs::component::TransformComponent transform_component;
-		transform_component.TranslationAdd(0, -7, -30);
+		transform_component.TranslationAdd(0, -3, -20);
+		auto nanosuit = this->world->CreateEntity();
 
-		auto sword = this->world->CreateEntity();
-
-		this->world->AddComponent<ecs::component::MeshComponent>(sword.entity, mesh_component);
-		this->world->AddComponent<ecs::component::TransformComponent>(sword.entity, transform_component);
+		this->world->AddComponent<ecs::component::MeshComponent>(nanosuit.entity, mesh_component);
+		this->world->AddComponent<ecs::component::TextureComponent>(nanosuit.entity, texture_component);
+		this->world->AddComponent<ecs::component::MaterialComponent>(nanosuit.entity, material_component);
+		this->world->AddComponent<ecs::component::TransformComponent>(nanosuit.entity, transform_component);
 	}
 
 	~PlayerApplication() {

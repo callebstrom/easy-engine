@@ -255,6 +255,9 @@
     <ClInclude Include="src\TextureComponent.cpp">
       <Filter>Source Files\ecs\component</Filter>
     </ClInclude>
+    <ClInclude Include="include\EasyEngine\resource\Material.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RenderManagerOpenGL.cpp">
@@ -340,6 +343,9 @@
     </ClCompile>
     <ClCompile Include="src\TransformComponent.cpp">
       <Filter>Source Files\ecs\component</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Material.cpp">
+      <Filter>Source Files\resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

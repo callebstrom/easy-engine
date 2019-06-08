@@ -26,6 +26,15 @@ namespace easy_engine {
 				);
 			}
 
+			void TransformComponent::RotationAdd(float radians) {
+				return this->Rotation(
+					this->rotation.angle() + radians,
+					0,
+					0,
+					0
+				);
+			}
+
 			void TransformComponent::Rotation(float radians, float pivot_x, float pivot_y, float pivot_z) {
 				this->rotation = Eigen::AngleAxis<float>(radians, Eigen::Vector3f(pivot_x, pivot_y, pivot_z));
 			}

@@ -11,8 +11,10 @@ BOOST_AUTO_TEST_CASE(load_file)
 	auto resource_manager = resource_manager::ResourceManager3D();
 
 	ecs::component::MeshComponent mesh_component;
+	ecs::component::TextureComponent texture_component;
+	ecs::component::MaterialComponent material_component;
 
-	resource_manager.Load("..\\easy-engine-core\\res\\player_low_poly.obj", mesh_component);
+	resource_manager.Load("..\\easy-engine-core\\res\\player_low_poly.obj", mesh_component, texture_component, material_component);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

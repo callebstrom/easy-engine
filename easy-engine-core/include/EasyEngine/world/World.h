@@ -66,8 +66,12 @@ namespace easy_engine {
 			ComponentType* GetComponentForEntity(entity::Entity* entity)
 			{
 				auto component_type = std::type_index(typeid(ComponentType));
-				component_manager::ComponentManager<ComponentType>* component_manager = reinterpret_cast<component_manager::ComponentManager<ComponentType>*>(this->component_managers_[component_type]);
 
+				if (this->component_managers_.find(component_type) == this->component_managers_.end()) {
+					return nullptr;
+				}
+
+				component_manager::ComponentManager<ComponentType>* component_manager = reinterpret_cast<component_manager::ComponentManager<ComponentType>*>(this->component_managers_[component_type]);
 				return component_manager->GetComponentForEntity(entity);
 			}
 
