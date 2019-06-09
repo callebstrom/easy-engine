@@ -73,7 +73,7 @@ public:
 		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\nanosuit.fbx", mesh_component, texture_component, material_component);
 
 		ecs::component::TransformComponent transform_component;
-		transform_component.TranslationAdd(0, -3, -20);
+		transform_component.TranslationAdd(0, -7, -20);
 		auto nanosuit = this->world->CreateEntity();
 
 		this->world->AddComponent<ecs::component::MeshComponent>(nanosuit.entity, mesh_component);

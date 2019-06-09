@@ -1,6 +1,6 @@
 #version 450 
 
-smooth in vec3 frag_color;
+in vec2 frag_textureCoords;
 in vec3 frag_vertexPosition_modelspace;
 in vec3 frag_vertexNormal_modelspace;
 
@@ -12,15 +12,18 @@ uniform float lightPower;
 
 uniform vec3 cameraPosition_worldspace;
 
-uniform vec3 materialDiffuseColor;
 uniform vec3 materialSpecularColor;
 uniform float materialShininess;
+
+uniform sampler2D textureSampler2D;
 
 out vec4 outputColor;
 
 void main() {
     mat3 normalMatrix = transpose(inverse(mat3(model)));
     vec3 normal = normalize(normalMatrix * frag_vertexNormal_modelspace);
+
+	vec4 materialDiffuseColor = texture(textureSampler2D, frag_textureCoords);
     
     vec3 frag_vertexPosition_worldspace = vec3(model * vec4(frag_vertexPosition_modelspace, 1));
     
@@ -32,7 +35,7 @@ void main() {
 	// DIFFUSE
     float brightness = dot(normal, surfaceToLightVector_worldspace) / length(surfaceToLightVector_worldspace);
 	// light bouncing on the back of a surface is negative, limit value to a min value of 0 (completely dark)
-    vec3 diffuseComponent = clamp(brightness, 0, 1) * lightColor * materialDiffuseColor;
+    vec4 diffuseComponent = clamp(brightness, 0, 1) * vec4(lightColor, 1) * materialDiffuseColor;
 
 	// SPECULAR
 	vec3 reflectionVector = normalize(reflect(lightPosition_worldspace, normal));
@@ -44,5 +47,5 @@ void main() {
  		specularComponent = specularCoefficient * materialSpecularColor * lightColor;
 	}
 	// light falloff factor is distance^2, where distance is the distance between the vertex and the light
-	outputColor = vec4(((diffuseComponent + specularComponent) * lightPower) / lightFalloff, 1.0);
+	outputColor = ((diffuseComponent + vec4(specularComponent, 1)) * lightPower) / lightFalloff;
 }

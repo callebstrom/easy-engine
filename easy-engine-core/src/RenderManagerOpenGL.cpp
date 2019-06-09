@@ -100,7 +100,7 @@ namespace easy_engine {
 				EE_CORE_INFO("OpenGL version supported: {}", std::string(reinterpret_cast<char*>(const_cast<GLubyte*>(glGetString(GL_VERSION)))));
 			}
 
-			void GenerateObjectIndex(resource::Renderable * renderable_) {
+			void GenerateObjectIndex(resource::Renderable * renderable_, resource::Texture * texture) {
 				if (glGenVertexArrays == NULL) {
 					EE_CORE_CRITICAL("glGenVertexArrays is not supported");
 					throw new std::runtime_error("glGenVertexArrays is not supported");
@@ -123,7 +123,7 @@ namespace easy_engine {
 				// Set active VAO
 				glBindVertexArray(object_index.vao);
 
-				GLuint vbo, ebo, color_buffer, normal_buffer;
+				GLuint vbo, ebo, texture_coord_buffer, normal_buffer;
 
 				glGenBuffers(1, &vbo);
 				EE_CORE_TRACE("Generated vertex buffer object for " + renderable->name);
@@ -134,13 +134,13 @@ namespace easy_engine {
 				glGenBuffers(1, &ebo);
 				EE_CORE_TRACE("Generated element array for " + renderable->name);
 
-				glGenBuffers(1, &color_buffer);
+				glGenBuffers(1, &texture_coord_buffer);
 
 				// Set active VBO to position VBO
 				glBindBuffer(GL_ARRAY_BUFFER, vbo);
 				glEnableVertexAttribArray(0);
 
-				// VERTEX_BUFFER
+				// VERTEX BUFFER
 				glBufferData(
 					GL_ARRAY_BUFFER,
 					renderable->vertices.size() * sizeof(GLfloat),
@@ -148,24 +148,19 @@ namespace easy_engine {
 					GL_STATIC_DRAW
 				);
 				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-				// !VERTEX_BUFFER
+				// !VERTEX BUFFER
 
-				// RANDOM_COLOR_PER_VERTEX
-				std::vector<GLfloat> color_buffer_data;
-				for (int c = 0; c < renderable->vertices.size() * 3; c++) {
-					color_buffer_data.push_back(0.9f);
-				}
-
-				glBindBuffer(GL_ARRAY_BUFFER, color_buffer);
+				// UV BUFFER
+				glBindBuffer(GL_ARRAY_BUFFER, texture_coord_buffer);
 				glEnableVertexAttribArray(1);
 				glBufferData(
 					GL_ARRAY_BUFFER,
-					color_buffer_data.size() * sizeof(GLfloat),
-					&color_buffer_data[0],
+					renderable->texture_coords.size() * sizeof(GLfloat),
+					renderable->texture_coords.data(),
 					GL_STATIC_DRAW
 				);
-				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-				// !RANDOM_COLOR_PER_VERTEX
+				glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+				// !UV BUFFER
 
 				// NORMAL BUFFER
 				glBindBuffer(GL_ARRAY_BUFFER, normal_buffer);
@@ -177,7 +172,7 @@ namespace easy_engine {
 					GL_STATIC_DRAW
 				);
 				glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-				// !NORMAL_BUFFER
+				// !NORMAL BUFFER
 
 				// Create an element array
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
@@ -188,13 +183,29 @@ namespace easy_engine {
 					GL_STATIC_DRAW
 				);
 
+				if (texture != nullptr) {
+					GLuint renderer_id;
+					glGenTextures(1, &renderer_id);
+
+					glBindTexture(GL_TEXTURE_2D, renderer_id);
+					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width, texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->raw);
+					glGenerateMipmap(GL_TEXTURE_2D);
+
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+					texture->renderer_id = renderer_id;
+				}
+
 				// Unbind VAO
 				glBindVertexArray(0);
 
 				// VBO and EBO can be deleted as VAO hold a reference to these
 				glDeleteBuffers(1, &vbo);
 				glDeleteBuffers(1, &ebo);
-				glDeleteBuffers(1, &color_buffer);
+				glDeleteBuffers(1, &texture_coord_buffer);
 
 				object_index.ebo_size = renderable->faces.size();
 
@@ -245,21 +256,15 @@ namespace easy_engine {
 			void Render(resource::Mesh * mesh, Eigen::Matrix4f model_matrix_, resource::Texture * texture, resource::Material * material) {
 				// Should the object index be built lazily?
 				if (this->object_indices_.find(mesh->name) == this->object_indices_.end()) {
-					this->GenerateObjectIndex(mesh);
+					this->GenerateObjectIndex(mesh, texture);
 				}
 
 				ObjectIndex object_index = this->object_indices_.at(mesh->name);
 
 				// TODO this should probably happen at the same time as the ObjectIndex is built..
-				/*if (texture != nullptr) {
+				if (texture != nullptr) {
 					glBindTexture(GL_TEXTURE_2D, texture->renderer_id);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width, texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->raw);
-					glBindTexture(GL_TEXTURE_2D, 0);
-				}*/
+				}
 				float FoV = 70.0f;
 
 				auto width = boost::lexical_cast<float>(this->render_config_->Get(c_params_::RESOLUTION_X));
@@ -290,7 +295,7 @@ namespace easy_engine {
 				GLint view_uniform = glGetUniformLocation(this->shader_program_, "view");
 				glUniformMatrix4fv(view_uniform, 1, GL_FALSE, glm::value_ptr(view_matrix));
 
-				glm::vec3 light_position(0.f, 1.f, 3.f); // Same as camera for now
+				glm::vec3 light_position(this->camera->position); // Same as camera for now
 				glm::vec3 light_color(1.f, 1.f, 1.f);
 
 				GLint lightPower = glGetUniformLocation(this->shader_program_, "lightPower");
@@ -321,7 +326,7 @@ namespace easy_engine {
 				}
 
 				glBindVertexArray(object_index.vao);
-
+				// glShadeModel(GL_SMOOTH);
 				glDrawElements(GL_TRIANGLES, object_index.ebo_size, GL_UNSIGNED_INT, NULL);
 			}
 

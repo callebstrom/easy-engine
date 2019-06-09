@@ -6,7 +6,7 @@ namespace easy_engine {
 	namespace render_manager {
 
 		Camera::Camera()
-			: position(glm::vec3(0.f, 1.f, 3.f))
+			: position(glm::vec3(0.f, 5.f, 3.f))
 		{
 			// static double lastTime = glfwGetTime();
 			// double currentTime = glfwGetTime();

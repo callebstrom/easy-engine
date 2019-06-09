@@ -23,6 +23,7 @@ namespace easy_engine {
 
 			Eigen::Matrix<float, -1, 3, Eigen::RowMajor> vertices;
 			Eigen::Matrix<float, -1, 3, Eigen::RowMajor> vertex_normals;
+			Eigen::Matrix<float, -1, 2, Eigen::RowMajor> texture_coords;
 			uint32_t vertex_count;
 			std::vector<uint32_t> faces;
 			ushort_t texture_index = 0;
