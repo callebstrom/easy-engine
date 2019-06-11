@@ -188,13 +188,20 @@ namespace easy_engine {
 					glGenTextures(1, &renderer_id);
 
 					glBindTexture(GL_TEXTURE_2D, renderer_id);
-					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width, texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->raw);
+
+					int format = 0;
+
+					if (texture->bpp == 3) format = GL_RGB;
+					else if (texture->bpp == 4) format = GL_RGBA;
+					else EE_CORE_WARN("Unknown texture bpp");
+
+					glTexImage2D(GL_TEXTURE_2D, 0, format, texture->width, texture->height, 0, format, GL_UNSIGNED_BYTE, texture->raw);
 					glGenerateMipmap(GL_TEXTURE_2D);
 
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 					texture->renderer_id = renderer_id;
 				}
@@ -299,7 +306,7 @@ namespace easy_engine {
 				glm::vec3 light_color(1.f, 1.f, 1.f);
 
 				GLint lightPower = glGetUniformLocation(this->shader_program_, "lightPower");
-				glUniform1f(lightPower, 400.f);
+				glUniform1f(lightPower, 10.f);
 
 				GLint lightPosition_worldspace = glGetUniformLocation(this->shader_program_, "lightPosition_worldspace");
 				glUniform3fv(lightPosition_worldspace, 1, &light_position[0]);
@@ -315,6 +322,9 @@ namespace easy_engine {
 					GLint materialDiffuseColor = glGetUniformLocation(this->shader_program_, "materialDiffuseColor");
 					auto diffuse_color = material->diffuse_color;
 					glUniform3f(materialDiffuseColor, diffuse_color.x(), diffuse_color.y(), diffuse_color.z());
+
+					GLint hasTexture = glGetUniformLocation(this->shader_program_, "hasDiffuseTexture");
+					glUniform1f(hasTexture, texture != nullptr ? 1 : 0);
 
 					GLint materialSpecularColor = glGetUniformLocation(this->shader_program_, "materialSpecularColor");
 					auto specular_color = material->specular_color;

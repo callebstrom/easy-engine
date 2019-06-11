@@ -70,11 +70,13 @@ public:
 		ecs::component::MeshComponent mesh_component;
 		ecs::component::TextureComponent texture_component;
 		ecs::component::MaterialComponent material_component;
-		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\nanosuit.fbx", mesh_component, texture_component, material_component);
+		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\soldier.fbx", mesh_component, texture_component, material_component);
 
 		ecs::component::TransformComponent transform_component;
-		transform_component.TranslationAdd(0, -7, -20);
+		transform_component.RotationAdd(-1.57, 1, 0, 0);
 		auto nanosuit = this->world->CreateEntity();
+
+		material_component.materials->at(0)->diffuse_color = Eigen::Vector3f(35.f / 255.f, 122.f / 255.f, 73.f / 255.f);
 
 		this->world->AddComponent<ecs::component::MeshComponent>(nanosuit.entity, mesh_component);
 		this->world->AddComponent<ecs::component::TextureComponent>(nanosuit.entity, texture_component);

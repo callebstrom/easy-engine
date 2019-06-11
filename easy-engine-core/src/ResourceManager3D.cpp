@@ -79,7 +79,6 @@ namespace easy_engine {
 
 			resource::Texture* LoadCompressedImageFromMemory(void* data, size_t size) {
 				auto texture = new resource::Texture();
-				stbi_set_flip_vertically_on_load(1);
 
 				int width, height, bpp;
 				unsigned char* decompressed_pixel_data = stbi_load_from_memory(reinterpret_cast<unsigned char*>(data), size, &width, &height, &bpp, 4);
@@ -91,18 +90,71 @@ namespace easy_engine {
 
 				return texture;
 			}
+
+			resource::Texture* LoadImageFromFile(std::string path) {
+				auto texture = new resource::Texture();
+
+				int width, height, bpp;
+
+				unsigned char* decompressed_pixel_data = stbi_load(path.c_str(), &width, &height, &bpp, 0);
+				auto failure = stbi_failure_reason();
+
+				texture->width = width;
+				texture->height = height;
+				texture->bpp = bpp;
+				texture->raw = decompressed_pixel_data;
+
+				return texture;
+			}
+
+			void LoadEmbeddedTexture(const aiScene* scene, const aiMesh* mesh_, ecs::component::TextureComponent& texture_component) {
+				struct aiString* texture_index_buffer = (aiString*)malloc(sizeof(struct aiString));
+
+				aiGetMaterialTexture(scene->mMaterials[mesh_->mMaterialIndex], aiTextureType_DIFFUSE, 0, texture_index_buffer, 0, 0, 0, 0, 0, 0);
+
+				static const int ASCII_OFFSET = 48;
+				auto texture_index = (int)texture_index_buffer->data[1] - ASCII_OFFSET;
+				auto texture_ = scene->mTextures[texture_index];
+
+				resource::Texture* texture;
+
+				// If mHeight is 0 we should use stbi_load_from_memory as this is then not pixel data
+				if (texture_->mHeight == 0) {
+					size_t buffer_size = texture_->mWidth;
+					texture = this->LoadCompressedImageFromMemory(texture_->pcData, buffer_size);
+				}
+				else {
+					texture = new resource::Texture();
+					texture->width = texture_->mWidth;
+					texture->height = texture_->mHeight;
+					texture->raw = reinterpret_cast<byte*>(texture_->pcData);
+				}
+				texture_component.textures->push_back(texture);
+			}
+
+			void LoadExternalTexture(std::string mesh_path, const aiScene* scene, const aiMesh* mesh_, ecs::component::TextureComponent& texture_component) {
+				auto texture_index_buffer = new aiString;
+
+				aiGetMaterialTexture(scene->mMaterials[mesh_->mMaterialIndex], aiTextureType_DIFFUSE, 0, texture_index_buffer, 0, 0, 0, 0, 0, 0);
+				if (texture_index_buffer->length > 0) {
+					std::string texture_path = mesh_path.substr(0, mesh_path.find_last_of('\\') + 1) + std::string(texture_index_buffer->C_Str());
+					auto texture = this->LoadImageFromFile(texture_path);
+					texture_component.textures->push_back(texture);
+				}
+			}
 		};
 
 		void ResourceManager3D::Load(
 			std::string file_path,
-			ecs::component::MeshComponent& mesh_component,
-			ecs::component::TextureComponent& texture_component,
-			ecs::component::MaterialComponent& material_component
+			ecs::component::MeshComponent & mesh_component,
+			ecs::component::TextureComponent & texture_component,
+			ecs::component::MaterialComponent & material_component
 		) {
 			auto scene = this->p_impl_->importer.ReadFile(
 				file_path.c_str(),
 				aiProcess_Triangulate |
-				aiProcess_GenNormals
+				aiProcess_GenNormals |
+				aiProcess_FlipUVs
 			);
 
 			if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
@@ -127,29 +179,14 @@ namespace easy_engine {
 
 				mesh_component.sub_meshes->push_back(mesh);
 
+				// Handle embedded textures
 				if (scene->mNumTextures >= mesh_->mMaterialIndex + 1) {
 					EE_CORE_TRACE("Mesh has embedded texture");
-
-					struct aiString* texture_index_buffer = (aiString*)malloc(sizeof(struct aiString));
-
-					aiGetMaterialTexture(scene->mMaterials[mesh_->mMaterialIndex], aiTextureType_DIFFUSE, 0, texture_index_buffer, 0, 0, 0, 0, 0, 0);
-					static const int ASCII_OFFSET = 48;
-					auto texture_index = (int)texture_index_buffer->data[1] - ASCII_OFFSET;
-					auto texture_ = scene->mTextures[texture_index];
-
-					resource::Texture* texture;
-
-					// If mHeight is 0 we should use stbi_load_from_memory as this is then not pixel data
-					if (texture_->mHeight == 0) {
-						texture = this->p_impl_->LoadCompressedImageFromMemory(texture_->pcData, texture_->mWidth);
-					}
-					else {
-						texture = new resource::Texture();
-						texture->width = texture_->mWidth;
-						texture->height = texture_->mHeight;
-						texture->raw = reinterpret_cast<byte*>(texture_->pcData);
-					}
-					texture_component.textures->push_back(texture);
+					this->p_impl_->LoadEmbeddedTexture(scene, mesh_, texture_component);
+				}
+				else {
+					EE_CORE_TRACE("Mesh has external texture");
+					this->p_impl_->LoadExternalTexture(file_path, scene, mesh_, texture_component);
 				}
 
 				if (scene->mNumMaterials >= mesh_->mMaterialIndex + 1) {

@@ -12,8 +12,10 @@ uniform float lightPower;
 
 uniform vec3 cameraPosition_worldspace;
 
+uniform vec3 materialDiffuseColor;
 uniform vec3 materialSpecularColor;
 uniform float materialShininess;
+uniform float hasDiffuseTexture;
 
 uniform sampler2D textureSampler2D;
 
@@ -23,7 +25,7 @@ void main() {
     mat3 normalMatrix = transpose(inverse(mat3(model)));
     vec3 normal = normalize(normalMatrix * frag_vertexNormal_modelspace);
 
-	vec4 materialDiffuseColor = texture(textureSampler2D, frag_textureCoords);
+	vec4 diffuseColor = hasDiffuseTexture == 1 ? texture(textureSampler2D, frag_textureCoords) : vec4(materialDiffuseColor, 1);
     
     vec3 frag_vertexPosition_worldspace = vec3(model * vec4(frag_vertexPosition_modelspace, 1));
     
@@ -35,7 +37,7 @@ void main() {
 	// DIFFUSE
     float brightness = dot(normal, surfaceToLightVector_worldspace) / length(surfaceToLightVector_worldspace);
 	// light bouncing on the back of a surface is negative, limit value to a min value of 0 (completely dark)
-    vec4 diffuseComponent = clamp(brightness, 0, 1) * vec4(lightColor, 1) * materialDiffuseColor;
+    vec4 diffuseComponent = clamp(brightness, 0, 1) * vec4(lightColor, 1) * diffuseColor;
 
 	// SPECULAR
 	vec3 reflectionVector = normalize(reflect(lightPosition_worldspace, normal));
