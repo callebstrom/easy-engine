@@ -100,7 +100,7 @@ namespace easy_engine {
 				EE_CORE_INFO("OpenGL version supported: {}", std::string(reinterpret_cast<char*>(const_cast<GLubyte*>(glGetString(GL_VERSION)))));
 			}
 
-			void GenerateObjectIndex(resource::Renderable * renderable_, resource::Texture * texture) {
+			void GenerateObjectIndex(resource::Renderable * renderable_, std::vector<resource::Texture*> textures, resource::Material * material) {
 				if (glGenVertexArrays == NULL) {
 					EE_CORE_CRITICAL("glGenVertexArrays is not supported");
 					throw new std::runtime_error("glGenVertexArrays is not supported");
@@ -183,27 +183,32 @@ namespace easy_engine {
 					GL_STATIC_DRAW
 				);
 
-				if (texture != nullptr) {
-					GLuint renderer_id;
-					glGenTextures(1, &renderer_id);
+				if (textures.size() >= material->diffuse_texture_index) {
+					resource::Texture* diffuse_texture = textures[material->diffuse_texture_index];
 
-					glBindTexture(GL_TEXTURE_2D, renderer_id);
+					if (diffuse_texture != nullptr && diffuse_texture->renderer_id == 0) {
 
-					int format = 0;
+						GLuint renderer_id;
+						glGenTextures(1, &renderer_id);
 
-					if (texture->bpp == 3) format = GL_RGB;
-					else if (texture->bpp == 4) format = GL_RGBA;
-					else EE_CORE_WARN("Unknown texture bpp");
+						glBindTexture(GL_TEXTURE_2D, renderer_id);
 
-					glTexImage2D(GL_TEXTURE_2D, 0, format, texture->width, texture->height, 0, format, GL_UNSIGNED_BYTE, texture->raw);
-					glGenerateMipmap(GL_TEXTURE_2D);
+						int format = 0;
 
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+						if (diffuse_texture->bpp == 3) format = GL_RGB;
+						else if (diffuse_texture->bpp == 4) format = GL_RGBA;
+						else EE_CORE_WARN("Unknown texture bpp");
 
-					texture->renderer_id = renderer_id;
+						glTexImage2D(GL_TEXTURE_2D, 0, format, diffuse_texture->width, diffuse_texture->height, 0, format, GL_UNSIGNED_BYTE, diffuse_texture->raw);
+						glGenerateMipmap(GL_TEXTURE_2D);
+
+						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+						diffuse_texture->renderer_id = renderer_id;
+					}
 				}
 
 				// Unbind VAO
@@ -248,29 +253,33 @@ namespace easy_engine {
 				Eigen::Matrix<GLfloat, 4, 4> model_matrix = combined_affine_transform * identity_matrix;
 
 				for (auto mesh : *event_data->mesh_component->sub_meshes) {
-					auto texture = event_data->texture_component != nullptr && event_data->has_textures && event_data->texture_component->textures->size() - 1 >= mesh->texture_index
-						? event_data->texture_component->textures->at(mesh->texture_index)
-						: nullptr;
 
-					auto material = event_data->material_component != nullptr && event_data->has_materials && event_data->texture_component->textures->size() - 1 >= mesh->material_index
+					auto material = event_data->material_component != nullptr && event_data->has_materials && event_data->material_component->materials->size() - 1 >= mesh->material_index
 						? event_data->material_component->materials->at(mesh->material_index)
 						: nullptr;
 
-					this->Render(mesh, model_matrix, texture, material);
+					this->Render(mesh, model_matrix, *event_data->texture_component->textures, material);
 				}
 			}
 
-			void Render(resource::Mesh * mesh, Eigen::Matrix4f model_matrix_, resource::Texture * texture, resource::Material * material) {
+			void Render(resource::Mesh * mesh, Eigen::Matrix4f model_matrix_, std::vector<resource::Texture*> textures, resource::Material * material) {
 				// Should the object index be built lazily?
 				if (this->object_indices_.find(mesh->name) == this->object_indices_.end()) {
-					this->GenerateObjectIndex(mesh, texture);
+					this->GenerateObjectIndex(mesh, textures, material);
 				}
 
 				ObjectIndex object_index = this->object_indices_.at(mesh->name);
 
+				bool has_diffuse_texture = false;
+
 				// TODO this should probably happen at the same time as the ObjectIndex is built..
-				if (texture != nullptr) {
-					glBindTexture(GL_TEXTURE_2D, texture->renderer_id);
+				if (textures.size() >= material->diffuse_texture_index) {
+					resource::Texture* diffuse_texture = textures[material->diffuse_texture_index];
+
+					if (diffuse_texture != nullptr) {
+						glBindTexture(GL_TEXTURE_2D, diffuse_texture->renderer_id);
+						has_diffuse_texture = true;
+					}
 				}
 				float FoV = 70.0f;
 
@@ -306,7 +315,7 @@ namespace easy_engine {
 				glm::vec3 light_color(1.f, 1.f, 1.f);
 
 				GLint lightPower = glGetUniformLocation(this->shader_program_, "lightPower");
-				glUniform1f(lightPower, 10.f);
+				glUniform1f(lightPower, 1000.f);
 
 				GLint lightPosition_worldspace = glGetUniformLocation(this->shader_program_, "lightPosition_worldspace");
 				glUniform3fv(lightPosition_worldspace, 1, &light_position[0]);
@@ -324,7 +333,7 @@ namespace easy_engine {
 					glUniform3f(materialDiffuseColor, diffuse_color.x(), diffuse_color.y(), diffuse_color.z());
 
 					GLint hasTexture = glGetUniformLocation(this->shader_program_, "hasDiffuseTexture");
-					glUniform1f(hasTexture, texture != nullptr ? 1 : 0);
+					glUniform1f(hasTexture, has_diffuse_texture ? 1 : 0);
 
 					GLint materialSpecularColor = glGetUniformLocation(this->shader_program_, "materialSpecularColor");
 					auto specular_color = material->specular_color;
@@ -411,8 +420,8 @@ namespace easy_engine {
 			glDeleteShader(this->p_impl_->vertex_shader_);
 		}
 
-		void RenderManagerOpenGL::Render(resource::Mesh * mesh, Eigen::Matrix4f model_matrix, resource::Texture * texture, resource::Material * material) {
-			this->p_impl_->Render(mesh, model_matrix, texture, material);
+		void RenderManagerOpenGL::Render(resource::Mesh * mesh, Eigen::Matrix4f model_matrix, std::vector<resource::Texture*> textures, resource::Material * material) {
+			this->p_impl_->Render(mesh, model_matrix, textures, material);
 		}
 
 		void RenderManagerOpenGL::OnEvent(event_manager::Event event) {

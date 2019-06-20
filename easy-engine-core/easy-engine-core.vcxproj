@@ -67,6 +67,7 @@
     <ClInclude Include="include\EasyEngine\render_manager\RenderManagerOpenGL.h" />
     <ClInclude Include="include\EasyEngine\render_manager\RenderSystem.h" />
     <ClInclude Include="include\EasyEngine\resource\Animation.h" />
+    <ClInclude Include="include\EasyEngine\resource\Bone.h" />
     <ClInclude Include="include\EasyEngine\resource\Material.h" />
     <ClInclude Include="include\EasyEngine\resource\Renderable.h" />
     <ClInclude Include="include\EasyEngine\resource\Mesh.h" />
@@ -92,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\EasyEngine\event_manager\EventManager.cpp" />
+    <ClCompile Include="include\EasyEngine\resource\Bone.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\ComponentManager.cpp" />
@@ -297,13 +299,13 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)include\spdlog_complete\include;D:\Dropbox\dev\EasyEngine\easy-engine-core\lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
-      <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS</AdditionalOptions>
+      <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS /Zc:__cplusplus</AdditionalOptions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;$(ProjectDir)lib\assimp\build\code\Debug\assimp-vc142-mtd.lib;$(ProjectDir)lib\assimp\build\contrib\zlib\Debug\zlibstaticd.lib;$(ProjectDir)lib\assimp\build\contrib\irrXML\Debug\IrrXML.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -326,7 +328,7 @@
       <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS</AdditionalOptions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -349,7 +351,7 @@
       <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS</AdditionalOptions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -383,7 +385,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

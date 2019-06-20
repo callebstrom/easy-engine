@@ -1,5 +1,7 @@
 #include <EasyEngine/eepch.h>
 
+#include <filesystem>
+
 #include <Eigen/Core>
 
 #include <boost/algorithm/string.hpp>
@@ -16,11 +18,35 @@
 #include <EasyEngine/resource_manager/ResourceManager3D.h>
 #include <EasyEngine/resource/Texture.h>
 #include <EasyEngine/resource/Material.h>
+#include <EasyEngine/resource/Bone.h>
 
 namespace easy_engine {
 	namespace resource_manager {
+
+		typedef std::string ResourceLocation;
+
+		template<typename CachableType>
+		class ResourceCache {
+		public:
+			bool HasResource(ResourceLocation resource_location) {
+				return this->cache.find(resource_location) != cache.end();
+			}
+
+			CachableType GetResource(ResourceLocation resource_location) {
+				return this->cache[resource_location];
+			}
+
+			void Cache(ResourceLocation resource_location, CachableType cachable) {
+				this->cache[resource_location] = cachable;
+			}
+		private:
+			std::map<ResourceLocation, CachableType> cache;
+		};
+
 		struct ResourceManager3D::Impl {
+
 			Assimp::Importer importer;
+			ResourceCache<resource::Texture*> texture_cache;
 
 			Eigen::Matrix<float, -1, 3, Eigen::RowMajor> ExtractVertices(aiMesh* mesh) {
 				Eigen::Matrix<float, -1, 3, Eigen::RowMajor> vertices;
@@ -77,6 +103,32 @@ namespace easy_engine {
 				return uvs;
 			}
 
+			std::vector<resource::Bone> ExtractBones(aiMesh* mesh) {
+				/*for (uint32_t i = 0; i < mesh->mNumBones; i++) {
+					uint32_t bone_index = 0;
+					std::string bone_name(mesh->mBones[i]->mName.data);
+
+					if (m_BoneMapping.find(BoneName) == m_BoneMapping.end()) {
+						BoneIndex = m_NumBones;
+						m_NumBones++;
+						BoneInfo bi;
+						m_BoneInfo.push_back(bi);
+					}
+					else {
+						BoneIndex = m_BoneMapping[BoneName];
+					}
+
+					m_BoneMapping[BoneName] = BoneIndex;
+					m_BoneInfo[BoneIndex].BoneOffset = pMesh->mBones[i]->mOffsetMatrix;
+
+					for (uint j = 0; j < pMesh->mBones[i]->mNumWeights; j++) {
+						uint VertexID = m_Entries[MeshIndex].BaseVertex + pMesh->mBones[i]->mWeights[j].mVertexId;
+						float Weight = pMesh->mBones[i]->mWeights[j].mWeight;
+						Bones[VertexID].AddBoneData(BoneIndex, Weight);
+					}
+				}*/
+			}
+
 			resource::Texture* LoadCompressedImageFromMemory(void* data, size_t size) {
 				auto texture = new resource::Texture();
 
@@ -99,6 +151,7 @@ namespace easy_engine {
 				unsigned char* decompressed_pixel_data = stbi_load(path.c_str(), &width, &height, &bpp, 0);
 				auto failure = stbi_failure_reason();
 
+				texture->file_path = path;
 				texture->width = width;
 				texture->height = height;
 				texture->bpp = bpp;
@@ -107,48 +160,91 @@ namespace easy_engine {
 				return texture;
 			}
 
-			void LoadEmbeddedTexture(const aiScene* scene, const aiMesh* mesh_, ecs::component::TextureComponent& texture_component) {
-				struct aiString* texture_index_buffer = (aiString*)malloc(sizeof(struct aiString));
+			void LoadEmbeddedTexture(const aiScene* scene, const aiMesh* mesh_, ecs::component::TextureComponent& texture_component, size_t& type_index, resource::TextureType texture_type) {
+				aiString* texture_index_buffer = new aiString;
 
-				aiGetMaterialTexture(scene->mMaterials[mesh_->mMaterialIndex], aiTextureType_DIFFUSE, 0, texture_index_buffer, 0, 0, 0, 0, 0, 0);
+				aiGetMaterialTexture(scene->mMaterials[mesh_->mMaterialIndex], (aiTextureType)texture_type, 0, texture_index_buffer, 0, 0, 0, 0, 0, 0);
 
-				static const int ASCII_OFFSET = 48;
-				auto texture_index = (int)texture_index_buffer->data[1] - ASCII_OFFSET;
-				auto texture_ = scene->mTextures[texture_index];
+				static const uint32_t ASCII_OFFSET = 48;
+				auto texture_index = (uint32_t)texture_index_buffer->data[1] - ASCII_OFFSET;
 
-				resource::Texture* texture;
 
-				// If mHeight is 0 we should use stbi_load_from_memory as this is then not pixel data
-				if (texture_->mHeight == 0) {
-					size_t buffer_size = texture_->mWidth;
-					texture = this->LoadCompressedImageFromMemory(texture_->pcData, buffer_size);
+				std::string cache_key = mesh_->mName.C_Str() + std::to_string(texture_index);
+				if (texture_cache.HasResource(cache_key)) {
+					type_index = std::distance(
+						texture_component.textures->begin(),
+						std::find(
+							texture_component.textures->begin(),
+							texture_component.textures->end(),
+							texture_cache.GetResource(cache_key)
+						)
+					);
+					return;
 				}
-				else {
-					texture = new resource::Texture();
-					texture->width = texture_->mWidth;
-					texture->height = texture_->mHeight;
-					texture->raw = reinterpret_cast<byte*>(texture_->pcData);
+
+				if (texture_index > 0 && scene->mNumTextures >= texture_index) {
+
+					auto texture_ = scene->mTextures[texture_index];
+
+					resource::Texture* texture;
+
+					// If mHeight is 0 we should use stbi_load_from_memory as this is then not pixel data
+					if (texture_->mHeight == 0) {
+						size_t buffer_size = texture_->mWidth;
+						texture = this->LoadCompressedImageFromMemory(texture_->pcData, buffer_size);
+					}
+					else {
+						texture = new resource::Texture();
+						texture->width = texture_->mWidth;
+						texture->height = texture_->mHeight;
+						texture->raw = reinterpret_cast<byte*>(texture_->pcData);
+					}
+					texture_component.textures->push_back(texture);
+					type_index = texture_component.textures->size() - 1;
+
+					this->texture_cache.Cache(cache_key, texture);
 				}
-				texture_component.textures->push_back(texture);
 			}
 
-			void LoadExternalTexture(std::string mesh_path, const aiScene* scene, const aiMesh* mesh_, ecs::component::TextureComponent& texture_component) {
+			void LoadExternalTexture(std::string mesh_path, const aiScene* scene, const aiMesh* mesh_, ecs::component::TextureComponent& texture_component, size_t& type_index, resource::TextureType texture_type) {
+
 				auto texture_index_buffer = new aiString;
 
-				aiGetMaterialTexture(scene->mMaterials[mesh_->mMaterialIndex], aiTextureType_DIFFUSE, 0, texture_index_buffer, 0, 0, 0, 0, 0, 0);
+				aiGetMaterialTexture(scene->mMaterials[mesh_->mMaterialIndex], (aiTextureType)texture_type, 0, texture_index_buffer, 0, 0, 0, 0, 0, 0);
 				if (texture_index_buffer->length > 0) {
-					std::string texture_path = mesh_path.substr(0, mesh_path.find_last_of('\\') + 1) + std::string(texture_index_buffer->C_Str());
+					const std::filesystem::path path = std::string(texture_index_buffer->C_Str());
+
+					const std::string texture_path = path.is_relative()
+						? mesh_path.substr(0, mesh_path.find_last_of('\\') + 1) + path.string()
+						: path.string();
+
+					if (texture_cache.HasResource(texture_path)) {
+						type_index = std::distance(
+							texture_component.textures->begin(),
+							std::find(
+								texture_component.textures->begin(),
+								texture_component.textures->end(),
+								texture_cache.GetResource(texture_path)
+							)
+						);
+						return;
+					}
+
 					auto texture = this->LoadImageFromFile(texture_path);
 					texture_component.textures->push_back(texture);
+					type_index = texture_component.textures->size() - 1;
+
+					this->texture_cache.Cache(texture_path, texture);
 				}
 			}
+
 		};
 
 		void ResourceManager3D::Load(
 			std::string file_path,
-			ecs::component::MeshComponent & mesh_component,
-			ecs::component::TextureComponent & texture_component,
-			ecs::component::MaterialComponent & material_component
+			ecs::component::MeshComponent& mesh_component,
+			ecs::component::TextureComponent& texture_component,
+			ecs::component::MaterialComponent& material_component
 		) {
 			auto scene = this->p_impl_->importer.ReadFile(
 				file_path.c_str(),
@@ -174,20 +270,10 @@ namespace easy_engine {
 				mesh->faces = this->p_impl_->ExtractFaces(mesh_);
 				mesh->vertex_normals = this->p_impl_->ExtractNormals(mesh_);
 				mesh->texture_coords = this->p_impl_->ExtractUVs(mesh_);
-				mesh->texture_index = mesh_->mMaterialIndex;
-				mesh->material_index = mesh_->mMaterialIndex;
+
+				mesh->material_index = i;
 
 				mesh_component.sub_meshes->push_back(mesh);
-
-				// Handle embedded textures
-				if (scene->mNumTextures >= mesh_->mMaterialIndex + 1) {
-					EE_CORE_TRACE("Mesh has embedded texture");
-					this->p_impl_->LoadEmbeddedTexture(scene, mesh_, texture_component);
-				}
-				else {
-					EE_CORE_TRACE("Mesh has external texture");
-					this->p_impl_->LoadExternalTexture(file_path, scene, mesh_, texture_component);
-				}
 
 				if (scene->mNumMaterials >= mesh_->mMaterialIndex + 1) {
 					auto material_ = scene->mMaterials[mesh_->mMaterialIndex];
@@ -204,6 +290,18 @@ namespace easy_engine {
 					material->specular_color = Eigen::Vector3f(specular_color.r, specular_color.g, specular_color.b);
 					material->shininess = shininess;
 					material_component.materials->push_back(material);
+
+					// Handle embedded textures
+					if (scene->HasTextures()) {
+						EE_CORE_TRACE("Mesh has embedded texture");
+						this->p_impl_->LoadEmbeddedTexture(scene, mesh_, texture_component, material->diffuse_texture_index, resource::TextureType::DIFFUSE);
+						this->p_impl_->LoadEmbeddedTexture(scene, mesh_, texture_component, material->specular_texture_index, resource::TextureType::SPECULAR);
+					}
+					else {
+						EE_CORE_TRACE("Mesh has external texture");
+						this->p_impl_->LoadExternalTexture(file_path, scene, mesh_, texture_component, material->diffuse_texture_index, resource::TextureType::DIFFUSE);
+						this->p_impl_->LoadExternalTexture(file_path, scene, mesh_, texture_component, material->specular_texture_index, resource::TextureType::SPECULAR);
+					}
 				}
 			}
 		}

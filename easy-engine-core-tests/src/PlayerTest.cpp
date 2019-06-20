@@ -70,13 +70,12 @@ public:
 		ecs::component::MeshComponent mesh_component;
 		ecs::component::TextureComponent texture_component;
 		ecs::component::MaterialComponent material_component;
-		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\soldier.fbx", mesh_component, texture_component, material_component);
+		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\sylvana\\sylvana.fbx", mesh_component, texture_component, material_component);
 
 		ecs::component::TransformComponent transform_component;
-		transform_component.RotationAdd(-1.57, 1, 0, 0);
+		transform_component.Scale(0.1, 0.1, 0.1);
+		transform_component.TranslationAdd(0, -15, -20);
 		auto nanosuit = this->world->CreateEntity();
-
-		material_component.materials->at(0)->diffuse_color = Eigen::Vector3f(35.f / 255.f, 122.f / 255.f, 73.f / 255.f);
 
 		this->world->AddComponent<ecs::component::MeshComponent>(nanosuit.entity, mesh_component);
 		this->world->AddComponent<ecs::component::TextureComponent>(nanosuit.entity, texture_component);
@@ -92,9 +91,9 @@ public:
 BOOST_AUTO_TEST_CASE(player_application_run)
 {
 	PlayerApplication* application = new PlayerApplication();
-	std::future<void> asyncApplication = application->RunAsync();
-	std::this_thread::sleep_for(std::chrono::seconds(15));
-	application->Close();
+	application->Run();
+	// std::this_thread::sleep_for(std::chrono::seconds(30));
+	// application->Close();
 	BOOST_CHECK_EQUAL("player_test", "player_test");
 }
 

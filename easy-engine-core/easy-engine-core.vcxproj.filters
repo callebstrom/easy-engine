@@ -258,6 +258,9 @@
     <ClInclude Include="include\EasyEngine\resource\Material.h">
       <Filter>Header Files\resource</Filter>
     </ClInclude>
+    <ClInclude Include="include\EasyEngine\resource\Bone.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RenderManagerOpenGL.cpp">
@@ -346,6 +349,9 @@
     </ClCompile>
     <ClCompile Include="src\Material.cpp">
       <Filter>Source Files\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="include\EasyEngine\resource\Bone.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

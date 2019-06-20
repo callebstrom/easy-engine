@@ -13,6 +13,9 @@ namespace easy_engine {
 			Eigen::Vector3f diffuse_color;
 			Eigen::Vector3f specular_color;
 
+			size_t diffuse_texture_index;
+			size_t specular_texture_index;
+
 			Material();
 		};
 	}
