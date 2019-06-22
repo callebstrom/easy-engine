@@ -14,6 +14,7 @@ uniform vec3 cameraPosition_worldspace;
 
 uniform vec3 materialDiffuseColor;
 uniform vec3 materialSpecularColor;
+uniform vec3 materialEmmisiveColor;
 uniform float materialShininess;
 uniform float hasDiffuseTexture;
 uniform float hasEmissiveTexture;
@@ -51,8 +52,15 @@ void main() {
  		specularComponent = specularCoefficient * materialSpecularColor * lightColor;
 	}
 
-	vec4 emissiveColor = hasEmissiveTexture == 1 ? texture(emissiveTextureSampler2D, frag_textureCoords) : vec4(0, 0, 0, 1);
+	// EMISSIVE
+	vec4 emissiveColor = hasEmissiveTexture == 1 ? texture(emissiveTextureSampler2D, frag_textureCoords) : vec4(materialEmmisiveColor, 1);
 
-	// light falloff factor is distance^2, where distance is the distance between the vertex and the light
-	outputColor = ((emissiveColor + diffuseComponent + vec4(specularComponent, 1)) * lightPower) / lightFalloff;
+	if (hasEmissiveTexture == 1 && emissiveColor.r == 0 && emissiveColor.g == 0 && emissiveColor.b == 0) {
+		emissiveColor.a = 0;
+	}
+
+	vec4 outputColor_ = ((diffuseComponent + vec4(specularComponent, 1)) * lightPower) / lightFalloff;
+	outputColor_.a = diffuseComponent.a;
+
+	outputColor = outputColor_;
 }
