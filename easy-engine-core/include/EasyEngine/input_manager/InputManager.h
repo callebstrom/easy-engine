@@ -8,7 +8,7 @@ namespace easy_engine {
 
 	namespace input_manager {
 
-		typedef int GLFW_KEY;
+		enum Key;
 
 		class EASY_ENGINE_API InputManager {
 		public:
@@ -16,7 +16,7 @@ namespace easy_engine {
 			void HandeKeyboardEvent(int key, int scancode, int action, int modifiers);
 			void PollEvents();
 		private:
-			std::set<GLFW_KEY> repeated_keys_;
+			std::set<Key> repeated_keys_;
 		};
 	}
 }

@@ -23,8 +23,7 @@ namespace easy_engine {
 
 			// TODO this should handle unique_ptr
 			template <typename... ComponentTypes>
-			void AddSystem(ecs::ISystem* system)
-			{
+			void AddSystem(ecs::ISystem* system) {
 				system->RegisterWorld(this);
 				this->systems_.push_back(system);
 
@@ -38,8 +37,12 @@ namespace easy_engine {
 			}
 
 			template <typename ComponentType>
-			void AddComponent(entity::Entity* entity, ComponentType& component)
-			{
+			void AddComponent(const entity::EntityHandle& entity_handle, ComponentType& component) {
+				this->AddComponent(entity_handle.entity, component);
+			}
+
+			template <typename ComponentType>
+			void AddComponent(entity::Entity* entity, ComponentType& component) {
 				auto component_type = std::type_index(typeid(ComponentType));
 				if (!this->component_managers_.count(component_type)) {
 					auto component_manager = new component_manager::ComponentManager<ComponentType>();
@@ -63,8 +66,7 @@ namespace easy_engine {
 			void RemoveComponent(entity::Entity const& entity, ecs::component::Component component);
 
 			template<typename ComponentType>
-			ComponentType* GetComponentForEntity(entity::Entity* entity)
-			{
+			ComponentType* GetComponentForEntity(entity::Entity* entity) {
 				auto component_type = std::type_index(typeid(ComponentType));
 
 				if (this->component_managers_.find(component_type) == this->component_managers_.end()) {

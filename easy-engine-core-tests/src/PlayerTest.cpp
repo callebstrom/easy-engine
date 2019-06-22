@@ -6,6 +6,10 @@ BOOST_AUTO_TEST_SUITE(PlayerTest)
 
 using namespace easy_engine;
 
+using input_manager::Key;
+using input_manager::Action;
+using input_manager::Modifier;
+
 class PlayerSystem : public ecs::ISystem, public event_manager::IObserver
 {
 public:
@@ -26,26 +30,26 @@ public:
 	{
 		for (auto event_ : this->event_buffer_) {
 			auto event = reinterpret_cast<input_manager::KeyboardEvent*>(event_.data);
-			if (event->action == EE_KEY_ACTION_PRESSED)
+			if (event->action == Action::kPressed)
 			{
 				for (auto entity : this->entities_) {
 					auto transform = this->world->GetComponentForEntity<ecs::component::TransformComponent>(entity);
 
 					switch (event->key) {
-					case EE_KEY_W:
+					case Key::kW:
 						transform->TranslationAdd(0, 0, -0.01 * dt);
 						break;
-					case EE_KEY_S:
+					case Key::kS:
 						transform->TranslationAdd(0, 0, 0.01 * dt);
 						break;
-					case EE_KEY_A:
+					case Key::kA:
 						transform->TranslationAdd(-0.01 * dt, 0, 0);
 						break;
-					case EE_KEY_D:
+					case Key::kD:
 						transform->TranslationAdd(0.01 * dt, 0, 0);
 						break;
-					case EE_KEY_R:
-						auto rotation_direction = event->modifiers == EE_MOD_CONTROL ? -1 : 1;
+					case Key::kR:
+						auto rotation_direction = event->modifiers == Modifier::kControl ? -1 : 1;
 						transform->RotationAdd(rotation_direction * 0.01 * dt);
 						break;
 					}
@@ -75,12 +79,12 @@ public:
 		ecs::component::TransformComponent transform_component;
 		transform_component.Scale(0.1, 0.1, 0.1);
 		transform_component.TranslationAdd(0, -15, -20);
-		auto nanosuit = this->world->CreateEntity();
+		auto sylvana = this->world->CreateEntity();
 
-		this->world->AddComponent<ecs::component::MeshComponent>(nanosuit.entity, mesh_component);
-		this->world->AddComponent<ecs::component::TextureComponent>(nanosuit.entity, texture_component);
-		this->world->AddComponent<ecs::component::MaterialComponent>(nanosuit.entity, material_component);
-		this->world->AddComponent<ecs::component::TransformComponent>(nanosuit.entity, transform_component);
+		this->world->AddComponent<ecs::component::MeshComponent>(sylvana, mesh_component);
+		this->world->AddComponent<ecs::component::TextureComponent>(sylvana, texture_component);
+		this->world->AddComponent<ecs::component::MaterialComponent>(sylvana, material_component);
+		this->world->AddComponent<ecs::component::TransformComponent>(sylvana, transform_component);
 	}
 
 	~PlayerApplication() {

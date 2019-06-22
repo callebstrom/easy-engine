@@ -11,8 +11,10 @@ namespace easy_engine {
 		{
 		}
 
-		void InputManager::HandeKeyboardEvent(int key, int scancode, int action, int modifiers)
+		void InputManager::HandeKeyboardEvent(int key_, int scancode, int action, int modifiers)
 		{
+
+			Key key = (Key)key_;
 
 			// Repeat is handled internally
 			if (action == GLFW_REPEAT) return;
@@ -26,11 +28,11 @@ namespace easy_engine {
 
 			switch (action) {
 			case GLFW_PRESS:
-				event_data->action = EE_KEY_ACTION_PRESSED;
+				event_data->action = Action::kPressed;
 				this->repeated_keys_.insert(key);
 				break;
 			case GLFW_RELEASE:
-				event_data->action = EE_KEY_ACTION_RELEASED;
+				event_data->action = Action::kReleased;
 				this->repeated_keys_.erase(key);
 				break;
 			}
@@ -42,7 +44,7 @@ namespace easy_engine {
 			// TODO this should support modifiers. Perhaps store a tuple in repeated_keys_ set?
 			for (auto repeated_key : this->repeated_keys_) {
 				auto event = easy_engine::event_manager::Event(easy_engine::event_manager::EventType::Keyboard);
-				event.data = new KeyboardEvent(repeated_key, 0, EE_KEY_ACTION_PRESSED);
+				event.data = new KeyboardEvent(repeated_key, 0, Action::kPressed);
 				ManagerLocator::event_manager->Dispatch(event);
 			}
 			glfwPollEvents();
