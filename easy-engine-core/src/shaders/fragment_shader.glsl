@@ -16,8 +16,10 @@ uniform vec3 materialDiffuseColor;
 uniform vec3 materialSpecularColor;
 uniform float materialShininess;
 uniform float hasDiffuseTexture;
+uniform float hasEmissiveTexture;
 
-uniform sampler2D textureSampler2D;
+uniform sampler2D diffuseTextureSampler2D;
+uniform sampler2D emissiveTextureSampler2D;
 
 out vec4 outputColor;
 
@@ -25,7 +27,7 @@ void main() {
     mat3 normalMatrix = transpose(inverse(mat3(model)));
     vec3 normal = normalize(normalMatrix * frag_vertexNormal_modelspace);
 
-	vec4 diffuseColor = hasDiffuseTexture == 1 ? texture(textureSampler2D, frag_textureCoords) : vec4(materialDiffuseColor, 1);
+	vec4 diffuseColor = hasDiffuseTexture == 1 ? texture(diffuseTextureSampler2D, frag_textureCoords) : vec4(materialDiffuseColor, 1);
     
     vec3 frag_vertexPosition_worldspace = vec3(model * vec4(frag_vertexPosition_modelspace, 1));
     
@@ -48,6 +50,9 @@ void main() {
 	if (specularCoefficient > 0) {
  		specularComponent = specularCoefficient * materialSpecularColor * lightColor;
 	}
+
+	vec4 emissiveColor = hasEmissiveTexture == 1 ? texture(emissiveTextureSampler2D, frag_textureCoords) : vec4(0, 0, 0, 1);
+
 	// light falloff factor is distance^2, where distance is the distance between the vertex and the light
-	outputColor = ((diffuseComponent + vec4(specularComponent, 1)) * lightPower) / lightFalloff;
+	outputColor = ((emissiveColor + diffuseComponent + vec4(specularComponent, 1)) * lightPower) / lightFalloff;
 }

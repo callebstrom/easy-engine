@@ -47,6 +47,7 @@ namespace easy_engine {
 
 			Assimp::Importer importer;
 			ResourceCache<resource::Texture*> texture_cache;
+			ResourceCache<size_t> material_cache;
 
 			Eigen::Matrix<float, -1, 3, Eigen::RowMajor> ExtractVertices(aiMesh* mesh) {
 				Eigen::Matrix<float, -1, 3, Eigen::RowMajor> vertices;
@@ -199,6 +200,7 @@ namespace easy_engine {
 						texture->height = texture_->mHeight;
 						texture->raw = reinterpret_cast<byte*>(texture_->pcData);
 					}
+					texture->type = texture_type;
 					texture_component.textures->push_back(texture);
 					type_index = texture_component.textures->size() - 1;
 
@@ -231,6 +233,7 @@ namespace easy_engine {
 					}
 
 					auto texture = this->LoadImageFromFile(texture_path);
+					texture->type = texture_type;
 					texture_component.textures->push_back(texture);
 					type_index = texture_component.textures->size() - 1;
 
@@ -258,8 +261,10 @@ namespace easy_engine {
 				return;
 			}
 
+			size_t material_index = 0;
+
 			// Create a submesh for each mesh found in imported scene
-			for (uint32_t i = 0; i < scene->mNumMeshes; i++) {
+			for (size_t i = 0; i < scene->mNumMeshes; i++) {
 				const auto mesh_ = scene->mMeshes[i];
 				auto mesh = new resource::Mesh();
 
@@ -271,11 +276,14 @@ namespace easy_engine {
 				mesh->vertex_normals = this->p_impl_->ExtractNormals(mesh_);
 				mesh->texture_coords = this->p_impl_->ExtractUVs(mesh_);
 
-				mesh->material_index = i;
+				std::string cache_key = file_path + std::to_string(mesh_->mMaterialIndex);
 
-				mesh_component.sub_meshes->push_back(mesh);
-
-				if (scene->mNumMaterials >= mesh_->mMaterialIndex + 1) {
+				// Check if material exist in cache
+				if (this->p_impl_->material_cache.HasResource(cache_key)) {
+					mesh->material_index = this->p_impl_->material_cache.GetResource(cache_key);
+				}
+				else if (scene->mNumMaterials >= mesh_->mMaterialIndex + 1) {
+					mesh->material_index = material_index++;
 					auto material_ = scene->mMaterials[mesh_->mMaterialIndex];
 					auto material = new resource::Material();
 
@@ -294,15 +302,23 @@ namespace easy_engine {
 					// Handle embedded textures
 					if (scene->HasTextures()) {
 						EE_CORE_TRACE("Mesh has embedded texture");
-						this->p_impl_->LoadEmbeddedTexture(scene, mesh_, texture_component, material->diffuse_texture_index, resource::TextureType::DIFFUSE);
-						this->p_impl_->LoadEmbeddedTexture(scene, mesh_, texture_component, material->specular_texture_index, resource::TextureType::SPECULAR);
+						this->p_impl_->LoadEmbeddedTexture(scene, mesh_, texture_component, material->diffuse_texture_index, resource::TextureType::kDiffuse);
+						this->p_impl_->LoadEmbeddedTexture(scene, mesh_, texture_component, material->specular_texture_index, resource::TextureType::kSpecular);
+						// this->p_impl_->LoadEmbeddedTexture(scene, mesh_, texture_component, material->emissive_texture_index, resource::TextureType::kEmissive);
 					}
 					else {
 						EE_CORE_TRACE("Mesh has external texture");
-						this->p_impl_->LoadExternalTexture(file_path, scene, mesh_, texture_component, material->diffuse_texture_index, resource::TextureType::DIFFUSE);
-						this->p_impl_->LoadExternalTexture(file_path, scene, mesh_, texture_component, material->specular_texture_index, resource::TextureType::SPECULAR);
+						this->p_impl_->LoadExternalTexture(file_path, scene, mesh_, texture_component, material->diffuse_texture_index, resource::TextureType::kDiffuse);
+						this->p_impl_->LoadExternalTexture(file_path, scene, mesh_, texture_component, material->specular_texture_index, resource::TextureType::kSpecular);
+						// this->p_impl_->LoadExternalTexture(file_path, scene, mesh_, texture_component, material->emissive_texture_index, resource::TextureType::kEmissive);
 					}
+
+					// Cache material
+					this->p_impl_->material_cache.Cache(cache_key, mesh->material_index);
 				}
+
+				mesh_component.sub_meshes->push_back(mesh);
+
 			}
 		}
 

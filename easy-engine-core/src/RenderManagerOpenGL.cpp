@@ -188,8 +188,11 @@ namespace easy_engine {
 
 					if (diffuse_texture != nullptr && diffuse_texture->renderer_id == 0) {
 
+						glActiveTexture(GL_TEXTURE0);
+
 						GLuint renderer_id;
 						glGenTextures(1, &renderer_id);
+
 
 						glBindTexture(GL_TEXTURE_2D, renderer_id);
 
@@ -208,6 +211,37 @@ namespace easy_engine {
 						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 						diffuse_texture->renderer_id = renderer_id;
+					}
+				}
+
+				if (textures.size() >= material->emissive_texture_index) {
+					resource::Texture* emissive_texture = textures[material->emissive_texture_index];
+
+					if (emissive_texture != nullptr && emissive_texture->renderer_id == 0) {
+
+						glActiveTexture(GL_TEXTURE1);
+
+						GLuint renderer_id;
+						glGenTextures(1, &renderer_id);
+
+
+						glBindTexture(GL_TEXTURE_2D, renderer_id);
+
+						int format = 0;
+
+						if (emissive_texture->bpp == 3) format = GL_RGB;
+						else if (emissive_texture->bpp == 4) format = GL_RGBA;
+						else EE_CORE_WARN("Unknown texture bpp");
+
+						glTexImage2D(GL_TEXTURE_2D, 0, format, emissive_texture->width, emissive_texture->height, 0, format, GL_UNSIGNED_BYTE, emissive_texture->raw);
+						glGenerateMipmap(GL_TEXTURE_2D);
+
+						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+						emissive_texture->renderer_id = renderer_id;
 					}
 				}
 
@@ -258,6 +292,10 @@ namespace easy_engine {
 						? event_data->material_component->materials->at(mesh->material_index)
 						: nullptr;
 
+					if (material == nullptr) {
+						auto zz = "";
+					}
+
 					this->Render(mesh, model_matrix, *event_data->texture_component->textures, material);
 				}
 			}
@@ -271,8 +309,8 @@ namespace easy_engine {
 				ObjectIndex object_index = this->object_indices_.at(mesh->name);
 
 				bool has_diffuse_texture = false;
+				bool has_emissive_texture = false;
 
-				// TODO this should probably happen at the same time as the ObjectIndex is built..
 				if (textures.size() >= material->diffuse_texture_index) {
 					resource::Texture* diffuse_texture = textures[material->diffuse_texture_index];
 
@@ -281,6 +319,16 @@ namespace easy_engine {
 						has_diffuse_texture = true;
 					}
 				}
+
+				if (textures.size() >= material->emissive_texture_index) {
+					resource::Texture* emissive_texture = textures[material->emissive_texture_index];
+
+					if (emissive_texture != nullptr) {
+						glBindTexture(GL_TEXTURE_2D, emissive_texture->renderer_id);
+						has_emissive_texture = true;
+					}
+				}
+
 				float FoV = 70.0f;
 
 				auto width = boost::lexical_cast<float>(this->render_config_->Get(c_params_::RESOLUTION_X));
@@ -332,8 +380,8 @@ namespace easy_engine {
 					auto diffuse_color = material->diffuse_color;
 					glUniform3f(materialDiffuseColor, diffuse_color.x(), diffuse_color.y(), diffuse_color.z());
 
-					GLint hasTexture = glGetUniformLocation(this->shader_program_, "hasDiffuseTexture");
-					glUniform1f(hasTexture, has_diffuse_texture ? 1 : 0);
+					GLint hasDiffuseTexture = glGetUniformLocation(this->shader_program_, "hasDiffuseTexture");
+					glUniform1f(hasDiffuseTexture, has_diffuse_texture ? 1 : 0);
 
 					GLint materialSpecularColor = glGetUniformLocation(this->shader_program_, "materialSpecularColor");
 					auto specular_color = material->specular_color;
@@ -342,10 +390,13 @@ namespace easy_engine {
 					GLint materialShininess = glGetUniformLocation(this->shader_program_, "materialShininess");
 					auto shininess = material->shininess;
 					glUniform1f(materialShininess, shininess);
+
+					GLint hasEmissiveTexture = glGetUniformLocation(this->shader_program_, "hasEmissiveTexture");
+					glUniform1f(hasEmissiveTexture, has_emissive_texture ? 1 : 0);
 				}
 
 				glBindVertexArray(object_index.vao);
-				// glShadeModel(GL_SMOOTH);
+				glShadeModel(GL_SMOOTH);
 				glDrawElements(GL_TRIANGLES, object_index.ebo_size, GL_UNSIGNED_INT, NULL);
 			}
 

@@ -6,18 +6,18 @@ namespace easy_engine {
 	namespace resource {
 
 		enum TextureType {
-			NONE = 0x0,
-			DIFFUSE = 0x1,
-			SPECULAR = 0x2,
-			AMBIENT = 0x3,
-			EMISSIVE = 0x4,
-			HEIGHT = 0x5,
-			NORMALS = 0x6,
-			SHININESS = 0x7,
-			OPACITY = 0x8,
-			DISPLACEMENT = 0x9,
-			LIGHTMAP = 0xA,
-			REFLECTION = 0xB
+			kNone = 0x0,
+			kDiffuse = 0x1,
+			kSpecular = 0x2,
+			kAmbient = 0x3,
+			kEmissive = 0x4,
+			kHeight = 0x5,
+			kNormals = 0x6,
+			kShininess = 0x7,
+			kOpacity = 0x8,
+			kDisplacement = 0x9,
+			kLightmap = 0xA,
+			kReflection = 0xB
 		};
 
 		class EASY_ENGINE_API Texture {
@@ -28,7 +28,7 @@ namespace easy_engine {
 			byte* raw;
 			int width, height, bpp;
 
-			TextureType type = TextureType::NONE;
+			TextureType type = TextureType::kNone;
 
 			Texture();
 		};

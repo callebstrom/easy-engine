@@ -15,6 +15,7 @@ namespace easy_engine {
 
 			size_t diffuse_texture_index;
 			size_t specular_texture_index;
+			size_t emissive_texture_index;
 
 			Material();
 		};
