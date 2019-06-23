@@ -92,7 +92,14 @@ namespace easy_engine {
 				glBindFragDataLocation(this->shader_program_, 1, "outColor");
 
 				glLinkProgram(this->shader_program_);
+
+				this->diffuse_texture_sampler = glGetUniformLocation(this->shader_program_, "diffuseTextureSampler2D");
+				this->emissive_texture_sampler = glGetUniformLocation(this->shader_program_, "emissiveTextureSampler2D");
+
 				glUseProgram(this->shader_program_);
+
+				glUniform1i(diffuse_texture_sampler, 0);
+				glUniform1i(emissive_texture_sampler, 1);
 			};
 
 			void LogRenderInfo() {
@@ -192,7 +199,6 @@ namespace easy_engine {
 
 						GLuint renderer_id;
 						glGenTextures(1, &renderer_id);
-
 
 						glBindTexture(GL_TEXTURE_2D, renderer_id);
 
@@ -315,6 +321,7 @@ namespace easy_engine {
 					resource::Texture* diffuse_texture = textures[material->diffuse_texture_index];
 
 					if (diffuse_texture != nullptr) {
+						glActiveTexture(GL_TEXTURE0);
 						glBindTexture(GL_TEXTURE_2D, diffuse_texture->renderer_id);
 						has_diffuse_texture = true;
 					}
@@ -324,6 +331,7 @@ namespace easy_engine {
 					resource::Texture* emissive_texture = textures[material->emissive_texture_index];
 
 					if (emissive_texture != nullptr) {
+						glActiveTexture(GL_TEXTURE1);
 						glBindTexture(GL_TEXTURE_2D, emissive_texture->renderer_id);
 						has_emissive_texture = true;
 					}
@@ -391,6 +399,10 @@ namespace easy_engine {
 					auto shininess = material->shininess;
 					glUniform1f(materialShininess, shininess);
 
+					GLint materialEmmisiveColor = glGetUniformLocation(this->shader_program_, "materialEmmisiveColor");
+					auto emmisive_color = material->emmisive_color;
+					glUniform3f(materialEmmisiveColor, emmisive_color.x(), emmisive_color.y(), emmisive_color.z());
+
 					GLint hasEmissiveTexture = glGetUniformLocation(this->shader_program_, "hasEmissiveTexture");
 					glUniform1f(hasEmissiveTexture, has_emissive_texture ? 1 : 0);
 				}
@@ -420,6 +432,9 @@ namespace easy_engine {
 			GLint col_attrib_;
 			Camera* camera;
 			float factor = 1.0f;
+
+			GLint diffuse_texture_sampler;
+			GLint emissive_texture_sampler;
 		};
 
 		RenderManagerOpenGL::RenderManagerOpenGL(configuration::RenderConfiguration_t * rc)
@@ -434,6 +449,9 @@ namespace easy_engine {
 
 			glEnable(GL_DEPTH_TEST); // enable depth-testing
 			glDepthFunc(GL_LESS); // depth-testing interprets a smaller value as "closer"
+
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 			this->p_impl_->LoadShaders();
 

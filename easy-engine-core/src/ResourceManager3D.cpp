@@ -287,15 +287,17 @@ namespace easy_engine {
 					auto material_ = scene->mMaterials[mesh_->mMaterialIndex];
 					auto material = new resource::Material();
 
-					aiColor3D diffuse_color, specular_color;
+					aiColor3D diffuse_color, specular_color, emmisive_color;
 					material_->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse_color);
 					material_->Get(AI_MATKEY_COLOR_SPECULAR, specular_color);
+					material_->Get(AI_MATKEY_COLOR_EMISSIVE, emmisive_color);
 
 					float shininess;
 					material_->Get(AI_MATKEY_SHININESS, shininess);
 
 					material->diffuse_color = Eigen::Vector3f(diffuse_color.r, diffuse_color.g, diffuse_color.b);
 					material->specular_color = Eigen::Vector3f(specular_color.r, specular_color.g, specular_color.b);
+					material->emmisive_color = Eigen::Vector3f(emmisive_color.r, emmisive_color.g, emmisive_color.b);
 					material->shininess = shininess;
 					material_component.materials->push_back(material);
 
@@ -304,13 +306,13 @@ namespace easy_engine {
 						EE_CORE_TRACE("Mesh has embedded texture");
 						this->p_impl_->LoadEmbeddedTexture(scene, mesh_, texture_component, material->diffuse_texture_index, resource::TextureType::kDiffuse);
 						this->p_impl_->LoadEmbeddedTexture(scene, mesh_, texture_component, material->specular_texture_index, resource::TextureType::kSpecular);
-						// this->p_impl_->LoadEmbeddedTexture(scene, mesh_, texture_component, material->emissive_texture_index, resource::TextureType::kEmissive);
+						this->p_impl_->LoadEmbeddedTexture(scene, mesh_, texture_component, material->emissive_texture_index, resource::TextureType::kEmissive);
 					}
 					else {
 						EE_CORE_TRACE("Mesh has external texture");
 						this->p_impl_->LoadExternalTexture(file_path, scene, mesh_, texture_component, material->diffuse_texture_index, resource::TextureType::kDiffuse);
 						this->p_impl_->LoadExternalTexture(file_path, scene, mesh_, texture_component, material->specular_texture_index, resource::TextureType::kSpecular);
-						// this->p_impl_->LoadExternalTexture(file_path, scene, mesh_, texture_component, material->emissive_texture_index, resource::TextureType::kEmissive);
+						this->p_impl_->LoadExternalTexture(file_path, scene, mesh_, texture_component, material->emissive_texture_index, resource::TextureType::kEmissive);
 					}
 
 					// Cache material

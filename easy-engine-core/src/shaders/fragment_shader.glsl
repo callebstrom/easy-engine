@@ -40,7 +40,8 @@ void main() {
 	// DIFFUSE
     float brightness = dot(normal, surfaceToLightVector_worldspace) / length(surfaceToLightVector_worldspace);
 	// light bouncing on the back of a surface is negative, limit value to a min value of 0 (completely dark)
-    vec4 diffuseComponent = clamp(brightness, 0, 1) * vec4(lightColor, 1) * diffuseColor;
+    vec4 diffuseComponent = clamp(brightness, 0, 1) * vec4(lightColor, 1) * diffuseColor * lightPower / lightFalloff;
+	diffuseComponent.a = diffuseColor.a;
 
 	// SPECULAR
 	vec3 reflectionVector = normalize(reflect(lightPosition_worldspace, normal));
@@ -49,18 +50,11 @@ void main() {
 	float specularCoefficient = pow(cosAngle, materialShininess);
 	vec3 specularComponent = vec3(0, 0, 0);
 	if (specularCoefficient > 0) {
- 		specularComponent = specularCoefficient * materialSpecularColor * lightColor;
+ 		specularComponent = specularCoefficient * materialSpecularColor * lightColor * lightPower / lightFalloff;
 	}
 
 	// EMISSIVE
 	vec4 emissiveColor = hasEmissiveTexture == 1 ? texture(emissiveTextureSampler2D, frag_textureCoords) : vec4(materialEmmisiveColor, 1);
 
-	if (hasEmissiveTexture == 1 && emissiveColor.r == 0 && emissiveColor.g == 0 && emissiveColor.b == 0) {
-		emissiveColor.a = 0;
-	}
-
-	vec4 outputColor_ = ((diffuseComponent + vec4(specularComponent, 1)) * lightPower) / lightFalloff;
-	outputColor_.a = diffuseComponent.a;
-
-	outputColor = outputColor_;
+	outputColor = emissiveColor + diffuseComponent + vec4(specularComponent, 1);
 }
