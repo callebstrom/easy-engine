@@ -21,6 +21,8 @@
 #include <type_traits>
 #include <chrono>
 #include <filesystem>
+#include <numeric>
+#include <iterator>
 
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/base_object.hpp>

@@ -57,6 +57,8 @@ namespace easy_engine {
 
 		while (this->is_running_) {
 
+			this->event_manager->ConsumeEventBuffer(event_manager::EventType::EnvironmentUpdate);
+
 			deltaTime = std::chrono::duration_cast<ms>(stop - start).count();
 			start = timer.now();
 

@@ -9,6 +9,7 @@ namespace easy_engine {
 			_3DObjectRenderable,
 			_3DPreRender,
 			_3DPostRender,
+			EnvironmentUpdate,
 			Keyboard,
 			Mouse
 		};

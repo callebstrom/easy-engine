@@ -4,11 +4,11 @@
 #include <EasyEngine/ecs/entity/Entity.h>
 #include <EasyEngine/ecs/component/Component.h>
 #include <EasyEngine/ecs/component_manager/ComponentManager.h>
+#include <EasyEngine/ManagerLocator.h>
 
 namespace easy_engine {
 	namespace world {
-		entity::EntityHandle World::CreateEntity()
-		{
+		entity::EntityHandle World::CreateEntity() {
 			entity::Entity* entity = new entity::Entity(this->entity_id_seq_++);
 			this->entities_.push_back(entity);
 			entity::EntityHandle entity_handle = entity::EntityHandle();
@@ -17,21 +17,25 @@ namespace easy_engine {
 			return entity_handle;
 		}
 
-		void World::RemoveEntity(entity::Entity const& entity)
-		{
-		}
+		void World::RemoveEntity(entity::Entity const& entity) {}
 
-		void World::Update(float dt)
-		{
+		void World::Update(float dt) {
 			for (auto system : this->systems_) {
 				system->Update(dt);
 			}
+		}
+
+		void World::RemoveComponent(entity::Entity const& entity, ecs::component::Component component) {
 
 		}
 
-		void World::RemoveComponent(entity::Entity const& entity, ecs::component::Component component)
-		{
+		void World::SetupEnvironment(const resource::Environment& environment) {
+			event_manager::Event event;
+			event.event_type = event_manager::EventType::EnvironmentUpdate;
 
+			event.data = reinterpret_cast<void*>(new resource::Environment(environment));
+
+			ManagerLocator::event_manager->Dispatch(event);
 		}
 
 	}

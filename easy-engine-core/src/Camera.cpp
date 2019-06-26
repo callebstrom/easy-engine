@@ -1,5 +1,5 @@
 #include <EasyEngine/eepch.h>
-#include <EasyEngine/render_manager/Camera.h>
+#include <EasyEngine/resource/Camera.h>
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace easy_engine {

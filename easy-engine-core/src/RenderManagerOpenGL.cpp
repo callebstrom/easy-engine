@@ -9,18 +9,20 @@
 
 #include <boost/lexical_cast.hpp>
 
+#include <Eigen/Dense>
+#include <Eigen/Geometry>
+
 #include <EasyEngine/render_manager/ObjectIndex.h>
 #include <EasyEngine/render_manager/RenderManagerOpenGL.h>
 #include <EasyEngine/configuration/RenderConfiguration.h>
 #include <EasyEngine/ManagerLocator.h>
-#include <EasyEngine/render_manager/Camera.h>
 #include <EasyEngine/render_manager/_3DObjectRenderable.h>
 #include <EasyEngine/ecs/component/MeshComponent.h>
 #include <EasyEngine/ecs/component/TransformComponent.h>
 #include <EasyEngine/ecs/component/TextureComponent.h>
 #include <EasyEngine/ecs/component/MaterialComponent.h>
-#include <Eigen/Dense>
-#include <Eigen/Geometry>
+
+#include <EasyEngine/resource/Environment.h>
 
 void GLAPIENTRY Debug(GLenum source​, GLenum type​, GLuint id​, GLenum severity​, GLsizei length​, const GLchar* message​, const void* userParam) {
 	// EE_CORE_TRACE(message​);
@@ -32,10 +34,10 @@ namespace easy_engine {
 	namespace render_manager {
 		typedef configuration::RenderConfigurationParams c_params_;
 
-		struct RenderManagerOpenGL::Light {
-			glm::vec3 position;
-			glm::vec3 intensities; //a.k.a. the color of the light
-		};
+		constexpr GLint LIGHTS_BINDING_POINT = 0;
+		constexpr ushort_t NO_OF_VEC3_IN_POINT_LIGHT = 4;
+		constexpr ushort_t MAX_POINT_LIGHTS = 128;
+		constexpr size_t VEC3_SIZE_WITH_PADDING = sizeof(GLfloat) * 4;
 
 		struct RenderManagerOpenGL::Impl {
 
@@ -293,14 +295,9 @@ namespace easy_engine {
 				Eigen::Matrix<GLfloat, 4, 4> model_matrix = combined_affine_transform * identity_matrix;
 
 				for (auto mesh : *event_data->mesh_component->sub_meshes) {
-
 					auto material = event_data->material_component != nullptr && event_data->has_materials && event_data->material_component->materials->size() - 1 >= mesh->material_index
 						? event_data->material_component->materials->at(mesh->material_index)
 						: nullptr;
-
-					if (material == nullptr) {
-						auto zz = "";
-					}
 
 					this->Render(mesh, model_matrix, *event_data->texture_component->textures, material);
 				}
@@ -367,18 +364,6 @@ namespace easy_engine {
 				GLint view_uniform = glGetUniformLocation(this->shader_program_, "view");
 				glUniformMatrix4fv(view_uniform, 1, GL_FALSE, glm::value_ptr(view_matrix));
 
-				glm::vec3 light_position(this->camera->position); // Same as camera for now
-				glm::vec3 light_color(1.f, 1.f, 1.f);
-
-				GLint lightPower = glGetUniformLocation(this->shader_program_, "lightPower");
-				glUniform1f(lightPower, 1000.f);
-
-				GLint lightPosition_worldspace = glGetUniformLocation(this->shader_program_, "lightPosition_worldspace");
-				glUniform3fv(lightPosition_worldspace, 1, &light_position[0]);
-
-				GLint lightColor = glGetUniformLocation(this->shader_program_, "lightColor");
-				glUniform3fv(lightColor, 1, &light_color[0]);
-
 				GLint cameraPosition_worldspace = glGetUniformLocation(this->shader_program_, "cameraPosition_worldspace");
 				glUniform3fv(cameraPosition_worldspace, 1, &this->camera->position[0]);
 
@@ -414,6 +399,100 @@ namespace easy_engine {
 
 			void OnPreRender() {
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			}
+
+			int GetPointLightOffsetInBytes(int offset) {
+				static const std::vector<size_t> point_light_size_vector = {
+					VEC3_SIZE_WITH_PADDING,
+					sizeof(float),
+					sizeof(float),
+					sizeof(float),
+					VEC3_SIZE_WITH_PADDING,
+					VEC3_SIZE_WITH_PADDING,
+					VEC3_SIZE_WITH_PADDING,
+					sizeof(float)
+				};
+
+				return std::accumulate(point_light_size_vector.begin(), std::next(point_light_size_vector.begin(), offset), 0);
+			}
+
+			void SetupEnvironment(const resource::Environment & environment) {
+
+				unsigned int lights_uniform_block_index = glGetUniformBlockIndex(this->shader_program_, "Lights");
+				glUniformBlockBinding(this->shader_program_, lights_uniform_block_index, LIGHTS_BINDING_POINT);
+
+				unsigned int lights_ubo;
+				glGenBuffers(1, &lights_ubo);
+
+				const auto point_light_padding = sizeof(float) * NO_OF_VEC3_IN_POINT_LIGHT; // One float of padding per vec3 as these are stored as vec4 in GLSL
+				const auto point_light_size = sizeof(resource::PointLight) + point_light_padding;
+				const auto lights_size = point_light_size * MAX_POINT_LIGHTS;
+
+				glBindBuffer(GL_UNIFORM_BUFFER, lights_ubo);
+				glBufferData(GL_UNIFORM_BUFFER, lights_size, NULL, GL_STATIC_DRAW);
+				glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+				glBindBufferRange(GL_UNIFORM_BUFFER, 0, lights_ubo, 0, lights_size);
+
+				glBindBuffer(GL_UNIFORM_BUFFER, lights_ubo);
+
+				GLint point_light_count_uniform = glGetUniformLocation(this->shader_program_, "point_light_count");
+				glUniform1f(point_light_count_uniform, environment.point_lights.size());
+
+				// Point lights
+				for (int i = 0; i < environment.point_lights.size(); i++) {
+					resource::PointLight light = environment.point_lights[i];
+
+					glBufferSubData(GL_UNIFORM_BUFFER, 0, VEC3_SIZE_WITH_PADDING, light.position.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, this->GetPointLightOffsetInBytes(1), sizeof(float), &light.constant);
+					glBufferSubData(GL_UNIFORM_BUFFER, this->GetPointLightOffsetInBytes(2), sizeof(float), &light.linear);
+					glBufferSubData(GL_UNIFORM_BUFFER, this->GetPointLightOffsetInBytes(3), sizeof(float), &light.quadratic);
+					glBufferSubData(GL_UNIFORM_BUFFER, this->GetPointLightOffsetInBytes(4), VEC3_SIZE_WITH_PADDING, light.ambient_color.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, this->GetPointLightOffsetInBytes(5), VEC3_SIZE_WITH_PADDING, light.diffuse_color.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, this->GetPointLightOffsetInBytes(6), VEC3_SIZE_WITH_PADDING, light.specular_color.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, this->GetPointLightOffsetInBytes(7), sizeof(float), &light.strength);
+
+					/*
+					std::string light_positiown_uniform_name = light_name + ".position";
+					GLint position_uniform = glGetUniformLocation(this->shader_program_, light_position_uniform_name.c_str());
+					glUniform3fv(position_uniform, 1, light.position.data());
+
+					std::string constant_uniform_name = light_name + ".constant";
+					GLint constant_uniform = glGetUniformLocation(this->shader_program_, constant_uniform_name.c_str());
+					glUniform1f(constant_uniform, light.constant);
+
+					std::string linear_uniform_name = light_name + ".linear";
+					GLint linear_uniform = glGetUniformLocation(this->shader_program_, linear_uniform_name.c_str());
+					glUniform1f(linear_uniform, light.linear);
+
+					std::string quadratic_uniform_name = light_name + ".quadratic";
+					GLint quadratic_uniform = glGetUniformLocation(this->shader_program_, quadratic_uniform_name.c_str());
+					glUniform1f(quadratic_uniform, light.quadratic);
+
+					std::string ambient_color_uniform_name = light_name + ".ambient_color";
+					GLint ambient_color_uniform = glGetUniformLocation(this->shader_program_, ambient_color_uniform_name.c_str());
+					glUniform3fv(ambient_color_uniform, 1, light.ambient_color.data());
+
+					std::string diffuse_color_uniform_name = light_name + ".diffuse_color";
+					GLint diffuse_color_uniform = glGetUniformLocation(this->shader_program_, diffuse_color_uniform_name.c_str());
+					glUniform3fv(diffuse_color_uniform, 1, light.diffuse_color.data());
+
+					std::string specular_color_uniform_name = light_name + ".specular_color";
+					GLint specular_color_uniform = glGetUniformLocation(this->shader_program_, specular_color_uniform_name.c_str());
+					glUniform3fv(specular_color_uniform, 1, light.specular_color.data());
+
+					std::string strength_uniform_name = light_name + ".strength";
+					auto test = glGetUniformLocation(this->shader_program_, "materialSpecularColor");
+					GLint strength_uniform = glGetUniformLocation(this->shader_program_, strength_uniform_name.c_str());
+					glUniform1f(strength_uniform, light.strength);*/
+				}
+
+				glBindBuffer(GL_UNIFORM_BUFFER, 0);
+			}
+
+			void OnEnvironmentUpdate(event_manager::Event event) {
+				resource::Environment* environment = static_cast<resource::Environment*>(event.data);
+				this->SetupEnvironment(*environment);
 			}
 
 			configuration::RenderConfiguration_t* render_config_;
@@ -480,6 +559,11 @@ namespace easy_engine {
 				this
 			);
 
+			ManagerLocator::event_manager->Subscribe(
+				event_manager::EventType::EnvironmentUpdate,
+				this
+			);
+
 			this->p_impl_->LogRenderInfo();
 		};
 
@@ -500,6 +584,9 @@ namespace easy_engine {
 				break;
 			case event_manager::EventType::_3DPreRender:
 				this->p_impl_->OnPreRender();
+				break;
+			case event_manager::EventType::EnvironmentUpdate:
+				this->p_impl_->OnEnvironmentUpdate(event);
 				break;
 			}
 		}

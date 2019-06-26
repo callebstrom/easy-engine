@@ -6,6 +6,7 @@
 #include <EasyEngine/ecs/entity/Entity.h>
 #include <EasyEngine/ecs/component_manager/ComponentManager.h>
 #include <type_traits>
+#include <EasyEngine/resource/Environment.h>
 
 namespace easy_engine {
 
@@ -76,6 +77,8 @@ namespace easy_engine {
 				component_manager::ComponentManager<ComponentType>* component_manager = reinterpret_cast<component_manager::ComponentManager<ComponentType>*>(this->component_managers_[component_type]);
 				return component_manager->GetComponentForEntity(entity);
 			}
+
+			void SetupEnvironment(const resource::Environment& environment);
 
 		private:
 			float entity_id_seq_ = 0; // Should be in EntityManager

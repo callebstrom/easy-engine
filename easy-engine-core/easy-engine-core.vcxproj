@@ -60,7 +60,6 @@
     <ClInclude Include="include\EasyEngine\Logger.h" />
     <ClInclude Include="include\EasyEngine\ManagerLocator.h" />
     <ClInclude Include="include\EasyEngine\memory\LinearAllocator.h" />
-    <ClInclude Include="include\EasyEngine\render_manager\Camera.h" />
     <ClInclude Include="include\EasyEngine\render_manager\_3DObjectRenderable.h" />
     <ClInclude Include="include\EasyEngine\render_manager\ObjectIndex.h" />
     <ClInclude Include="include\EasyEngine\render_manager\RenderManager.h" />
@@ -68,6 +67,9 @@
     <ClInclude Include="include\EasyEngine\render_manager\RenderSystem.h" />
     <ClInclude Include="include\EasyEngine\resource\Animation.h" />
     <ClInclude Include="include\EasyEngine\resource\Bone.h" />
+    <ClInclude Include="include\EasyEngine\resource\Camera.h" />
+    <ClInclude Include="include\EasyEngine\resource\Environment.h" />
+    <ClInclude Include="include\EasyEngine\resource\Light.h" />
     <ClInclude Include="include\EasyEngine\resource\Material.h" />
     <ClInclude Include="include\EasyEngine\resource\Renderable.h" />
     <ClInclude Include="include\EasyEngine\resource\Mesh.h" />
@@ -93,7 +95,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\EasyEngine\event_manager\EventManager.cpp" />
-    <ClCompile Include="include\EasyEngine\resource\Bone.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\ComponentManager.cpp" />
@@ -108,6 +109,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">EasyEngine\eepch.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\Component.cpp" />
+    <ClCompile Include="src\Environment.cpp" />
     <ClCompile Include="src\InputManager.cpp" />
     <ClCompile Include="src\LinearAllocator.cpp" />
     <ClCompile Include="src\Logger.cpp" />

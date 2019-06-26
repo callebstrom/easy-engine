@@ -240,9 +240,6 @@
     <ClInclude Include="include\EasyEngine\render_manager\_3DObjectRenderable.h">
       <Filter>Header Files\render_manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\EasyEngine\render_manager\Camera.h">
-      <Filter>Header Files\render_manager</Filter>
-    </ClInclude>
     <ClInclude Include="include\EasyEngine\input_manager\KeyboardEvent.h">
       <Filter>Header Files\input_manager</Filter>
     </ClInclude>
@@ -259,6 +256,15 @@
       <Filter>Header Files\resource</Filter>
     </ClInclude>
     <ClInclude Include="include\EasyEngine\resource\Bone.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\resource\Light.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\resource\Environment.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\resource\Camera.h">
       <Filter>Header Files\resource</Filter>
     </ClInclude>
   </ItemGroup>
@@ -350,8 +356,8 @@
     <ClCompile Include="src\Material.cpp">
       <Filter>Source Files\resource</Filter>
     </ClCompile>
-    <ClCompile Include="include\EasyEngine\resource\Bone.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Environment.cpp">
+      <Filter>Source Files\resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

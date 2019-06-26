@@ -11,6 +11,7 @@
 #include <EasyEngine/resource_manager/ResourceManager3D.h>
 #include <EasyEngine/scene_manager/SceneManager3D.h>
 #include <EasyEngine/resource/Renderable.h>
+#include <EasyEngine/resource/Environment.h>
 #include <EasyEngine/ManagerLocator.h>
 #include <EasyEngine/window_manager/WindowManagerGLFW.h>
 #include <EasyEngine/world/World.h>

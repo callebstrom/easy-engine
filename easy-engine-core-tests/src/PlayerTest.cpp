@@ -85,6 +85,15 @@ public:
 		this->world->AddComponent<ecs::component::TextureComponent>(sylvana, texture_component);
 		this->world->AddComponent<ecs::component::MaterialComponent>(sylvana, material_component);
 		this->world->AddComponent<ecs::component::TransformComponent>(sylvana, transform_component);
+
+		resource::Environment environment;
+		resource::PointLight point_light;
+		point_light.position = Eigen::Vector3f(0.f, 1.f, 5.f);
+		point_light.strength = 100.f;
+
+		environment.AddLight(point_light);
+
+		world->SetupEnvironment(environment);
 	}
 
 	~PlayerApplication() {
