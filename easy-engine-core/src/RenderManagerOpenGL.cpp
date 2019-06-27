@@ -443,14 +443,15 @@ namespace easy_engine {
 				for (int i = 0; i < environment.point_lights.size(); i++) {
 					resource::PointLight light = environment.point_lights[i];
 
-					glBufferSubData(GL_UNIFORM_BUFFER, 0, VEC3_SIZE_WITH_PADDING, light.position.data());
-					glBufferSubData(GL_UNIFORM_BUFFER, this->GetPointLightOffsetInBytes(1), sizeof(float), &light.constant);
-					glBufferSubData(GL_UNIFORM_BUFFER, this->GetPointLightOffsetInBytes(2), sizeof(float), &light.linear);
-					glBufferSubData(GL_UNIFORM_BUFFER, this->GetPointLightOffsetInBytes(3), sizeof(float), &light.quadratic);
-					glBufferSubData(GL_UNIFORM_BUFFER, this->GetPointLightOffsetInBytes(4), VEC3_SIZE_WITH_PADDING, light.ambient_color.data());
-					glBufferSubData(GL_UNIFORM_BUFFER, this->GetPointLightOffsetInBytes(5), VEC3_SIZE_WITH_PADDING, light.diffuse_color.data());
-					glBufferSubData(GL_UNIFORM_BUFFER, this->GetPointLightOffsetInBytes(6), VEC3_SIZE_WITH_PADDING, light.specular_color.data());
-					glBufferSubData(GL_UNIFORM_BUFFER, this->GetPointLightOffsetInBytes(7), sizeof(float), &light.strength);
+					auto point_light_offset = i * point_light_size;
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset, VEC3_SIZE_WITH_PADDING, light.position.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(1), sizeof(float), &light.constant);
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(2), sizeof(float), &light.linear);
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(3), sizeof(float), &light.quadratic);
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(4), VEC3_SIZE_WITH_PADDING, light.ambient_color.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(5), VEC3_SIZE_WITH_PADDING, light.diffuse_color.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(6), VEC3_SIZE_WITH_PADDING, light.specular_color.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(7), sizeof(float), &light.strength);
 
 					/*
 					std::string light_positiown_uniform_name = light_name + ".position";

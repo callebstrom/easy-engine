@@ -89,9 +89,14 @@ public:
 		resource::Environment environment;
 		resource::PointLight point_light;
 		point_light.position = Eigen::Vector3f(0.f, 1.f, 5.f);
-		point_light.strength = 100.f;
+		point_light.strength = 10.f;
+
+		resource::PointLight point_light2;
+		point_light.position = Eigen::Vector3f(-5.f, 0.f, 5.f);
+		point_light.strength = 75.f;
 
 		environment.AddLight(point_light);
+		environment.AddLight(point_light2);
 
 		world->SetupEnvironment(environment);
 	}
