@@ -13,6 +13,7 @@ An experimental cross-platform game engine created for personal education purpos
 - Basic shadow mapping
 
 ### Physics
+- Multi-threaded physics
 - Add built-in `PhysicsComponent`
 - Support collisions using `bulletphysics/bullet3`
 - Add forces to `PhysicsComponent`
