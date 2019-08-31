@@ -20,7 +20,8 @@
 - Ensure memory locality of ECS components
 
 ### User Input
-- Emit events for keyboard and mouse input
+- ~~Emit events for keyboard and mouse input~~
+- Support repeated keys
 
 ### Events
 - ~~Basic event system~~
