@@ -8,6 +8,8 @@ An experimental cross-platform game engine created for personal education purpos
 - 2D shape rendering
 - ~~Basic materials~~
 - ~~Basic textures~~
+- Support normal maps
+- Support displacement maps
 - PBR
 - SSAO
 - Basic shadow mapping
@@ -37,6 +39,8 @@ An experimental cross-platform game engine created for personal education purpos
 
 ### Model loading
 - ~~Basic support of common scene/model formats (meshes, textures and materials)~~
+- Load normal maps
+- Load displacement maps
 - Load bones
 - Load skeletal animations (depends on loading bones)
 
