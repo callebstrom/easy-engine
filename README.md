@@ -1,4 +1,5 @@
 # EasyEngine
+A experimental cross-platform game engine created for personal education purposes
 
 ## TODO
 ### Rendering
