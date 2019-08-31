@@ -11,6 +11,11 @@
 - SSAO
 - Basic shadow mapping
 
+### Physics
+- Add built-in `PhysicsComponent`
+- Support collisions using `bulletphysics/bullet3`
+- Add forces to `PhysicsComponent`
+
 ### Logging
 - ~~Support consistent core and client logging~~
 - Support logging to file
