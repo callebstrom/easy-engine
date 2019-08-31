@@ -24,13 +24,11 @@ namespace easy_engine {
 			ComponentManager(ComponentManager&&) = default;
 			ComponentManager& operator=(ComponentManager&&) = default;
 
-			void RegisterEntity(entity::Entity* entity, ComponentType* component)
-			{
+			void RegisterEntity(entity::Entity* entity, ComponentType* component) {
 				this->entity_id_component_offset_map_[entity->id] = this->allocator.Allocate(component);
 			}
 
-			ComponentType* GetComponentForEntity(entity::Entity* entity)
-			{
+			auto GetComponentForEntity(entity::Entity* entity) -> ComponentType* {
 				if (this->entity_id_component_offset_map_.find(entity->id) == this->entity_id_component_offset_map_.end()) {
 					return nullptr;
 				}
@@ -38,6 +36,12 @@ namespace easy_engine {
 				return this->allocator.buffer + this->entity_id_component_offset_map_[entity->id];
 			}
 
+			auto RemoveComponentForEntity(const entity::Entity& entity) -> void {
+				if (this->entity_id_component_offset_map_.find(entity.id) == this->entity_id_component_offset_map_.end()) return;
+
+				this->entity_id_component_offset_map_.erase(entity.id);
+				// TODO should also remove component data from allocator
+			}
 
 		protected:
 			// Maps entity id to component index

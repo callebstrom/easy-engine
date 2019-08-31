@@ -36,16 +36,23 @@ namespace easy_engine {
 
 		constexpr GLint LIGHTS_BINDING_POINT = 0;
 		constexpr ushort_t NO_OF_VEC3_IN_POINT_LIGHT = 4;
+		constexpr ushort_t NO_OF_VEC3_IN_DIRECTIONAL_LIGHT = 4;
 		constexpr ushort_t MAX_POINT_LIGHTS = 128;
+		constexpr ushort_t MAX_DIRECTIONAL_LIGHTS = 4;
 		constexpr size_t VEC3_SIZE_WITH_PADDING = sizeof(GLfloat) * 4;
+
+		static GLint MAX_TEXTURE_IMAGE_UNITS = 0;
 
 		struct RenderManagerOpenGL::Impl {
 
 			Impl(configuration::RenderConfiguration_t* rc)
-				: render_config_(rc), camera(new Camera) {}
+				: render_config_(rc), camera(new Camera) {
+				glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &MAX_TEXTURE_IMAGE_UNITS);
+			}
 
 			void LogRenderInfo() const;
 			void LoadShaders() {
+
 				std::ifstream vertex_in(this->render_config_->Get(c_params_::VERTEX_SHADER_SOURCE_LOCATION));
 				std::string vertex_contents((std::istreambuf_iterator<char>(vertex_in)),
 					std::istreambuf_iterator<char>());
@@ -109,7 +116,36 @@ namespace easy_engine {
 				EE_CORE_INFO("OpenGL version supported: {}", std::string(reinterpret_cast<char*>(const_cast<GLubyte*>(glGetString(GL_VERSION)))));
 			}
 
-			void GenerateObjectIndex(resource::Renderable * renderable_, std::vector<resource::Texture*> textures, resource::Material * material) {
+			void InitializeTexture(const resource::Material& material, resource::Texture& texture, int texture_image_unit) {
+				if (texture.renderer_id == 0) {
+
+					glActiveTexture(texture_image_unit);
+
+					GLuint renderer_id;
+					glGenTextures(1, &renderer_id);
+
+					glBindTexture(GL_TEXTURE_2D, renderer_id);
+
+					int format = 0;
+
+					if (texture.bpp == 3) format = GL_RGB;
+					else if (texture.bpp == 4) format = GL_RGBA;
+					else EE_CORE_WARN("Unknown texture bpp");
+
+					glTexImage2D(GL_TEXTURE_2D, 0, format, texture.width, texture.height, 0, format, GL_UNSIGNED_BYTE, texture.raw);
+					glGenerateMipmap(GL_TEXTURE_2D);
+
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+					texture.renderer_id = renderer_id;
+					texture.Free();
+				}
+			}
+
+			void GenerateObjectIndex(resource::Renderable* renderable_, std::vector<resource::Texture*> textures, std::optional<resource::Material*> maybe_material) {
 				if (glGenVertexArrays == NULL) {
 					EE_CORE_CRITICAL("glGenVertexArrays is not supported");
 					throw new std::runtime_error("glGenVertexArrays is not supported");
@@ -192,64 +228,18 @@ namespace easy_engine {
 					GL_STATIC_DRAW
 				);
 
-				if (textures.size() >= material->diffuse_texture_index) {
-					resource::Texture* diffuse_texture = textures[material->diffuse_texture_index];
+				if (maybe_material.has_value()) {
+					auto material = maybe_material.value();
+					if (textures.size() >= material->diffuse_texture_index) {
+						resource::Texture* diffuse_texture = textures[material->diffuse_texture_index];
 
-					if (diffuse_texture != nullptr && diffuse_texture->renderer_id == 0) {
-
-						glActiveTexture(GL_TEXTURE0);
-
-						GLuint renderer_id;
-						glGenTextures(1, &renderer_id);
-
-						glBindTexture(GL_TEXTURE_2D, renderer_id);
-
-						int format = 0;
-
-						if (diffuse_texture->bpp == 3) format = GL_RGB;
-						else if (diffuse_texture->bpp == 4) format = GL_RGBA;
-						else EE_CORE_WARN("Unknown texture bpp");
-
-						glTexImage2D(GL_TEXTURE_2D, 0, format, diffuse_texture->width, diffuse_texture->height, 0, format, GL_UNSIGNED_BYTE, diffuse_texture->raw);
-						glGenerateMipmap(GL_TEXTURE_2D);
-
-						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-						diffuse_texture->renderer_id = renderer_id;
+						this->InitializeTexture(*material, *diffuse_texture, GL_TEXTURE0);
 					}
-				}
 
-				if (textures.size() >= material->emissive_texture_index) {
-					resource::Texture* emissive_texture = textures[material->emissive_texture_index];
+					if (textures.size() >= material->emissive_texture_index) {
+						resource::Texture* emissive_texture = textures[material->emissive_texture_index];
 
-					if (emissive_texture != nullptr && emissive_texture->renderer_id == 0) {
-
-						glActiveTexture(GL_TEXTURE1);
-
-						GLuint renderer_id;
-						glGenTextures(1, &renderer_id);
-
-
-						glBindTexture(GL_TEXTURE_2D, renderer_id);
-
-						int format = 0;
-
-						if (emissive_texture->bpp == 3) format = GL_RGB;
-						else if (emissive_texture->bpp == 4) format = GL_RGBA;
-						else EE_CORE_WARN("Unknown texture bpp");
-
-						glTexImage2D(GL_TEXTURE_2D, 0, format, emissive_texture->width, emissive_texture->height, 0, format, GL_UNSIGNED_BYTE, emissive_texture->raw);
-						glGenerateMipmap(GL_TEXTURE_2D);
-
-						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-						glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-						emissive_texture->renderer_id = renderer_id;
+						this->InitializeTexture(*material, *emissive_texture, GL_TEXTURE1);
 					}
 				}
 
@@ -266,7 +256,7 @@ namespace easy_engine {
 				this->object_indices_.insert(std::pair<std::string, ObjectIndex>(renderable->name, object_index));
 			};
 
-			std::vector<Eigen::Translation3f> InterpolateTranslation3f(Eigen::Translation3f prev, Eigen::Translation3f cur) {
+			auto InterpolateTranslation3f(Eigen::Translation3f prev, Eigen::Translation3f cur) const -> std::vector<Eigen::Translation3f> {
 				static float MIN_LERP_STEP = 0.001f;
 				float x_diff = prev.x() - cur.x();
 				float y_diff = prev.y() - cur.y();
@@ -295,18 +285,33 @@ namespace easy_engine {
 				Eigen::Matrix<GLfloat, 4, 4> model_matrix = combined_affine_transform * identity_matrix;
 
 				for (auto mesh : *event_data->mesh_component->sub_meshes) {
-					auto material = event_data->material_component != nullptr && event_data->has_materials && event_data->material_component->materials->size() - 1 >= mesh->material_index
-						? event_data->material_component->materials->at(mesh->material_index)
-						: nullptr;
+					auto material = event_data->material_component.has_value() && event_data->material_component.value()->materials->size() - 1 >= mesh->material_index
+						? std::optional<resource::Material*>(event_data->material_component.value()->materials->at(mesh->material_index))
+						: std::nullopt;
 
-					this->Render(mesh, model_matrix, *event_data->texture_component->textures, material);
+					auto textures = event_data->texture_component.has_value()
+						? *event_data->texture_component.value()->textures
+						: std::vector<resource::Texture*>();
+
+					this->Render(
+						mesh,
+						model_matrix,
+						textures,
+						material
+					);
 				}
 			}
 
-			void Render(resource::Mesh * mesh, Eigen::Matrix4f model_matrix_, std::vector<resource::Texture*> textures, resource::Material * material) {
+			auto BindTexture(const resource::Texture& texture, const resource::Material& material, int texture_image_unit) const -> void {
+				if (texture_image_unit <= MAX_TEXTURE_IMAGE_UNITS) EE_CORE_WARN("Available texture units exhausted");
+				glActiveTexture(texture_image_unit);
+				glBindTexture(GL_TEXTURE_2D, texture.renderer_id);
+			}
+
+			auto Render(resource::Mesh* mesh, Eigen::Matrix4f model_matrix_, std::vector<resource::Texture*> textures, std::optional<resource::Material*> maybe_material) -> void {
 				// Should the object index be built lazily?
 				if (this->object_indices_.find(mesh->name) == this->object_indices_.end()) {
-					this->GenerateObjectIndex(mesh, textures, material);
+					this->GenerateObjectIndex(mesh, textures, maybe_material);
 				}
 
 				ObjectIndex object_index = this->object_indices_.at(mesh->name);
@@ -314,24 +319,41 @@ namespace easy_engine {
 				bool has_diffuse_texture = false;
 				bool has_emissive_texture = false;
 
-				if (textures.size() >= material->diffuse_texture_index) {
-					resource::Texture* diffuse_texture = textures[material->diffuse_texture_index];
+				// TODO split into new function BindMaterial
+				if (maybe_material.has_value()) {
+					auto material = maybe_material.value();
 
-					if (diffuse_texture != nullptr) {
-						glActiveTexture(GL_TEXTURE0);
-						glBindTexture(GL_TEXTURE_2D, diffuse_texture->renderer_id);
+					if (textures.size() > material->diffuse_texture_index) {
+						this->BindTexture(*textures[material->diffuse_texture_index], *material, GL_TEXTURE0);
 						has_diffuse_texture = true;
 					}
-				}
 
-				if (textures.size() >= material->emissive_texture_index) {
-					resource::Texture* emissive_texture = textures[material->emissive_texture_index];
-
-					if (emissive_texture != nullptr) {
-						glActiveTexture(GL_TEXTURE1);
-						glBindTexture(GL_TEXTURE_2D, emissive_texture->renderer_id);
+					if (textures.size() > material->emissive_texture_index) {
+						this->BindTexture(*textures[material->emissive_texture_index], *material, GL_TEXTURE1);
 						has_emissive_texture = true;
 					}
+
+					GLint materialDiffuseColor = glGetUniformLocation(this->shader_program_, "materialDiffuseColor");
+					auto diffuse_color = material->diffuse_color;
+					glUniform3f(materialDiffuseColor, diffuse_color.x(), diffuse_color.y(), diffuse_color.z());
+
+					GLint hasDiffuseTexture = glGetUniformLocation(this->shader_program_, "hasDiffuseTexture");
+					glUniform1f(hasDiffuseTexture, has_diffuse_texture ? 1 : 0);
+
+					GLint materialSpecularColor = glGetUniformLocation(this->shader_program_, "materialSpecularColor");
+					auto specular_color = material->specular_color;
+					glUniform3f(materialSpecularColor, specular_color.x(), specular_color.y(), specular_color.z());
+
+					GLint materialShininess = glGetUniformLocation(this->shader_program_, "materialShininess");
+					auto shininess = material->shininess;
+					glUniform1f(materialShininess, shininess);
+
+					GLint materialEmmisiveColor = glGetUniformLocation(this->shader_program_, "materialEmmisiveColor");
+					auto emmisive_color = material->emmisive_color;
+					glUniform3f(materialEmmisiveColor, emmisive_color.x(), emmisive_color.y(), emmisive_color.z());
+
+					GLint hasEmissiveTexture = glGetUniformLocation(this->shader_program_, "hasEmissiveTexture");
+					glUniform1f(hasEmissiveTexture, has_emissive_texture ? 1 : 0);
 				}
 
 				float FoV = 70.0f;
@@ -367,31 +389,6 @@ namespace easy_engine {
 				GLint cameraPosition_worldspace = glGetUniformLocation(this->shader_program_, "cameraPosition_worldspace");
 				glUniform3fv(cameraPosition_worldspace, 1, &this->camera->position[0]);
 
-				// TODO split into separate function RenderMaterial
-				if (material != nullptr) {
-					GLint materialDiffuseColor = glGetUniformLocation(this->shader_program_, "materialDiffuseColor");
-					auto diffuse_color = material->diffuse_color;
-					glUniform3f(materialDiffuseColor, diffuse_color.x(), diffuse_color.y(), diffuse_color.z());
-
-					GLint hasDiffuseTexture = glGetUniformLocation(this->shader_program_, "hasDiffuseTexture");
-					glUniform1f(hasDiffuseTexture, has_diffuse_texture ? 1 : 0);
-
-					GLint materialSpecularColor = glGetUniformLocation(this->shader_program_, "materialSpecularColor");
-					auto specular_color = material->specular_color;
-					glUniform3f(materialSpecularColor, specular_color.x(), specular_color.y(), specular_color.z());
-
-					GLint materialShininess = glGetUniformLocation(this->shader_program_, "materialShininess");
-					auto shininess = material->shininess;
-					glUniform1f(materialShininess, shininess);
-
-					GLint materialEmmisiveColor = glGetUniformLocation(this->shader_program_, "materialEmmisiveColor");
-					auto emmisive_color = material->emmisive_color;
-					glUniform3f(materialEmmisiveColor, emmisive_color.x(), emmisive_color.y(), emmisive_color.z());
-
-					GLint hasEmissiveTexture = glGetUniformLocation(this->shader_program_, "hasEmissiveTexture");
-					glUniform1f(hasEmissiveTexture, has_emissive_texture ? 1 : 0);
-				}
-
 				glBindVertexArray(object_index.vao);
 				glShadeModel(GL_SMOOTH);
 				glDrawElements(GL_TRIANGLES, object_index.ebo_size, GL_UNSIGNED_INT, NULL);
@@ -416,7 +413,19 @@ namespace easy_engine {
 				return std::accumulate(point_light_size_vector.begin(), std::next(point_light_size_vector.begin(), offset), 0);
 			}
 
-			void SetupEnvironment(const resource::Environment & environment) {
+			int GetDirectionalLightOffsetInBytes(int offset) {
+				static const std::vector<size_t> directional_light_size_vector = {
+					VEC3_SIZE_WITH_PADDING,
+					VEC3_SIZE_WITH_PADDING,
+					VEC3_SIZE_WITH_PADDING,
+					VEC3_SIZE_WITH_PADDING,
+					sizeof(float)
+				};
+
+				return std::accumulate(directional_light_size_vector.begin(), std::next(directional_light_size_vector.begin(), offset), 0);
+			}
+
+			void SetupEnvironment(const resource::Environment& environment) {
 
 				unsigned int lights_uniform_block_index = glGetUniformBlockIndex(this->shader_program_, "Lights");
 				glUniformBlockBinding(this->shader_program_, lights_uniform_block_index, LIGHTS_BINDING_POINT);
@@ -425,8 +434,12 @@ namespace easy_engine {
 				glGenBuffers(1, &lights_ubo);
 
 				const auto point_light_padding = sizeof(float) * NO_OF_VEC3_IN_POINT_LIGHT; // One float of padding per vec3 as these are stored as vec4 in GLSL
+				const auto directional_light_padding = sizeof(float) * NO_OF_VEC3_IN_DIRECTIONAL_LIGHT; // One float of padding per vec3 as these are stored as vec4 in GLSL
+
 				const auto point_light_size = sizeof(resource::PointLight) + point_light_padding;
-				const auto lights_size = point_light_size * MAX_POINT_LIGHTS;
+				const auto directional_light_size = sizeof(resource::DirectionalLight) + directional_light_padding;
+
+				const auto lights_size = (point_light_size * MAX_POINT_LIGHTS) + (directional_light_size * MAX_DIRECTIONAL_LIGHTS);
 
 				glBindBuffer(GL_UNIFORM_BUFFER, lights_ubo);
 				glBufferData(GL_UNIFORM_BUFFER, lights_size, NULL, GL_STATIC_DRAW);
@@ -438,6 +451,9 @@ namespace easy_engine {
 
 				GLint point_light_count_uniform = glGetUniformLocation(this->shader_program_, "point_light_count");
 				glUniform1f(point_light_count_uniform, environment.point_lights.size());
+
+				GLint directional_light_count_uniform = glGetUniformLocation(this->shader_program_, "directional_light_count");
+				glUniform1f(directional_light_count_uniform, environment.directional_lights.size());
 
 				// Point lights
 				for (int i = 0; i < environment.point_lights.size(); i++) {
@@ -452,40 +468,18 @@ namespace easy_engine {
 					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(5), VEC3_SIZE_WITH_PADDING, light.diffuse_color.data());
 					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(6), VEC3_SIZE_WITH_PADDING, light.specular_color.data());
 					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(7), sizeof(float), &light.strength);
+				}
 
-					/*
-					std::string light_positiown_uniform_name = light_name + ".position";
-					GLint position_uniform = glGetUniformLocation(this->shader_program_, light_position_uniform_name.c_str());
-					glUniform3fv(position_uniform, 1, light.position.data());
+				// Directional lights
+				for (int i = 0; i < environment.directional_lights.size(); i++) {
+					resource::DirectionalLight light = environment.directional_lights[i];
 
-					std::string constant_uniform_name = light_name + ".constant";
-					GLint constant_uniform = glGetUniformLocation(this->shader_program_, constant_uniform_name.c_str());
-					glUniform1f(constant_uniform, light.constant);
-
-					std::string linear_uniform_name = light_name + ".linear";
-					GLint linear_uniform = glGetUniformLocation(this->shader_program_, linear_uniform_name.c_str());
-					glUniform1f(linear_uniform, light.linear);
-
-					std::string quadratic_uniform_name = light_name + ".quadratic";
-					GLint quadratic_uniform = glGetUniformLocation(this->shader_program_, quadratic_uniform_name.c_str());
-					glUniform1f(quadratic_uniform, light.quadratic);
-
-					std::string ambient_color_uniform_name = light_name + ".ambient_color";
-					GLint ambient_color_uniform = glGetUniformLocation(this->shader_program_, ambient_color_uniform_name.c_str());
-					glUniform3fv(ambient_color_uniform, 1, light.ambient_color.data());
-
-					std::string diffuse_color_uniform_name = light_name + ".diffuse_color";
-					GLint diffuse_color_uniform = glGetUniformLocation(this->shader_program_, diffuse_color_uniform_name.c_str());
-					glUniform3fv(diffuse_color_uniform, 1, light.diffuse_color.data());
-
-					std::string specular_color_uniform_name = light_name + ".specular_color";
-					GLint specular_color_uniform = glGetUniformLocation(this->shader_program_, specular_color_uniform_name.c_str());
-					glUniform3fv(specular_color_uniform, 1, light.specular_color.data());
-
-					std::string strength_uniform_name = light_name + ".strength";
-					auto test = glGetUniformLocation(this->shader_program_, "materialSpecularColor");
-					GLint strength_uniform = glGetUniformLocation(this->shader_program_, strength_uniform_name.c_str());
-					glUniform1f(strength_uniform, light.strength);*/
+					auto directional_light_offset = i * directional_light_size + (MAX_POINT_LIGHTS * point_light_size);
+					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset, VEC3_SIZE_WITH_PADDING, light.direction.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset + this->GetDirectionalLightOffsetInBytes(1), VEC3_SIZE_WITH_PADDING, light.ambient_color.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset + this->GetDirectionalLightOffsetInBytes(2), VEC3_SIZE_WITH_PADDING, light.diffuse_color.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset + this->GetDirectionalLightOffsetInBytes(3), VEC3_SIZE_WITH_PADDING, light.specular_color.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset + this->GetDirectionalLightOffsetInBytes(4), sizeof(float), &light.strength);
 				}
 
 				glBindBuffer(GL_UNIFORM_BUFFER, 0);
@@ -517,7 +511,7 @@ namespace easy_engine {
 			GLint emissive_texture_sampler;
 		};
 
-		RenderManagerOpenGL::RenderManagerOpenGL(configuration::RenderConfiguration_t * rc)
+		RenderManagerOpenGL::RenderManagerOpenGL(configuration::RenderConfiguration_t* rc)
 			: p_impl_(new Impl(rc)) {
 
 			glewExperimental = GL_TRUE;
@@ -574,7 +568,7 @@ namespace easy_engine {
 			glDeleteShader(this->p_impl_->vertex_shader_);
 		}
 
-		void RenderManagerOpenGL::Render(resource::Mesh * mesh, Eigen::Matrix4f model_matrix, std::vector<resource::Texture*> textures, resource::Material * material) {
+		void RenderManagerOpenGL::Render(resource::Mesh* mesh, Eigen::Matrix4f model_matrix, std::vector<resource::Texture*> textures, resource::Material* material) {
 			this->p_impl_->Render(mesh, model_matrix, textures, material);
 		}
 

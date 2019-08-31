@@ -13,9 +13,10 @@ namespace easy_engine {
 
 			inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_CoreLogger_; }
 			inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return s_ClientLogger_; }
+
 		private:
 			static std::shared_ptr<spdlog::logger> s_CoreLogger_;
-			static std::shared_ptr<spdlog::logger> s_ClientLogger_;
+			inline static std::shared_ptr<spdlog::logger> s_ClientLogger_ = std::shared_ptr<spdlog::logger>(nullptr);
 		};
 	}
 }

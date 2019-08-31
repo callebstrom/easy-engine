@@ -128,7 +128,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)easy-engine-core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>BOOST_LOG_DYN_LINK;NO_ENTRYPOINT;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>&lt;EasyEngine/eepch.h&gt;</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile />
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
@@ -147,7 +147,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)easy-engine-core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>BOOST_LOG_DYN_LINK;NO_ENTRYPOINT;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>&lt;EasyEngine/eepch.h&gt;</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>
       </PrecompiledHeaderOutputFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -182,7 +182,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)easy-engine-core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>BOOST_LOG_DYN_LINK;NO_ENTRYPOINT;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>&lt;EasyEngine/eepch.h&gt;</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile />
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>

@@ -23,6 +23,7 @@
 #include <filesystem>
 #include <numeric>
 #include <iterator>
+#include <optional>
 
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/base_object.hpp>

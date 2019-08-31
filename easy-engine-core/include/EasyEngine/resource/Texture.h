@@ -31,6 +31,11 @@ namespace easy_engine {
 			TextureType type = TextureType::kNone;
 
 			Texture();
+			~Texture() {
+				Free();
+			}
+
+			void Free();
 		};
 	}
 }

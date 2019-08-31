@@ -18,8 +18,8 @@ namespace easy_engine {
 		struct _3DObjectRenderable {
 			ecs::component::TransformComponent* transform_component = new ecs::component::TransformComponent();
 			ecs::component::MeshComponent* mesh_component;
-			ecs::component::TextureComponent* texture_component;
-			ecs::component::MaterialComponent* material_component;
+			std::optional<ecs::component::TextureComponent*> texture_component;
+			std::optional<ecs::component::MaterialComponent*> material_component;
 			bool has_textures = false;
 			bool has_materials = false;
 		};

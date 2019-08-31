@@ -14,8 +14,8 @@
 #include <EasyEngine/resource/Environment.h>
 #include <EasyEngine/ManagerLocator.h>
 #include <EasyEngine/window_manager/WindowManagerGLFW.h>
-#include <EasyEngine/world/World.h>
 #include <EasyEngine/ecs/entity/EntityHandle.h>
+#include <EasyEngine/world/World.h>
 #include <EasyEngine/ecs/component_manager/ComponentManager.h>
 #include <EasyEngine/ecs/ISystem.h>
 #include <EasyEngine/ecs/component/MeshComponent.h>

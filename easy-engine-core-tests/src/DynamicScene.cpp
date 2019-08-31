@@ -26,7 +26,7 @@ public:
 		ecs::component::MeshComponent mesh_component;
 		ecs::component::TextureComponent texture_component;
 		ecs::component::MaterialComponent material_component;
-		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\cube.fbx", mesh_component, texture_component, material_component);
+		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\nanosuit.fbx", mesh_component, texture_component, material_component);
 
 		ecs::component::TransformComponent transform_component;
 		transform_component.TranslationAdd(0, 0, -10);

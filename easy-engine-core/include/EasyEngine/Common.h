@@ -9,6 +9,9 @@ using OrderedTypeMap = std::map<std::type_index, OrderedDataType>;
 
 using ComponentSignature = std::bitset<2048>;
 
+template<typename T>
+using Ref = std::shared_ptr<T>;
+
 struct ComponentSignatureComparetor
 {
 	bool operator() (const ComponentSignature& left, const ComponentSignature& right) const

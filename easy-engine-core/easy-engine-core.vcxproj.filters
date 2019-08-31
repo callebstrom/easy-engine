@@ -94,6 +94,9 @@
     <Filter Include="Source Files\ecs\component">
       <UniqueIdentifier>{b7a7f6b9-2e94-4941-a1fd-3ea9c0b95685}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\ecs\entity">
+      <UniqueIdentifier>{f7952869-88bc-4fe1-965e-9392e138e7af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\EasyEngine\configuration\RenderConfiguration.h">
@@ -358,6 +361,9 @@
     </ClCompile>
     <ClCompile Include="src\Environment.cpp">
       <Filter>Source Files\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EntityHandle.cpp">
+      <Filter>Source Files\ecs\entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -19,19 +19,13 @@ namespace easy_engine {
 			Entity* entity;
 			world::World* world;
 
-			void destroy() {
-				this->world->RemoveEntity(*entity);
-			}
+			void destroy();
 
 			template<typename ComponentType>
-			void AddComponent(ComponentType c) {
-				this->world->AddComponent(*entity, c);
-			}
+			void AddComponent(ComponentType c);
 
 			template<typename ComponentType>
-			void RemoveComponent() {
-				this->world->RemoveComponent<ComponentType>(*entity);
-			}
+			void RemoveComponent();
 
 
 		};

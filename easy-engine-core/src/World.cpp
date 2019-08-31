@@ -8,10 +8,11 @@
 
 namespace easy_engine {
 	namespace world {
-		entity::EntityHandle World::CreateEntity() {
+		auto World::CreateEntity() -> entity::EntityHandle {
 			entity::Entity* entity = new entity::Entity(this->entity_id_seq_++);
 			this->entities_.push_back(entity);
-			entity::EntityHandle entity_handle = entity::EntityHandle();
+
+			auto entity_handle = entity::EntityHandle();
 			entity_handle.entity = entity;
 			entity_handle.world = this;
 			return entity_handle;
@@ -19,17 +20,13 @@ namespace easy_engine {
 
 		void World::RemoveEntity(entity::Entity const& entity) {}
 
-		void World::Update(float dt) {
+		auto World::Update(float dt) const -> void {
 			for (auto system : this->systems_) {
 				system->Update(dt);
 			}
 		}
 
-		void World::RemoveComponent(entity::Entity const& entity, ecs::component::Component component) {
-
-		}
-
-		void World::SetupEnvironment(const resource::Environment& environment) {
+		auto World::SetupEnvironment(const resource::Environment& environment) -> void {
 			event_manager::Event event;
 			event.event_type = event_manager::EventType::EnvironmentUpdate;
 
@@ -37,7 +34,5 @@ namespace easy_engine {
 
 			ManagerLocator::event_manager->Dispatch(event);
 		}
-
 	}
-
 }

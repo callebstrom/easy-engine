@@ -18,9 +18,9 @@ namespace easy_engine {
 
 		class EASY_ENGINE_API World {
 		public:
-			entity::EntityHandle CreateEntity();
-			void RemoveEntity(entity::Entity const& entity);
-			void Update(float dt);
+			auto CreateEntity()->entity::EntityHandle;
+			auto RemoveEntity(entity::Entity const& entity) -> void;
+			auto Update(float dt) const -> void;
 
 			// TODO this should handle unique_ptr
 			template <typename... ComponentTypes>
@@ -50,7 +50,7 @@ namespace easy_engine {
 					this->component_managers_[component_type] = reinterpret_cast<void*>(component_manager);
 				}
 
-				component_manager::ComponentManager<ComponentType>* component_manager = reinterpret_cast<component_manager::ComponentManager<ComponentType>*>(this->component_managers_[component_type]);
+				auto component_manager = reinterpret_cast<component_manager::ComponentManager<ComponentType>*>(this->component_managers_[component_type]);
 				component_manager->RegisterEntity(entity, &component);
 
 				this->entity_component_signature_map_[entity][ecs::component::Component::GetComponentFamily<ComponentType>()] = true;
@@ -64,21 +64,29 @@ namespace easy_engine {
 					}
 				}
 			}
-			void RemoveComponent(entity::Entity const& entity, ecs::component::Component component);
+			template <typename ComponentType>
+			void RemoveComponent(entity::Entity const& entity) {
+				auto component_type = std::type_index(typeid(ComponentType));
+				component_manager::ComponentManager<ComponentType>* component_manager = reinterpret_cast<component_manager::ComponentManager<ComponentType>*>(this->component_managers_[component_type]);
+				component_manager->RemoveComponentForEntity(entity);
+			}
 
 			template<typename ComponentType>
-			ComponentType* GetComponentForEntity(entity::Entity* entity) {
+			auto GetComponentForEntity(entity::Entity* entity) -> std::optional<ComponentType*> {
 				auto component_type = std::type_index(typeid(ComponentType));
 
 				if (this->component_managers_.find(component_type) == this->component_managers_.end()) {
-					return nullptr;
+					return std::nullopt;
 				}
 
 				component_manager::ComponentManager<ComponentType>* component_manager = reinterpret_cast<component_manager::ComponentManager<ComponentType>*>(this->component_managers_[component_type]);
-				return component_manager->GetComponentForEntity(entity);
+				auto component = component_manager->GetComponentForEntity(entity);
+				return component == nullptr
+					? std::nullopt
+					: std::optional<ComponentType*>(component);
 			}
 
-			void SetupEnvironment(const resource::Environment& environment);
+			auto SetupEnvironment(const resource::Environment& environment) -> void;
 
 		private:
 			float entity_id_seq_ = 0; // Should be in EntityManager

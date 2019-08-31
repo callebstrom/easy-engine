@@ -18,6 +18,9 @@ namespace easy_engine {
 			ResourceManager3D(ResourceManager3D&&);
 			ResourceManager3D& operator=(ResourceManager3D&&);
 
+			resource::Texture* LoadTextureFromFile(std::string path) { return ResourceManager::LoadTextureFromFile(path); }
+			resource::Texture* LoadTextureFromBuffer(void* data, size_t size) { return ResourceManager::LoadTextureFromBuffer(data, size); }
+
 			void Load(
 				std::string file_path,
 				ecs::component::MeshComponent& mesh_component,

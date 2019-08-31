@@ -7,9 +7,6 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb/std_image.h>
-
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -49,7 +46,7 @@ namespace easy_engine {
 			ResourceCache<resource::Texture*> texture_cache;
 			ResourceCache<size_t> material_cache;
 
-			Eigen::Matrix<float, -1, 3, Eigen::RowMajor> ExtractVertices(aiMesh* mesh) {
+			Eigen::Matrix<float, -1, 3, Eigen::RowMajor> ExtractVertices(aiMesh * mesh) {
 				Eigen::Matrix<float, -1, 3, Eigen::RowMajor> vertices;
 				vertices.conservativeResize(mesh->mNumVertices, Eigen::NoChange);
 				auto test = mesh->mNumVertices;
@@ -78,9 +75,13 @@ namespace easy_engine {
 				return faces;
 			}
 
-			Eigen::Matrix<float, -1, 3, Eigen::RowMajor> ExtractNormals(aiMesh* mesh) {
+			Eigen::Matrix<float, -1, 3, Eigen::RowMajor> ExtractNormals(aiMesh * mesh) {
 				Eigen::Matrix<float, -1, 3, Eigen::RowMajor> normals;
 				normals.conservativeResize(mesh->mNumVertices, Eigen::NoChange);
+
+				if (!mesh->HasNormals()) {
+					return normals;
+				}
 
 				for (uint32_t i = 0; i < mesh->mNumVertices; i++) {
 					Eigen::Vector3f vec;
@@ -91,9 +92,13 @@ namespace easy_engine {
 				return normals;
 			}
 
-			Eigen::Matrix<float, -1, 2, Eigen::RowMajor> ExtractUVs(aiMesh* mesh) {
+			Eigen::Matrix<float, -1, 2, Eigen::RowMajor> ExtractUVs(aiMesh * mesh) {
 				Eigen::Matrix<float, -1, 2, Eigen::RowMajor> uvs;
 				uvs.conservativeResize(mesh->mNumVertices, Eigen::NoChange);
+
+				if (!mesh->HasTextureCoords(0)) {
+					return uvs;
+				}
 
 				for (uint32_t i = 0; i < mesh->mNumVertices; i++) {
 					Eigen::Vector2f vec;
@@ -130,37 +135,6 @@ namespace easy_engine {
 				}*/
 			}
 
-			resource::Texture* LoadCompressedImageFromMemory(void* data, size_t size) {
-				auto texture = new resource::Texture();
-
-				int width, height, bpp;
-				unsigned char* decompressed_pixel_data = stbi_load_from_memory(reinterpret_cast<unsigned char*>(data), size, &width, &height, &bpp, 4);
-
-				texture->width = width;
-				texture->height = height;
-				texture->bpp = bpp;
-				texture->raw = decompressed_pixel_data;
-
-				return texture;
-			}
-
-			resource::Texture* LoadImageFromFile(std::string path) {
-				auto texture = new resource::Texture();
-
-				int width, height, bpp;
-
-				unsigned char* decompressed_pixel_data = stbi_load(path.c_str(), &width, &height, &bpp, 0);
-				auto failure = stbi_failure_reason();
-
-				texture->file_path = path;
-				texture->width = width;
-				texture->height = height;
-				texture->bpp = bpp;
-				texture->raw = decompressed_pixel_data;
-
-				return texture;
-			}
-
 			void LoadEmbeddedTexture(const aiScene* scene, const aiMesh* mesh_, ecs::component::TextureComponent& texture_component, size_t& type_index, resource::TextureType texture_type) {
 				aiString* texture_index_buffer = new aiString;
 
@@ -192,7 +166,7 @@ namespace easy_engine {
 					// If mHeight is 0 we should use stbi_load_from_memory as this is then not pixel data
 					if (texture_->mHeight == 0) {
 						size_t buffer_size = texture_->mWidth;
-						texture = this->LoadCompressedImageFromMemory(texture_->pcData, buffer_size);
+						texture = ResourceManager::LoadTextureFromBuffer(texture_->pcData, buffer_size);
 					}
 					else {
 						texture = new resource::Texture();
@@ -232,7 +206,7 @@ namespace easy_engine {
 						return;
 					}
 
-					auto texture = this->LoadImageFromFile(texture_path);
+					auto texture = ResourceManager::LoadTextureFromFile(texture_path);
 					texture->type = texture_type;
 					texture_component.textures->push_back(texture);
 					type_index = texture_component.textures->size() - 1;
@@ -251,8 +225,7 @@ namespace easy_engine {
 		) {
 			auto scene = this->p_impl_->importer.ReadFile(
 				file_path.c_str(),
-				aiProcess_Triangulate |
-				aiProcess_GenNormals |
+				aiProcessPreset_TargetRealtime_Quality |
 				aiProcess_FlipUVs
 			);
 

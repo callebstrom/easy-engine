@@ -1,0 +1,353 @@
+﻿'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\testhost.exe'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\ntdll.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\mscoree.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\kernel32.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\KernelBase.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\advapi32.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\msvcrt.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\sechost.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\rpcrt4.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\mscoreei.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\shlwapi.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\combase.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\ucrtbase.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\bcryptprimitives.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\gdi32.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\gdi32full.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\msvcp_win.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\user32.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\win32u.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\imm32.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\kernel.appcore.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\version.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\clr.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\msvcr120_clr0400.dll'. 
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0x04242420 (parameters: 0x0000000031415927, 0x00007FF84BCF0000, 0x000000D8FE3FF490).
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\psapi.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Windows\System32\psapi.dll'
+'testhost.exe' (Win32): Loaded 'C:\Windows\assembly\NativeImages_v4.0.30319_64\mscorlib\bef0a43af1bb9a52ee47a6f60bec2961\mscorlib.ni.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\ole32.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\clrjit.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.TestPlatform.CoreUtilities.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.TestPlatform.CoreUtilities.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.TestPlatform.CoreUtilities.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.TestPlatform.PlatformAbstractions.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.TestPlatform.PlatformAbstractions.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.TestPlatform.PlatformAbstractions.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.TestPlatform.CrossPlatEngine.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.TestPlatform.CrossPlatEngine.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.TestPlatform.CrossPlatEngine.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.TestPlatform.CommunicationUtilities.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.TestPlatform.CommunicationUtilities.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.TestPlatform.CommunicationUtilities.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.VisualStudio.TestPlatform.Common.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.VisualStudio.TestPlatform.Common.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.VisualStudio.TestPlatform.Common.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Newtonsoft.Json.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Newtonsoft.Json.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Newtonsoft.Json.dll'
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\cryptsp.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\rsaenh.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\bcrypt.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\cryptbase.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\assembly\NativeImages_v4.0.30319_64\System\2ef4bd82ccd0a1d27eaefb60228f9a48\System.ni.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\clbcatq.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\psapi.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\assembly\NativeImages_v4.0.30319_64\System.Core\a596f7c9b0ba27eecf3517dcf4f861d6\System.Core.ni.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\assembly\NativeImages_v4.0.30319_64\System.Configuration\bc94cdb3fe5fffa24b6cc69b9fef77f0\System.Configuration.ni.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\assembly\NativeImages_v4.0.30319_64\System.Xml\55f8a8308df67bd3d5d7441a99c6da88\System.Xml.ni.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\shell32.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\cfgmgr32.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\SHCore.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\windows.storage.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\profapi.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\powrprof.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\fltLib.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\ws2_32.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\mswsock.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\assembly\NativeImages_v4.0.30319_64\System.Numerics\857716ed3f10bb43a4ceecca9f102c05\System.Numerics.ni.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\assembly\NativeImages_v4.0.30319_64\System.Runteb92aa12#\8fe2e62498163277f787c4f2726e6f47\System.Runtime.Serialization.ni.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\assembly\NativeImages_v4.0.30319_64\System.Xml.Linq\6bf4fd72a3177d6d209b0a762ab16134\System.Xml.Linq.ni.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\assembly\NativeImages_v4.0.30319_64\System.Data\ca9f6d758fce8b9525d4bac80e2bf86c\System.Data.ni.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\Microsoft.NET\assembly\GAC_64\System.Data\v4.0_4.0.0.0__b77a5c561934e089\System.Data.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\crypt32.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\msasn1.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.TestPlatform.Extensions.BlameDataCollector.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.TestPlatform.Extensions.BlameDataCollector.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.TestPlatform.Extensions.BlameDataCollector.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.TestPlatform.Extensions.EventLogCollector.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.TestPlatform.Extensions.EventLogCollector.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.TestPlatform.Extensions.EventLogCollector.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.TestPlatform.TestHostRuntimeProvider.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.TestPlatform.TestHostRuntimeProvider.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.TestPlatform.TestHostRuntimeProvider.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.VisualStudio.Coverage.Interop.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.VisualStudio.Coverage.Interop.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.VisualStudio.Coverage.Interop.dll'
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.VisualStudio.Coverage.Interop.dll'
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FC250.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: [rethrow] at memory location 0x0000000000000000.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FC250.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: [rethrow] at memory location 0x0000000000000000.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FC250.
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF8007000B, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestPlatform.Extensions.CodedWebTestAdapter.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestPlatform.Extensions.CodedWebTestAdapter.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestPlatform.Extensions.CodedWebTestAdapter.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestPlatform.Extensions.TmiAdapter.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestPlatform.Extensions.TmiAdapter.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestPlatform.Extensions.TmiAdapter.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.VisualStudio.QualityTools.Common.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.VisualStudio.QualityTools.Common.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.VisualStudio.QualityTools.Common.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestPlatform.Extensions.GenericTestAdapter.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestPlatform.Extensions.GenericTestAdapter.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestPlatform.Extensions.GenericTestAdapter.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestPlatform.Extensions.OrderedTestAdapter.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestPlatform.Extensions.OrderedTestAdapter.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestPlatform.Extensions.OrderedTestAdapter.dll'
+'testhost.exe' (Win32): Loaded 'C:\Windows\assembly\NativeImages_v4.0.30319_64\SMDiagnostics\6fe7238c1bc9d2f4723826610ce95c9b\SMDiagnostics.ni.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\assembly\NativeImages_v4.0.30319_64\System.Servd1dec626#\45bd4cdd3d9776b6178c6f0b9cc50d05\System.ServiceModel.Internals.ni.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestPlatform.Extensions.Trx.TestLogger.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestPlatform.Extensions.Trx.TestLogger.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestPlatform.Extensions.Trx.TestLogger.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestPlatform.Extensions.VSTestIntegration.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestPlatform.Extensions.VSTestIntegration.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestPlatform.Extensions.VSTestIntegration.dll'
+'testhost.exe' (Win32): Loaded 'C:\Windows\assembly\NativeImages_v4.0.30319_64\Microsoft.Vea6d7231#\b1ba4704ec672e625fbd7152f93b6739\Microsoft.VisualStudio.QualityTools.UnitTestFramework.ni.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestPlatform.Extensions.WebTestAdapter.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestPlatform.Extensions.WebTestAdapter.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestPlatform.Extensions.WebTestAdapter.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestTools.CppUnitTestFramework.ComInterfaces.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestTools.CppUnitTestFramework.ComInterfaces.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestTools.CppUnitTestFramework.ComInterfaces.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestTools.CppUnitTestFramework.CppUnitTestExtension.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestTools.CppUnitTestFramework.CppUnitTestExtension.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestTools.CppUnitTestFramework.CppUnitTestExtension.dll'
+'testhost.exe' (Win32): Loaded 'C:\Windows\assembly\NativeImages_v4.0.30319_64\System.Compba577418#\a1b9917a561366496e3e093f67e4f9b4\System.ComponentModel.Composition.ni.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestTools.DataCollection.MediaRecorder.Model.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestTools.DataCollection.MediaRecorder.Model.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestTools.DataCollection.MediaRecorder.Model.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestTools.DataCollection.VideoRecorderCollector.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestTools.DataCollection.VideoRecorderCollector.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TestTools.DataCollection.VideoRecorderCollector.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TraceDataCollector.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TraceDataCollector.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.TraceDataCollector.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.VisualStudio.ArchitectureTools.PEReader.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.VisualStudio.ArchitectureTools.PEReader.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.VisualStudio.ArchitectureTools.PEReader.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.IntelliTrace.Core.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.IntelliTrace.Core.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.IntelliTrace.Core.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.UwpTestHostRuntimeProvider.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.UwpTestHostRuntimeProvider.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Extensions\Microsoft.VisualStudio.UwpTestHostRuntimeProvider.dll'
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FABB0.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: [rethrow] at memory location 0x0000000000000000.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FABB0.
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.Telemetry.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.Telemetry.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.Telemetry.dll'
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.Telemetry.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.Telemetry.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.Telemetry.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\PrivateAssemblies\Microsoft.VisualStudio.Telemetry.dll'
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\urlmon.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\iertutil.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\sspicli.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\propsys.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\oleaut32.dll'. 
+onecoreuap\inetcore\urlmon\zones\zoneidentifier.cxx(359)\urlmon.dll!00007FF86E8E0397: (caller: 00007FF86E8DFF2D) ReturnHr(1) tid(2684) 80070002 The system cannot find the file specified.
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.VisualStudio.UwpTestHostRuntimeProvider.Deployment.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.VisualStudio.UwpTestHostRuntimeProvider.Deployment.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\Microsoft.VisualStudio.UwpTestHostRuntimeProvider.Deployment.dll'
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FC250.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: [rethrow] at memory location 0x0000000000000000.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FC250.
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\pemwd5jw.szc\GoogleTestAdapter.TestAdapter.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\pemwd5jw.szc\GoogleTestAdapter.TestAdapter.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\pemwd5jw.szc\GoogleTestAdapter.TestAdapter.dll'
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\pemwd5jw.szc\GoogleTestAdapter.TestAdapter.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\pemwd5jw.szc\GoogleTestAdapter.TestAdapter.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\pemwd5jw.szc\GoogleTestAdapter.TestAdapter.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\pemwd5jw.szc\GoogleTestAdapter.TestAdapter.dll'
+onecoreuap\inetcore\urlmon\zones\zoneidentifier.cxx(359)\urlmon.dll!00007FF86E8E0397: (caller: 00007FF86E8DFF2D) ReturnHr(2) tid(2684) 80070002 The system cannot find the file specified.
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\pemwd5jw.szc\GoogleTestAdapter.Core.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\pemwd5jw.szc\GoogleTestAdapter.Core.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\pemwd5jw.szc\GoogleTestAdapter.Core.dll'
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FB310.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: [rethrow] at memory location 0x0000000000000000.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FB310.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807F3CA0.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: [rethrow] at memory location 0x0000000000000000.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807F3CA0.
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Microsoft.VisualStudio.TestWindow.Interfaces.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Microsoft.VisualStudio.TestWindow.Interfaces.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Microsoft.VisualStudio.TestWindow.Interfaces.dll'
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Microsoft.VisualStudio.TestWindow.Interfaces.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Microsoft.VisualStudio.TestWindow.Interfaces.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Microsoft.VisualStudio.TestWindow.Interfaces.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Microsoft.VisualStudio.TestWindow.Interfaces.dll'
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Microsoft.VisualStudio.TestWindow.Interfaces.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Microsoft.VisualStudio.TestWindow.Interfaces.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Microsoft.VisualStudio.TestWindow.Interfaces.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\Microsoft.VisualStudio.TestWindow.Interfaces.dll'
+onecoreuap\inetcore\urlmon\zones\zoneidentifier.cxx(359)\urlmon.dll!00007FF86E8E0397: (caller: 00007FF86E8DFF2D) ReturnHr(3) tid(2684) 80070002 The system cannot find the file specified.
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\pemwd5jw.szc\GoogleTestAdapter.Common.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\pemwd5jw.szc\GoogleTestAdapter.Common.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\pemwd5jw.szc\GoogleTestAdapter.Common.dll'
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FC250.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: [rethrow] at memory location 0x0000000000000000.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FC250.
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\BoostTestAdapter.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\BoostTestAdapter.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\BoostTestAdapter.dll'
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\BoostTestAdapter.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\BoostTestAdapter.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\BoostTestAdapter.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\BoostTestAdapter.dll'
+onecoreuap\inetcore\urlmon\zones\zoneidentifier.cxx(359)\urlmon.dll!00007FF86E8E0397: (caller: 00007FF86E8DFF2D) ReturnHr(4) tid(2684) 80070002 The system cannot find the file specified.
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\Antlr.DOT.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\Antlr.DOT.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\Antlr.DOT.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\Antlr4.Runtime.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\Antlr4.Runtime.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\Antlr4.Runtime.dll'
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FC250.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: [rethrow] at memory location 0x0000000000000000.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FC250.
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\EBF\TestExplorer\Microsoft.VisualStudio.Workspace.ExternalBuildFramework.TestProvider.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\EBF\TestExplorer\Microsoft.VisualStudio.Workspace.ExternalBuildFramework.TestProvider.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\EBF\TestExplorer\Microsoft.VisualStudio.Workspace.ExternalBuildFramework.TestProvider.dll'
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\EBF\TestExplorer\Microsoft.VisualStudio.Workspace.ExternalBuildFramework.TestProvider.dll'
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\EBF\TestExplorer\Microsoft.VisualStudio.Workspace.ExternalBuildFramework.TestProvider.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\EBF\TestExplorer\Microsoft.VisualStudio.Workspace.ExternalBuildFramework.TestProvider.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\EBF\TestExplorer\Microsoft.VisualStudio.Workspace.ExternalBuildFramework.TestProvider.dll'
+onecoreuap\inetcore\urlmon\zones\zoneidentifier.cxx(359)\urlmon.dll!00007FF86E8E0397: (caller: 00007FF86E8DFF2D) ReturnHr(5) tid(2684) 80070002 The system cannot find the file specified.
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\EBF\TestExplorer\Microsoft.VisualStudio.Workspace.ExternalBuildFramework.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\EBF\TestExplorer\Microsoft.VisualStudio.Workspace.ExternalBuildFramework.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\EBF\TestExplorer\Microsoft.VisualStudio.Workspace.ExternalBuildFramework.dll'
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FAC10.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: [rethrow] at memory location 0x0000000000000000.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FAC10.
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\pemwd5jw.szc\GoogleTestAdapter.TestAdapter.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\pemwd5jw.szc\GoogleTestAdapter.TestAdapter.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\pemwd5jw.szc\GoogleTestAdapter.TestAdapter.dll'
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\pemwd5jw.szc\GoogleTestAdapter.TestAdapter.dll'
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FAC10.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: [rethrow] at memory location 0x0000000000000000.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FAC10.
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\BoostTestAdapter.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\BoostTestAdapter.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\BoostTestAdapter.dll'
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\BoostTestAdapter.dll'
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FAC10.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: [rethrow] at memory location 0x0000000000000000.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FAC10.
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\EBF\TestExplorer\Microsoft.VisualStudio.Workspace.ExternalBuildFramework.TestProvider.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\EBF\TestExplorer\Microsoft.VisualStudio.Workspace.ExternalBuildFramework.TestProvider.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\EBF\TestExplorer\Microsoft.VisualStudio.Workspace.ExternalBuildFramework.TestProvider.dll'
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\EBF\TestExplorer\Microsoft.VisualStudio.Workspace.ExternalBuildFramework.TestProvider.dll'
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: Exception at memory location 0x000000D8807FDEB0.
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF8007000B, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+onecoreuap\inetcore\urlmon\zones\zoneidentifier.cxx(359)\urlmon.dll!00007FF86E8E0397: (caller: 00007FF86E8DFF2D) ReturnHr(6) tid(2684) 80070002 The system cannot find the file specified.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FC0B0.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: [rethrow] at memory location 0x0000000000000000.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FC0B0.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: [rethrow] at memory location 0x0000000000000000.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FC0B0.
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80070002, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FC040.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: [rethrow] at memory location 0x0000000000000000.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FC040.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: [rethrow] at memory location 0x0000000000000000.
+Exception thrown at 0x00007FF877E9A388 in testhost.exe: Microsoft C++ exception: EEFileLoadException at memory location 0x000000D8807FC040.
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80070002, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\uxtheme.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\log4net.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\log4net.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\log4net.dll'
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\NapiNSP.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\pnrpnsp.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\nlaapi.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\dnsapi.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\nsi.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\IPHLPAPI.DLL'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\winrnr.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\wshbth.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files\Bonjour\mdnsNSP.dll'. 
+The thread 0x50d8 has exited with code 0 (0x0).
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80070005, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80131600, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80070005, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80131600, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80070005, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80131600, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\BoostTestShared.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\BoostTestShared.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\em3ozjcu.15r\BoostTestShared.dll'
+'testhost.exe' (Win32): Loaded 'C:\Windows\assembly\NativeImages_v4.0.30319_64\System.ServiceModel\9ec3a7a4cb2d104d719636f1a95c3dda\System.ServiceModel.ni.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\Microsoft.NET\assembly\GAC_MSIL\Microsoft.VisualStudio.Diagnostics.ServiceModelSink\v4.0_4.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.Diagnostics.ServiceModelSink.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\Microsoft.NET\assembly\GAC_MSIL\Microsoft.VisualStudio.Diagnostics.ServiceModelSink\v4.0_4.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.Diagnostics.ServiceModelSink.dll'. 
+'testhost.exe' (Win32): Unloaded 'C:\Windows\Microsoft.NET\assembly\GAC_MSIL\Microsoft.VisualStudio.Diagnostics.ServiceModelSink\v4.0_4.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.Diagnostics.ServiceModelSink.dll'
+'testhost.exe' (Win32): Loaded 'C:\Windows\assembly\NativeImages_v4.0.30319_64\System.IdentityModel\87208a92701b8990c27cf2e9f3934e4a\System.IdentityModel.ni.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\assembly\NativeImages_v4.0.30319_64\System.Web\89f1d08ad57efae6322e4a9b879d183e\System.Web.ni.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\Microsoft.NET\Framework64\v4.0.30319\webengine4.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\userenv.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\secur32.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\msv1_0.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\NtlmShared.dll'. 
+'testhost.exe' (Win32): Loaded 'C:\Windows\System32\cryptdll.dll'. 
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80070005, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80131600, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80070005, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80131600, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80070005, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80131600, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80070005, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80131600, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80070005, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80131600, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80070005, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80131600, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80070005, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+Exception thrown at 0x00007FF877E9A388 (KernelBase.dll) in testhost.exe: 0xE0434352 (parameters: 0xFFFFFFFF80131600, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x00007FF84BCF0000).
+'easy-engine-core-tests.exe' (Win32): Loaded 'D:\Dropbox\dev\EasyEngine\bin\x64\Debug\easy-engine-core-tests.exe'. Symbols loaded.
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\ntdll.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\kernel32.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\KernelBase.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\vcruntime140d.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\ucrtbased.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\msvcp140d.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'D:\Dropbox\dev\EasyEngine\bin\x64\Debug\easy-engine-core.dll'. Symbols loaded.
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\user32.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\opengl32.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\win32u.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\msvcrt.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\gdi32.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\gdi32full.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\advapi32.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\msvcp_win.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\sechost.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\rpcrt4.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\ucrtbase.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\shell32.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\glu32.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\cfgmgr32.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\SHCore.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\combase.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\bcryptprimitives.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\windows.storage.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\shlwapi.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\kernel.appcore.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\profapi.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\powrprof.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\fltLib.dll'. 
+'easy-engine-core-tests.exe' (Win32): Loaded 'C:\Windows\System32\imm32.dll'. 
+The thread 0x4bc0 has exited with code 0 (0x0).
+The program '[4176] easy-engine-core-tests.exe' has exited with code 0 (0x0).
+The program '[3880] testhost.exe' has exited with code 0 (0x0).

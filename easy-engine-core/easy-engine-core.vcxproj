@@ -109,6 +109,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">EasyEngine\eepch.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\Component.cpp" />
+    <ClCompile Include="src\EntityHandle.cpp" />
     <ClCompile Include="src\Environment.cpp" />
     <ClCompile Include="src\InputManager.cpp" />
     <ClCompile Include="src\LinearAllocator.cpp" />
@@ -299,7 +300,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)include\spdlog_complete\include;D:\Dropbox\dev\EasyEngine\easy-engine-core\lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include\spdlog_complete\include;$(ProjectDir)lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
       <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
@@ -322,9 +323,9 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)include\spdlog_complete\include;D:\Dropbox\dev\EasyEngine\easy-engine-core\lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include\spdlog_complete\include;$(ProjectDir)lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
-      <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS</AdditionalOptions>
@@ -345,9 +346,9 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)include\spdlog_complete\include;D:\Dropbox\dev\EasyEngine\easy-engine-core\lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include\spdlog_complete\include;$(ProjectDir)lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
-      <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS</AdditionalOptions>
@@ -383,8 +384,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)include\spdlog_complete\include;D:\Dropbox\dev\EasyEngine\easy-engine-core\lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)include\spdlog_complete\include;$(ProjectDir)lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>

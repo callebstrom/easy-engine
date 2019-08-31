@@ -27,15 +27,15 @@ namespace easy_engine {
 	void Application::Run() {
 
 		configuration::RenderConfiguration_t* render_configuration = new configuration::RenderConfiguration_t();
-		render_configuration->Set(configuration::RenderConfigurationParams::RESOLUTION_X, "1024");
-		render_configuration->Set(configuration::RenderConfigurationParams::RESOLUTION_Y, "768");
-		render_configuration->Set(configuration::RenderConfigurationParams::ANTIALIASING, "8");
+		render_configuration->Set(configuration::RenderConfigurationParams::RESOLUTION_X, "1920");
+		render_configuration->Set(configuration::RenderConfigurationParams::RESOLUTION_Y, "1080");
+		render_configuration->Set(configuration::RenderConfigurationParams::ANTIALIASING, "16");
 		render_configuration->Set(configuration::RenderConfigurationParams::VERTEX_SHADER_SOURCE_LOCATION, Application::GetEngineDirectory() + "\\easy-engine-core\\src\\shaders\\vertex_shader.glsl");
 		render_configuration->Set(configuration::RenderConfigurationParams::FRAGMENT_SHADER_SOURCE_LOCATION, Application::GetEngineDirectory() + "\\easy-engine-core\\src\\shaders\\fragment_shader.glsl");
 
-		configuration::WindowConfiguration_t * window_configuration = new configuration::WindowConfiguration_t();
-		window_configuration->Set(configuration::WindowConfigurationParams::WIDTH, "1024");
-		window_configuration->Set(configuration::WindowConfigurationParams::HEIGHT, "768");
+		configuration::WindowConfiguration_t* window_configuration = new configuration::WindowConfiguration_t();
+		window_configuration->Set(configuration::WindowConfigurationParams::WIDTH, "1920");
+		window_configuration->Set(configuration::WindowConfigurationParams::HEIGHT, "1080");
 
 		this->window_manager = new window_manager::WindowManagerGLFW();
 		this->window_manager->CreateWindowEE(window_configuration);
@@ -46,7 +46,7 @@ namespace easy_engine {
 		ManagerLocator::window_manager = dynamic_cast<window_manager::WindowManager*>(this->window_manager);
 
 		this->is_running_ = true;
-		EE_CORE_INFO("Application is now running");
+		EE_INFO("Application is now running");
 
 		std::chrono::high_resolution_clock timer;
 		using ms = std::chrono::duration<float, std::milli>;

@@ -6,7 +6,6 @@ namespace easy_engine {
 	namespace logger {
 
 		std::shared_ptr<spdlog::logger> Logger::s_CoreLogger_;
-		std::shared_ptr<spdlog::logger> Logger::s_ClientLogger_;
 
 		void Logger::Init() {
 			spdlog::set_pattern("%^[%T] %n [thread %t]: %v%$");
