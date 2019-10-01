@@ -110,7 +110,7 @@ namespace easy_engine {
 			std::shared_ptr<event_manager::EventManager> event_manager,
 			std::shared_ptr<input_manager::InputManager> input_manager
 		)
-			: event_manager_(event_manager), input_manager_(input_manager) {
+			: p_impl_(new Impl()), event_manager_(event_manager), input_manager_(input_manager) {
 			event_manager->Subscribe(
 				event_manager::EventType::k3DPostRender,
 				this
