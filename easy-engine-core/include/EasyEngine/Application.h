@@ -21,6 +21,7 @@
 #include <EasyEngine/ecs/component/MeshComponent.h>
 #include <EasyEngine/ecs/component/TransformComponent.h>
 #include <EasyEngine/input_manager/KeyboardEvent.h>
+#include <EasyEngine/shader_manager/IShaderManager.h>
 
 namespace easy_engine {
 
@@ -35,10 +36,11 @@ namespace easy_engine {
 	protected:
 		scene_manager::SceneManager3D* scene_manager_3d;
 		resource_manager::ResourceManager3D* resource_manager_3d;
-		input_manager::InputManager* input_manager;
-		window_manager::WindowManagerGLFW* window_manager;
-		render_manager::RenderManagerOpenGL* render_manager;
-		event_manager::EventManager* event_manager;
+		std::shared_ptr<input_manager::InputManager> input_manager;
+		std::shared_ptr<window_manager::IWindowManager> window_manager;
+		render_manager::IRenderManager* render_manager;
+		std::shared_ptr<shader_manager::IShaderManager> shader_manager;
+		std::shared_ptr<event_manager::EventManager> event_manager;
 		world::World* world;
 	private:
 		bool is_running_ = false;

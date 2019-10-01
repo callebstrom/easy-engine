@@ -4,6 +4,7 @@
 
 #include <EasyEngine/resource_manager/ResourceManager.h>
 #include <EasyEngine/resource/Texture.h>
+#include <EasyEngine/Logger.h>
 
 #define STB_IMAGE_RESIZE_IMPLEMENTATION
 #define STB_IMAGE_RESIZE_STATIC
@@ -14,8 +15,22 @@
 
 namespace easy_engine {
 	namespace resource_manager {
-		byte* ResourceManager::LoadResourceByName(std::string path_relative_to_base) {
-			return nullptr;
+		std::string ResourceManager::LoadFileAsString(std::string path) {
+			std::string result;
+			std::ifstream in(path, std::ios::in | std::ios::binary);
+			if (in) {
+				in.seekg(0, std::ios::end);
+				result.resize(in.tellg());
+				in.seekg(0, std::ios::beg);
+				in.read(&result[0], result.size());
+				in.close();
+				;
+			}
+			else {
+				EE_CORE_ERROR("Could not open file '{0}'", path);
+			}
+
+			return result;
 		}
 
 		resource::Texture* ResourceManager::LoadTextureFromFile(std::string path) {

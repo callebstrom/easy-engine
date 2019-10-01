@@ -11,26 +11,22 @@
 namespace easy_engine {
 
 	namespace resource_manager {
-		class EASY_ENGINE_API ResourceManager3D : public ResourceManager {
+		class EASY_ENGINE_API ResourceManager3D {
 		public:
 			ResourceManager3D();
 			~ResourceManager3D();
 			ResourceManager3D(ResourceManager3D&&);
 			ResourceManager3D& operator=(ResourceManager3D&&);
 
-			resource::Texture* LoadTextureFromFile(std::string path) { return ResourceManager::LoadTextureFromFile(path); }
-			resource::Texture* LoadTextureFromBuffer(void* data, size_t size) { return ResourceManager::LoadTextureFromBuffer(data, size); }
-
-			void Load(
+			auto Load(
 				std::string file_path,
 				ecs::component::MeshComponent& mesh_component,
 				ecs::component::TextureComponent& texture_component,
 				ecs::component::MaterialComponent& material_component
-			);
+			) -> void;
 		private:
 			struct Impl;
 			std::unique_ptr<Impl> p_impl_;
-
 		};
 	}
 }

@@ -17,7 +17,7 @@ namespace easy_engine {
 	namespace world {
 
 		class EASY_ENGINE_API World {
-		public:
+			public:
 			auto CreateEntity()->entity::EntityHandle;
 			auto RemoveEntity(entity::Entity const& entity) -> void;
 			auto Update(float dt) const -> void;
@@ -30,7 +30,7 @@ namespace easy_engine {
 
 				ComponentSignature component_signature;
 
-				int _[] = { 0, (component_signature[ecs::component::Component::GetComponentFamily<ComponentTypes>()] = true, 0)... };
+				int _[] ={0, (component_signature[ecs::component::Component::GetComponentFamily<ComponentTypes>()] = true, 0)...};
 				(void)_;
 
 				// Associate the system with a component signature
@@ -88,7 +88,7 @@ namespace easy_engine {
 
 			auto SetupEnvironment(const resource::Environment& environment) -> void;
 
-		private:
+			private:
 			float entity_id_seq_ = 0; // Should be in EntityManager
 			std::vector<entity::Entity*> entities_;
 			// std::vector<std::unique_ptr<ISystem>> systems_; // World owns systems (aka *Manager classes implementing ISystem, not to be confused with component managers)

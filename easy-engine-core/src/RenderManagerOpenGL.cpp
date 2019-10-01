@@ -21,6 +21,7 @@
 #include <EasyEngine/ecs/component/TransformComponent.h>
 #include <EasyEngine/ecs/component/TextureComponent.h>
 #include <EasyEngine/ecs/component/MaterialComponent.h>
+#include <EasyEngine/shader_manager/ShaderManagerOpenGL.h>
 
 #include <EasyEngine/resource/Environment.h>
 
@@ -30,7 +31,11 @@ void GLAPIENTRY Debug(GLenum source​, GLenum type​, GLuint id​, GLenum sev
 	std::cout << "hello";
 };
 
+
 namespace easy_engine {
+
+	using shader_manager::ShaderManagerOpenGL;
+
 	namespace render_manager {
 		typedef configuration::RenderConfigurationParams c_params_;
 
@@ -45,8 +50,8 @@ namespace easy_engine {
 
 		struct RenderManagerOpenGL::Impl {
 
-			Impl(configuration::RenderConfiguration_t* rc)
-				: render_config_(rc), camera(new Camera) {
+			Impl(configuration::RenderConfiguration_t* rc, std::shared_ptr<ShaderManagerOpenGL> shader_manager)
+				: render_config_(rc), camera(new Camera), shader_manager(shader_manager) {
 				glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &MAX_TEXTURE_IMAGE_UNITS);
 			}
 
@@ -276,8 +281,7 @@ namespace easy_engine {
 				auto translation = event_data->transform_component->translation_;
 
 				// TODO interpolate between the 2 translations above and render for interpolation step for;
-				for (auto translation_interpolation_step : this->InterpolateTranslation3f(prev_translation, translation))
-				{
+				for (auto translation_interpolation_step : this->InterpolateTranslation3f(prev_translation, translation)) {
 
 				}
 
@@ -399,7 +403,7 @@ namespace easy_engine {
 			}
 
 			int GetPointLightOffsetInBytes(int offset) {
-				static const std::vector<size_t> point_light_size_vector = {
+				static const std::vector<size_t> point_light_size_vector ={
 					VEC3_SIZE_WITH_PADDING,
 					sizeof(float),
 					sizeof(float),
@@ -414,7 +418,7 @@ namespace easy_engine {
 			}
 
 			int GetDirectionalLightOffsetInBytes(int offset) {
-				static const std::vector<size_t> directional_light_size_vector = {
+				static const std::vector<size_t> directional_light_size_vector ={
 					VEC3_SIZE_WITH_PADDING,
 					VEC3_SIZE_WITH_PADDING,
 					VEC3_SIZE_WITH_PADDING,
@@ -509,10 +513,12 @@ namespace easy_engine {
 
 			GLint diffuse_texture_sampler;
 			GLint emissive_texture_sampler;
+
+			std::shared_ptr<ShaderManagerOpenGL> shader_manager;
 		};
 
-		RenderManagerOpenGL::RenderManagerOpenGL(configuration::RenderConfiguration_t* rc)
-			: p_impl_(new Impl(rc)) {
+		RenderManagerOpenGL::RenderManagerOpenGL(configuration::RenderConfiguration_t* rc, std::shared_ptr<ShaderManagerOpenGL> shader_manager)
+			: p_impl_(new Impl(rc, shader_manager)) {
 
 			glewExperimental = GL_TRUE;
 			GLenum glew_error = glewInit();
@@ -545,17 +551,17 @@ namespace easy_engine {
 			// glDebugMessageCallback(&Debug, nullptr);
 
 			ManagerLocator::event_manager->Subscribe(
-				event_manager::EventType::_3DPreRender,
+				event_manager::EventType::k3DPreRender,
 				this
 			);
 
 			ManagerLocator::event_manager->Subscribe(
-				event_manager::EventType::_3DObjectRenderable,
+				event_manager::EventType::k3DObjectRenderable,
 				this
 			);
 
 			ManagerLocator::event_manager->Subscribe(
-				event_manager::EventType::EnvironmentUpdate,
+				event_manager::EventType::kEnvironmentUpdate,
 				this
 			);
 
@@ -574,13 +580,13 @@ namespace easy_engine {
 
 		void RenderManagerOpenGL::OnEvent(event_manager::Event event) {
 			switch (event.event_type) {
-			case event_manager::EventType::_3DObjectRenderable:
+			case event_manager::EventType::k3DObjectRenderable:
 				this->p_impl_->On3DObjectRenderable(event);
 				break;
-			case event_manager::EventType::_3DPreRender:
+			case event_manager::EventType::k3DPreRender:
 				this->p_impl_->OnPreRender();
 				break;
-			case event_manager::EventType::EnvironmentUpdate:
+			case event_manager::EventType::kEnvironmentUpdate:
 				this->p_impl_->OnEnvironmentUpdate(event);
 				break;
 			}

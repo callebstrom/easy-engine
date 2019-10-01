@@ -25,16 +25,20 @@ namespace easy_engine {
 		template<typename CachableType>
 		class ResourceCache {
 		public:
-			bool HasResource(ResourceLocation resource_location) {
+			auto HasResource(ResourceLocation resource_location) -> bool {
 				return this->cache.find(resource_location) != cache.end();
 			}
 
-			CachableType GetResource(ResourceLocation resource_location) {
+			auto GetResource(ResourceLocation resource_location) -> CachableType {
 				return this->cache[resource_location];
 			}
 
-			void Cache(ResourceLocation resource_location, CachableType cachable) {
+			auto Cache(ResourceLocation resource_location, CachableType cachable) -> void {
 				this->cache[resource_location] = cachable;
+			}
+
+			auto Clear() -> void {
+				this->cache.clear();
 			}
 		private:
 			std::map<ResourceLocation, CachableType> cache;
@@ -295,6 +299,9 @@ namespace easy_engine {
 				mesh_component.sub_meshes->push_back(mesh);
 
 			}
+
+			this->p_impl_->texture_cache.Clear();
+			this->p_impl_->material_cache.Clear();
 		}
 
 		ResourceManager3D::ResourceManager3D()

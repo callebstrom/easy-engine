@@ -17,8 +17,14 @@ void easy_engine::event_manager::EventManager::Unsubscribe(EventType event_type,
 	}
 }
 
-void easy_engine::event_manager::EventManager::Dispatch(Event event) {
+void easy_engine::event_manager::EventManager::DispatchAsync(Event event) {
 	this->event_buffer_[event.event_type].push(event);
+}
+
+void easy_engine::event_manager::EventManager::Dispatch(Event event) {
+	for (auto delegate : this->event_delegates_[event.event_type]) {
+		delegate.observer->OnEvent(event);
+	}
 }
 
 void easy_engine::event_manager::EventManager::ConsumeEventBuffer(EventType event_type) {

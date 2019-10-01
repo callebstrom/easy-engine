@@ -11,11 +11,10 @@ namespace easy_engine {
 	namespace resource_manager {
 
 		class EASY_ENGINE_API ResourceManager {
-		protected:
-			byte* resourceCache;
-			byte* LoadResourceByName(std::string pathRelativeToBase);
-			static resource::Texture* LoadTextureFromFile(std::string path);
-			static resource::Texture* LoadTextureFromBuffer(void* data, size_t size);
+		public:
+			static auto LoadFileAsString(std::string pathRelativeToBase) -> std::string;
+			static auto LoadTextureFromFile(std::string path) -> resource::Texture*;
+			static auto LoadTextureFromBuffer(void* data, size_t size) -> resource::Texture*;
 		};
 	}
 }

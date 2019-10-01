@@ -1,6 +1,11 @@
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
+
 #include <EasyEngine/eepch.h>
 #include <EasyEngine/EasyEngine.h>
 #include <EasyEngine/Logger.h>
+#include <EasyEngine/ManagerLocator.h>
 
 using namespace easy_engine;
 
@@ -8,12 +13,11 @@ using input_manager::Key;
 using input_manager::Action;
 using input_manager::Modifier;
 
-class PlayerSystem : public ecs::ISystem, public event_manager::IObserver
-{
+class PlayerSystem : public ecs::ISystem, public event_manager::IObserver {
 public:
 	PlayerSystem() {
 		ManagerLocator::event_manager->Subscribe(
-			event_manager::EventType::Keyboard,
+			event_manager::EventType::kKeyboard,
 			this
 		);
 	}
@@ -43,8 +47,7 @@ public:
 	auto Update(float dt) -> void override {
 		for (auto event_ : this->event_buffer_) {
 			auto event = reinterpret_cast<input_manager::KeyboardEvent*>(event_.data);
-			if (event->action == Action::kPressed)
-			{
+			if (event->action == Action::kPressed) {
 				for (auto entity : this->entities_) {
 					auto maybe_transform = this->world->GetComponentForEntity<ecs::component::TransformComponent>(entity);
 
@@ -86,11 +89,37 @@ private:
 
 };
 
+class DebugShaderUISystem : public ecs::ISystem {
+
+public:
+	DebugShaderUISystem(std::shared_ptr<window_manager::IWindowManager> window_manager) {
+		this->window_manager_ = window_manager;
+		// Setup Dear ImGui context
+		IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
+		ImGuiIO& io = ImGui::GetIO(); (void)io;
+		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+		ImGui::StyleColorsDark();
+		// TODO inject window manager from Application
+		// ImGui_ImplGlfw_InitForOpenGL(static_cast<GLFWwindow*>(ManagerLocator::window_manager->GetWindow()), true);
+		ImGui_ImplOpenGL3_Init("#version 450");
+
+	}
+	auto Update(float dt) -> void override {}
+private:
+	std::shared_ptr<window_manager::IWindowManager> window_manager_;
+
+	// Inherited via ISystem
+};
+
 class PlayerApplication : public Application {
 public:
 	PlayerApplication() {
 
 		world->AddSystem<ecs::component::MeshComponent, ecs::component::TransformComponent>(new PlayerSystem);
+		// world->AddSystem<>(new DebugShaderUISystem(this->window_manager));
 
 		ecs::component::MeshComponent mesh_component;
 		ecs::component::TextureComponent texture_component;

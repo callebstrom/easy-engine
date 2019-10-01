@@ -28,11 +28,11 @@ namespace easy_engine {
 
 		auto World::SetupEnvironment(const resource::Environment& environment) -> void {
 			event_manager::Event event;
-			event.event_type = event_manager::EventType::EnvironmentUpdate;
+			event.event_type = event_manager::EventType::kEnvironmentUpdate;
 
 			event.data = reinterpret_cast<void*>(new resource::Environment(environment));
 
-			ManagerLocator::event_manager->Dispatch(event);
+			ManagerLocator::event_manager->DispatchAsync(event);
 		}
 	}
 }

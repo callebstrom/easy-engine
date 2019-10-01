@@ -5,13 +5,14 @@
 namespace easy_engine {
 	namespace event_manager {
 		enum class EventType {
-			GlobalTick,
-			_3DObjectRenderable,
-			_3DPreRender,
-			_3DPostRender,
-			EnvironmentUpdate,
-			Keyboard,
-			Mouse
+			kGlobalTick,
+			k3DObjectRenderable,
+			k3DPreRender,
+			k3DPostRender,
+			kEnvironmentUpdate,
+			kKeyboard,
+			kMouse,
+			kWindowCreated,
 		};
 
 		struct Event {

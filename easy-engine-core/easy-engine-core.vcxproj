@@ -62,7 +62,7 @@
     <ClInclude Include="include\EasyEngine\memory\LinearAllocator.h" />
     <ClInclude Include="include\EasyEngine\render_manager\_3DObjectRenderable.h" />
     <ClInclude Include="include\EasyEngine\render_manager\ObjectIndex.h" />
-    <ClInclude Include="include\EasyEngine\render_manager\RenderManager.h" />
+    <ClInclude Include="include\EasyEngine\render_manager\IRenderManager.h" />
     <ClInclude Include="include\EasyEngine\render_manager\RenderManagerOpenGL.h" />
     <ClInclude Include="include\EasyEngine\render_manager\RenderSystem.h" />
     <ClInclude Include="include\EasyEngine\resource\Animation.h" />
@@ -87,7 +87,11 @@
     <ClInclude Include="include\EasyEngine\scene_manager\SceneManager.h" />
     <ClInclude Include="include\EasyEngine\scene_manager\SceneManager3D.h" />
     <ClInclude Include="include\EasyEngine\scene_manager\TransformationNode.h" />
-    <ClInclude Include="include\EasyEngine\window_manager\WindowManager.h" />
+    <ClInclude Include="include\EasyEngine\shader_manager\Shader.h" />
+    <ClInclude Include="include\EasyEngine\shader_manager\IShaderManager.h" />
+    <ClInclude Include="include\EasyEngine\shader_manager\ShaderManagerOpenGL.h" />
+    <ClInclude Include="include\EasyEngine\shader_manager\ShaderPipeline.h" />
+    <ClInclude Include="include\EasyEngine\window_manager\IWindowManager.h" />
     <ClInclude Include="include\EasyEngine\window_manager\WindowManagerGLFW.h" />
     <ClInclude Include="include\EasyEngine\world\World.h" />
     <ClInclude Include="RenderSystem.h" />
@@ -130,6 +134,8 @@
     <ClCompile Include="src\SceneGraph3D.cpp" />
     <ClCompile Include="src\SceneManager.cpp" />
     <ClCompile Include="src\SceneManager3D.cpp" />
+    <ClCompile Include="src\ShaderManagerOpenGL.cpp" />
+    <ClCompile Include="src\ShaderPipeline.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\TransformComponent.cpp" />
     <ClCompile Include="src\WindowManagerGLFW.cpp" />

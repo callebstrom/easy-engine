@@ -97,6 +97,12 @@
     <Filter Include="Source Files\ecs\entity">
       <UniqueIdentifier>{f7952869-88bc-4fe1-965e-9392e138e7af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\shader_manager">
+      <UniqueIdentifier>{9a05d4fb-a784-4ce6-8b44-c0681d8c6160}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\shader_manager">
+      <UniqueIdentifier>{019d7e25-c681-46fc-8d35-dafd5040e168}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\EasyEngine\configuration\RenderConfiguration.h">
@@ -110,9 +116,6 @@
     </ClInclude>
     <ClInclude Include="include\EasyEngine\input_manager\InputManager.h">
       <Filter>Header Files\input_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\EasyEngine\render_manager\RenderManager.h">
-      <Filter>Header Files\render_manager</Filter>
     </ClInclude>
     <ClInclude Include="include\EasyEngine\render_manager\RenderManagerOpenGL.h">
       <Filter>Header Files\render_manager</Filter>
@@ -158,9 +161,6 @@
     </ClInclude>
     <ClInclude Include="include\EasyEngine\scene_manager\Node.h">
       <Filter>Header Files\scene_manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\EasyEngine\window_manager\WindowManager.h">
-      <Filter>Header Files\window_manager</Filter>
     </ClInclude>
     <ClInclude Include="include\EasyEngine\window_manager\WindowManagerGLFW.h">
       <Filter>Header Files\window_manager</Filter>
@@ -270,6 +270,24 @@
     <ClInclude Include="include\EasyEngine\resource\Camera.h">
       <Filter>Header Files\resource</Filter>
     </ClInclude>
+    <ClInclude Include="include\EasyEngine\shader_manager\Shader.h">
+      <Filter>Header Files\shader_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\shader_manager\ShaderPipeline.h">
+      <Filter>Header Files\shader_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\shader_manager\ShaderManagerOpenGL.h">
+      <Filter>Header Files\shader_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\shader_manager\IShaderManager.h">
+      <Filter>Header Files\shader_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\render_manager\IRenderManager.h">
+      <Filter>Header Files\render_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\window_manager\IWindowManager.h">
+      <Filter>Header Files\window_manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RenderManagerOpenGL.cpp">
@@ -364,6 +382,12 @@
     </ClCompile>
     <ClCompile Include="src\EntityHandle.cpp">
       <Filter>Source Files\ecs\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ShaderPipeline.cpp">
+      <Filter>Source Files\shader_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ShaderManagerOpenGL.cpp">
+      <Filter>Source Files\shader_manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

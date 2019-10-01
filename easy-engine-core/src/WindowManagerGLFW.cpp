@@ -4,7 +4,7 @@
 
 #include <EasyEngine/window_manager/WindowManagerGLFW.h>
 #include <EasyEngine/input_manager/InputManager.h>
-#include <EasyEngine/event_manager/Event.h>
+#include <EasyEngine/event_manager/EventManager.h>
 
 struct InputCallbackGLFW {
 
@@ -16,9 +16,7 @@ struct InputCallbackGLFW {
 		// Emit events
 	};
 
-	static void InputCallbackGLFW::KeyboardCallback(GLFWwindow* window, int key, int scancode, int action, int modifiers) {
-		ManagerLocator::input_manager->HandeKeyboardEvent(key, scancode, action, modifiers);
-	};
+	static void InputCallbackGLFW::KeyboardCallback(GLFWwindow* window, int key, int scancode, int action, int modifiers) {};
 };
 
 namespace easy_engine {
@@ -46,6 +44,10 @@ namespace easy_engine {
 
 			GLFWwindow* window_;
 		};
+
+		void* WindowManagerGLFW::GetWindow() {
+			return this->p_impl_->window_;
+		}
 
 		void WindowManagerGLFW::CreateWindowEE(configuration::WindowConfiguration_t* configuration) {
 			glfwInit();
@@ -77,12 +79,22 @@ namespace easy_engine {
 
 			glfwSetInputMode(this->p_impl_->window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-			glfwSetCursorPosCallback(this->p_impl_->window_, &InputCallbackGLFW::MousePosCallback);
-			glfwSetMouseButtonCallback(this->p_impl_->window_, &InputCallbackGLFW::MouseButtonCallback);
-			glfwSetKeyCallback(this->p_impl_->window_, &InputCallbackGLFW::KeyboardCallback);
+			glfwSetWindowUserPointer(this->p_impl_->window_, this->input_manager_.get());
+			auto keyboard_callback_func = [](GLFWwindow* window, int key, int scancode, int action, int modifiers) -> void {
+				auto input_manager = (input_manager::InputManager*)glfwGetWindowUserPointer(window);
+				input_manager->HandeKeyboardEvent(key, scancode, action, modifiers);
+			};
+
+			// glfwSetCursorPosCallback(this->p_impl_->window_, &InputCallbackGLFW::MousePosCallback);
+			// glfwSetMouseButtonCallback(this->p_impl_->window_, &InputCallbackGLFW::MouseButtonCallback);
+			glfwSetKeyCallback(this->p_impl_->window_, keyboard_callback_func);
+
+			event_manager::Event event = event_manager::Event();
+			event.event_type = event_manager::EventType::kWindowCreated;
+			this->event_manager_->Dispatch(event);
 		};
 
-		void WindowManagerGLFW::CloseWindowEE() {
+		void WindowManagerGLFW::CloseWindow() {
 			glfwDestroyWindow(this->p_impl_->window_);
 		}
 
@@ -94,16 +106,18 @@ namespace easy_engine {
 			this->SwapBuffers();
 		}
 
-		WindowManagerGLFW::WindowManagerGLFW()
-			: p_impl_(new Impl()) {
-			ManagerLocator::event_manager->Subscribe(
-				event_manager::EventType::_3DPostRender,
+		WindowManagerGLFW::WindowManagerGLFW(
+			std::shared_ptr<event_manager::EventManager> event_manager,
+			std::shared_ptr<input_manager::InputManager> input_manager
+		)
+			: event_manager_(event_manager), input_manager_(input_manager) {
+			event_manager->Subscribe(
+				event_manager::EventType::k3DPostRender,
 				this
 			);
 		}
 
 		WindowManagerGLFW::~WindowManagerGLFW() {
-			this->p_impl_.reset();
 			glfwTerminate();
 		}
 	}

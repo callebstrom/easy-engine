@@ -16,7 +16,7 @@ namespace easy_engine {
 		}
 
 		void RenderSystem::Update(float dt) {
-			ManagerLocator::event_manager->Dispatch(event_manager::Event(event_manager::EventType::_3DPreRender));
+			ManagerLocator::event_manager->DispatchAsync(event_manager::Event(event_manager::EventType::k3DPreRender));
 
 			for (auto entity : this->entities_) {
 				auto maybe_mesh_component = this->world->GetComponentForEntity<ecs::component::MeshComponent>(entity);
@@ -24,7 +24,7 @@ namespace easy_engine {
 				auto maybe_texture_component = this->world->GetComponentForEntity<ecs::component::TextureComponent>(entity);
 				auto maybe_material_component = this->world->GetComponentForEntity<ecs::component::MaterialComponent>(entity);
 
-				event_manager::Event render_event = event_manager::Event(event_manager::EventType::_3DObjectRenderable);
+				event_manager::Event render_event = event_manager::Event(event_manager::EventType::k3DObjectRenderable);
 
 				auto event_data = new _3DObjectRenderable();
 
@@ -44,10 +44,10 @@ namespace easy_engine {
 				}
 
 				render_event.data = event_data;
-				ManagerLocator::event_manager->Dispatch(render_event);
+				ManagerLocator::event_manager->DispatchAsync(render_event);
 			}
 
-			ManagerLocator::event_manager->Dispatch(event_manager::Event(event_manager::EventType::_3DPostRender));
+			ManagerLocator::event_manager->DispatchAsync(event_manager::Event(event_manager::EventType::k3DPostRender));
 		}
 	}
 }

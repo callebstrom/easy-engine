@@ -1,4 +1,4 @@
-#version 450 
+#version 450
 
 in vec2 frag_textureCoords;
 in vec3 frag_vertexPosition_modelspace;
@@ -8,10 +8,10 @@ uniform mat4 model;
 
 struct DirectionalLight {
 	vec3 direction;
-  
-    vec3 ambient_color;
-    vec3 diffuse_color;
-    vec3 specular_color;
+
+	vec3 ambient_color;
+	vec3 diffuse_color;
+	vec3 specular_color;
 
 	float strength;
 };
@@ -23,9 +23,9 @@ struct PointLight {
 	float linear;
 	float quadratic;
 
-    vec3 ambient_color;
-    vec3 diffuse_color;
-    vec3 specular_color;
+	vec3 ambient_color;
+	vec3 diffuse_color;
+	vec3 specular_color;
 
 	float strength;
 };
@@ -33,7 +33,7 @@ struct PointLight {
 #define MAX_POINT_LIGHTS 128
 #define MAX_DIRECTIONAL_LIGHTS 4
 
-layout (std140) uniform Lights { 
+layout(std140) uniform Lights{
 	PointLight point_lights[MAX_POINT_LIGHTS];
 	DirectionalLight directional_lights[MAX_DIRECTIONAL_LIGHTS];
 };
@@ -61,23 +61,23 @@ vec4 CalculatePointLight(PointLight light, vec3 normal_worldspace, vec3 frag_ver
 
 	vec3 lightDirection = normalize(light.position - frag_vertexPosition_worldspace);
 
-    // diffuse shading
-    float diff = max(dot(normal_worldspace, lightDirection), 0.0);
+	// diffuse shading
+	float diff = max(dot(normal_worldspace, lightDirection), 0.0);
 
-    // specular shading
-    vec3 reflectionDirection = reflect(-lightDirection, normal_worldspace);
-    float spec = pow(max(dot(cameraDirection, reflectionDirection), 0.0), materialShininess);
+	// specular shading
+	vec3 reflectionDirection = reflect(-lightDirection, normal_worldspace);
+	float spec = pow(max(dot(cameraDirection, reflectionDirection), 0.0), materialShininess);
 
-    // attenuation
-    float distance = length(light.position - frag_vertexPosition_worldspace);
-    float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
+	// attenuation
+	float distance = length(light.position - frag_vertexPosition_worldspace);
+	float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
 
-    // combine results
-    vec4 ambientComponent  = vec4(light.ambient_color, 1)  * diffuseColor;
-    vec4 diffuseComponent  = vec4(light.diffuse_color, 1)  * diff * diffuseColor;
-    vec4 specularComponent = vec4(light.specular_color, 1) * spec * vec4(materialSpecularColor, 1);
+	// combine results
+	vec4 ambientComponent = vec4(light.diffuse_color, 1) * diffuseColor;
+	vec4 diffuseComponent = vec4(light.diffuse_color, 1) * diff * diffuseColor;
+	vec4 specularComponent = vec4(light.specular_color, 1) * spec * vec4(materialSpecularColor, 1);
 
-    return (diffuseComponent + specularComponent) * light.strength * attenuation;
+	return (ambientComponent + diffuseComponent + specularComponent) * light.strength * attenuation;
 }
 
 vec4 CalculateDirectionalLight(DirectionalLight light, vec3 normal_worldspace, vec3 frag_vertexPosition_worldspace, vec3 cameraDirection) {
@@ -85,23 +85,23 @@ vec4 CalculateDirectionalLight(DirectionalLight light, vec3 normal_worldspace, v
 }
 
 void main() {
-    mat3 normalMatrix			    = transpose(inverse(mat3(model)));
-    vec3 normal_worldspace			= normalize(normalMatrix * frag_vertexNormal_modelspace);
+	mat3 normalMatrix = transpose(inverse(mat3(model)));
+	vec3 normal_worldspace = normalize(normalMatrix * frag_vertexNormal_modelspace);
 	vec3 cameraDirection_worldspace = normalize(cameraPosition_worldspace - normal_worldspace);
-    
-    vec3 frag_vertexPosition_worldspace = vec3(model * vec4(frag_vertexPosition_modelspace, 1));
+
+	vec3 frag_vertexPosition_worldspace = vec3(model * vec4(frag_vertexPosition_modelspace, 1));
 
 	vec4 emissiveColor = hasEmissiveTexture == 1 ? texture(emissiveTextureSampler2D, frag_textureCoords) : vec4(materialEmmisiveColor, 1);
 
-    outputColor += emissiveColor;
+	outputColor += emissiveColor;
 
 	// Apply directional lights
-	for(int i = 0; i < directional_light_count; i++) {
+	for (int i = 0; i < directional_light_count; i++) {
 		// outputColor += CalculateDirectionalLight(directional_lights[i],  normal_worldspace, frag_vertexPosition_worldspace, cameraDirection_worldspace);
 	}
 
 	// Do point light calculations for each point light
-	for(int i = 0; i < point_light_count; i++) {
+	for (int i = 0; i < point_light_count; i++) {
 		outputColor += CalculatePointLight(point_lights[i], normal_worldspace, frag_vertexPosition_worldspace, cameraDirection_worldspace);
 	}
 }
