@@ -7,6 +7,9 @@
 [submodule "easy-engine-core\\lib\\assimp"]
 	path = easy-engine-core\\lib\\assimp
 	url = git@github.com:assimp/assimp.git
-[submodule "easy-engine-sandbox\\lib\\imgui"]
-	path = easy-engine-sandbox\\lib\\imgui
-	url = https://github.com/ocornut/imgui.git
+[submodule "vendor/win/glew"]
+	path = vendor/win/glew
+	url = git@github.com:nigels-com/glew.git
+[submodule "vendor/all/imgui"]
+	path = vendor/all/imgui
+	url = git@github.com:ocornut/imgui.git
