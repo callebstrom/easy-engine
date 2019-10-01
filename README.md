@@ -34,6 +34,7 @@ An experimental cross-platform game engine created for personal and educational 
 
 ### Events
 - ~~Basic event system~~
+- ~~Support sync and async built-in events~~
 - Support custom client events
 - Support non-async custom client events
 
