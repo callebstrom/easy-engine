@@ -31,6 +31,7 @@ namespace easy_engine {
 		virtual ~Application();
 		void Run();
 		void Close();
+		virtual void OnInit() = 0;
 		std::future<void> RunAsync();
 		static std::string GetEngineDirectory();
 	protected:

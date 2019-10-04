@@ -31,7 +31,6 @@ void GLAPIENTRY Debug(GLenum source​, GLenum type​, GLuint id​, GLenum sev
 	std::cout << "hello";
 };
 
-
 namespace easy_engine {
 
 	using shader_manager::ShaderManagerOpenGL;

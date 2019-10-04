@@ -49,6 +49,10 @@ namespace easy_engine {
 
 		ManagerLocator::render_manager = dynamic_cast<render_manager::IRenderManager*>(this->render_manager);
 
+		this->OnInit();
+
+		this->event_manager->ConsumeEventBuffer(event_manager::EventType::kWindowCreated);
+
 		this->is_running_ = true;
 		EE_INFO("Application is now running");
 

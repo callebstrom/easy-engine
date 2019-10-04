@@ -13,3 +13,6 @@
 [submodule "vendor/all/glfw"]
 	path = vendor/all/glfw
 	url = git@github.com:glfw/glfw.git
+[submodule "vendor/all/glew"]
+	path = vendor/all/glew
+	url = git@github.com:nigels-com/glew.git

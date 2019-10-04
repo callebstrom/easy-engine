@@ -1,11 +1,22 @@
-#include <imgui.h>
-#include <imgui_impl_glfw.h>
-#include <imgui_impl_opengl3.h>
+#include <GL/glew.h>
+
+/* ImGui */
+#include <imgui.cpp>
+#include <imgui_demo.cpp>
+#include <imgui_draw.cpp>
+#include <imgui_widgets.cpp>
+#include <imgui_internal.h>
+
+#include <imgui_impl_opengl3.cpp>
+#include <imgui_impl_glfw.cpp>
+/* !ImGui */
 
 #include <EasyEngine/eepch.h>
 #include <EasyEngine/EasyEngine.h>
 #include <EasyEngine/Logger.h>
 #include <EasyEngine/ManagerLocator.h>
+
+#include <GLFW/glfw3.h>
 
 using namespace easy_engine;
 
@@ -69,11 +80,9 @@ public:
 						transform->TranslationAdd(0.01 * dt, 0, 0);
 						break;
 					case Key::kR:
-					{
 						auto rotation_direction = event->modifiers == Modifier::kControl ? -1 : 1;
 						transform->RotationAdd(rotation_direction * 0.01 * dt);
 						break;
-					}
 					}
 				}
 			}
@@ -89,11 +98,32 @@ private:
 
 };
 
-class DebugShaderUISystem : public ecs::ISystem {
+class DebugShaderUISystem : public ecs::ISystem, public event_manager::IObserver {
 
 public:
-	DebugShaderUISystem(std::shared_ptr<window_manager::IWindowManager> window_manager) {
-		this->window_manager_ = window_manager;
+	DebugShaderUISystem(
+		std::shared_ptr<window_manager::IWindowManager> window_manager,
+		std::shared_ptr<event_manager::EventManager> event_manager
+	) : window_manager_(window_manager), event_manager_(event_manager) {
+		this->event_manager_->Subscribe(event_manager::EventType::kWindowCreated, this);
+	}
+
+	auto Update(float dt) -> void override {
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+		ImGui::Render();
+	}
+
+	auto OnEvent(event_manager::Event event) -> void override {
+
+		GLenum err = glewInit();
+
+		if (err != GLEW_OK) {
+			EE_ERROR("Could not initialize DebugShaderUISystem");
+			return;
+		}
+
 		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -102,29 +132,30 @@ public:
 		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
 		ImGui::StyleColorsDark();
-		// TODO inject window manager from Application
-		// ImGui_ImplGlfw_InitForOpenGL(static_cast<GLFWwindow*>(ManagerLocator::window_manager->GetWindow()), true);
+		ImGui_ImplGlfw_InitForOpenGL(static_cast<GLFWwindow*>(this->window_manager_->GetWindow()), true);
 		ImGui_ImplOpenGL3_Init("#version 450");
-
 	}
-	auto Update(float dt) -> void override {}
+
 private:
 	std::shared_ptr<window_manager::IWindowManager> window_manager_;
-
-	// Inherited via ISystem
+	std::shared_ptr<event_manager::EventManager> event_manager_;
 };
 
 class PlayerApplication : public Application {
 public:
-	PlayerApplication() {
+	~PlayerApplication() {
+
+	}
+
+	virtual void OnInit() override {
 
 		world->AddSystem<ecs::component::MeshComponent, ecs::component::TransformComponent>(new PlayerSystem);
-		// world->AddSystem<>(new DebugShaderUISystem(this->window_manager));
+		world->AddSystem<>(new DebugShaderUISystem(this->window_manager, this->event_manager));
 
 		ecs::component::MeshComponent mesh_component;
 		ecs::component::TextureComponent texture_component;
 		ecs::component::MaterialComponent material_component;
-		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\sylvanas\\sylvanas.fbx", mesh_component, texture_component, material_component);
+		// this->resource_manager_3d->Load("..\\easy-engine-core\\res\\sylvanas\\sylvanas.fbx", mesh_component, texture_component, material_component);
 
 		ecs::component::TransformComponent transform_component;
 		transform_component.Scale(0.05, 0.05, 0.05);
@@ -132,10 +163,10 @@ public:
 		// transform_component.RotationAdd(-1.500796f, 1, 0, 0);
 		auto sylvana = this->world->CreateEntity();
 
-		this->world->AddComponent<ecs::component::MeshComponent>(sylvana, mesh_component);
+		/*this->world->AddComponent<ecs::component::MeshComponent>(sylvana, mesh_component);
 		this->world->AddComponent<ecs::component::TextureComponent>(sylvana, texture_component);
 		this->world->AddComponent<ecs::component::MaterialComponent>(sylvana, material_component);
-		this->world->AddComponent<ecs::component::TransformComponent>(sylvana, transform_component);
+		this->world->AddComponent<ecs::component::TransformComponent>(sylvana, transform_component);*/
 
 		resource::Environment environment;
 		resource::PointLight point_light;
@@ -151,10 +182,6 @@ public:
 
 
 		world->SetupEnvironment(environment);
-	}
-
-	~PlayerApplication() {
-
 	}
 };
 

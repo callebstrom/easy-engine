@@ -91,7 +91,7 @@ namespace easy_engine {
 
 			event_manager::Event event = event_manager::Event();
 			event.event_type = event_manager::EventType::kWindowCreated;
-			this->event_manager_->Dispatch(event);
+			this->event_manager_->DispatchAsync(event);
 		};
 
 		void WindowManagerGLFW::CloseWindow() {
