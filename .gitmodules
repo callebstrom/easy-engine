@@ -16,3 +16,9 @@
 [submodule "vendor/all/glew"]
 	path = vendor/all/glew
 	url = git@github.com:nigels-com/glew.git
+[submodule "vendor/all/nanogui"]
+	path = vendor/all/nanogui
+	url = git@github.com:mitsuba-renderer/nanogui.git
+[submodule "vendor/all/nuklear"]
+	path = vendor/all/nuklear
+	url = git@github.com:vurtun/nuklear.git

@@ -16,7 +16,7 @@ namespace easy_engine {
 			}
 
 			event_manager::Event post_render_event = event_manager::Event();
-			post_render_event.event_type = event_manager::EventType::k3DPostRender;
+			post_render_event.event_type = event_manager::EventType::kPostRender;
 			ManagerLocator::event_manager->DispatchAsync(post_render_event);
 		};
 	}

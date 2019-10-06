@@ -50,7 +50,7 @@ namespace easy_engine {
 		}
 
 		void WindowManagerGLFW::CreateWindowEE(configuration::WindowConfiguration_t* configuration) {
-			glfwInit();
+
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -67,6 +67,7 @@ namespace easy_engine {
 			if (!this->p_impl_->window_) {
 				glfwTerminate();
 				EE_CORE_CRITICAL("Failed to create window");
+				return;
 			}
 
 			glfwMakeContextCurrent(this->p_impl_->window_);
@@ -111,8 +112,9 @@ namespace easy_engine {
 			std::shared_ptr<input_manager::InputManager> input_manager
 		)
 			: p_impl_(new Impl()), event_manager_(event_manager), input_manager_(input_manager) {
+			this->Init();
 			event_manager->Subscribe(
-				event_manager::EventType::k3DPostRender,
+				event_manager::EventType::kPostRender,
 				this
 			);
 		}

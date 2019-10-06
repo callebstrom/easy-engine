@@ -11,12 +11,23 @@
 
 namespace easy_engine {
 	namespace render_manager {
-		RenderSystem::RenderSystem() {
 
+		struct RenderSystem::Impl {
+
+			Impl(std::shared_ptr<event_manager::EventManager> event_manager)
+				: event_manager(event_manager) {}
+
+			std::deque<event_manager::Event> buffered_object_renderable_events;
+			std::shared_ptr<event_manager::EventManager> event_manager;
+		};
+
+		RenderSystem::RenderSystem(std::shared_ptr<event_manager::EventManager> event_manager)
+			: p_impl_(new Impl(event_manager)) {
+			this->p_impl_->event_manager->Subscribe(event_manager::EventType::kRender, this);
 		}
 
 		void RenderSystem::Update(float dt) {
-			ManagerLocator::event_manager->DispatchAsync(event_manager::Event(event_manager::EventType::k3DPreRender));
+			ManagerLocator::event_manager->DispatchAsync(event_manager::Event(event_manager::EventType::kPreRender));
 
 			for (auto entity : this->entities_) {
 				auto maybe_mesh_component = this->world->GetComponentForEntity<ecs::component::MeshComponent>(entity);
@@ -44,10 +55,18 @@ namespace easy_engine {
 				}
 
 				render_event.data = event_data;
-				ManagerLocator::event_manager->DispatchAsync(render_event);
+				this->p_impl_->buffered_object_renderable_events.push_back(render_event);
 			}
-
-			ManagerLocator::event_manager->DispatchAsync(event_manager::Event(event_manager::EventType::k3DPostRender));
+		}
+		auto RenderSystem::OnEvent(event_manager::Event event) -> void {
+			switch (event.event_type) {
+			case event_manager::EventType::kRender:
+				while (!this->p_impl_->buffered_object_renderable_events.empty()) {
+					this->p_impl_->event_manager->Dispatch(this->p_impl_->buffered_object_renderable_events.front());
+					this->p_impl_->buffered_object_renderable_events.pop_front();
+				}
+				break;
+			}
 		}
 	}
 }

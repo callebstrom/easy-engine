@@ -3,15 +3,21 @@
 #pragma once
 
 #include <EasyEngine/ecs/ISystem.h>
+#include <EasyEngine/event_manager/IObserver.h>
 
 namespace easy_engine {
+
 	namespace render_manager {
-		class RenderSystem : public ecs::ISystem {
+		class RenderSystem : public ecs::ISystem, public event_manager::IObserver {
 		public:
-			RenderSystem();
+			RenderSystem(std::shared_ptr<event_manager::EventManager> event_manager);
 			~RenderSystem();
 
 			virtual void Update(float dt) override;
+			virtual void OnEvent(event_manager::Event event) override;
+		private:
+			struct Impl;
+			std::unique_ptr<Impl> p_impl_;
 		};
 	}
 }

@@ -22,6 +22,7 @@
 #include <EasyEngine/ecs/component/TransformComponent.h>
 #include <EasyEngine/input_manager/KeyboardEvent.h>
 #include <EasyEngine/shader_manager/IShaderManager.h>
+#include <EasyEngine/ui/UIRenderManagerOpenGL.h>
 
 namespace easy_engine {
 
@@ -42,6 +43,7 @@ namespace easy_engine {
 		render_manager::IRenderManager* render_manager;
 		std::shared_ptr<shader_manager::IShaderManager> shader_manager;
 		std::shared_ptr<event_manager::EventManager> event_manager;
+		std::shared_ptr<ui::IUIRenderManager> ui_render_manager;
 		world::World* world;
 	private:
 		bool is_running_ = false;

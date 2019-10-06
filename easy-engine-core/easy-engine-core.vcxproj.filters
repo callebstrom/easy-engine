@@ -103,6 +103,12 @@
     <Filter Include="Source Files\shader_manager">
       <UniqueIdentifier>{019d7e25-c681-46fc-8d35-dafd5040e168}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ui">
+      <UniqueIdentifier>{04cbb73c-f1ee-461d-86cc-152d6b279c01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ui">
+      <UniqueIdentifier>{f25c0a84-3092-4b7b-9732-f278c310374b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\EasyEngine\configuration\RenderConfiguration.h">
@@ -288,6 +294,15 @@
     <ClInclude Include="include\EasyEngine\window_manager\IWindowManager.h">
       <Filter>Header Files\window_manager</Filter>
     </ClInclude>
+    <ClInclude Include="include\EasyEngine\ui\UIRenderManagerOpenGL.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\ui\IUIRenderManager.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\ui\UIRenderSystem.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RenderManagerOpenGL.cpp">
@@ -388,6 +403,12 @@
     </ClCompile>
     <ClCompile Include="src\ShaderManagerOpenGL.cpp">
       <Filter>Source Files\shader_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIRenderManagerOpenGL.cpp">
+      <Filter>Source Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIRenderSystem.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

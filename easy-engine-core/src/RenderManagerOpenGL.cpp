@@ -287,6 +287,8 @@ namespace easy_engine {
 				auto combined_affine_transform = event_data->transform_component->translation_ * event_data->transform_component->rotation * event_data->transform_component->scale;
 				Eigen::Matrix<GLfloat, 4, 4> model_matrix = combined_affine_transform * identity_matrix;
 
+				this->SetupGlobalState();
+
 				for (auto mesh : *event_data->mesh_component->sub_meshes) {
 					auto material = event_data->material_component.has_value() && event_data->material_component.value()->materials->size() - 1 >= mesh->material_index
 						? std::optional<resource::Material*>(event_data->material_component.value()->materials->at(mesh->material_index))
@@ -311,7 +313,29 @@ namespace easy_engine {
 				glBindTexture(GL_TEXTURE_2D, texture.renderer_id);
 			}
 
+			auto SetupGlobalState() -> void {
+				glEnable(GL_DEPTH_TEST); // enable depth-testing
+				glDepthFunc(GL_LESS); // depth-testing interprets a smaller value as "closer"
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+				glEnable(GL_BLEND);
+
+				glEnable(GL_CULL_FACE);
+
+				glViewport(
+					0,
+					0,
+					atoi(this->render_config_->Get(c_params_::RESOLUTION_X).c_str()),
+					atoi(this->render_config_->Get(c_params_::RESOLUTION_Y).c_str())
+				);
+
+				glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+
+				glUseProgram(this->shader_program_);
+			}
+
 			auto Render(resource::Mesh* mesh, Eigen::Matrix4f model_matrix_, std::vector<resource::Texture*> textures, std::optional<resource::Material*> maybe_material) -> void {
+
 				// Should the object index be built lazily?
 				if (this->object_indices_.find(mesh->name) == this->object_indices_.end()) {
 					this->GenerateObjectIndex(mesh, textures, maybe_material);
@@ -526,31 +550,10 @@ namespace easy_engine {
 				EE_CORE_CRITICAL("Failed to init GLEW: " + boost::lexical_cast<std::string>(glewGetErrorString(glew_error)));
 			}
 
-			glEnable(GL_DEPTH_TEST); // enable depth-testing
-			glDepthFunc(GL_LESS); // depth-testing interprets a smaller value as "closer"
-
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 			this->p_impl_->LoadShaders();
 
-			// Set background to dark grey
-			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-
-			// Draw to the entire window
-			glViewport(
-				0,
-				0,
-				atoi(this->p_impl_->render_config_->Get(c_params_::RESOLUTION_X).c_str()),
-				atoi(this->p_impl_->render_config_->Get(c_params_::RESOLUTION_Y).c_str())
-			);
-
-			// Don't render triangles with normal facing away from camera
-			glEnable(GL_CULL_FACE);
-			// glDebugMessageCallback(&Debug, nullptr);
-
 			ManagerLocator::event_manager->Subscribe(
-				event_manager::EventType::k3DPreRender,
+				event_manager::EventType::kPreRender,
 				this
 			);
 
@@ -582,7 +585,7 @@ namespace easy_engine {
 			case event_manager::EventType::k3DObjectRenderable:
 				this->p_impl_->On3DObjectRenderable(event);
 				break;
-			case event_manager::EventType::k3DPreRender:
+			case event_manager::EventType::kPreRender:
 				this->p_impl_->OnPreRender();
 				break;
 			case event_manager::EventType::kEnvironmentUpdate:
