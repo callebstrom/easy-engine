@@ -87,17 +87,29 @@ namespace easy_engine {
 				NK_WINDOW_MINIMIZABLE|NK_WINDOW_TITLE
 			);
 
-			static char* buffer = new char[250];
-			static int* buffer_length = new int;
+			static bool init = true;
+			static int* buffer_length;
+			static char* buffer;
+			if (init) {
+				buffer = new char[250];
+				buffer_length = new int;
+				buffer_length[0] = 0;
+				init = false;
+			}
 
-			nk_edit_string(
-				this->p_impl_->nk_context,
-				NK_EDIT_ALLOW_TAB|NK_EDIT_ALWAYS_INSERT_MODE|NK_EDIT_MULTILINE|NK_EDIT_SELECTABLE|NK_EDIT_CLIPBOARD,
-				buffer,
-				buffer_length,
-				250,
-				nk_filter_default
-			);
+			nk_layout_row_begin(this->p_impl_->nk_context, NK_STATIC, 230, 1);
+			{
+				nk_layout_row_push(this->p_impl_->nk_context, 250);
+				nk_edit_string(
+					this->p_impl_->nk_context,
+					NK_EDIT_EDITOR|NK_EDIT_ALWAYS_INSERT_MODE,
+					buffer,
+					buffer_length,
+					250,
+					nk_filter_default
+				);
+			}
+			nk_layout_row_end(this->p_impl_->nk_context);
 		}
 
 		auto UIRenderManagerOpenGL::WindowEnd() -> void {

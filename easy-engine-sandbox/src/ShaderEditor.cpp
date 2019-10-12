@@ -96,7 +96,7 @@ public:
 		ecs::component::MeshComponent mesh_component;
 		ecs::component::TextureComponent texture_component;
 		ecs::component::MaterialComponent material_component;
-		this->resource_manager_3d->Load("..\\easy-engine-core\\res\\sylvanas\\sylvanas.fbx", mesh_component, texture_component, material_component);
+		// this->resource_manager_3d->Load("..\\easy-engine-core\\res\\sylvanas\\sylvanas.fbx", mesh_component, texture_component, material_component);
 
 		ecs::component::TransformComponent transform_component;
 		transform_component.Scale(0.05, 0.05, 0.05);
@@ -104,10 +104,10 @@ public:
 		// transform_component.RotationAdd(-1.500796f, 1, 0, 0);
 		auto sylvana = this->world->CreateEntity();
 
-		this->world->AddComponent<ecs::component::MeshComponent>(sylvana, mesh_component);
+		/*this->world->AddComponent<ecs::component::MeshComponent>(sylvana, mesh_component);
 		this->world->AddComponent<ecs::component::TextureComponent>(sylvana, texture_component);
 		this->world->AddComponent<ecs::component::MaterialComponent>(sylvana, material_component);
-		this->world->AddComponent<ecs::component::TransformComponent>(sylvana, transform_component);
+		this->world->AddComponent<ecs::component::TransformComponent>(sylvana, transform_component);*/
 
 		resource::Environment environment;
 		resource::PointLight point_light;

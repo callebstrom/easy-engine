@@ -18,4 +18,3 @@ namespace easy_engine {
 }
 
 #endif // !UI_TEXT_AREA_COMPONENT
-
