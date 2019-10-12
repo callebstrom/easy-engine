@@ -17,7 +17,7 @@ namespace easy_engine {
 	namespace world {
 
 		class EASY_ENGINE_API World {
-			public:
+		public:
 			auto CreateEntity()->entity::EntityHandle;
 			auto RemoveEntity(entity::Entity const& entity) -> void;
 			auto Update(float dt) const -> void;
@@ -53,10 +53,11 @@ namespace easy_engine {
 				auto component_manager = reinterpret_cast<component_manager::ComponentManager<ComponentType>*>(this->component_managers_[component_type]);
 				component_manager->RegisterEntity(entity, &component);
 
-				this->entity_component_signature_map_[entity][ecs::component::Component::GetComponentFamily<ComponentType>()] = true;
+				auto component_family = ecs::component::Component::GetComponentFamily<ComponentType>();
+				this->entity_component_signature_map_[entity][component_family] = true;
 
 				for (auto system : this->systems_) {
-					auto component_mask = this->entity_component_signature_map_[entity] &= this->system_component_signature_map_[system];
+					auto component_mask = this->entity_component_signature_map_[entity] & this->system_component_signature_map_[system];
 					auto is_entity_eligable = component_mask == this->system_component_signature_map_[system];
 					if (is_entity_eligable) {
 						// Notify ISystem of entity that fulfills component signature
@@ -88,7 +89,7 @@ namespace easy_engine {
 
 			auto SetupEnvironment(const resource::Environment& environment) -> void;
 
-			private:
+		private:
 			float entity_id_seq_ = 0; // Should be in EntityManager
 			std::vector<entity::Entity*> entities_;
 			// std::vector<std::unique_ptr<ISystem>> systems_; // World owns systems (aka *Manager classes implementing ISystem, not to be confused with component managers)

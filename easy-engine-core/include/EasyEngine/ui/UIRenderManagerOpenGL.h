@@ -25,7 +25,8 @@ namespace easy_engine {
 			);
 			void Render() override;
 			void OnEvent(event_manager::Event event) override;
-			void* GetContext() override;
+			void WindowBegin(std::string title, int height, int width) override;
+			void WindowEnd() override;
 		private:
 			struct Impl;
 			Impl* p_impl_;

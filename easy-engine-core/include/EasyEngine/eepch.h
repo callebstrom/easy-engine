@@ -14,6 +14,7 @@
 #include <typeinfo>
 #include <vector>
 #include <queue>
+#include <deque>
 #include <typeinfo>
 #include <typeindex>
 #include <future>

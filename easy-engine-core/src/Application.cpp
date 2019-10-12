@@ -91,25 +91,11 @@ namespace easy_engine {
 			this->event_manager->ConsumeEventBuffer(event_manager::EventType::kKeyboard);
 			this->world->Update(deltaTime);
 
-			/*ImGui_ImplOpenGL3_NewFrame();
-			ImGui_ImplGlfw_NewFrame();
-			ImGui::NewFrame();
-
-			static bool show = true;
-			ImGui::ShowDemoWindow(&show);
-			ImGui::Render();*/
-
 			this->event_manager->Dispatch(event_manager::Event(event_manager::EventType::kPreRender));
 			this->event_manager->Dispatch(event_manager::Event(event_manager::EventType::kRender));
-
-			// ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
 			this->event_manager->Dispatch(event_manager::Event(event_manager::EventType::kPostRender));
 
-
-			event_manager::Event event = event_manager::Event();
-			event.event_type = event_manager::EventType::kGlobalTick;
-			this->event_manager->Dispatch(event);
+			this->event_manager->Dispatch(event_manager::Event(event_manager::EventType::kGlobalTick));
 
 			stop = timer.now();
 		}
@@ -132,7 +118,7 @@ namespace easy_engine {
 		world->AddSystem<ecs::component::MeshComponent, ecs::component::TransformComponent>(render_system);
 
 		auto ui_render_system = new ui::UIRenderSystem(this->ui_render_manager);
-		world->AddSystem<>(ui_render_system);
+		world->AddSystem<ui::component::WindowComponent, ecs::component::TransformComponent>(ui_render_system);
 	}
 
 	void Application::Close() {

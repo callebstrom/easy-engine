@@ -78,7 +78,7 @@ namespace easy_engine {
 				std::cout << "OpenGL Error: " << error << std::endl;
 			}
 
-			glfwSetInputMode(this->p_impl_->window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			// glfwSetInputMode(this->p_impl_->window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 			glfwSetWindowUserPointer(this->p_impl_->window_, this->input_manager_.get());
 			auto keyboard_callback_func = [](GLFWwindow* window, int key, int scancode, int action, int modifiers) -> void {

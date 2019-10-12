@@ -109,6 +109,9 @@
     <Filter Include="Source Files\ui">
       <UniqueIdentifier>{f25c0a84-3092-4b7b-9732-f278c310374b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ui\component">
+      <UniqueIdentifier>{83d719a0-2a2b-4c95-a2c5-449e815df8a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\EasyEngine\configuration\RenderConfiguration.h">
@@ -303,6 +306,21 @@
     <ClInclude Include="include\EasyEngine\ui\UIRenderSystem.h">
       <Filter>Header Files\ui</Filter>
     </ClInclude>
+    <ClInclude Include="include\EasyEngine\ui\IContext.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\ui\ContextOpenGL.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\ui\component\WindowComponent.h">
+      <Filter>Header Files\ui\component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\ecs\component\ParentEntityComponent.h">
+      <Filter>Header Files\ecs\component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\ecs\component\TextAreaComponent.h">
+      <Filter>Header Files\ui\component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RenderManagerOpenGL.cpp">
@@ -409,6 +427,12 @@
     </ClCompile>
     <ClCompile Include="src\UIRenderSystem.cpp">
       <Filter>Source Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="include\EasyEngine\ui\IUIComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\EasyEngine\ui\IContext.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

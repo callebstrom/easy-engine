@@ -121,8 +121,17 @@ public:
 		environment.AddLight(point_light);
 		// environment.AddLight(directional_light);
 
-
 		world->SetupEnvironment(environment);
+
+		auto shader_editor = world->CreateEntity();
+		auto shader_editor_window = ui::component::WindowComponent();
+		shader_editor_window.height = 230;
+		shader_editor_window.width = 250;
+		shader_editor_window.title = "Shader editor";
+		ecs::component::TransformComponent shader_editor_transform_component;
+
+		world->AddComponent<ecs::component::TransformComponent>(shader_editor, shader_editor_transform_component);
+		world->AddComponent<ui::component::WindowComponent>(shader_editor, shader_editor_window);
 	}
 };
 

@@ -27,8 +27,6 @@ namespace easy_engine {
 		}
 
 		void RenderSystem::Update(float dt) {
-			ManagerLocator::event_manager->DispatchAsync(event_manager::Event(event_manager::EventType::kPreRender));
-
 			for (auto entity : this->entities_) {
 				auto maybe_mesh_component = this->world->GetComponentForEntity<ecs::component::MeshComponent>(entity);
 				auto maybe_transform_component = this->world->GetComponentForEntity<ecs::component::TransformComponent>(entity);

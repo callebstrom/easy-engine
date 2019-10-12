@@ -40,6 +40,8 @@
     <ClInclude Include="include\EasyEngine\ecs\component\Component.h" />
     <ClInclude Include="include\EasyEngine\ecs\component\MaterialComponent.h" />
     <ClInclude Include="include\EasyEngine\ecs\component\MeshComponent.h" />
+    <ClInclude Include="include\EasyEngine\ecs\component\ParentEntityComponent.h" />
+    <ClInclude Include="include\EasyEngine\ecs\component\TextAreaComponent.h" />
     <ClInclude Include="include\EasyEngine\ecs\component\TextureComponent.h" />
     <ClInclude Include="include\EasyEngine\ecs\component\TransformComponent.h" />
     <ClInclude Include="include\EasyEngine\ecs\component_manager\ComponentManager.h" />
@@ -91,6 +93,9 @@
     <ClInclude Include="include\EasyEngine\shader_manager\IShaderManager.h" />
     <ClInclude Include="include\EasyEngine\shader_manager\ShaderManagerOpenGL.h" />
     <ClInclude Include="include\EasyEngine\shader_manager\ShaderPipeline.h" />
+    <ClInclude Include="include\EasyEngine\ui\component\WindowComponent.h" />
+    <ClInclude Include="include\EasyEngine\ui\ContextOpenGL.h" />
+    <ClInclude Include="include\EasyEngine\ui\IContext.h" />
     <ClInclude Include="include\EasyEngine\ui\IUIRenderManager.h" />
     <ClInclude Include="include\EasyEngine\ui\UIRenderManagerOpenGL.h" />
     <ClInclude Include="include\EasyEngine\ui\UIRenderSystem.h" />
@@ -102,6 +107,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\EasyEngine\event_manager\EventManager.cpp" />
+    <ClCompile Include="include\EasyEngine\ui\IContext.cpp" />
+    <ClCompile Include="include\EasyEngine\ui\IUIComponent.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\ComponentManager.cpp" />
