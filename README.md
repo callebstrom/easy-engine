@@ -26,6 +26,7 @@ An experimental cross-platform game engine created for personal and educational 
 
 ### ECS
 - ~~Basic template based ECS~~
+- ~~Support multiple component combinations per system~~
 - Ensure memory locality of ECS components
 
 ### User Input
