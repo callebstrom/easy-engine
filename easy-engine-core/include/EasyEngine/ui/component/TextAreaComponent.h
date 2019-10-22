@@ -11,7 +11,9 @@ namespace easy_engine {
 			class EASY_ENGINE_API TextAreaComponent : public ecs::component::Component {
 			public:
 				char* buffer;
-				int* buffer_length;
+				int buffer_length;
+				int width;
+				int height;
 			};
 		}
 	}

@@ -20,10 +20,12 @@
 #include <EasyEngine/ecs/ISystem.h>
 #include <EasyEngine/ecs/component/MeshComponent.h>
 #include <EasyEngine/ecs/component/TransformComponent.h>
+#include <EasyEngine/ecs/component/ParentEntityComponent.h>
 #include <EasyEngine/input_manager/KeyboardEvent.h>
 #include <EasyEngine/shader_manager/IShaderManager.h>
 #include <EasyEngine/ui/UIRenderManagerOpenGL.h>
 #include <EasyEngine/ui/component/WindowComponent.h>
+#include <EasyEngine/ui/component/TextAreaComponent.h>
 
 namespace easy_engine {
 
@@ -57,7 +59,9 @@ namespace easy_engine {
 	EASY_ENGINE_EXTERN_TEMPLATE EASY_ENGINE_API int ecs::component::Component::GetComponentFamily<ecs::component::TransformComponent>();
 	EASY_ENGINE_EXTERN_TEMPLATE EASY_ENGINE_API int ecs::component::Component::GetComponentFamily<ecs::component::TextureComponent>();
 	EASY_ENGINE_EXTERN_TEMPLATE EASY_ENGINE_API int ecs::component::Component::GetComponentFamily<ecs::component::MaterialComponent>();
+	EASY_ENGINE_EXTERN_TEMPLATE EASY_ENGINE_API int ecs::component::Component::GetComponentFamily<ecs::component::ParentEntityComponent>();
 	EASY_ENGINE_EXTERN_TEMPLATE EASY_ENGINE_API int ecs::component::Component::GetComponentFamily<ui::component::WindowComponent>();
+	EASY_ENGINE_EXTERN_TEMPLATE EASY_ENGINE_API int ecs::component::Component::GetComponentFamily<ui::component::TextAreaComponent>();
 }
 
 

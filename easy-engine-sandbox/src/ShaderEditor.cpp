@@ -123,15 +123,32 @@ public:
 
 		world->SetupEnvironment(environment);
 
-		auto shader_editor = world->CreateEntity();
-		auto shader_editor_window = ui::component::WindowComponent();
-		shader_editor_window.height = 230;
-		shader_editor_window.width = 250;
-		shader_editor_window.title = "Shader editor";
-		ecs::component::TransformComponent shader_editor_transform_component;
+		this->SetupWindow();
+	}
 
-		world->AddComponent<ecs::component::TransformComponent>(shader_editor, shader_editor_transform_component);
-		world->AddComponent<ui::component::WindowComponent>(shader_editor, shader_editor_window);
+	void SetupWindow() {
+		auto shader_editor_window = world->CreateEntity();
+		auto window_component = ui::component::WindowComponent();
+		window_component.height = 230;
+		window_component.width = 250;
+		window_component.title = "Shader editor";
+		ecs::component::TransformComponent shader_editor_transform_component;
+		shader_editor_transform_component.Translation(100, 100, 0);
+
+		world->AddComponent<ecs::component::TransformComponent>(shader_editor_window, shader_editor_transform_component);
+		world->AddComponent<ui::component::WindowComponent>(shader_editor_window, window_component);
+
+		auto text_area = world->CreateEntity();
+		auto text_area_component = ui::component::TextAreaComponent();
+		text_area_component.height = 50;
+		text_area_component.width = 230;
+		ecs::component::TransformComponent text_area_transform_component;
+		ecs::component::ParentEntityComponent window_parent_component;
+		window_parent_component.entity = shader_editor_window.entity;
+
+		world->AddComponent<ecs::component::TransformComponent>(text_area, text_area_transform_component);
+		world->AddComponent<ui::component::TextAreaComponent>(text_area, text_area_component);
+		world->AddComponent<ecs::component::ParentEntityComponent>(text_area, window_parent_component);
 	}
 };
 

@@ -119,6 +119,7 @@ namespace easy_engine {
 
 		auto ui_render_system = new ui::UIRenderSystem(this->ui_render_manager);
 		world->AddSystem<ui::component::WindowComponent, ecs::component::TransformComponent>(ui_render_system);
+		world->AddSystem<ui::component::TextAreaComponent, ecs::component::TransformComponent>(ui_render_system);
 	}
 
 	void Application::Close() {

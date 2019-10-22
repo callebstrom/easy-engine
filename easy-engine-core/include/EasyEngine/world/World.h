@@ -16,6 +16,8 @@ namespace easy_engine {
 
 	namespace world {
 
+		typedef std::multimap<ecs::ISystem*, ComponentSignature>::iterator SystemComponentSignatureIterator;
+
 		class EASY_ENGINE_API World {
 		public:
 			auto CreateEntity()->entity::EntityHandle;
@@ -26,7 +28,10 @@ namespace easy_engine {
 			template <typename... ComponentTypes>
 			void AddSystem(ecs::ISystem* system) {
 				system->RegisterWorld(this);
-				this->systems_.push_back(system);
+
+				if (std::find(this->systems_.begin(), this->systems_.end(), system) == this->systems_.end()) {
+					this->systems_.push_back(system);
+				}
 
 				ComponentSignature component_signature;
 
@@ -34,7 +39,7 @@ namespace easy_engine {
 				(void)_;
 
 				// Associate the system with a component signature
-				this->system_component_signature_map_[system] = component_signature;
+				this->system_component_signature_map_.insert(std::pair<ecs::ISystem*, ComponentSignature>(system, component_signature));
 			}
 
 			template <typename ComponentType>
@@ -57,11 +62,16 @@ namespace easy_engine {
 				this->entity_component_signature_map_[entity][component_family] = true;
 
 				for (auto system : this->systems_) {
-					auto component_mask = this->entity_component_signature_map_[entity] & this->system_component_signature_map_[system];
-					auto is_entity_eligable = component_mask == this->system_component_signature_map_[system];
-					if (is_entity_eligable) {
-						// Notify ISystem of entity that fulfills component signature
-						system->RegisterEntity(entity);
+					std::pair<SystemComponentSignatureIterator, SystemComponentSignatureIterator> registered_signatures = this->system_component_signature_map_.equal_range(system);
+
+					for (SystemComponentSignatureIterator it = registered_signatures.first; it != registered_signatures.second; it++) {
+						auto registered_signature = it->second;
+						auto component_mask = this->entity_component_signature_map_[entity] & registered_signature;
+						auto is_entity_eligable = component_mask == registered_signature;
+						if (is_entity_eligable) {
+							// Notify ISystem of entity that fulfills component signature
+							system->RegisterEntity(entity);
+						}
 					}
 				}
 			}
@@ -95,7 +105,7 @@ namespace easy_engine {
 			// std::vector<std::unique_ptr<ISystem>> systems_; // World owns systems (aka *Manager classes implementing ISystem, not to be confused with component managers)
 			OrderedTypeMap<void*> component_managers_; // TODO how to make this type-safe? Aka avoid void*. Dummy interface?
 			std::vector<ecs::ISystem*> systems_;
-			std::map<ecs::ISystem*, ComponentSignature> system_component_signature_map_;
+			std::multimap<ecs::ISystem*, ComponentSignature> system_component_signature_map_;
 			std::map<entity::Entity*, ComponentSignature> entity_component_signature_map_;
 		};
 	}
