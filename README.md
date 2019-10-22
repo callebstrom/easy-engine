@@ -4,8 +4,9 @@ An experimental cross-platform game engine created for personal and educational 
 ## TODO
 ### Rendering
 - ~~Event driven render lifecycle~~
-- ~~3D Mesh rendering~~
+- ~~Basic 3D Mesh rendering~~
 - 2D shape rendering
+- UI framework
 - ~~Basic materials~~
 - ~~Basic textures~~
 - Support normal maps
