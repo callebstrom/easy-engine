@@ -8,12 +8,15 @@
 #include <EasyEngine/resource/Mesh.h>
 #include <EasyEngine/resource/Material.h>
 #include <EasyEngine/configuration/RenderConfiguration.h>
+#include <EasyEngine/resource/Light.h>
+#include <EasyEngine/Common.h>
 
 namespace easy_engine {
 	namespace render_manager {
 		class EASY_ENGINE_API IRenderManager {
 		public:
 			virtual void Render(resource::Mesh* mesh, Eigen::Matrix4f model_matrix, std::vector<resource::Texture*> textures, resource::Material* material) = 0;
+			virtual void Render(resource::Light* light, Eigen::Vector3f translation) = 0;
 			virtual void UpdateCameraAngle(double x, double y) = 0;
 			virtual ~IRenderManager() = default;
 		};

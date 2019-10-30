@@ -2,12 +2,15 @@
 #define ENTITY_H
 #pragma once
 
+using EntityID = float;
+
 namespace easy_engine {
 	namespace entity {
+
 		class EASY_ENGINE_API Entity {
 		public:
-			float id;
-			Entity(float id) { this->id = id; }
+			EntityID id;
+			Entity(EntityID id) { this->id = id; }
 		};
 	}
 }

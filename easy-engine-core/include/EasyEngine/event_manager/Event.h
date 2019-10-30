@@ -7,8 +7,9 @@ namespace easy_engine {
 		enum class EventType {
 			kGlobalTick,
 			k3DObjectRenderable,
-			k3DPreRender,
-			k3DPostRender,
+			kPreRender,
+			kRender,
+			kPostRender,
 			kEnvironmentUpdate,
 			kKeyboard,
 			kMouse,

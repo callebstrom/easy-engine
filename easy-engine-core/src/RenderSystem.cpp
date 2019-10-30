@@ -7,20 +7,48 @@
 #include <EasyEngine/ecs/component/MeshComponent.h>
 #include <EasyEngine/ecs/component/TextureComponent.h>
 #include <EasyEngine/ecs/component/MaterialComponent.h>
+#include <EasyEngine/ecs/component/LightComponent.h>
 #include <EasyEngine/render_manager/_3DObjectRenderable.h>
 
 namespace easy_engine {
 	namespace render_manager {
-		RenderSystem::RenderSystem() {
 
+		struct RenderSystem::Impl {
+
+			Impl(
+				std::shared_ptr<event_manager::EventManager> event_manager,
+				std::shared_ptr<render_manager::IRenderManager> render_manager
+			)
+				: event_manager(event_manager), render_manager(render_manager) {}
+
+			std::deque<event_manager::Event> buffered_object_renderable_events;
+			std::shared_ptr<event_manager::EventManager> event_manager;
+			std::shared_ptr<render_manager::IRenderManager> render_manager;
+		};
+
+		RenderSystem::RenderSystem(
+			std::shared_ptr<event_manager::EventManager> event_manager,
+			std::shared_ptr<render_manager::IRenderManager> render_manager
+		)
+			: p_impl_(new Impl(event_manager, render_manager)) {
+			this->p_impl_->event_manager->Subscribe(event_manager::EventType::kRender, this);
 		}
 
 		void RenderSystem::Update(float dt) {
-			ManagerLocator::event_manager->DispatchAsync(event_manager::Event(event_manager::EventType::k3DPreRender));
-
 			for (auto entity : this->entities_) {
-				auto maybe_mesh_component = this->world->GetComponentForEntity<ecs::component::MeshComponent>(entity);
+
+				auto maybe_light_component = this->world->GetComponentForEntity<ecs::component::LightComponent>(entity);
 				auto maybe_transform_component = this->world->GetComponentForEntity<ecs::component::TransformComponent>(entity);
+
+				if (maybe_light_component.has_value() && maybe_transform_component.has_value()) {
+					auto light = maybe_light_component.value()->light;
+
+					auto translation_matrix = maybe_transform_component.value()->translation_;
+					Eigen::Vector3f translation(translation_matrix.x(), translation_matrix.y(), translation_matrix.z());
+					this->p_impl_->render_manager->Render(light, translation);
+				}
+
+				auto maybe_mesh_component = this->world->GetComponentForEntity<ecs::component::MeshComponent>(entity);
 				auto maybe_texture_component = this->world->GetComponentForEntity<ecs::component::TextureComponent>(entity);
 				auto maybe_material_component = this->world->GetComponentForEntity<ecs::component::MaterialComponent>(entity);
 
@@ -44,10 +72,18 @@ namespace easy_engine {
 				}
 
 				render_event.data = event_data;
-				ManagerLocator::event_manager->DispatchAsync(render_event);
+				this->p_impl_->buffered_object_renderable_events.push_back(render_event);
 			}
-
-			ManagerLocator::event_manager->DispatchAsync(event_manager::Event(event_manager::EventType::k3DPostRender));
+		}
+		auto RenderSystem::OnEvent(event_manager::Event event) -> void {
+			switch (event.event_type) {
+			case event_manager::EventType::kRender:
+				while (!this->p_impl_->buffered_object_renderable_events.empty()) {
+					this->p_impl_->event_manager->Dispatch(this->p_impl_->buffered_object_renderable_events.front());
+					this->p_impl_->buffered_object_renderable_events.pop_front();
+				}
+				break;
+			}
 		}
 	}
 }

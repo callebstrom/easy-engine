@@ -42,10 +42,6 @@ namespace easy_engine {
 			void TransformComponent::Scale(float x, float y, float z) {
 				this->scale = Eigen::Scaling(x, y, z);
 			}
-
-			Eigen::Affine3f TransformComponent::GetCombinedAffineTransform() {
-				return this->translation_* this->rotation* this->scale;
-			}
 		}
 	}
 }

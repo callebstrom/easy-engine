@@ -20,28 +20,33 @@
 namespace easy_engine {
 	namespace resource_manager {
 
-		typedef std::string ResourceLocation;
+		using ResourceLocation = std::string;
 
 		template<typename CachableType>
 		class ResourceCache {
 		public:
 			auto HasResource(ResourceLocation resource_location) -> bool {
+				std::lock_guard<std::mutex> lock(cache_mutex);
 				return this->cache.find(resource_location) != cache.end();
 			}
 
 			auto GetResource(ResourceLocation resource_location) -> CachableType {
-				return this->cache[resource_location];
+				std::lock_guard<std::mutex> lock(cache_mutex);
+				return this->cache.at(resource_location);
 			}
 
 			auto Cache(ResourceLocation resource_location, CachableType cachable) -> void {
-				this->cache[resource_location] = cachable;
+				std::lock_guard<std::mutex> lock(cache_mutex);
+				this->cache.insert(std::pair<ResourceLocation, CachableType>(resource_location, cachable));
 			}
 
 			auto Clear() -> void {
+				std::lock_guard<std::mutex> lock(cache_mutex);
 				this->cache.clear();
 			}
 		private:
 			std::map<ResourceLocation, CachableType> cache;
+			std::mutex cache_mutex;
 		};
 
 		struct ResourceManager3D::Impl {
@@ -139,7 +144,7 @@ namespace easy_engine {
 				}*/
 			}
 
-			void LoadEmbeddedTexture(const aiScene* scene, const aiMesh* mesh_, ecs::component::TextureComponent& texture_component, size_t& type_index, resource::TextureType texture_type) {
+			void LoadEmbeddedTexture(const aiScene* scene, const aiMesh* mesh_, std::vector<resource::Texture*>& textures, size_t& type_index, resource::TextureType texture_type) {
 				aiString* texture_index_buffer = new aiString;
 
 				aiGetMaterialTexture(scene->mMaterials[mesh_->mMaterialIndex], (aiTextureType)texture_type, 0, texture_index_buffer, 0, 0, 0, 0, 0, 0);
@@ -151,10 +156,10 @@ namespace easy_engine {
 				std::string cache_key = mesh_->mName.C_Str() + std::to_string(texture_index);
 				if (texture_cache.HasResource(cache_key)) {
 					type_index = std::distance(
-						texture_component.textures->begin(),
+						textures.begin(),
 						std::find(
-							texture_component.textures->begin(),
-							texture_component.textures->end(),
+							textures.begin(),
+							textures.end(),
 							texture_cache.GetResource(cache_key)
 						)
 					);
@@ -179,14 +184,14 @@ namespace easy_engine {
 						texture->raw = reinterpret_cast<byte*>(texture_->pcData);
 					}
 					texture->type = texture_type;
-					texture_component.textures->push_back(texture);
-					type_index = texture_component.textures->size() - 1;
+					textures.push_back(texture);
+					type_index = textures.size() - 1;
 
 					this->texture_cache.Cache(cache_key, texture);
 				}
 			}
 
-			void LoadExternalTexture(std::string mesh_path, const aiScene* scene, const aiMesh* mesh_, ecs::component::TextureComponent& texture_component, size_t& type_index, resource::TextureType texture_type) {
+			void LoadExternalTexture(std::string mesh_path, const aiScene* scene, const aiMesh* mesh_, std::vector<resource::Texture*>& textures, size_t& type_index, resource::TextureType texture_type) {
 
 				auto texture_index_buffer = new aiString;
 
@@ -200,10 +205,10 @@ namespace easy_engine {
 
 					if (texture_cache.HasResource(texture_path)) {
 						type_index = std::distance(
-							texture_component.textures->begin(),
+							textures.begin(),
 							std::find(
-								texture_component.textures->begin(),
-								texture_component.textures->end(),
+								textures.begin(),
+								textures.end(),
 								texture_cache.GetResource(texture_path)
 							)
 						);
@@ -212,97 +217,123 @@ namespace easy_engine {
 
 					auto texture = ResourceManager::LoadTextureFromFile(texture_path);
 					texture->type = texture_type;
-					texture_component.textures->push_back(texture);
-					type_index = texture_component.textures->size() - 1;
+					textures.push_back(texture);
+					type_index = textures.size() - 1;
 
-					this->texture_cache.Cache(texture_path, texture);
+					// this->texture_cache.Cache(texture_path, texture);
 				}
 			}
 
 		};
 
-		void ResourceManager3D::Load(
+		LoadFuture ResourceManager3D::Load(
 			std::string file_path,
-			ecs::component::MeshComponent& mesh_component,
-			ecs::component::TextureComponent& texture_component,
-			ecs::component::MaterialComponent& material_component
+			ushort_t flags
 		) {
-			auto scene = this->p_impl_->importer.ReadFile(
-				file_path.c_str(),
-				aiProcessPreset_TargetRealtime_Quality |
-				aiProcess_FlipUVs
-			);
+			auto func = [this, file_path, flags]() mutable -> ResourceCollection {
 
-			if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
-				EE_CORE_ERROR("Could not load scene: ", this->p_impl_->importer.GetErrorString());
-				return;
-			}
+				size_t material_index = 0;
+				std::vector<std::thread> texture_loading_threads;
+				std::vector<resource::Material*> materials;
+				std::vector<resource::Mesh*> meshes;
+				std::vector<resource::Texture*> textures;
 
-			size_t material_index = 0;
+				auto scene = this->p_impl_->importer.ReadFile(
+					file_path.c_str(),
+					aiProcessPreset_TargetRealtime_Quality |
+					aiProcess_FlipUVs
+				);
 
-			// Create a submesh for each mesh found in imported scene
-			for (size_t i = 0; i < scene->mNumMeshes; i++) {
-				const auto mesh_ = scene->mMeshes[i];
-				auto mesh = new resource::Mesh();
-
-				mesh->name = file_path + "_" + std::to_string(i);
-
-				mesh->vertex_count = mesh_->mNumVertices;
-				mesh->vertices = this->p_impl_->ExtractVertices(mesh_);
-				mesh->faces = this->p_impl_->ExtractFaces(mesh_);
-				mesh->vertex_normals = this->p_impl_->ExtractNormals(mesh_);
-				mesh->texture_coords = this->p_impl_->ExtractUVs(mesh_);
-
-				std::string cache_key = file_path + std::to_string(mesh_->mMaterialIndex);
-
-				// Check if material exist in cache
-				if (this->p_impl_->material_cache.HasResource(cache_key)) {
-					mesh->material_index = this->p_impl_->material_cache.GetResource(cache_key);
-				}
-				else if (scene->mNumMaterials >= mesh_->mMaterialIndex + 1) {
-					mesh->material_index = material_index++;
-					auto material_ = scene->mMaterials[mesh_->mMaterialIndex];
-					auto material = new resource::Material();
-
-					aiColor3D diffuse_color, specular_color, emmisive_color;
-					material_->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse_color);
-					material_->Get(AI_MATKEY_COLOR_SPECULAR, specular_color);
-					material_->Get(AI_MATKEY_COLOR_EMISSIVE, emmisive_color);
-
-					float shininess;
-					material_->Get(AI_MATKEY_SHININESS, shininess);
-
-					material->diffuse_color = Eigen::Vector3f(diffuse_color.r, diffuse_color.g, diffuse_color.b);
-					material->specular_color = Eigen::Vector3f(specular_color.r, specular_color.g, specular_color.b);
-					material->emmisive_color = Eigen::Vector3f(emmisive_color.r, emmisive_color.g, emmisive_color.b);
-					material->shininess = shininess;
-					material_component.materials->push_back(material);
-
-					// Handle embedded textures
-					if (scene->HasTextures()) {
-						EE_CORE_TRACE("Mesh has embedded texture");
-						this->p_impl_->LoadEmbeddedTexture(scene, mesh_, texture_component, material->diffuse_texture_index, resource::TextureType::kDiffuse);
-						this->p_impl_->LoadEmbeddedTexture(scene, mesh_, texture_component, material->specular_texture_index, resource::TextureType::kSpecular);
-						this->p_impl_->LoadEmbeddedTexture(scene, mesh_, texture_component, material->emissive_texture_index, resource::TextureType::kEmissive);
-					}
-					else {
-						EE_CORE_TRACE("Mesh has external texture");
-						this->p_impl_->LoadExternalTexture(file_path, scene, mesh_, texture_component, material->diffuse_texture_index, resource::TextureType::kDiffuse);
-						this->p_impl_->LoadExternalTexture(file_path, scene, mesh_, texture_component, material->specular_texture_index, resource::TextureType::kSpecular);
-						this->p_impl_->LoadExternalTexture(file_path, scene, mesh_, texture_component, material->emissive_texture_index, resource::TextureType::kEmissive);
-					}
-
-					// Cache material
-					this->p_impl_->material_cache.Cache(cache_key, mesh->material_index);
+				if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
+					EE_CORE_ERROR("Could not load scene: ", this->p_impl_->importer.GetErrorString());
+					return ResourceCollection();
 				}
 
-				mesh_component.sub_meshes->push_back(mesh);
+				// Create a submesh for each mesh found in imported scene
+				for (size_t i = 0; i < scene->mNumMeshes; i++) {
+					const auto mesh_ = scene->mMeshes[i];
+					auto mesh = new resource::Mesh();
 
-			}
+					mesh->name = file_path + "_" + std::to_string(i);
 
-			this->p_impl_->texture_cache.Clear();
-			this->p_impl_->material_cache.Clear();
-		}
+					mesh->vertex_count = mesh_->mNumVertices;
+					mesh->vertices = this->p_impl_->ExtractVertices(mesh_);
+					mesh->faces = this->p_impl_->ExtractFaces(mesh_);
+					mesh->vertex_normals = this->p_impl_->ExtractNormals(mesh_);
+					mesh->texture_coords = this->p_impl_->ExtractUVs(mesh_);
+
+					std::string cache_key = file_path + std::to_string(mesh_->mMaterialIndex);
+
+					// Check if material exist in cache
+					if (this->p_impl_->material_cache.HasResource(cache_key)) {
+						mesh->material_index = this->p_impl_->material_cache.GetResource(cache_key);
+					}
+					else if (scene->mNumMaterials >= mesh_->mMaterialIndex + 1) {
+
+						auto material = new resource::Material();
+
+						if (flags & LOAD_MATERIALS) {
+							mesh->material_index = material_index++;
+							auto material_ = scene->mMaterials[mesh_->mMaterialIndex];
+
+							aiColor3D diffuse_color, specular_color, emmisive_color;
+							material_->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse_color);
+							material_->Get(AI_MATKEY_COLOR_SPECULAR, specular_color);
+							material_->Get(AI_MATKEY_COLOR_EMISSIVE, emmisive_color);
+
+							float shininess;
+							material_->Get(AI_MATKEY_SHININESS, shininess);
+
+							material->diffuse_color = Eigen::Vector3f(diffuse_color.r, diffuse_color.g, diffuse_color.b);
+							material->specular_color = Eigen::Vector3f(specular_color.r, specular_color.g, specular_color.b);
+							material->emmisive_color = Eigen::Vector3f(emmisive_color.r, emmisive_color.g, emmisive_color.b);
+							material->shininess = shininess;
+							materials.push_back(material);
+						}
+
+						// TODO this crashes due to threads
+						this->p_impl_->material_cache.Cache(cache_key, mesh->material_index);
+
+						if (flags & LOAD_TEXTURES) {
+
+							std::mutex texture_vector_mutex;
+
+							auto texture_load =[this, scene, mesh_, file_path, material](std::mutex& texture_vector_mutex, std::vector<resource::Texture*>& textures) -> void {
+								// Handle embedded textures
+								if (scene->HasTextures()) {
+									EE_CORE_TRACE("Mesh has embedded texture");
+									this->p_impl_->LoadEmbeddedTexture(scene, mesh_, textures, material->diffuse_texture_index, resource::TextureType::kDiffuse);
+									this->p_impl_->LoadEmbeddedTexture(scene, mesh_, textures, material->specular_texture_index, resource::TextureType::kSpecular);
+									this->p_impl_->LoadEmbeddedTexture(scene, mesh_, textures, material->emissive_texture_index, resource::TextureType::kEmissive);
+								}
+								else {
+									EE_CORE_TRACE("Mesh has external texture");
+									this->p_impl_->LoadExternalTexture(file_path, scene, mesh_, textures, material->diffuse_texture_index, resource::TextureType::kDiffuse);
+									this->p_impl_->LoadExternalTexture(file_path, scene, mesh_, textures, material->specular_texture_index, resource::TextureType::kSpecular);
+									this->p_impl_->LoadExternalTexture(file_path, scene, mesh_, textures, material->emissive_texture_index, resource::TextureType::kEmissive);
+								}
+							};
+
+							texture_loading_threads.push_back(std::thread(texture_load, std::ref(texture_vector_mutex), std::ref(textures)));
+						}
+					}
+
+					meshes.push_back(mesh);
+				}
+
+				for (auto& thread : texture_loading_threads)
+					thread.join();
+
+				this->p_impl_->texture_cache.Clear();
+				this->p_impl_->material_cache.Clear();
+
+				return {materials, textures, meshes};
+			};
+
+			auto bound = boost::bind<ResourceCollection>(func);
+
+			return boost::async(bound);
+		};
 
 		ResourceManager3D::ResourceManager3D()
 			: p_impl_(std::make_unique<Impl>()) {}

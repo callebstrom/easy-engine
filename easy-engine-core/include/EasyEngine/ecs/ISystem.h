@@ -22,18 +22,16 @@ namespace easy_engine {
 			ISystem& operator=(ISystem&&) = default;
 
 			virtual void Update(float dt) = 0;
-			void RegisterWorld(world::World* world)
-			{
+			void RegisterWorld(world::World* world) {
 				this->world = world;
 			}
 
-			void RegisterEntity(entity::Entity* entity)
-			{
-				this->entities_.push_back(entity);
+			void RegisterEntity(entity::Entity* entity) {
+				this->entities_.insert(entity);
 			}
 
 		protected:
-			std::vector<entity::Entity*> entities_;
+			std::set<entity::Entity*> entities_;
 			world::World* world;
 		};
 	}

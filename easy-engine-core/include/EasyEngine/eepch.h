@@ -14,6 +14,7 @@
 #include <typeinfo>
 #include <vector>
 #include <queue>
+#include <deque>
 #include <typeinfo>
 #include <typeindex>
 #include <future>
@@ -24,6 +25,7 @@
 #include <numeric>
 #include <iterator>
 #include <optional>
+#include <utility>
 
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/base_object.hpp>
@@ -32,6 +34,9 @@
 #ifdef DLLDIR_EX
 #define EASY_ENGINE_API  __declspec(dllexport)   // export DLL information
 #define EASY_ENGINE_EXTERN_TEMPLATE template
+#elif EE_CORE_STATIC
+#define EASY_ENGINE_API
+#define EASY_ENGINE_EXTERN_TEMPLATE extern template
 #else
 #define EASY_ENGINE_API  __declspec(dllimport)   // import DLL information
 #define EASY_ENGINE_EXTERN_TEMPLATE extern template

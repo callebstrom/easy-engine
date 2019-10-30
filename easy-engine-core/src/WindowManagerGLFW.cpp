@@ -50,7 +50,7 @@ namespace easy_engine {
 		}
 
 		void WindowManagerGLFW::CreateWindowEE(configuration::WindowConfiguration_t* configuration) {
-			glfwInit();
+
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -67,6 +67,7 @@ namespace easy_engine {
 			if (!this->p_impl_->window_) {
 				glfwTerminate();
 				EE_CORE_CRITICAL("Failed to create window");
+				return;
 			}
 
 			glfwMakeContextCurrent(this->p_impl_->window_);
@@ -77,7 +78,7 @@ namespace easy_engine {
 				std::cout << "OpenGL Error: " << error << std::endl;
 			}
 
-			glfwSetInputMode(this->p_impl_->window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			// glfwSetInputMode(this->p_impl_->window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 			glfwSetWindowUserPointer(this->p_impl_->window_, this->input_manager_.get());
 			auto keyboard_callback_func = [](GLFWwindow* window, int key, int scancode, int action, int modifiers) -> void {
@@ -91,7 +92,7 @@ namespace easy_engine {
 
 			event_manager::Event event = event_manager::Event();
 			event.event_type = event_manager::EventType::kWindowCreated;
-			this->event_manager_->Dispatch(event);
+			this->event_manager_->DispatchAsync(event);
 		};
 
 		void WindowManagerGLFW::CloseWindow() {
@@ -110,9 +111,10 @@ namespace easy_engine {
 			std::shared_ptr<event_manager::EventManager> event_manager,
 			std::shared_ptr<input_manager::InputManager> input_manager
 		)
-			: event_manager_(event_manager), input_manager_(input_manager) {
+			: p_impl_(new Impl()), event_manager_(event_manager), input_manager_(input_manager) {
+			this->Init();
 			event_manager->Subscribe(
-				event_manager::EventType::k3DPostRender,
+				event_manager::EventType::kPostRender,
 				this
 			);
 		}

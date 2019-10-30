@@ -1,9 +1,12 @@
 #include <EasyEngine/eepch.h>
+
 #include <EasyEngine/Application.h>
 #include <EasyEngine/render_manager/RenderSystem.h>
 #include <EasyEngine/ecs/component/TransformComponent.h>
 #include <EasyEngine/ecs/component/MeshComponent.h>
 #include <EasyEngine/shader_manager/ShaderManagerOpenGL.h>
+#include <EasyEngine/ui/UIRenderManagerOpenGL.h>
+#include <EasyEngine/ui/UIRenderSystem.h>
 
 #include <experimental/filesystem>
 
@@ -18,8 +21,6 @@ namespace easy_engine {
 		this->resource_manager_3d = new resource_manager::ResourceManager3D();
 		this->input_manager = std::make_shared<input_manager::InputManager>();
 		this->world = new world::World();
-
-		this->InitializeDefaultSystems();
 	}
 
 	Application::~Application() {
@@ -41,13 +42,32 @@ namespace easy_engine {
 
 		this->shader_manager = std::make_shared<shader_manager::ShaderManagerOpenGL>();
 		this->window_manager = std::make_shared<window_manager::WindowManagerGLFW>(this->event_manager, this->input_manager);
+		this->ui_render_manager = std::make_shared<ui::UIRenderManagerOpenGL>(this->window_manager, this->event_manager);
+
 		this->window_manager->CreateWindowEE(window_configuration);
-		this->render_manager = new render_manager::RenderManagerOpenGL(
+		this->render_manager = CreateRef<render_manager::RenderManagerOpenGL>(
 			render_configuration,
 			std::static_pointer_cast<shader_manager::ShaderManagerOpenGL>(this->shader_manager)
-		);
+			);
 
-		ManagerLocator::render_manager = dynamic_cast<render_manager::IRenderManager*>(this->render_manager);
+		this->InitializeDefaultSystems();
+
+
+		this->OnInit();
+
+		this->event_manager->ConsumeEventBuffer(event_manager::EventType::kWindowCreated);
+
+		// Setup Dear ImGui context
+		/*IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
+		ImGuiIO& io = ImGui::GetIO(); (void)io;
+		io.ConfigFlags |= ImGuiConfigFlags_None;*/
+
+		/*auto window = static_cast<GLFWwindow*>(this->window_manager->GetWindow());
+
+		ImGui::StyleColorsDark();
+		ImGui_ImplGlfw_InitForOpenGL(window, true);
+		ImGui_ImplOpenGL3_Init("#version 450");*/
 
 		this->is_running_ = true;
 		EE_INFO("Application is now running");
@@ -61,20 +81,18 @@ namespace easy_engine {
 
 		while (this->is_running_) {
 
-			this->event_manager->ConsumeEventBuffer(event_manager::EventType::kEnvironmentUpdate);
-
 			deltaTime = std::chrono::duration_cast<ms>(stop - start).count();
 			start = timer.now();
 
 			this->input_manager->PollEvents();
 			this->event_manager->ConsumeEventBuffer(event_manager::EventType::kKeyboard);
 			this->world->Update(deltaTime);
-			this->event_manager->ConsumeEventBuffer(event_manager::EventType::k3DPreRender);
-			this->event_manager->ConsumeEventBuffer(event_manager::EventType::k3DObjectRenderable);
-			this->event_manager->ConsumeEventBuffer(event_manager::EventType::k3DPostRender);
-			event_manager::Event event = event_manager::Event();
-			event.event_type = event_manager::EventType::kGlobalTick;
-			this->event_manager->Dispatch(event);
+
+			this->event_manager->Dispatch(event_manager::Event(event_manager::EventType::kPreRender));
+			this->event_manager->Dispatch(event_manager::Event(event_manager::EventType::kRender));
+			this->event_manager->Dispatch(event_manager::Event(event_manager::EventType::kPostRender));
+
+			this->event_manager->Dispatch(event_manager::Event(event_manager::EventType::kGlobalTick));
 
 			stop = timer.now();
 		}
@@ -93,8 +111,13 @@ namespace easy_engine {
 	}
 
 	void Application::InitializeDefaultSystems() {
-		auto render_system = new render_manager::RenderSystem();
+		auto ui_render_system = new ui::UIRenderSystem(this->ui_render_manager);
+		world->AddSystem<ui::component::WindowComponent, ecs::component::TransformComponent>(ui_render_system);
+		world->AddSystem<ui::component::TextAreaComponent, ecs::component::TransformComponent>(ui_render_system);
+
+		auto render_system = new render_manager::RenderSystem(this->event_manager, this->render_manager);
 		world->AddSystem<ecs::component::MeshComponent, ecs::component::TransformComponent>(render_system);
+		world->AddSystem<ecs::component::LightComponent, ecs::component::TransformComponent>(render_system);
 	}
 
 	void Application::Close() {

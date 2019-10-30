@@ -22,5 +22,5 @@ namespace easy_engine {
 
 
 
-#endif // !MESH_COMPONENT_H
+#endif // !MATERIAL_COMPONENT_H
 

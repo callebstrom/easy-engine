@@ -7,6 +7,8 @@
 #include <EasyEngine/Logger.h>
 #endif
 
+#include <GL/glfw3.h>
+
 namespace easy_engine {
 
 	namespace event_manager {
@@ -32,6 +34,9 @@ namespace easy_engine {
 			void CloseWindow() override;
 			void SwapBuffers() override;
 			void* GetWindow() override;
+			void Init() {
+				glfwInit();
+			}
 		private:
 			struct Impl;
 			std::unique_ptr<Impl> p_impl_;
