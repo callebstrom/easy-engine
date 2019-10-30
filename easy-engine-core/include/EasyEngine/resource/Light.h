@@ -18,26 +18,22 @@ namespace easy_engine {
 			Eigen::Vector3f specular_color;
 			Eigen::Vector3f ambient_color;
 			float strength;
+			LightType type;
 
 			Light()
 				: diffuse_color(Eigen::Vector3f(1.f, 1.f, 1.f)),
 				specular_color(Eigen::Vector3f(1.f, 1.f, 1.f)),
 				ambient_color(Eigen::Vector3f(1.f, 1.f, 1.f)),
 				strength(1.f) {}
-
-		protected:
-			LightType type;
 		};
 
 		struct EASY_ENGINE_API PointLight : public Light {
-			Eigen::Vector3f position;
-
 			float constant;
 			float linear;
 			float quadratic;
 
 			PointLight()
-				: position(Eigen::Vector3f(0, 0, 0)), constant(1), linear(0.22), quadratic(0.2) {
+				: constant(1.f), linear(0.22f), quadratic(0.2f) {
 				type = LightType::kPointLight;
 			};
 		};

@@ -93,35 +93,42 @@ public:
 
 		world->AddSystem<ecs::component::MeshComponent, ecs::component::TransformComponent>(new PlayerSystem);
 
-		ecs::component::MeshComponent mesh_component;
-		ecs::component::TextureComponent texture_component;
-		ecs::component::MaterialComponent material_component;
-		// this->resource_manager_3d->Load("..\\easy-engine-core\\res\\sylvanas\\sylvanas.fbx", mesh_component, texture_component, material_component);
+		this->resource_manager_3d->Load(
+			"..\\easy-engine-core\\res\\sylvanas\\sylvanas.fbx",
+			easy_engine::resource_manager::LOAD_MATERIALS
+		).then([=](resource_manager::LoadFuture future_resource_collection) mutable {
+			ecs::component::TransformComponent transform_component;
+			transform_component.Scale(0.05, 0.05, 0.05);
+			transform_component.TranslationAdd(0, -8, -15);
+			auto sylvana = this->world->CreateEntity();
 
-		ecs::component::TransformComponent transform_component;
-		transform_component.Scale(0.05, 0.05, 0.05);
-		transform_component.TranslationAdd(0, -8, -15);
-		// transform_component.RotationAdd(-1.500796f, 1, 0, 0);
-		auto sylvana = this->world->CreateEntity();
+			auto resource_collection = future_resource_collection.get();
 
-		/*this->world->AddComponent<ecs::component::MeshComponent>(sylvana, mesh_component);
-		this->world->AddComponent<ecs::component::TextureComponent>(sylvana, texture_component);
-		this->world->AddComponent<ecs::component::MaterialComponent>(sylvana, material_component);
-		this->world->AddComponent<ecs::component::TransformComponent>(sylvana, transform_component);*/
+			ecs::component::MeshComponent mesh_component;
+			ecs::component::TextureComponent texture_component;
+			ecs::component::MaterialComponent material_component;
 
-		resource::Environment environment;
-		resource::PointLight point_light;
-		point_light.position = Eigen::Vector3f(0.f, 1.f, 5.f);
-		point_light.strength = 50.f;
+			mesh_component.sub_meshes = new std::vector<resource::Mesh*>(resource_collection.meshes);
+			texture_component.textures = new std::vector<resource::Texture*>(resource_collection.textures);
+			material_component.materials = new std::vector<resource::Material*>(resource_collection.materials);
 
-		resource::DirectionalLight directional_light;
-		directional_light.direction = Eigen::Vector3f(1.f, 1.f, 1.f);
-		directional_light.strength = 1.f;
+			this->world->AddComponent<ecs::component::MeshComponent>(sylvana, mesh_component);
+			this->world->AddComponent<ecs::component::TextureComponent>(sylvana, texture_component);
+			this->world->AddComponent<ecs::component::MaterialComponent>(sylvana, material_component);
+			this->world->AddComponent<ecs::component::TransformComponent>(sylvana, transform_component);
+			});
 
-		environment.AddLight(point_light);
-		// environment.AddLight(directional_light);
 
-		world->SetupEnvironment(environment);
+		auto point_light = new resource::PointLight();
+		point_light->strength = 50.f;
+		ecs::component::LightComponent point_light_component(point_light);
+
+		ecs::component::TransformComponent point_light_transform;
+		point_light_transform.Translation(0.f, 1.f, 5.f);
+
+		auto sun = this->world->CreateEntity();
+		this->world->AddComponent<ecs::component::LightComponent>(sun, point_light_component);
+		this->world->AddComponent<ecs::component::TransformComponent>(sun, point_light_transform);
 
 		this->SetupWindow();
 	}
@@ -129,8 +136,8 @@ public:
 	void SetupWindow() {
 		auto shader_editor_window = world->CreateEntity();
 		auto window_component = ui::component::WindowComponent();
-		window_component.height = 230;
-		window_component.width = 250;
+		window_component.height = 500;
+		window_component.width = 230;
 		window_component.title = "Shader editor";
 		ecs::component::TransformComponent shader_editor_transform_component;
 		shader_editor_transform_component.Translation(100, 100, 0);
@@ -140,7 +147,7 @@ public:
 
 		auto text_area = world->CreateEntity();
 		auto text_area_component = ui::component::TextAreaComponent();
-		text_area_component.height = 50;
+		text_area_component.height = 500;
 		text_area_component.width = 230;
 		ecs::component::TransformComponent text_area_transform_component;
 		ecs::component::ParentEntityComponent window_parent_component;

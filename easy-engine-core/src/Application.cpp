@@ -44,15 +44,14 @@ namespace easy_engine {
 		this->window_manager = std::make_shared<window_manager::WindowManagerGLFW>(this->event_manager, this->input_manager);
 		this->ui_render_manager = std::make_shared<ui::UIRenderManagerOpenGL>(this->window_manager, this->event_manager);
 
-		this->InitializeDefaultSystems();
-
 		this->window_manager->CreateWindowEE(window_configuration);
-		this->render_manager = new render_manager::RenderManagerOpenGL(
+		this->render_manager = CreateRef<render_manager::RenderManagerOpenGL>(
 			render_configuration,
 			std::static_pointer_cast<shader_manager::ShaderManagerOpenGL>(this->shader_manager)
-		);
+			);
 
-		ManagerLocator::render_manager = dynamic_cast<render_manager::IRenderManager*>(this->render_manager);
+		this->InitializeDefaultSystems();
+
 
 		this->OnInit();
 
@@ -81,8 +80,6 @@ namespace easy_engine {
 		float deltaTime = 0;
 
 		while (this->is_running_) {
-
-			this->event_manager->ConsumeEventBuffer(event_manager::EventType::kEnvironmentUpdate);
 
 			deltaTime = std::chrono::duration_cast<ms>(stop - start).count();
 			start = timer.now();
@@ -114,12 +111,13 @@ namespace easy_engine {
 	}
 
 	void Application::InitializeDefaultSystems() {
-		auto render_system = new render_manager::RenderSystem(this->event_manager);
-		world->AddSystem<ecs::component::MeshComponent, ecs::component::TransformComponent>(render_system);
-
 		auto ui_render_system = new ui::UIRenderSystem(this->ui_render_manager);
 		world->AddSystem<ui::component::WindowComponent, ecs::component::TransformComponent>(ui_render_system);
 		world->AddSystem<ui::component::TextAreaComponent, ecs::component::TransformComponent>(ui_render_system);
+
+		auto render_system = new render_manager::RenderSystem(this->event_manager, this->render_manager);
+		world->AddSystem<ecs::component::MeshComponent, ecs::component::TransformComponent>(render_system);
+		world->AddSystem<ecs::component::LightComponent, ecs::component::TransformComponent>(render_system);
 	}
 
 	void Application::Close() {

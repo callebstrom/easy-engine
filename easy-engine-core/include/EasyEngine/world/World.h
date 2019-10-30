@@ -3,16 +3,12 @@
 #pragma once
 
 #include <EasyEngine/ecs/ISystem.h>
-#include <EasyEngine/ecs/entity/Entity.h>
+#include <EasyEngine/ecs/entity/EntityHandle.h>
 #include <EasyEngine/ecs/component_manager/ComponentManager.h>
 #include <type_traits>
 #include <EasyEngine/resource/Environment.h>
 
 namespace easy_engine {
-
-	namespace entity {
-		class EntityHandle;
-	}
 
 	namespace world {
 

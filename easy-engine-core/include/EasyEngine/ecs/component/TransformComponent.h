@@ -9,6 +9,7 @@ namespace easy_engine {
 
 	namespace render_manager {
 		class RenderManagerOpenGL;
+		class RenderSystem;
 	}
 
 	namespace ecs {
@@ -26,6 +27,7 @@ namespace easy_engine {
 
 			private:
 				friend class render_manager::RenderManagerOpenGL;
+				friend class render_manager::RenderSystem;
 				Eigen::Translation3f translation_ = Eigen::Translation3f(0.f, 0.f, 0.f);
 				Eigen::Translation3f prev_translation_ = Eigen::Translation3f(0.f, 0.f, 0.f);
 				Eigen::AngleAxis<float> rotation = Eigen::AngleAxis<float>(0.f, Eigen::Vector3f(0, 0, 0));

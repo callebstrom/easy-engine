@@ -321,6 +321,9 @@
     <ClInclude Include="include\EasyEngine\ecs\component\TextAreaComponent.h">
       <Filter>Header Files\ui\component</Filter>
     </ClInclude>
+    <ClInclude Include="include\EasyEngine\ecs\component\LightComponent.h">
+      <Filter>Header Files\ecs\component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RenderManagerOpenGL.cpp">

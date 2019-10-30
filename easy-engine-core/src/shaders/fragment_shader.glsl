@@ -102,6 +102,8 @@ void main() {
 
 	// Do point light calculations for each point light
 	for (int i = 0; i < point_light_count; i++) {
-		outputColor += CalculatePointLight(point_lights[i], normal_worldspace, frag_vertexPosition_worldspace, cameraDirection_worldspace);
+		PointLight point_light = point_lights[i];
+		point_light.constant = 1; // TODO bug when uploading constant causing min-max values
+		outputColor += CalculatePointLight(point_light, normal_worldspace, frag_vertexPosition_worldspace, cameraDirection_worldspace);
 	}
 }

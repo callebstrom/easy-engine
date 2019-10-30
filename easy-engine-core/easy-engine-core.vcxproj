@@ -38,6 +38,7 @@
     <ClInclude Include="include\EasyEngine\Application.h" />
     <ClInclude Include="include\EasyEngine\Common.h" />
     <ClInclude Include="include\EasyEngine\ecs\component\Component.h" />
+    <ClInclude Include="include\EasyEngine\ecs\component\LightComponent.h" />
     <ClInclude Include="include\EasyEngine\ecs\component\MaterialComponent.h" />
     <ClInclude Include="include\EasyEngine\ecs\component\MeshComponent.h" />
     <ClInclude Include="include\EasyEngine\ecs\component\ParentEntityComponent.h" />
@@ -329,7 +330,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(SolutionDir)vendor\win\precompiled\glfw\glfw3.lib;$(SolutionDir)vendor\win\precompiled\glew\glew32s.lib;opengl32.lib;$(ProjectDir)lib\assimp\build\code\Debug\assimp-vc142-mtd.lib;$(ProjectDir)lib\assimp\build\contrib\zlib\Debug\zlibstaticd.lib;$(ProjectDir)lib\assimp\build\contrib\irrXML\Debug\IrrXML.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)vendor\win\precompiled\glfw\glfw3.lib;$(SolutionDir)vendor\win\precompiled\glew\glew32s.lib;opengl32.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_thread-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_date_time-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_chrono-vc141-mt-gd-x64-1_69.lib;$(ProjectDir)lib\assimp\build\code\Debug\assimp-vc142-mtd.lib;$(ProjectDir)lib\assimp\build\contrib\zlib\Debug\zlibstaticd.lib;$(ProjectDir)lib\assimp\build\contrib\irrXML\Debug\IrrXML.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Bscmake>

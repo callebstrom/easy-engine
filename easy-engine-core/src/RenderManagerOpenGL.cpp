@@ -422,7 +422,12 @@ namespace easy_engine {
 			}
 
 			void OnPreRender() {
+				this->RenderLights();
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			}
+
+			void OnPostRender() {
+
 			}
 
 			int GetPointLightOffsetInBytes(int offset) {
@@ -452,7 +457,72 @@ namespace easy_engine {
 				return std::accumulate(directional_light_size_vector.begin(), std::next(directional_light_size_vector.begin(), offset), 0);
 			}
 
-			void SetupEnvironment(const resource::Environment& environment) {
+			void RenderLights() {
+
+				unsigned int lights_uniform_block_index = glGetUniformBlockIndex(this->shader_program_, "Lights");
+				glUniformBlockBinding(this->shader_program_, lights_uniform_block_index, LIGHTS_BINDING_POINT);
+
+				unsigned int lights_ubo;
+				glGenBuffers(1, &lights_ubo);
+
+				const auto point_light_padding = sizeof(float) * NO_OF_VEC3_IN_POINT_LIGHT; // One float of padding per vec3 as these are stored as vec4 in GLSL
+				const auto directional_light_padding = sizeof(float) * NO_OF_VEC3_IN_DIRECTIONAL_LIGHT; // One float of padding per vec3 as these are stored as vec4 in GLSL
+
+				const auto point_light_size = sizeof(resource::PointLight) + point_light_padding;
+				const auto directional_light_size = sizeof(resource::DirectionalLight) + directional_light_padding;
+
+				const auto lights_size = (point_light_size * MAX_POINT_LIGHTS) + (directional_light_size * MAX_DIRECTIONAL_LIGHTS);
+
+				glBindBuffer(GL_UNIFORM_BUFFER, lights_ubo);
+				glBufferData(GL_UNIFORM_BUFFER, lights_size, NULL, GL_STATIC_DRAW);
+				glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+				glBindBufferRange(GL_UNIFORM_BUFFER, 0, lights_ubo, 0, lights_size);
+
+				glBindBuffer(GL_UNIFORM_BUFFER, lights_ubo);
+
+				GLint point_light_count_uniform = glGetUniformLocation(this->shader_program_, "point_light_count");
+				glUniform1f(point_light_count_uniform, this->point_lights_with_translations.size());
+
+				GLint directional_light_count_uniform = glGetUniformLocation(this->shader_program_, "directional_light_count");
+				glUniform1f(directional_light_count_uniform, this->directional_lights_with_translations.size());
+
+				// Point lights
+				for (int i = 0; i < this->point_lights_with_translations.size(); i++) {
+					auto light = this->point_lights_with_translations[i].first;
+					auto translation = this->point_lights_with_translations[i].second;
+
+					auto point_light_offset = i * point_light_size;
+
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset, VEC3_SIZE_WITH_PADDING, translation.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(1), sizeof(float), &light->constant);
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(2), sizeof(float), &light->linear);
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(3), sizeof(float), &light->quadratic);
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(4), VEC3_SIZE_WITH_PADDING, light->ambient_color.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(5), VEC3_SIZE_WITH_PADDING, light->diffuse_color.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(6), VEC3_SIZE_WITH_PADDING, light->specular_color.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(7), sizeof(float), &light->strength);
+				}
+
+				// Directional lights
+				for (int i = 0; i < this->directional_lights_with_translations.size(); i++) {
+					auto light =  this->directional_lights_with_translations[i].first;
+
+					auto directional_light_offset = i * directional_light_size + (MAX_POINT_LIGHTS * point_light_size);
+					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset, VEC3_SIZE_WITH_PADDING, light->direction.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset + this->GetDirectionalLightOffsetInBytes(1), VEC3_SIZE_WITH_PADDING, light->ambient_color.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset + this->GetDirectionalLightOffsetInBytes(2), VEC3_SIZE_WITH_PADDING, light->diffuse_color.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset + this->GetDirectionalLightOffsetInBytes(3), VEC3_SIZE_WITH_PADDING, light->specular_color.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset + this->GetDirectionalLightOffsetInBytes(4), sizeof(float), &light->strength);
+				}
+
+				glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+				this->point_lights_with_translations.clear();
+				this->directional_lights_with_translations.clear();
+			}
+
+			/*void SetupEnvironment(const resource::Environment& environment) {
 
 				unsigned int lights_uniform_block_index = glGetUniformBlockIndex(this->shader_program_, "Lights");
 				glUniformBlockBinding(this->shader_program_, lights_uniform_block_index, LIGHTS_BINDING_POINT);
@@ -510,12 +580,12 @@ namespace easy_engine {
 				}
 
 				glBindBuffer(GL_UNIFORM_BUFFER, 0);
-			}
+			}*/
 
-			void OnEnvironmentUpdate(event_manager::Event event) {
+			/*void OnEnvironmentUpdate(event_manager::Event event) {
 				resource::Environment* environment = static_cast<resource::Environment*>(event.data);
 				this->SetupEnvironment(*environment);
-			}
+			}*/
 
 			configuration::RenderConfiguration_t* render_config_;
 			std::vector<resource::Renderable*> render_queue;
@@ -536,6 +606,9 @@ namespace easy_engine {
 
 			GLint diffuse_texture_sampler;
 			GLint emissive_texture_sampler;
+
+			std::vector<std::pair<resource::PointLight*, Eigen::Vector3f>> point_lights_with_translations;
+			std::vector<std::pair<resource::DirectionalLight*, Eigen::Vector3f>> directional_lights_with_translations;
 
 			std::shared_ptr<ShaderManagerOpenGL> shader_manager;
 		};
@@ -558,12 +631,12 @@ namespace easy_engine {
 			);
 
 			ManagerLocator::event_manager->Subscribe(
-				event_manager::EventType::k3DObjectRenderable,
+				event_manager::EventType::kPostRender,
 				this
 			);
 
 			ManagerLocator::event_manager->Subscribe(
-				event_manager::EventType::kEnvironmentUpdate,
+				event_manager::EventType::k3DObjectRenderable,
 				this
 			);
 
@@ -580,6 +653,17 @@ namespace easy_engine {
 			this->p_impl_->Render(mesh, model_matrix, textures, material);
 		}
 
+		void RenderManagerOpenGL::Render(resource::Light* light, Eigen::Vector3f translation) {
+			switch (light->type) {
+			case resource::LightType::kPointLight:
+			{
+				auto light_translation_pair = std::make_pair(static_cast<resource::PointLight*>(light), translation);
+				this->p_impl_->point_lights_with_translations.push_back(light_translation_pair);
+				break;
+			}
+			}
+		}
+
 		void RenderManagerOpenGL::OnEvent(event_manager::Event event) {
 			switch (event.event_type) {
 			case event_manager::EventType::k3DObjectRenderable:
@@ -588,8 +672,8 @@ namespace easy_engine {
 			case event_manager::EventType::kPreRender:
 				this->p_impl_->OnPreRender();
 				break;
-			case event_manager::EventType::kEnvironmentUpdate:
-				this->p_impl_->OnEnvironmentUpdate(event);
+			case event_manager::EventType::kPostRender:
+				this->p_impl_->OnPostRender();
 				break;
 			}
 		}
