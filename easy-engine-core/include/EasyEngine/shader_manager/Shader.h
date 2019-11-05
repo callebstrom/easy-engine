@@ -15,11 +15,18 @@ namespace easy_engine {
 
 		class Shader {
 		public:
+
+			Shader(int id, std::string source, ShaderType type)
+				: id(id), source_(source), type(type) {}
+
 			ShaderType type;
-			std::string source;
-			int id;
+			unsigned int id;
+			int diffuse_texture_sampler;
+			int emissive_texture_sampler;
+
+			auto GetSource() { return this->source_.c_str(); }
 		private:
-			std::string source_path_;
+			std::string source_;
 
 		};
 	}

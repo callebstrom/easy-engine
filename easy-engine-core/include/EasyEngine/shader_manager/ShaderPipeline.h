@@ -2,6 +2,8 @@
 #define SHADER_PIPELINE_H
 #pragma once
 
+#include <EasyEngine/Common.h>
+
 namespace easy_engine {
 	namespace shader_manager {
 
@@ -9,12 +11,17 @@ namespace easy_engine {
 
 		class ShaderPipeline {
 		public:
-			auto AddShader(const Shader& shader) -> void;
-			auto RemoveShader(const Shader& shader) -> void;
+			ShaderPipeline(unsigned int internal_id);
+			auto AddShader(Ref<Shader> shader) -> void;
+			auto RemoveShader(Ref<Shader> shader) -> void;
+			auto GetVertexShader() const -> Ref<Shader>;
+			auto GetPixelShader() const -> Ref<Shader>;
+			auto GetId() const -> unsigned int { return this->id; }
 		private:
-			std::shared_ptr<Shader> vertex_shader;
-			std::shared_ptr<Shader> pixel_shader;
-			std::vector<std::shared_ptr<Shader>> compute_shaders;
+			unsigned int id;
+			Ref<Shader> vertex_shader;
+			Ref<Shader>pixel_shader;
+			std::vector<Ref<Shader>> compute_shaders;
 		};
 	}
 }

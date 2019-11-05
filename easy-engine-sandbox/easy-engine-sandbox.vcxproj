@@ -103,7 +103,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;$(SolutionDir)bin\x64\Debug\easy-engine-core.lib;$(SolutionDir)vendor\all\nanogui\Debug\nanogui.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_thread-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_date_time-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_chrono-vc141-mt-gd-x64-1_69.lib;%(AdditionalDependencies);glfw3.lib;glew32s.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;$(SolutionDir)bin\x64\Debug\easy-engine-core.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_thread-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_date_time-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_chrono-vc141-mt-gd-x64-1_69.lib;%(AdditionalDependencies);glfw3.lib;glew32s.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)easy-engine-core\lib\x64;$(SolutionDir)vendor\win\precompiled\x64\bin\Release\x64;$(SolutionDir)vendor\win\precompiled\x64\glew\lib\Release\x64;$(SolutionDir)vendor\win\precompiled\x64\glfw\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>

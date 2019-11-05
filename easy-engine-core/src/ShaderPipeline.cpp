@@ -4,19 +4,36 @@
 
 namespace easy_engine {
 	namespace shader_manager {
-		void ShaderPipeline::AddShader(const Shader& shader) {
-			switch (shader.type) {
+
+		ShaderPipeline::ShaderPipeline(unsigned int id)
+			: id(id) {};
+
+		auto ShaderPipeline::AddShader(Ref<Shader> shader) -> void {
+			switch (shader->type) {
 			case ShaderType::kVertex:
-				this->vertex_shader = std::make_shared<Shader>(shader);
+				this->vertex_shader = shader;
+				break;
+			case ShaderType::kPixel:
+				this->pixel_shader = shader;
 				break;
 			}
 		}
-		void ShaderPipeline::RemoveShader(const Shader& shader) {
-			switch (shader.type) {
+		auto ShaderPipeline::RemoveShader(Ref<Shader> shader) -> void {
+			switch (shader->type) {
 			case ShaderType::kVertex:
 				this->vertex_shader = nullptr;
 				break;
+			case ShaderType::kPixel:
+				this->pixel_shader = nullptr;
 			}
+		}
+
+		auto ShaderPipeline::GetVertexShader() const -> Ref<Shader> {
+			return this->vertex_shader;
+		}
+
+		auto ShaderPipeline::GetPixelShader() const -> Ref<Shader> {
+			return this->pixel_shader;
 		}
 	}
 }

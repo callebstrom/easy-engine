@@ -22,6 +22,7 @@
 #include <EasyEngine/ecs/component/TextureComponent.h>
 #include <EasyEngine/ecs/component/MaterialComponent.h>
 #include <EasyEngine/shader_manager/ShaderManagerOpenGL.h>
+#include <EasyEngine/shader_manager/Shader.h>
 
 #include <EasyEngine/resource/Environment.h>
 
@@ -55,65 +56,31 @@ namespace easy_engine {
 			}
 
 			void LogRenderInfo() const;
-			void LoadShaders() {
 
-				std::ifstream vertex_in(this->render_config_->Get(c_params_::VERTEX_SHADER_SOURCE_LOCATION));
-				std::string vertex_contents((std::istreambuf_iterator<char>(vertex_in)),
-					std::istreambuf_iterator<char>());
+			void CreateDefaultPipeline() {
 
-				std::ifstream fragment_in(this->render_config_->Get(c_params_::FRAGMENT_SHADER_SOURCE_LOCATION));
-				std::string fragment_contents((std::istreambuf_iterator<char>(fragment_in)),
-					std::istreambuf_iterator<char>());
+				auto vertex_shader = this->shader_manager->LoadShader(this->render_config_->Get(c_params_::VERTEX_SHADER_SOURCE_LOCATION), shader_manager::ShaderType::kVertex);
+				auto pixel_shader = this->shader_manager->LoadShader(this->render_config_->Get(c_params_::FRAGMENT_SHADER_SOURCE_LOCATION), shader_manager::ShaderType::kPixel);
 
-				const char* vertex_source = vertex_contents.c_str();
-				const char* fragment_source = fragment_contents.c_str();
-
-				if (vertex_source == "")
-					throw std::runtime_error("Empty vertex shader source");
-				else if (fragment_source == "")
-					throw std::runtime_error("Empty fragment shader source");
-
-				this->vertex_shader_ = glCreateShader(GL_VERTEX_SHADER);
-				glShaderSource(this->vertex_shader_, 1, &vertex_source, NULL);
-				glCompileShader(this->vertex_shader_);
-
-				this->fragment_shader_ = glCreateShader(GL_FRAGMENT_SHADER);
-				glShaderSource(this->fragment_shader_, 1, &fragment_source, NULL);
-				glCompileShader(this->fragment_shader_);
-
-				GLint vertex_status, fragment_status;
-				glGetShaderiv(this->vertex_shader_, GL_COMPILE_STATUS, &vertex_status);
-				glGetShaderiv(this->fragment_shader_, GL_COMPILE_STATUS, &fragment_status);
-
-				char shader_log_buffer[512];
-
-				if (vertex_status != GL_TRUE) {
-					const std::string message = "Could not compile vertex shader: ";
-					glGetShaderInfoLog(this->vertex_shader_, 256, NULL, shader_log_buffer);
-					EE_CORE_CRITICAL(message + shader_log_buffer);
-				}
-				else if (fragment_status != GL_TRUE) {
-					const std::string message = "Could not compile fragment shader: ";
-					glGetShaderInfoLog(this->fragment_shader_, 256, NULL, shader_log_buffer);
-					EE_CORE_CRITICAL(message + shader_log_buffer);
+				if (!vertex_shader) {
+					EE_CORE_ERROR("Could not load default vertex shader");
+					return;
 				}
 
-				this->shader_program_ = glCreateProgram();
-				glAttachShader(this->shader_program_, this->vertex_shader_);
-				glAttachShader(this->shader_program_, this->fragment_shader_);
+				if (!pixel_shader) {
+					EE_CORE_ERROR("Could not load default pixel shader");
+					return;
+				}
 
-				glBindFragDataLocation(this->shader_program_, 1, "outColor");
+				auto shader_pipeline = this->shader_manager->CreateShaderPipeline();
 
-				glLinkProgram(this->shader_program_);
+				this->shader_manager->AttachShader(vertex_shader, shader_pipeline);
+				this->shader_manager->AttachShader(pixel_shader, shader_pipeline);
 
-				this->diffuse_texture_sampler = glGetUniformLocation(this->shader_program_, "diffuseTextureSampler2D");
-				this->emissive_texture_sampler = glGetUniformLocation(this->shader_program_, "emissiveTextureSampler2D");
+				this->shader_manager->LinkPipeline(shader_pipeline);
 
-				glUseProgram(this->shader_program_);
-
-				glUniform1i(diffuse_texture_sampler, 0);
-				glUniform1i(emissive_texture_sampler, 1);
-			};
+				this->shader_program_ = shader_pipeline->GetId();
+			}
 
 			void LogRenderInfo() {
 				EE_CORE_INFO("Renderer: {}", std::string(reinterpret_cast<char*>(const_cast<GLubyte*>(glGetString(GL_RENDERER)))));
@@ -522,71 +489,6 @@ namespace easy_engine {
 				this->directional_lights_with_translations.clear();
 			}
 
-			/*void SetupEnvironment(const resource::Environment& environment) {
-
-				unsigned int lights_uniform_block_index = glGetUniformBlockIndex(this->shader_program_, "Lights");
-				glUniformBlockBinding(this->shader_program_, lights_uniform_block_index, LIGHTS_BINDING_POINT);
-
-				unsigned int lights_ubo;
-				glGenBuffers(1, &lights_ubo);
-
-				const auto point_light_padding = sizeof(float) * NO_OF_VEC3_IN_POINT_LIGHT; // One float of padding per vec3 as these are stored as vec4 in GLSL
-				const auto directional_light_padding = sizeof(float) * NO_OF_VEC3_IN_DIRECTIONAL_LIGHT; // One float of padding per vec3 as these are stored as vec4 in GLSL
-
-				const auto point_light_size = sizeof(resource::PointLight) + point_light_padding;
-				const auto directional_light_size = sizeof(resource::DirectionalLight) + directional_light_padding;
-
-				const auto lights_size = (point_light_size * MAX_POINT_LIGHTS) + (directional_light_size * MAX_DIRECTIONAL_LIGHTS);
-
-				glBindBuffer(GL_UNIFORM_BUFFER, lights_ubo);
-				glBufferData(GL_UNIFORM_BUFFER, lights_size, NULL, GL_STATIC_DRAW);
-				glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
-				glBindBufferRange(GL_UNIFORM_BUFFER, 0, lights_ubo, 0, lights_size);
-
-				glBindBuffer(GL_UNIFORM_BUFFER, lights_ubo);
-
-				GLint point_light_count_uniform = glGetUniformLocation(this->shader_program_, "point_light_count");
-				glUniform1f(point_light_count_uniform, environment.point_lights.size());
-
-				GLint directional_light_count_uniform = glGetUniformLocation(this->shader_program_, "directional_light_count");
-				glUniform1f(directional_light_count_uniform, environment.directional_lights.size());
-
-				// Point lights
-				for (int i = 0; i < environment.point_lights.size(); i++) {
-					resource::PointLight light = environment.point_lights[i];
-
-					auto point_light_offset = i * point_light_size;
-					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset, VEC3_SIZE_WITH_PADDING, light.position.data());
-					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(1), sizeof(float), &light.constant);
-					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(2), sizeof(float), &light.linear);
-					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(3), sizeof(float), &light.quadratic);
-					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(4), VEC3_SIZE_WITH_PADDING, light.ambient_color.data());
-					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(5), VEC3_SIZE_WITH_PADDING, light.diffuse_color.data());
-					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(6), VEC3_SIZE_WITH_PADDING, light.specular_color.data());
-					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(7), sizeof(float), &light.strength);
-				}
-
-				// Directional lights
-				for (int i = 0; i < environment.directional_lights.size(); i++) {
-					resource::DirectionalLight light = environment.directional_lights[i];
-
-					auto directional_light_offset = i * directional_light_size + (MAX_POINT_LIGHTS * point_light_size);
-					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset, VEC3_SIZE_WITH_PADDING, light.direction.data());
-					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset + this->GetDirectionalLightOffsetInBytes(1), VEC3_SIZE_WITH_PADDING, light.ambient_color.data());
-					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset + this->GetDirectionalLightOffsetInBytes(2), VEC3_SIZE_WITH_PADDING, light.diffuse_color.data());
-					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset + this->GetDirectionalLightOffsetInBytes(3), VEC3_SIZE_WITH_PADDING, light.specular_color.data());
-					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset + this->GetDirectionalLightOffsetInBytes(4), sizeof(float), &light.strength);
-				}
-
-				glBindBuffer(GL_UNIFORM_BUFFER, 0);
-			}*/
-
-			/*void OnEnvironmentUpdate(event_manager::Event event) {
-				resource::Environment* environment = static_cast<resource::Environment*>(event.data);
-				this->SetupEnvironment(*environment);
-			}*/
-
 			configuration::RenderConfiguration_t* render_config_;
 			std::vector<resource::Renderable*> render_queue;
 
@@ -623,7 +525,7 @@ namespace easy_engine {
 				EE_CORE_CRITICAL("Failed to init GLEW: " + boost::lexical_cast<std::string>(glewGetErrorString(glew_error)));
 			}
 
-			this->p_impl_->LoadShaders();
+			this->p_impl_->CreateDefaultPipeline();
 
 			ManagerLocator::event_manager->Subscribe(
 				event_manager::EventType::kPreRender,

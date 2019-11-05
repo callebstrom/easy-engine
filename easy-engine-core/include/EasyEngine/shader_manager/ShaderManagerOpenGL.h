@@ -11,10 +11,11 @@ namespace easy_engine {
 			ShaderManagerOpenGL::ShaderManagerOpenGL();
 			ShaderManagerOpenGL::~ShaderManagerOpenGL();
 
-			const Shader& LoadShader(std::string path, ShaderType type) override;
-			void AttachPipeline(const ShaderPipeline& pipeline) override;
-			void AttachShader(const Shader& shader, ShaderPipeline& pipeline) override;
-			const ShaderPipeline& CreateShaderPipeline() override;
+			Ref<Shader> LoadShader(std::string path, ShaderType type) override;
+			Ref<ShaderPipeline> CreateShaderPipeline() override;
+			void LinkPipeline(Ref<ShaderPipeline> pipeline) override;
+			void AttachPipeline(Ref<ShaderPipeline> pipeline) override;
+			void AttachShader(Ref<Shader> shader, Ref<ShaderPipeline> pipeline) override;
 
 		private:
 			struct Impl;
