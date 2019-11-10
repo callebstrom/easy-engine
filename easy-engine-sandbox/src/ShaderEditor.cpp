@@ -83,6 +83,44 @@ private:
 	std::optional<ecs::component::TextureComponent*> cached_texture_component = std::nullopt;
 };
 
+class ShaderEditor : public ecs::ISystem {
+
+public:
+
+	ShaderEditor(Ref<shader_manager::IShaderManager> shader_manager)
+		: shader_manager_(shader_manager) {}
+
+	void Update(float dt) override {
+		for (auto const& entity : this->entities_) {
+			auto maybe_text_area = this->world->GetComponentForEntity<ui::component::TextAreaComponent>(entity);
+			if (maybe_text_area.has_value()) {
+				auto source = maybe_text_area.value()->buffer;
+				const auto pipeline = this->shader_manager_->GetAttachedPipeline();
+				const auto current_source = pipeline->GetPixelShader()->GetSource();
+
+				if (current_source == source) {
+					continue;
+				}
+
+				const auto shader = this->shader_manager_->LoadShaderBySource(source, shader_manager::ShaderType::kPixel);
+				if (shader) {
+					auto new_pipeline = this->shader_manager_->CreateShaderPipeline();
+					this->shader_manager_->AttachShader(pipeline->GetVertexShader(), new_pipeline);
+					this->shader_manager_->AttachShader(shader, new_pipeline);
+					this->shader_manager_->LinkPipeline(new_pipeline);
+					this->shader_manager_->AttachPipeline(new_pipeline);
+
+					this->shader_manager_->DeleteShader(pipeline->GetPixelShader());
+					this->shader_manager_->DeletePipeline(pipeline);
+				}
+			}
+		}
+	}
+
+private:
+	Ref<shader_manager::IShaderManager> shader_manager_;
+};
+
 class PlayerApplication : public Application {
 public:
 	~PlayerApplication() {
@@ -91,7 +129,8 @@ public:
 
 	virtual void OnInit() override {
 
-		world->AddSystem<ecs::component::MeshComponent, ecs::component::TransformComponent>(new PlayerSystem);
+		//world->AddSystem<ecs::component::MeshComponent, ecs::component::TransformComponent>(new PlayerSystem);
+		world->AddSystem<ui::component::TextAreaComponent>(new ShaderEditor(this->shader_manager));
 
 		this->resource_manager_3d->Load(
 			"..\\easy-engine-core\\res\\sylvanas\\sylvanas.fbx",
@@ -136,8 +175,8 @@ public:
 	void SetupWindow() {
 		auto shader_editor_window = world->CreateEntity();
 		auto window_component = ui::component::WindowComponent();
-		window_component.height = 500;
-		window_component.width = 230;
+		window_component.height = 800;
+		window_component.width = 500;
 		window_component.title = "Shader editor";
 		ecs::component::TransformComponent shader_editor_transform_component;
 		shader_editor_transform_component.Translation(100, 100, 0);
@@ -146,9 +185,9 @@ public:
 		world->AddComponent<ui::component::WindowComponent>(shader_editor_window, window_component);
 
 		auto text_area = world->CreateEntity();
-		auto text_area_component = ui::component::TextAreaComponent();
-		text_area_component.height = 500;
-		text_area_component.width = 230;
+		auto pixel_shader = this->shader_manager->GetAttachedPipeline()->GetPixelShader();
+		auto source = pixel_shader->GetSource();
+		auto text_area_component = ui::component::TextAreaComponent(500, 800, 40000, source);
 		ecs::component::TransformComponent text_area_transform_component;
 		ecs::component::ParentEntityComponent window_parent_component;
 		window_parent_component.entity = shader_editor_window.entity;

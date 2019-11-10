@@ -8,6 +8,8 @@
 #include <EasyEngine/shader_manager/ShaderManagerOpenGL.h>
 #include <EasyEngine/shader_manager/Shader.h>
 
+#include <algorithm>
+
 namespace easy_engine {
 	namespace shader_manager {
 
@@ -17,7 +19,8 @@ namespace easy_engine {
 			auto CompileShader(Ref<Shader> shader) const -> std::optional<GLuint> {
 				auto internal_type = this->internal_type_map.at(shader->type);
 				GLuint shader_descriptor = glCreateShader(internal_type);
-				auto source = shader->GetSource();
+				auto source_string = shader->GetSource();
+				auto source = source_string.c_str();
 				glShaderSource(shader_descriptor, 1, &source, NULL);
 				glCompileShader(shader_descriptor);
 
@@ -46,6 +49,7 @@ namespace easy_engine {
 				{ ShaderType::kGeometry, "geometry" }
 			};
 			std::vector<std::shared_ptr<Shader>> shaders;
+			Ref<ShaderPipeline> attached_pipeline;
 		};
 
 		ShaderManagerOpenGL::ShaderManagerOpenGL()
@@ -53,10 +57,13 @@ namespace easy_engine {
 
 		ShaderManagerOpenGL::~ShaderManagerOpenGL() {}
 
-		auto ShaderManagerOpenGL::LoadShader(std::string path, ShaderType type) -> std::shared_ptr<Shader> {
-
+		auto ShaderManagerOpenGL::LoadShaderByPath(std::string path, ShaderType type) -> std::shared_ptr<Shader> {
 			auto shader_source = resource_manager::ResourceManager::LoadFileAsString(path);
-			auto shader = CreateRef<Shader>(this->p_impl_->shaders.size(), shader_source, type);
+			return this->LoadShaderBySource(shader_source, type);
+		}
+
+		Ref<Shader> ShaderManagerOpenGL::LoadShaderBySource(std::string source, ShaderType type) {
+			auto shader = CreateRef<Shader>(this->p_impl_->shaders.size(), source, type);
 
 			auto maybe_internal_id = this->p_impl_->CompileShader(shader);
 
@@ -70,6 +77,7 @@ namespace easy_engine {
 		}
 
 		auto ShaderManagerOpenGL::AttachPipeline(Ref<ShaderPipeline> pipeline) -> void {
+			this->p_impl_->attached_pipeline = pipeline;
 			glUseProgram(pipeline->GetId());
 		}
 
@@ -82,7 +90,11 @@ namespace easy_engine {
 			return CreateRef<ShaderPipeline>(glCreateProgram());
 		}
 
-		void ShaderManagerOpenGL::LinkPipeline(Ref<ShaderPipeline> pipeline) {
+		auto ShaderManagerOpenGL::GetAttachedPipeline() -> Ref<ShaderPipeline> {
+			return this->p_impl_->attached_pipeline;
+		}
+
+		auto ShaderManagerOpenGL::LinkPipeline(Ref<ShaderPipeline> pipeline) -> void {
 			// glBindFragDataLocation(pipeline->GetId(), 1, "outColor");
 			glLinkProgram(pipeline->GetId());
 
@@ -101,5 +113,12 @@ namespace easy_engine {
 			glUniform1i(pixel_shader->emissive_texture_sampler, 1);
 		}
 
+		auto ShaderManagerOpenGL::DeleteShader(Ref<Shader> shader) -> void {
+			glDeleteShader(shader->id);
+		}
+
+		auto ShaderManagerOpenGL::DeletePipeline(Ref<ShaderPipeline> shader_pipeline) -> void {
+			glDeleteProgram(shader_pipeline->GetId());
+		}
 	}
 }

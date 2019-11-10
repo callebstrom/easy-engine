@@ -13,7 +13,7 @@ namespace easy_engine {
 			kCompute
 		};
 
-		class Shader {
+		class EASY_ENGINE_API Shader {
 		public:
 
 			Shader(int id, std::string source, ShaderType type)
@@ -24,7 +24,7 @@ namespace easy_engine {
 			int diffuse_texture_sampler;
 			int emissive_texture_sampler;
 
-			auto GetSource() { return this->source_.c_str(); }
+			auto GetSource() { return this->source_; }
 		private:
 			std::string source_;
 

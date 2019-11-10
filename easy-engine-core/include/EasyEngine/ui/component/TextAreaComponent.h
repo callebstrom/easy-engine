@@ -11,9 +11,17 @@ namespace easy_engine {
 			class EASY_ENGINE_API TextAreaComponent : public ecs::component::Component {
 			public:
 				char* buffer;
-				int buffer_length;
+				int buffer_size;
 				int width;
 				int height;
+
+				TextAreaComponent(int width, int height, int buffer_size, std::string value)
+					: height(height), width(width), buffer(new char[buffer_size]), buffer_size(value.length()) {
+					for (int i = 0; i < buffer_size; i++) {
+						this->buffer[i] = '\0';
+					}
+					memcpy(this->buffer, value.c_str(), value.length());
+				}
 			};
 		}
 	}

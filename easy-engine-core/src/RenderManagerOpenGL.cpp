@@ -59,8 +59,8 @@ namespace easy_engine {
 
 			void CreateDefaultPipeline() {
 
-				auto vertex_shader = this->shader_manager->LoadShader(this->render_config_->Get(c_params_::VERTEX_SHADER_SOURCE_LOCATION), shader_manager::ShaderType::kVertex);
-				auto pixel_shader = this->shader_manager->LoadShader(this->render_config_->Get(c_params_::FRAGMENT_SHADER_SOURCE_LOCATION), shader_manager::ShaderType::kPixel);
+				auto vertex_shader = this->shader_manager->LoadShaderByPath(this->render_config_->Get(c_params_::VERTEX_SHADER_SOURCE_LOCATION), shader_manager::ShaderType::kVertex);
+				auto pixel_shader = this->shader_manager->LoadShaderByPath(this->render_config_->Get(c_params_::FRAGMENT_SHADER_SOURCE_LOCATION), shader_manager::ShaderType::kPixel);
 
 				if (!vertex_shader) {
 					EE_CORE_ERROR("Could not load default vertex shader");
@@ -78,8 +78,6 @@ namespace easy_engine {
 				this->shader_manager->AttachShader(pixel_shader, shader_pipeline);
 
 				this->shader_manager->LinkPipeline(shader_pipeline);
-
-				this->shader_program_ = shader_pipeline->GetId();
 			}
 
 			void LogRenderInfo() {
@@ -298,7 +296,7 @@ namespace easy_engine {
 
 				glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
-				glUseProgram(this->shader_program_);
+				glUseProgram(this->shader_manager->GetAttachedPipeline()->GetId());
 			}
 
 			auto Render(resource::Mesh* mesh, Eigen::Matrix4f model_matrix_, std::vector<resource::Texture*> textures, std::optional<resource::Material*> maybe_material) -> void {
@@ -327,26 +325,26 @@ namespace easy_engine {
 						has_emissive_texture = true;
 					}
 
-					GLint materialDiffuseColor = glGetUniformLocation(this->shader_program_, "materialDiffuseColor");
+					GLint materialDiffuseColor = glGetUniformLocation(this->shader_manager->GetAttachedPipeline()->GetId(), "materialDiffuseColor");
 					auto diffuse_color = material->diffuse_color;
 					glUniform3f(materialDiffuseColor, diffuse_color.x(), diffuse_color.y(), diffuse_color.z());
 
-					GLint hasDiffuseTexture = glGetUniformLocation(this->shader_program_, "hasDiffuseTexture");
+					GLint hasDiffuseTexture = glGetUniformLocation(this->shader_manager->GetAttachedPipeline()->GetId(), "hasDiffuseTexture");
 					glUniform1f(hasDiffuseTexture, has_diffuse_texture ? 1 : 0);
 
-					GLint materialSpecularColor = glGetUniformLocation(this->shader_program_, "materialSpecularColor");
+					GLint materialSpecularColor = glGetUniformLocation(this->shader_manager->GetAttachedPipeline()->GetId(), "materialSpecularColor");
 					auto specular_color = material->specular_color;
 					glUniform3f(materialSpecularColor, specular_color.x(), specular_color.y(), specular_color.z());
 
-					GLint materialShininess = glGetUniformLocation(this->shader_program_, "materialShininess");
+					GLint materialShininess = glGetUniformLocation(this->shader_manager->GetAttachedPipeline()->GetId(), "materialShininess");
 					auto shininess = material->shininess;
 					glUniform1f(materialShininess, shininess);
 
-					GLint materialEmmisiveColor = glGetUniformLocation(this->shader_program_, "materialEmmisiveColor");
+					GLint materialEmmisiveColor = glGetUniformLocation(this->shader_manager->GetAttachedPipeline()->GetId(), "materialEmmisiveColor");
 					auto emmisive_color = material->emmisive_color;
 					glUniform3f(materialEmmisiveColor, emmisive_color.x(), emmisive_color.y(), emmisive_color.z());
 
-					GLint hasEmissiveTexture = glGetUniformLocation(this->shader_program_, "hasEmissiveTexture");
+					GLint hasEmissiveTexture = glGetUniformLocation(this->shader_manager->GetAttachedPipeline()->GetId(), "hasEmissiveTexture");
 					glUniform1f(hasEmissiveTexture, has_emissive_texture ? 1 : 0);
 				}
 
@@ -369,18 +367,18 @@ namespace easy_engine {
 				glm::mat4 mvp = projection_matrix * view_matrix * model_matrix;
 
 				// Pre-compute matrices for the shaders
-				GLint mvp_uniform = glGetUniformLocation(this->shader_program_, "mvp");
+				GLint mvp_uniform = glGetUniformLocation(this->shader_manager->GetAttachedPipeline()->GetId(), "mvp");
 				glUniformMatrix4fv(mvp_uniform, 1, GL_FALSE, glm::value_ptr(mvp));
 
 				// Model matrix is required separately to calculate lightning
-				GLint model_uniform = glGetUniformLocation(this->shader_program_, "model");
+				GLint model_uniform = glGetUniformLocation(this->shader_manager->GetAttachedPipeline()->GetId(), "model");
 				glUniformMatrix4fv(model_uniform, 1, GL_FALSE, glm::value_ptr(model_matrix));
 
 				// View matrix is required separately to calculate lightning
-				GLint view_uniform = glGetUniformLocation(this->shader_program_, "view");
+				GLint view_uniform = glGetUniformLocation(this->shader_manager->GetAttachedPipeline()->GetId(), "view");
 				glUniformMatrix4fv(view_uniform, 1, GL_FALSE, glm::value_ptr(view_matrix));
 
-				GLint cameraPosition_worldspace = glGetUniformLocation(this->shader_program_, "cameraPosition_worldspace");
+				GLint cameraPosition_worldspace = glGetUniformLocation(this->shader_manager->GetAttachedPipeline()->GetId(), "cameraPosition_worldspace");
 				glUniform3fv(cameraPosition_worldspace, 1, &this->camera->position[0]);
 
 				glBindVertexArray(object_index.vao);
@@ -426,8 +424,8 @@ namespace easy_engine {
 
 			void RenderLights() {
 
-				unsigned int lights_uniform_block_index = glGetUniformBlockIndex(this->shader_program_, "Lights");
-				glUniformBlockBinding(this->shader_program_, lights_uniform_block_index, LIGHTS_BINDING_POINT);
+				unsigned int lights_uniform_block_index = glGetUniformBlockIndex(this->shader_manager->GetAttachedPipeline()->GetId(), "Lights");
+				glUniformBlockBinding(this->shader_manager->GetAttachedPipeline()->GetId(), lights_uniform_block_index, LIGHTS_BINDING_POINT);
 
 				unsigned int lights_ubo;
 				glGenBuffers(1, &lights_ubo);
@@ -448,10 +446,10 @@ namespace easy_engine {
 
 				glBindBuffer(GL_UNIFORM_BUFFER, lights_ubo);
 
-				GLint point_light_count_uniform = glGetUniformLocation(this->shader_program_, "point_light_count");
+				GLint point_light_count_uniform = glGetUniformLocation(this->shader_manager->GetAttachedPipeline()->GetId(), "point_light_count");
 				glUniform1f(point_light_count_uniform, this->point_lights_with_translations.size());
 
-				GLint directional_light_count_uniform = glGetUniformLocation(this->shader_program_, "directional_light_count");
+				GLint directional_light_count_uniform = glGetUniformLocation(this->shader_manager->GetAttachedPipeline()->GetId(), "directional_light_count");
 				glUniform1f(directional_light_count_uniform, this->directional_lights_with_translations.size());
 
 				// Point lights
@@ -633,6 +631,10 @@ namespace easy_engine {
 			glm::mat4 model_matrix = glm::mat4(1.0);
 			this->p_impl_->mvp = projection_matrix * view_matrix * glm::scale(model_matrix, glm::vec3(1, 1, 1));
 			lastTime = lastTime + deltaTime;
+		}
+
+		void RenderManagerOpenGL::SetShaderPipeline(Ref<shader_manager::ShaderPipeline> shader_pipeline) {
+			this->p_impl_->shader_program_ = shader_pipeline->GetId();
 		}
 	}
 }

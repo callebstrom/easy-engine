@@ -6,6 +6,8 @@
 
 #include <EasyEngine/render_manager/RenderManagerOpenGL.h>
 
+#include <EasyEngine/window_manager/WindowManagerGLFW.h>
+
 #include <EasyEngine/configuration/RenderConfiguration.h>
 #include <EasyEngine/configuration/WindowConfiguration.h>
 #include <EasyEngine/configuration/RenderConfiguration.h>
@@ -15,8 +17,6 @@
 #include <EasyEngine/scene_manager/SceneManager3D.h>
 
 #include <EasyEngine/ManagerLocator.h>
-
-#include <EasyEngine/window_manager/WindowManagerGLFW.h>
 
 #include <EasyEngine/world/World.h>
 
@@ -34,6 +34,8 @@
 #include <EasyEngine/input_manager/KeyboardEvent.h>
 
 #include <EasyEngine/shader_manager/IShaderManager.h>
+#include <EasyEngine/shader_manager/ShaderPipeline.h>
+#include <EasyEngine/shader_manager/Shader.h>
 
 #include <EasyEngine/ui/UIRenderManagerOpenGL.h>
 #include <EasyEngine/ui/component/WindowComponent.h>
@@ -53,12 +55,12 @@ namespace easy_engine {
 	protected:
 		scene_manager::SceneManager3D* scene_manager_3d;
 		resource_manager::ResourceManager3D* resource_manager_3d;
-		std::shared_ptr<input_manager::InputManager> input_manager;
-		std::shared_ptr<window_manager::IWindowManager> window_manager;
-		std::shared_ptr<render_manager::IRenderManager> render_manager;
-		std::shared_ptr<shader_manager::IShaderManager> shader_manager;
-		std::shared_ptr<event_manager::EventManager> event_manager;
-		std::shared_ptr<ui::IUIRenderManager> ui_render_manager;
+		Ref<input_manager::InputManager> input_manager;
+		Ref<window_manager::IWindowManager> window_manager;
+		Ref<render_manager::IRenderManager> render_manager;
+		Ref<shader_manager::IShaderManager> shader_manager;
+		Ref<event_manager::EventManager> event_manager;
+		Ref<ui::IUIRenderManager> ui_render_manager;
 		world::World* world;
 	private:
 		bool is_running_ = false;

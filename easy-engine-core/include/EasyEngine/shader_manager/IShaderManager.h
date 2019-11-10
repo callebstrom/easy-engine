@@ -11,11 +11,15 @@ namespace easy_engine {
 
 		class IShaderManager {
 		public:
-			auto virtual LoadShader(std::string path, ShaderType type) -> Ref<Shader> = 0;
+			auto virtual LoadShaderByPath(std::string path, ShaderType type) -> Ref<Shader> = 0;
+			auto virtual LoadShaderBySource(std::string source, ShaderType type) -> Ref<Shader> = 0;
 			auto virtual AttachPipeline(Ref<ShaderPipeline> pipeline) -> void = 0;
 			auto virtual LinkPipeline(Ref<ShaderPipeline> pipeline) -> void = 0;
 			auto virtual AttachShader(Ref<Shader> shader, Ref<ShaderPipeline> pipeline) -> void = 0;
 			auto virtual CreateShaderPipeline() -> Ref<ShaderPipeline> = 0;
+			auto virtual GetAttachedPipeline() -> Ref<ShaderPipeline> = 0;
+			auto virtual DeleteShader(Ref<Shader> shader) -> void = 0;
+			auto virtual DeletePipeline(Ref<ShaderPipeline> shader_pipeline) -> void = 0;
 		};
 	}
 }

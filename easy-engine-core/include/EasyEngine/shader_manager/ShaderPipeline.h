@@ -9,7 +9,7 @@ namespace easy_engine {
 
 		class Shader;
 
-		class ShaderPipeline {
+		class EASY_ENGINE_API ShaderPipeline {
 		public:
 			ShaderPipeline(unsigned int internal_id);
 			auto AddShader(Ref<Shader> shader) -> void;

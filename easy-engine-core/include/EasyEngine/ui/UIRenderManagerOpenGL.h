@@ -27,6 +27,7 @@ namespace easy_engine {
 			void OnEvent(event_manager::Event event) override;
 			void WindowBegin(std::string title, int height, int width) override;
 			void WindowEnd() override;
+			void TextArea(char* buffer, int* buffer_size, int height, int width) override;
 		private:
 			struct Impl;
 			Impl* p_impl_;
