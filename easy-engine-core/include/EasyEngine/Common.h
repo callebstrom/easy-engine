@@ -38,5 +38,15 @@ struct ComponentSignatureComparetor {
 	}
 };
 
+namespace easy_engine {
+	inline void Replace(std::string& string, std::string search, std::string replacement) {
+		size_t pos = string.find(search);
+		while (pos != std::string::npos) {
+			string.replace(pos, search.size(), replacement);
+			pos = string.find(search, pos + replacement.size());
+		}
+	}
+}
+
 #endif // !COMMON_H
 

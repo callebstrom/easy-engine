@@ -112,6 +112,12 @@
     <Filter Include="Header Files\ui\component">
       <UniqueIdentifier>{83d719a0-2a2b-4c95-a2c5-449e815df8a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\physics_manager">
+      <UniqueIdentifier>{42f097dd-d781-4039-9dd0-3c53d5466ece}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\physics_manager">
+      <UniqueIdentifier>{3683704e-5ea0-43db-b395-2c7eceac580d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\EasyEngine\configuration\RenderConfiguration.h">
@@ -324,6 +330,9 @@
     <ClInclude Include="include\EasyEngine\ecs\component\LightComponent.h">
       <Filter>Header Files\ecs\component</Filter>
     </ClInclude>
+    <ClInclude Include="include\EasyEngine\physics_manager\PhysicsManager.h">
+      <Filter>Header Files\physics_manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RenderManagerOpenGL.cpp">
@@ -436,6 +445,9 @@
     </ClCompile>
     <ClCompile Include="include\EasyEngine\ui\IContext.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\physics_manager\PhysicsManager.cpp">
+      <Filter>Source Files\physics_manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

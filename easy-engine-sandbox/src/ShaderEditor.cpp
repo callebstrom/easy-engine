@@ -176,7 +176,7 @@ public:
 		auto shader_editor_window = world->CreateEntity();
 		auto window_component = ui::component::WindowComponent();
 		window_component.height = 800;
-		window_component.width = 500;
+		window_component.width = 600;
 		window_component.title = "Shader editor";
 		ecs::component::TransformComponent shader_editor_transform_component;
 		shader_editor_transform_component.Translation(100, 100, 0);
@@ -187,7 +187,7 @@ public:
 		auto text_area = world->CreateEntity();
 		auto pixel_shader = this->shader_manager->GetAttachedPipeline()->GetPixelShader();
 		auto source = pixel_shader->GetSource();
-		auto text_area_component = ui::component::TextAreaComponent(500, 800, 40000, source);
+		auto text_area_component = ui::component::TextAreaComponent(800, 2000, 40000, source);
 		ecs::component::TransformComponent text_area_transform_component;
 		ecs::component::ParentEntityComponent window_parent_component;
 		window_parent_component.entity = shader_editor_window.entity;

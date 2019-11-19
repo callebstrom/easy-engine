@@ -45,7 +45,7 @@ namespace easy_engine {
 				config.range = nk_font_default_glyph_ranges();
 
 				nk_glfw3_font_stash_begin(&atlas);
-				struct nk_font* ubuntu_mono = nk_font_atlas_add_from_file(atlas, "C:\\UbuntuMono-R.ttf", 14, &config);
+				struct nk_font* ubuntu_mono = nk_font_atlas_add_from_file(atlas, "C:\\Windows\\Fonts\\tecnico_regular.ttf", 14, &config);
 				nk_glfw3_font_stash_end();
 				nk_style_set_font(this->nk_context, &ubuntu_mono->handle);
 			}
@@ -85,9 +85,13 @@ namespace easy_engine {
 			nk_begin(
 				this->p_impl_->nk_context,
 				title.c_str(),
-				nk_rect(50, 50, height, width),
-				NK_WINDOW_BORDER|NK_WINDOW_MOVABLE|NK_WINDOW_SCALABLE|
-				NK_WINDOW_MINIMIZABLE|NK_WINDOW_TITLE
+				nk_rect(50, 50, width, height),
+				NK_WINDOW_BORDER |
+				NK_WINDOW_MOVABLE |
+				NK_WINDOW_SCALABLE |
+				NK_WINDOW_CLOSABLE |
+				NK_WINDOW_MINIMIZABLE |
+				NK_WINDOW_TITLE
 			);
 		}
 
@@ -96,15 +100,15 @@ namespace easy_engine {
 		}
 
 		auto UIRenderManagerOpenGL::TextArea(char* buffer, int* buffer_size, int height, int width) -> void {
-			nk_layout_row_begin(this->p_impl_->nk_context, NK_STATIC, 230, 1);
+			nk_layout_row_begin(this->p_impl_->nk_context, NK_STATIC, height, 1);
 			{
 				nk_layout_row_push(this->p_impl_->nk_context, width);
 				nk_edit_string(
 					this->p_impl_->nk_context,
-					NK_EDIT_BOX,
+					NK_EDIT_EDITOR|NK_EDIT_ALWAYS_INSERT_MODE,
 					buffer,
 					buffer_size,
-					40000,
+					50000,
 					NULL
 				);
 			}

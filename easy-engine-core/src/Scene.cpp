@@ -2,6 +2,7 @@
 #include <EasyEngine/scene_manager/Scene.h>
 #include <EasyEngine/scene_manager/RenderableNode.h>
 #include <EasyEngine/resource/Mesh.h>
+#include <EasyEngine/Logger.h>
 
 namespace easy_engine {
 	namespace scene_manager {

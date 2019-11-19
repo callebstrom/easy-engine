@@ -5,6 +5,7 @@
 #include <EasyEngine/window_manager/WindowManagerGLFW.h>
 #include <EasyEngine/input_manager/InputManager.h>
 #include <EasyEngine/event_manager/EventManager.h>
+#include <EasyEngine/Logger.h>
 
 struct InputCallbackGLFW {
 

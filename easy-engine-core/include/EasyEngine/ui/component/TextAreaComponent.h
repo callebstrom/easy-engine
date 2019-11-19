@@ -16,10 +16,12 @@ namespace easy_engine {
 				int height;
 
 				TextAreaComponent(int width, int height, int buffer_size, std::string value)
-					: height(height), width(width), buffer(new char[buffer_size]), buffer_size(value.length()) {
+					: height(height), width(width), buffer(new char[buffer_size]) {
 					for (int i = 0; i < buffer_size; i++) {
 						this->buffer[i] = '\0';
 					}
+					easy_engine::Replace(value, "\t", "  ");
+					this->buffer_size = value.length();
 					memcpy(this->buffer, value.c_str(), value.length());
 				}
 			};

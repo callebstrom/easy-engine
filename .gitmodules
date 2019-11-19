@@ -16,3 +16,6 @@
 [submodule "vendor/all/nuklear"]
 	path = vendor/all/nuklear
 	url = git@github.com:vurtun/nuklear.git
+[submodule "vendor/all/bullet3"]
+	path = vendor/all/bullet3
+	url = git@github.com:bulletphysics/bullet3.git

@@ -92,24 +92,33 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BOOST_LOG_DYN_LINK;NO_ENTRYPOINT;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NO_ENTRYPOINT;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)easy-engine-core\include\spdlog_complete\include;$(SolutionDir)easy-engine-core\include;$(ProjectDir)includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile />
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS /Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;$(SolutionDir)bin\x64\Debug\easy-engine-core.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_thread-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_date_time-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_chrono-vc141-mt-gd-x64-1_69.lib;%(AdditionalDependencies);glfw3.lib;glew32s.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;$(SolutionDir)bin\x64\Debug\easy-engine-core.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_thread-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_chrono-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_date_time-vc141-mt-gd-x64-1_69.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)easy-engine-core\lib\x64;$(SolutionDir)vendor\win\precompiled\x64\bin\Release\x64;$(SolutionDir)vendor\win\precompiled\x64\glew\lib\Release\x64;$(SolutionDir)vendor\win\precompiled\x64\glfw\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>LIBCMT;MSVCRT</IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
       <Command>
       </Command>
     </PostBuildEvent>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

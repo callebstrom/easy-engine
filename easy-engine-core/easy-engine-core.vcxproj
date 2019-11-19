@@ -63,6 +63,7 @@
     <ClInclude Include="include\EasyEngine\Logger.h" />
     <ClInclude Include="include\EasyEngine\ManagerLocator.h" />
     <ClInclude Include="include\EasyEngine\memory\LinearAllocator.h" />
+    <ClInclude Include="include\EasyEngine\physics_manager\PhysicsManager.h" />
     <ClInclude Include="include\EasyEngine\render_manager\_3DObjectRenderable.h" />
     <ClInclude Include="include\EasyEngine\render_manager\ObjectIndex.h" />
     <ClInclude Include="include\EasyEngine\render_manager\IRenderManager.h" />
@@ -135,6 +136,7 @@
     <ClCompile Include="src\MeshComponent.cpp" />
     <ClCompile Include="src\Node.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
+    <ClCompile Include="src\physics_manager\PhysicsManager.cpp" />
     <ClCompile Include="src\RenderableNode.cpp" />
     <ClCompile Include="src\RenderSystem.cpp" />
     <ClCompile Include="src\ResourceManager3D.cpp" />
@@ -199,7 +201,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -319,32 +321,44 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)include\spdlog_complete\include;$(ProjectDir)lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;$(SolutionDir)vendor\all\glfw\include;$(SolutionDir)vendor\all\nuklear;$(SolutionDir)vendor\all\nuklear\demo\glfw_opengl4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dropbox\dev\EasyEngine\vendor\all\bullet3\src;$(ProjectDir)include\spdlog_complete\include;$(ProjectDir)lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;$(SolutionDir)vendor\all\glfw\include;$(SolutionDir)vendor\all\nuklear;$(SolutionDir)vendor\all\nuklear\demo\glfw_opengl4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
-      <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>EASY_ENGINE_BUILD;GLEW_STATIC;BOOST_LOG_DYN_LINK;_WINDLL;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS /Zc:__cplusplus</AdditionalOptions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(SolutionDir)vendor\win\precompiled\glfw\glfw3.lib;$(SolutionDir)vendor\win\precompiled\glew\glew32s.lib;opengl32.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_thread-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_date_time-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_chrono-vc141-mt-gd-x64-1_69.lib;$(ProjectDir)lib\assimp\build\code\Debug\assimp-vc142-mtd.lib;$(ProjectDir)lib\assimp\build\contrib\zlib\Debug\zlibstaticd.lib;$(ProjectDir)lib\assimp\build\contrib\irrXML\Debug\IrrXML.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)vendor\win\precompiled\glfw\glfw3.lib;$(SolutionDir)vendor\win\precompiled\glew\glew32s.lib;opengl32.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_thread-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_date_time-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_chrono-vc141-mt-gd-x64-1_69.lib;$(ProjectDir)lib\assimp\build\code\Debug\assimp-vc142-mtd.lib;$(ProjectDir)lib\assimp\build\contrib\zlib\Debug\zlibstaticd.lib;$(ProjectDir)lib\assimp\build\contrib\irrXML\Debug\IrrXML.lib;$(SolutionDir)vendor\all\bullet3\bin\BulletDynamics_vs2010_x64_debug.lib;$(SolutionDir)vendor\all\bullet3\bin\BulletCollision_vs2010_x64_debug.lib;$(SolutionDir)vendor\all\bullet3\bin\LinearMath_vs2010_x64_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
     </Bscmake>
+    <Lib />
+    <Lib>
+      <AdditionalDependencies>$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_thread-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_date_time-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_chrono-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\all\glfw\src\Debug\glfw3.lib;$(SolutionDir)vendor\win\precompiled\glew\glew32s.lib;opengl32.lib;$(ProjectDir)lib\assimp\build\code\Debug\assimp-vc140-mt-sgd.lib;$(SolutionDir)vendor\all\bullet3\bin\BulletDynamics_vs2010_x64_debug.lib;$(SolutionDir)vendor\all\bullet3\bin\BulletCollision_vs2010_x64_debug.lib;$(SolutionDir)vendor\all\bullet3\bin\LinearMath_vs2010_x64_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <LinkTimeCodeGeneration>false</LinkTimeCodeGeneration>
+    </Lib>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Unit Tests|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)include\spdlog_complete\include;$(ProjectDir)lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;$(SolutionDir)vendor\all\glfw\include;$(SolutionDir)vendor\all\nuklear;$(SolutionDir)vendor\all\nuklear\demo\glfw_opengl4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dropbox\dev\EasyEngine\vendor\all\bullet3\src;$(ProjectDir)include\spdlog_complete\include;$(ProjectDir)lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;$(SolutionDir)vendor\all\glfw\include;$(SolutionDir)vendor\all\nuklear;$(SolutionDir)vendor\all\nuklear\demo\glfw_opengl4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
-      <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>EASY_ENGINE_BUILD;GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS</AdditionalOptions>
@@ -365,9 +379,9 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)include\spdlog_complete\include;$(ProjectDir)lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;$(SolutionDir)vendor\all\glfw\include;$(SolutionDir)vendor\all\nuklear;$(SolutionDir)vendor\all\nuklear\demo\glfw_opengl4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dropbox\dev\EasyEngine\vendor\all\bullet3\src;$(ProjectDir)include\spdlog_complete\include;$(ProjectDir)lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;$(SolutionDir)vendor\all\glfw\include;$(SolutionDir)vendor\all\nuklear;$(SolutionDir)vendor\all\nuklear\demo\glfw_opengl4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
-      <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>EASY_ENGINE_BUILD;GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS</AdditionalOptions>
@@ -403,8 +417,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)include\spdlog_complete\include;$(ProjectDir)lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;$(SolutionDir)vendor\all\glfw\include;$(SolutionDir)vendor\all\nuklear;$(SolutionDir)vendor\all\nuklear\demo\glfw_opengl4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Dropbox\dev\EasyEngine\vendor\all\bullet3\src;$(ProjectDir)include\spdlog_complete\include;$(ProjectDir)lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;$(SolutionDir)vendor\all\glfw\include;$(SolutionDir)vendor\all\nuklear;$(SolutionDir)vendor\all\nuklear\demo\glfw_opengl4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>EASY_ENGINE_BUILD;GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>

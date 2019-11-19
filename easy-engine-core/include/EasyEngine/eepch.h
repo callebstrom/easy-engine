@@ -31,16 +31,23 @@
 #include <boost/serialization/base_object.hpp>
 #include <boost/system/config.hpp>
 
-#ifdef DLLDIR_EX
+#if defined(_MSC_VER)
+#if defined(EE_CORE_DYNAMIC)
 #define EASY_ENGINE_API  __declspec(dllexport)   // export DLL information
-#define EASY_ENGINE_EXTERN_TEMPLATE template
-#elif EE_CORE_STATIC
-#define EASY_ENGINE_API
-#define EASY_ENGINE_EXTERN_TEMPLATE extern template
-#else
+#elif defined(EE_CORE_DYNAMIC_LINK)
 #define EASY_ENGINE_API  __declspec(dllimport)   // import DLL information
+#else
+#define EASY_ENGINE_API
+#endif
+#else
+#define EASY_ENGINE_API
+#endif
+
+#if defined(EASY_ENGINE_BUILD)
+#define EASY_ENGINE_EXTERN_TEMPLATE template
+#else
 #define EASY_ENGINE_EXTERN_TEMPLATE extern template
-#endif 
+#endif
 
 typedef unsigned char byte;
 typedef unsigned short ushort_t;

@@ -10,6 +10,7 @@
 #include <EasyEngine/ecs/component/ParentEntityComponent.h>
 #include <EasyEngine/Common.h>
 #include <EasyEngine/world/World.h>
+#include <EasyEngine/Logger.h>
 
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/graph_utility.hpp>

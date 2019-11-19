@@ -22,11 +22,11 @@ namespace easy_engine {
 }
 
 // Core log macros
-#define EE_CORE_TRACE(...)      ::easy_engine::logger::Logger::GetCoreLogger()->trace(__VA_ARGS__)
-#define EE_CORE_INFO(...)       ::easy_engine::logger::Logger::GetCoreLogger()->info(__VA_ARGS__)
-#define EE_CORE_WARN(...)       ::easy_engine::logger::Logger::GetCoreLogger()->warn(__VA_ARGS__)
-#define EE_CORE_ERROR(...)      ::easy_engine::logger::Logger::GetCoreLogger()->error(__VA_ARGS__)
-#define EE_CORE_CRITICAL(...)   ::easy_engine::logger::Logger::GetCoreLogger()->critical(__VA_ARGS__)
+#define EE_CORE_TRACE(...)			::easy_engine::logger::Logger::GetClientLogger()->trace(__VA_ARGS__)
+#define EE_CORE_INFO(...)			::easy_engine::logger::Logger::GetClientLogger()->info(__VA_ARGS__)
+#define EE_CORE_WARN(...)			::easy_engine::logger::Logger::GetClientLogger()->warn(__VA_ARGS__)
+#define EE_CORE_ERROR(...)			::easy_engine::logger::Logger::GetClientLogger()->error(__VA_ARGS__)
+#define EE_CORE_CRITICAL(...)		::easy_engine::logger::Logger::GetClientLogger()->critical(__VA_ARGS__)
 
 // Client log macros
 #define EE_TRACE(...)			::easy_engine::logger::Logger::GetClientLogger()->trace(__VA_ARGS__)

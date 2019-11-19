@@ -23,8 +23,10 @@
 #include <EasyEngine/ecs/component/MaterialComponent.h>
 #include <EasyEngine/shader_manager/ShaderManagerOpenGL.h>
 #include <EasyEngine/shader_manager/Shader.h>
-
 #include <EasyEngine/resource/Environment.h>
+#include <EasyEngine/Logger.h>
+
+
 
 void GLAPIENTRY Debug(GLenum source​, GLenum type​, GLuint id​, GLenum severity​, GLsizei length​, const GLchar* message​, const void* userParam) {
 	// EE_CORE_TRACE(message​);

@@ -7,6 +7,7 @@
 #include <EasyEngine/shader_manager/ShaderManagerOpenGL.h>
 #include <EasyEngine/ui/UIRenderManagerOpenGL.h>
 #include <EasyEngine/ui/UIRenderSystem.h>
+#include <EasyEngine/Logger.h>
 
 #include <experimental/filesystem>
 
