@@ -80,8 +80,9 @@ vec4 CalculatePointLight(PointLight light, vec3 normal_worldspace, vec3 frag_ver
 	return (ambientComponent + diffuseComponent + specularComponent) * light.strength * attenuation;
 }
 
-vec4 CalculateDirectionalLight(DirectionalLight light, vec3 normal_worldspace, vec3 frag_vertexPosition_worldspace, vec3 cameraDirection) {
-	return vec4(0);
+vec4 CalculateDirectionalLight(DirectionalLight light, vec3 normal_worldspace) {
+	return vec4(clamp(dot(normal_worldspace, light.direction), 0, 1) * light.diffuse_color, 1);
+	// return vec4(1);
 }
 
 void main() {
@@ -97,7 +98,7 @@ void main() {
 
 	// Apply directional lights
 	for (int i = 0; i < directional_light_count; i++) {
-		// outputColor += CalculateDirectionalLight(directional_lights[i],  normal_worldspace, frag_vertexPosition_worldspace, cameraDirection_worldspace);
+		outputColor += CalculateDirectionalLight(directional_lights[i],  normal_worldspace);
 	}
 
 	// Do point light calculations for each point light

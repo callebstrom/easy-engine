@@ -43,7 +43,7 @@ namespace easy_engine {
 				if (maybe_light_component.has_value() && maybe_transform_component.has_value()) {
 					auto light = maybe_light_component.value()->light;
 
-					auto translation_matrix = maybe_transform_component.value()->translation_;
+					auto translation_matrix = maybe_transform_component.value()->GetTranslation();
 					Eigen::Vector3f translation(translation_matrix.x(), translation_matrix.y(), translation_matrix.z());
 					this->p_impl_->render_manager->Render(light, translation);
 				}

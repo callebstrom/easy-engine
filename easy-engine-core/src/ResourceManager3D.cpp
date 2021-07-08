@@ -220,7 +220,7 @@ namespace easy_engine {
 					textures.push_back(texture);
 					type_index = textures.size() - 1;
 
-					// this->texture_cache.Cache(texture_path, texture);
+					this->texture_cache.Cache(texture_path, texture);
 				}
 			}
 

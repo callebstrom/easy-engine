@@ -8,8 +8,9 @@
 #include <EasyEngine/ui/UIRenderManagerOpenGL.h>
 #include <EasyEngine/ui/UIRenderSystem.h>
 #include <EasyEngine/Logger.h>
+#include <EasyEngine/physics_manager/PhysicsSystem.h>
 
-#include <experimental/filesystem>
+#include <filesystem>
 
 namespace easy_engine {
 
@@ -108,7 +109,7 @@ namespace easy_engine {
 	}
 
 	std::string Application::GetEngineDirectory() {
-		return std::experimental::filesystem::current_path().remove_filename().u8string();
+		return std::filesystem::current_path().remove_filename().u8string();
 	}
 
 	void Application::InitializeDefaultSystems() {
@@ -119,6 +120,9 @@ namespace easy_engine {
 		auto render_system = new render_manager::RenderSystem(this->event_manager, this->render_manager);
 		world->AddSystem<ecs::component::MeshComponent, ecs::component::TransformComponent>(render_system);
 		world->AddSystem<ecs::component::LightComponent, ecs::component::TransformComponent>(render_system);
+
+		auto physics_system = new physics_manager::PhysicsSystem(this->physics_manager);
+		world->AddSystem<ecs::component::RigidBodyComponent, ecs::component::TransformComponent>(physics_system);
 	}
 
 	void Application::Close() {

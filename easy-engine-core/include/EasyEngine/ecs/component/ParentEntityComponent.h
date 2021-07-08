@@ -10,7 +10,7 @@ namespace easy_engine {
 		namespace component {
 			class EASY_ENGINE_API ParentEntityComponent : public Component {
 			public:
-				entity::Entity* entity;
+				easy_engine::entity::Entity* entity;
 			};
 		}
 	}

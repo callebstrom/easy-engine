@@ -40,14 +40,14 @@ namespace easy_engine {
 				struct nk_font_atlas* atlas;
 
 				struct nk_font_config config = nk_font_config(14);
-				config.oversample_h = 4;
-				config.oversample_v = 4;
+				config.oversample_h = 8;
+				config.oversample_v = 8;
 				config.range = nk_font_default_glyph_ranges();
 
 				nk_glfw3_font_stash_begin(&atlas);
-				struct nk_font* ubuntu_mono = nk_font_atlas_add_from_file(atlas, "C:\\Windows\\Fonts\\tecnico_regular.ttf", 14, &config);
+				struct nk_font* font = nk_font_atlas_add_from_file(atlas, "C:\\Windows\\Fonts\\arial.ttf", 14, &config);
 				nk_glfw3_font_stash_end();
-				nk_style_set_font(this->nk_context, &ubuntu_mono->handle);
+				nk_style_set_font(this->nk_context, &font->handle);
 			}
 
 			std::shared_ptr<window_manager::IWindowManager> window_manager;
@@ -103,11 +103,10 @@ namespace easy_engine {
 			nk_layout_row_begin(this->p_impl_->nk_context, NK_STATIC, height, 1);
 			{
 				nk_layout_row_push(this->p_impl_->nk_context, width);
-				nk_edit_string(
+				nk_edit_string_zero_terminated(
 					this->p_impl_->nk_context,
 					NK_EDIT_EDITOR|NK_EDIT_ALWAYS_INSERT_MODE,
 					buffer,
-					buffer_size,
 					50000,
 					NULL
 				);

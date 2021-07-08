@@ -41,6 +41,9 @@
 #include <EasyEngine/ui/component/WindowComponent.h>
 #include <EasyEngine/ui/component/TextAreaComponent.h>
 
+#include <EasyEngine/physics_manager/PhysicsManager.h>
+#include <EasyEngine/ecs/component/RigidBodyComponent.h>
+
 namespace easy_engine {
 
 	class EASY_ENGINE_API Application {
@@ -58,6 +61,7 @@ namespace easy_engine {
 		Ref<input_manager::InputManager> input_manager;
 		Ref<window_manager::IWindowManager> window_manager;
 		Ref<render_manager::IRenderManager> render_manager;
+		Ref<physics_manager::PhysicsManager> physics_manager;
 		Ref<shader_manager::IShaderManager> shader_manager;
 		Ref<event_manager::EventManager> event_manager;
 		Ref<ui::IUIRenderManager> ui_render_manager;
@@ -77,7 +81,6 @@ namespace easy_engine {
 	EASY_ENGINE_EXTERN_TEMPLATE EASY_ENGINE_API int ecs::component::Component::GetComponentFamily<ecs::component::ParentEntityComponent>();
 	EASY_ENGINE_EXTERN_TEMPLATE EASY_ENGINE_API int ecs::component::Component::GetComponentFamily<ui::component::WindowComponent>();
 	EASY_ENGINE_EXTERN_TEMPLATE EASY_ENGINE_API int ecs::component::Component::GetComponentFamily<ui::component::TextAreaComponent>();
+	EASY_ENGINE_EXTERN_TEMPLATE EASY_ENGINE_API int ecs::component::Component::GetComponentFamily<ecs::component::RigidBodyComponent>();
 }
-
-
 #endif // !APPLICATION_H

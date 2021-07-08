@@ -1,5 +1,3 @@
-#ifndef _3D_OBJECT_RENDERABLE_H
-#define _3D_OBJECT_RENDERABLE_H
 #pragma once
 
 #include <EasyEngine/ecs/component/TransformComponent.h>
@@ -16,15 +14,13 @@ namespace easy_engine {
 
 	namespace render_manager {
 		struct _3DObjectRenderable {
-			ecs::component::TransformComponent* transform_component = new ecs::component::TransformComponent();
-			ecs::component::MeshComponent* mesh_component;
-			std::optional<ecs::component::TextureComponent*> texture_component;
-			std::optional<ecs::component::MaterialComponent*> material_component;
+			Ref<ecs::component::TransformComponent> transform_component = CreateRef<ecs::component::TransformComponent>();
+			Ref<ecs::component::MeshComponent> mesh_component;
+			std::optional<Ref<ecs::component::TextureComponent>> texture_component;
+			std::optional<Ref<ecs::component::MaterialComponent>> material_component;
 			bool has_textures = false;
 			bool has_materials = false;
 		};
 	}
 }
-
-#endif // !3D_OBJECT_RENDERABLE_H
 

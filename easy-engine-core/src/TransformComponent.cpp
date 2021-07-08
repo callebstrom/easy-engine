@@ -13,34 +13,25 @@ namespace easy_engine {
 			}
 
 			void TransformComponent::Translation(float x, float y, float z) {
-				this->prev_translation_ = this->translation_;
+				this->previous_translation_ = this->translation_;
 				this->translation_ = Eigen::Translation3f(x, y, z);
 			}
 
-			void TransformComponent::RotationAdd(float radians, float pivot_x, float pivot_y, float pivot_z) {
-				return this->Rotation(
-					this->rotation.angle() + radians,
-					pivot_x,
-					pivot_y,
-					pivot_z
-				);
+			void TransformComponent::RotationAdd(float radians, const Pivot pivot) {
+				this->rotation_ = this->rotation_ * Eigen::AngleAxis<float>(radians, Eigen::Vector3f(pivot));
 			}
 
-			void TransformComponent::RotationAdd(float radians) {
-				return this->Rotation(
-					this->rotation.angle() + radians,
-					0,
-					0,
-					0
-				);
-			}
-
-			void TransformComponent::Rotation(float radians, float pivot_x, float pivot_y, float pivot_z) {
-				this->rotation = Eigen::AngleAxis<float>(radians, Eigen::Vector3f(pivot_x, pivot_y, pivot_z));
+			void TransformComponent::Rotation(float radians, const Pivot pivot) {
+				this->rotation_ = Eigen::AngleAxis(radians, Eigen::Vector3f(pivot));
 			}
 
 			void TransformComponent::Scale(float x, float y, float z) {
-				this->scale = Eigen::Scaling(x, y, z);
+				this->scale_ = Eigen::Scaling(x, y, z);
+			}
+			
+			void TransformComponent::ScaleMultiply(float x, float y, float z) {
+				auto const prev = this->scale_.diagonal();
+				this->scale_ = Eigen::Scaling(prev.x() * x, prev.y() * y, prev.z() * z);
 			}
 		}
 	}

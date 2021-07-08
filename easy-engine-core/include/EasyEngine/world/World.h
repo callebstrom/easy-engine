@@ -79,7 +79,7 @@ namespace easy_engine {
 			}
 
 			template<typename ComponentType>
-			auto GetComponentForEntity(entity::Entity* entity) -> std::optional<ComponentType*> {
+			auto GetComponentForEntity(entity::Entity* entity) -> std::optional<Ref<ComponentType>> {
 				auto component_type = std::type_index(typeid(ComponentType));
 
 				if (this->component_managers_.find(component_type) == this->component_managers_.end()) {
@@ -90,7 +90,7 @@ namespace easy_engine {
 				auto component = component_manager->GetComponentForEntity(entity);
 				return component == nullptr
 					? std::nullopt
-					: std::optional<ComponentType*>(component);
+					: std::optional<Ref<ComponentType>>(component);
 			}
 
 			auto SetupEnvironment(const resource::Environment& environment) -> void;

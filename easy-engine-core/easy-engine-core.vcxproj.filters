@@ -333,6 +333,15 @@
     <ClInclude Include="include\EasyEngine\physics_manager\PhysicsManager.h">
       <Filter>Header Files\physics_manager</Filter>
     </ClInclude>
+    <ClInclude Include="include\EasyEngine\ecs\component\RigidBodyComponent.h">
+      <Filter>Header Files\ecs\component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\physics_manager\PhysicsSystem.h">
+      <Filter>Header Files\physics_manager</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EasyEngine\Lifecycle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RenderManagerOpenGL.cpp">
@@ -447,6 +456,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\physics_manager\PhysicsManager.cpp">
+      <Filter>Source Files\physics_manager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\physics_manager\PhysicsSystem.cpp">
       <Filter>Source Files\physics_manager</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,6 +1,6 @@
 #include <EasyEngine/eepch.h>
 
-#include <experimental/filesystem>
+#include <filesystem>
 
 #include <EasyEngine/resource_manager/ResourceManager.h>
 #include <EasyEngine/resource/Texture.h>
@@ -57,7 +57,6 @@ namespace easy_engine {
 
 			int width, height, bpp;
 			unsigned char* decompressed_pixel_data = stbi_load_from_memory(reinterpret_cast<unsigned char*>(data), size, &width, &height, &bpp, 4);
-			delete[] data;
 
 			texture->width = width;
 			texture->height = height;

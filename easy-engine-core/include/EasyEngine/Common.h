@@ -1,5 +1,3 @@
-#ifndef COMMON_H
-#define COMMON_H
 #pragma once
 
 #include <EasyEngine/ecs/component/Component.h>
@@ -47,6 +45,4 @@ namespace easy_engine {
 		}
 	}
 }
-
-#endif // !COMMON_H
 

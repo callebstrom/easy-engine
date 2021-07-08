@@ -1,5 +1,3 @@
-#ifndef RENDER_SYSTEM_H
-#define RENDER_SYSTEM_H
 #pragma once
 
 #include <EasyEngine/ecs/ISystem.h>
@@ -9,7 +7,7 @@
 namespace easy_engine {
 
 	namespace render_manager {
-		class RenderSystem : public ecs::ISystem, public event_manager::IObserver {
+		class EASY_ENGINE_API RenderSystem : public ecs::ISystem, public event_manager::IObserver {
 		public:
 			RenderSystem(
 				std::shared_ptr<event_manager::EventManager> event_manager,
@@ -25,5 +23,3 @@ namespace easy_engine {
 		};
 	}
 }
-
-#endif // !RENDER_SYSTEM_H

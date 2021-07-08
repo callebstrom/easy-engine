@@ -26,8 +26,6 @@
 #include <EasyEngine/resource/Environment.h>
 #include <EasyEngine/Logger.h>
 
-
-
 void GLAPIENTRY Debug(GLenum source​, GLenum type​, GLuint id​, GLenum severity​, GLsizei length​, const GLchar* message​, const void* userParam) {
 	// EE_CORE_TRACE(message​);
 	// EE_CORE_TRACE("hello");
@@ -243,15 +241,10 @@ namespace easy_engine {
 				identity_matrix.setZero();
 				identity_matrix.diagonal() << 1, 1, 1, 1;
 
-				auto prev_translation = event_data->transform_component->prev_translation_;
-				auto translation = event_data->transform_component->translation_;
+				auto prev_translation = event_data->transform_component->GetPreviousTranslation();
+				auto translation = event_data->transform_component->GetTranslation();
 
-				// TODO interpolate between the 2 translations above and render for interpolation step for;
-				for (auto translation_interpolation_step : this->InterpolateTranslation3f(prev_translation, translation)) {
-
-				}
-
-				auto combined_affine_transform = event_data->transform_component->translation_ * event_data->transform_component->rotation * event_data->transform_component->scale;
+				auto combined_affine_transform = event_data->transform_component->GetTranslation() * event_data->transform_component->GetRotation() * event_data->transform_component->GetScale();
 				Eigen::Matrix<GLfloat, 4, 4> model_matrix = combined_affine_transform * identity_matrix;
 
 				this->SetupGlobalState();
@@ -281,8 +274,8 @@ namespace easy_engine {
 			}
 
 			auto SetupGlobalState() -> void {
-				glEnable(GL_DEPTH_TEST); // enable depth-testing
-				glDepthFunc(GL_LESS); // depth-testing interprets a smaller value as "closer"
+				glEnable(GL_DEPTH_TEST);
+				glDepthFunc(GL_LESS);
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 				glEnable(GL_BLEND);
@@ -368,15 +361,12 @@ namespace easy_engine {
 
 				glm::mat4 mvp = projection_matrix * view_matrix * model_matrix;
 
-				// Pre-compute matrices for the shaders
 				GLint mvp_uniform = glGetUniformLocation(this->shader_manager->GetAttachedPipeline()->GetId(), "mvp");
 				glUniformMatrix4fv(mvp_uniform, 1, GL_FALSE, glm::value_ptr(mvp));
 
-				// Model matrix is required separately to calculate lightning
 				GLint model_uniform = glGetUniformLocation(this->shader_manager->GetAttachedPipeline()->GetId(), "model");
 				glUniformMatrix4fv(model_uniform, 1, GL_FALSE, glm::value_ptr(model_matrix));
 
-				// View matrix is required separately to calculate lightning
 				GLint view_uniform = glGetUniformLocation(this->shader_manager->GetAttachedPipeline()->GetId(), "view");
 				glUniformMatrix4fv(view_uniform, 1, GL_FALSE, glm::value_ptr(view_matrix));
 
@@ -561,6 +551,12 @@ namespace easy_engine {
 			{
 				auto light_translation_pair = std::make_pair(static_cast<resource::PointLight*>(light), translation);
 				this->p_impl_->point_lights_with_translations.push_back(light_translation_pair);
+				break;
+			}
+			case resource::LightType::kDirectionalLight:
+			{
+				auto light_translation_pair = std::make_pair(static_cast<resource::DirectionalLight*>(light), translation);
+				this->p_impl_->directional_lights_with_translations.push_back(light_translation_pair);
 				break;
 			}
 			}

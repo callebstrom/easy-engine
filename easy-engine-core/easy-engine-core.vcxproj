@@ -42,6 +42,7 @@
     <ClInclude Include="include\EasyEngine\ecs\component\MaterialComponent.h" />
     <ClInclude Include="include\EasyEngine\ecs\component\MeshComponent.h" />
     <ClInclude Include="include\EasyEngine\ecs\component\ParentEntityComponent.h" />
+    <ClInclude Include="include\EasyEngine\ecs\component\RigidBodyComponent.h" />
     <ClInclude Include="include\EasyEngine\ecs\component\TextAreaComponent.h" />
     <ClInclude Include="include\EasyEngine\ecs\component\TextureComponent.h" />
     <ClInclude Include="include\EasyEngine\ecs\component\TransformComponent.h" />
@@ -60,10 +61,12 @@
     <ClInclude Include="include\EasyEngine\event_manager\IObserver.h" />
     <ClInclude Include="include\EasyEngine\input_manager\InputManager.h" />
     <ClInclude Include="include\EasyEngine\input_manager\KeyboardEvent.h" />
+    <ClInclude Include="include\EasyEngine\Lifecycle.h" />
     <ClInclude Include="include\EasyEngine\Logger.h" />
     <ClInclude Include="include\EasyEngine\ManagerLocator.h" />
     <ClInclude Include="include\EasyEngine\memory\LinearAllocator.h" />
     <ClInclude Include="include\EasyEngine\physics_manager\PhysicsManager.h" />
+    <ClInclude Include="include\EasyEngine\physics_manager\PhysicsSystem.h" />
     <ClInclude Include="include\EasyEngine\render_manager\_3DObjectRenderable.h" />
     <ClInclude Include="include\EasyEngine\render_manager\ObjectIndex.h" />
     <ClInclude Include="include\EasyEngine\render_manager\IRenderManager.h" />
@@ -137,6 +140,7 @@
     <ClCompile Include="src\Node.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\physics_manager\PhysicsManager.cpp" />
+    <ClCompile Include="src\physics_manager\PhysicsSystem.cpp" />
     <ClCompile Include="src\RenderableNode.cpp" />
     <ClCompile Include="src\RenderSystem.cpp" />
     <ClCompile Include="src\ResourceManager3D.cpp" />
@@ -321,17 +325,19 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Dropbox\dev\EasyEngine\vendor\all\bullet3\src;$(ProjectDir)include\spdlog_complete\include;$(ProjectDir)lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;$(SolutionDir)vendor\all\glfw\include;$(SolutionDir)vendor\all\nuklear;$(SolutionDir)vendor\all\nuklear\demo\glfw_opengl4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\all\bullet3\src;$(ProjectDir)include\spdlog_complete\include;$(ProjectDir)lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;$(SolutionDir)vendor\all\glfw\include;$(SolutionDir)vendor\all\nuklear;$(SolutionDir)vendor\all\nuklear\demo\glfw_opengl4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
       <PreprocessorDefinitions>EASY_ENGINE_BUILD;GLEW_STATIC;BOOST_LOG_DYN_LINK;_WINDLL;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS /Zc:__cplusplus</AdditionalOptions>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalOptions> /FS -D_SCL_SECURE_NO_WARNINGS /Zc:__cplusplus</AdditionalOptions>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <BufferSecurityCheck>true</BufferSecurityCheck>
+      <PrecompiledHeaderOutputFile>$(ProjectDir)bin\$(Platform)\$(Configuration)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(SolutionDir)vendor\win\precompiled\glfw\glfw3.lib;$(SolutionDir)vendor\win\precompiled\glew\glew32s.lib;opengl32.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_thread-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_date_time-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_chrono-vc141-mt-gd-x64-1_69.lib;$(ProjectDir)lib\assimp\build\code\Debug\assimp-vc142-mtd.lib;$(ProjectDir)lib\assimp\build\contrib\zlib\Debug\zlibstaticd.lib;$(ProjectDir)lib\assimp\build\contrib\irrXML\Debug\IrrXML.lib;$(SolutionDir)vendor\all\bullet3\bin\BulletDynamics_vs2010_x64_debug.lib;$(SolutionDir)vendor\all\bullet3\bin\BulletCollision_vs2010_x64_debug.lib;$(SolutionDir)vendor\all\bullet3\bin\LinearMath_vs2010_x64_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -362,9 +368,10 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS</AdditionalOptions>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeaderOutputFile>$(ProjectDir)bin\$(Platform)\$(Configuration)\$(TargetName).pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(SolutionDir)vendor\win\precompiled\glfw\glfw3.lib;$(SolutionDir)vendor\win\precompiled\glew\glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -385,9 +392,10 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS</AdditionalOptions>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeaderOutputFile>$(ProjectDir)bin\$(Platform)\$(Configuration)\$(TargetName).pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(SolutionDir)vendor\win\precompiled\glfw\glfw3.lib;$(SolutionDir)vendor\win\precompiled\glew\glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -419,9 +427,10 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>D:\Dropbox\dev\EasyEngine\vendor\all\bullet3\src;$(ProjectDir)include\spdlog_complete\include;$(ProjectDir)lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;$(SolutionDir)vendor\all\glfw\include;$(SolutionDir)vendor\all\nuklear;$(SolutionDir)vendor\all\nuklear\demo\glfw_opengl4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>EASY_ENGINE_BUILD;GLEW_STATIC;BOOST_LOG_DYN_LINK;DLLDIR_EX;_WINDLL;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeaderOutputFile>$(ProjectDir)bin\$(Platform)\$(Configuration)\$(TargetName).pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
