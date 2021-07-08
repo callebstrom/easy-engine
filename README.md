@@ -13,7 +13,8 @@ Ensure dependency submarkmodule in `vendor` are built with the correct configura
     cd build_cmake
     ```
 2. Open `vendor\all\bullet3\build3\vs2010\0_Bullet3Solution.sln`
-3. Build `ALL_BUILD` with either `Debug` or `Release` configuration
+3. When prompted select to update project files to the latest toolchain version
+4. Build `ALL_BUILD` with either `Debug` or `Release` configuration
 
 ## TODO
 ### Rendering
