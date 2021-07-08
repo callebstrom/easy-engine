@@ -10,11 +10,13 @@ Ensure dependency submarkmodule in `vendor` are built with the correct configura
 1. Generate project files for configuration (`Release` or `Debug`) by going to `vendor/all/bullet3/build3` and running:
     ```
     ./premake4 --double --enable_multithreading --dynamic-runtime vs2010
-    cd build_cmake
     ```
 2. Open `vendor\all\bullet3\build3\vs2010\0_Bullet3Solution.sln`
 3. When prompted select to update project files to the latest toolchain version
-4. Build `ALL_BUILD` with either `Debug` or `Release` configuration
+4. Build the `x64` static library for these projects:
+   - BulletCollision
+   - BulletDynamics
+   - LinearMath 
 
 ## TODO
 ### Rendering
