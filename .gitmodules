@@ -19,3 +19,6 @@
 [submodule "vendor/all/bullet3"]
 	path = vendor/all/bullet3
 	url = git@github.com:bulletphysics/bullet3.git
+[submodule "vendor\\all\\bullet3"]
+	path = vendor\\all\\bullet3
+	url = https://github.com/bulletphysics/bullet3.git

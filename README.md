@@ -1,6 +1,19 @@
 # EasyEngine
 An experimental cross-platform game engine created for personal and educational purposes
 
+## How to build
+### Dependencies
+
+Ensure dependency submodule in `vendor` are built with the correct configuration
+
+#### bullet3
+*Debug*
+`cmake -DBUILD_PYBULLET=OFF -DUSE_DOUBLE_PRECISION=ON -DCMAKE_BUILD_TYPE=Debug -G "Visual Studio 16 2019" ..`
+
+*Release*
+`cmake -DBUILD_PYBULLET=OFF -DUSE_DOUBLE_PRECISION=ON -DCMAKE_BUILD_TYPE=Release -G "Visual Studio 16 2019" ..`
+
+
 ## TODO
 ### Rendering
 - ~~Event driven render lifecycle~~
