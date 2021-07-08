@@ -7,18 +7,12 @@ An experimental cross-platform game engine created for personal and educational 
 Ensure dependency submarkmodule in `vendor` are built with the correct configuration
 
 #### bullet3
-1. Generate project files for configuration (`Release` or `Debug`)
-
-   *Debug:*
-   ```
-   cmake -DBUILD_PYBULLET=OFF -DUSE_DOUBLE_PRECISION=ON -DCMAKE_BUILD_TYPE=Debug -G "Visual Studio 16 2019" ..
-   ```
-
-   *Release:*
-   ``` 
-   cmake -DBUILD_PYBULLET=OFF -DUSE_DOUBLE_PRECISION=ON -DCMAKE_BUILD_TYPE=Release -G "Visual Studio 16 2019" ..
-   ```
-2. Open `vendor/all/bullet3/build_cmake/BULLET_PHYSICS.sln`
+1. Generate project files for configuration (`Release` or `Debug`) by going to `vendor/all/bullet3/build3` and running:
+    ```
+    ./premake4 --double --enable_multithreading --dynamic-runtime vs2010
+    cd build_cmake
+    ```
+2. Open `vendor\all\bullet3\build3\vs2010\0_Bullet3Solution.sln`
 3. Build `ALL_BUILD` with either `Debug` or `Release` configuration
 
 ## TODO
