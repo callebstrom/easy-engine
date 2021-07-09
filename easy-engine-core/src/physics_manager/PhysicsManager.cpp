@@ -3,13 +3,13 @@
 #include <EasyEngine/physics_manager/PhysicsManager.h>
 #include <EasyEngine/ecs/entity/Entity.h>
 
-//#include <btBulletDynamicsCommon.h>
+#include <btBulletDynamicsCommon.h>
 
 namespace easy_engine {
 	namespace physics_manager {
 
 		struct PhysicsManager::Impl {
-			//Scope<btDiscreteDynamicsWorld> dynamics_world;
+			Scope<btDiscreteDynamicsWorld> dynamics_world;
 		};
 
 		PhysicsManager::PhysicsManager() {
@@ -37,8 +37,8 @@ namespace easy_engine {
 				btVector3(0, 0, 0)    // local inertia
 			);
 			btRigidBody* rigidBody = new btRigidBody(rigidBodyCI);
-
-			dynamicsWorld->addRigidBody(rigidBody);*/
+			
+			this->p_impl_->dynamics_world->addRigidBody(rigidBody);*/
 		}
 	}
 }

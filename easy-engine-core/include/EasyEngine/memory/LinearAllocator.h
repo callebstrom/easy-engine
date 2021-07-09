@@ -20,12 +20,12 @@ namespace easy_engine {
 				, buffer(reinterpret_cast<T*>(malloc((sizeof* this->buffer)* initial_size)))
 			{}
 
-			size_t Allocate(T* t)
+			size_t Allocate(Ref<T> t)
 			{
 				if (this->offset_ == this->buffer_size_)
 					this->Reallocate();
 
-				memcpy(this->buffer + this->offset_, t, sizeof * this->buffer);
+				memcpy(this->buffer + this->offset_, t.get(), sizeof * this->buffer);
 				return this->offset_++;
 			}
 

@@ -329,7 +329,7 @@
       <BrowseInformation>true</BrowseInformation>
       <PreprocessorDefinitions>EASY_ENGINE_BUILD;GLEW_STATIC;BOOST_LOG_DYN_LINK;_WINDLL;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalOptions> /FS -D_SCL_SECURE_NO_WARNINGS /Zc:__cplusplus</AdditionalOptions>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>

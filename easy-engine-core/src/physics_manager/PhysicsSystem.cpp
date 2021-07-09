@@ -20,7 +20,6 @@ namespace easy_engine {
 					auto transform = maybe_transform_component.value();
 					const auto rigid_body  = maybe_rigid_body_component.value();
 
-					// TODO bullet causes dynamic debug library mismatch. Build all bullet3 projects with MTd
 					this->physics_manager_->Register(
 						rigid_body,
 						transform
