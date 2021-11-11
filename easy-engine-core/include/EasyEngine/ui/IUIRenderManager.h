@@ -1,5 +1,3 @@
-#ifndef I_UI_RENDER_MANAGER_OPEN_GL_H
-#define I_UI_RENDER_MANAGER_OPEN_GL_H
 #pragma once
 
 namespace easy_engine {
@@ -14,5 +12,3 @@ namespace easy_engine {
 	}
 
 }
-
-#endif // !I_UI_RENDER_MANAGER_OPEN_GL_H

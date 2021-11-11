@@ -1,5 +1,3 @@
-#ifndef BONE_H
-#define BONE_H
 #pragma once
 
 namespace easy_engine {
@@ -16,4 +14,3 @@ namespace easy_engine {
 		};
 	}
 }
-#endif // !BONE_H

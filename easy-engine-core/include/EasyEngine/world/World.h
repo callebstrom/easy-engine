@@ -1,5 +1,3 @@
-#ifndef WORLD_H
-#define WORLD_H
 #pragma once
 
 #include <EasyEngine/ecs/ISystem.h>
@@ -106,6 +104,4 @@ namespace easy_engine {
 		};
 	}
 }
-
-#endif // !WORLD_H
 

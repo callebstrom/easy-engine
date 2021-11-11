@@ -9,11 +9,20 @@ namespace easy_engine {
 
 	namespace ecs {
 		namespace component {
-			struct EASY_ENGINE_API LightComponent : public Component {
-				LightComponent(resource::Light* light)
-					: light(light) {}
+			class EASY_ENGINE_API LightComponent : public Component {
+			public:
+				LightComponent(resource::PointLight point_light)
+					: point_light_(std::make_optional(point_light)), directional_light_(std::nullopt) {}
+				
+				LightComponent(resource::DirectionalLight directional_light)
+					: directional_light_(std::make_optional(directional_light)), point_light_(std::nullopt) {}
 
-				resource::Light* light;
+				auto GetPointLight()->std::optional<resource::PointLight>;
+				auto GetDirectionalLight()->std::optional<resource::DirectionalLight>;
+
+			private:
+				std::optional<resource::PointLight> point_light_;
+				std::optional<resource::DirectionalLight> directional_light_;
 			};
 		}
 	}

@@ -452,13 +452,13 @@ namespace easy_engine {
 					auto point_light_offset = i * point_light_size;
 
 					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset, VEC3_SIZE_WITH_PADDING, translation.data());
-					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(1), sizeof(float), &light->constant);
-					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(2), sizeof(float), &light->linear);
-					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(3), sizeof(float), &light->quadratic);
-					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(4), VEC3_SIZE_WITH_PADDING, light->ambient_color.data());
-					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(5), VEC3_SIZE_WITH_PADDING, light->diffuse_color.data());
-					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(6), VEC3_SIZE_WITH_PADDING, light->specular_color.data());
-					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(7), sizeof(float), &light->strength);
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(1), sizeof(float), &light.constant);
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(2), sizeof(float), &light.linear);
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(3), sizeof(float), &light.quadratic);
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(4), VEC3_SIZE_WITH_PADDING, light.ambient_color.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(5), VEC3_SIZE_WITH_PADDING, light.diffuse_color.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(6), VEC3_SIZE_WITH_PADDING, light.specular_color.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, point_light_offset + this->GetPointLightOffsetInBytes(7), sizeof(float), &light.strength);
 				}
 
 				// Directional lights
@@ -466,11 +466,11 @@ namespace easy_engine {
 					auto light =  this->directional_lights_with_translations[i].first;
 
 					auto directional_light_offset = i * directional_light_size + (MAX_POINT_LIGHTS * point_light_size);
-					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset, VEC3_SIZE_WITH_PADDING, light->direction.data());
-					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset + this->GetDirectionalLightOffsetInBytes(1), VEC3_SIZE_WITH_PADDING, light->ambient_color.data());
-					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset + this->GetDirectionalLightOffsetInBytes(2), VEC3_SIZE_WITH_PADDING, light->diffuse_color.data());
-					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset + this->GetDirectionalLightOffsetInBytes(3), VEC3_SIZE_WITH_PADDING, light->specular_color.data());
-					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset + this->GetDirectionalLightOffsetInBytes(4), sizeof(float), &light->strength);
+					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset, VEC3_SIZE_WITH_PADDING, light.direction.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset + this->GetDirectionalLightOffsetInBytes(1), VEC3_SIZE_WITH_PADDING, light.ambient_color.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset + this->GetDirectionalLightOffsetInBytes(2), VEC3_SIZE_WITH_PADDING, light.diffuse_color.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset + this->GetDirectionalLightOffsetInBytes(3), VEC3_SIZE_WITH_PADDING, light.specular_color.data());
+					glBufferSubData(GL_UNIFORM_BUFFER, directional_light_offset + this->GetDirectionalLightOffsetInBytes(4), sizeof(float), &light.strength);
 				}
 
 				glBindBuffer(GL_UNIFORM_BUFFER, 0);
@@ -499,8 +499,8 @@ namespace easy_engine {
 			GLint diffuse_texture_sampler;
 			GLint emissive_texture_sampler;
 
-			std::vector<std::pair<resource::PointLight*, Eigen::Vector3f>> point_lights_with_translations;
-			std::vector<std::pair<resource::DirectionalLight*, Eigen::Vector3f>> directional_lights_with_translations;
+			std::vector<std::pair<resource::PointLight, Eigen::Vector3f>> point_lights_with_translations;
+			std::vector<std::pair<resource::DirectionalLight, Eigen::Vector3f>> directional_lights_with_translations;
 
 			std::shared_ptr<ShaderManagerOpenGL> shader_manager;
 		};
@@ -545,21 +545,14 @@ namespace easy_engine {
 			this->p_impl_->Render(mesh, model_matrix, textures, material);
 		}
 
-		void RenderManagerOpenGL::Render(resource::Light* light, Eigen::Vector3f translation) {
-			switch (light->type) {
-			case resource::LightType::kPointLight:
-			{
-				auto light_translation_pair = std::make_pair(static_cast<resource::PointLight*>(light), translation);
-				this->p_impl_->point_lights_with_translations.push_back(light_translation_pair);
-				break;
-			}
-			case resource::LightType::kDirectionalLight:
-			{
-				auto light_translation_pair = std::make_pair(static_cast<resource::DirectionalLight*>(light), translation);
-				this->p_impl_->directional_lights_with_translations.push_back(light_translation_pair);
-				break;
-			}
-			}
+		void RenderManagerOpenGL::Render(resource::PointLight point_light, Eigen::Vector3f translation) {
+			auto light_translation_pair = std::make_pair(point_light, translation);
+			this->p_impl_->point_lights_with_translations.push_back(light_translation_pair);
+		}
+		
+		void RenderManagerOpenGL::Render(resource::DirectionalLight directional_light, Eigen::Vector3f translation) {
+			auto light_translation_pair = std::make_pair(directional_light, translation);
+			this->p_impl_->directional_lights_with_translations.push_back(light_translation_pair);
 		}
 
 		void RenderManagerOpenGL::OnEvent(event_manager::Event event) {

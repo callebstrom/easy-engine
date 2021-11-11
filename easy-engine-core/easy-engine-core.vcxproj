@@ -117,6 +117,8 @@
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\ComponentManager.cpp" />
+    <ClCompile Include="src\ecs\component\LightComponent.cpp" />
+    <ClCompile Include="src\ecs\component\RigidBodyComponent.cpp" />
     <ClCompile Include="src\eepch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unit Tests|x64'">Create</PrecompiledHeader>
@@ -325,7 +327,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\all\bullet3\src;$(ProjectDir)include\spdlog_complete\include;$(ProjectDir)lib\assimp\build\include;$(ProjectDir)lib\assimp\include;$(ProjectDir)include;$(SolutionDir)vendor\all\glfw\include;$(SolutionDir)vendor\all\nuklear;$(SolutionDir)vendor\all\nuklear\demo\glfw_opengl4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\all\bullet3\src;$(ProjectDir)include\spdlog_complete\include;$(SolutionDir)vendor\all\assimp\include;C:\Users\calle\Dropbox\dev\EasyEngine\vendor\all\boost;$(ProjectDir)include;$(SolutionDir)vendor\all\glfw\include;$(SolutionDir)vendor\all\nuklear;$(SolutionDir)vendor\all\nuklear\demo\glfw_opengl4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
       <PreprocessorDefinitions>EASY_ENGINE_BUILD;GLEW_STATIC;BOOST_LOG_DYN_LINK;_WINDLL;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
@@ -348,8 +350,8 @@
     </Bscmake>
     <Lib />
     <Lib>
-      <AdditionalDependencies>$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_thread-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_date_time-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_chrono-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\all\glfw\src\Debug\glfw3.lib;$(SolutionDir)vendor\win\precompiled\glew\glew32s.lib;opengl32.lib;$(ProjectDir)lib\assimp\build\code\Debug\assimp-vc140-mt-sgd.lib;$(SolutionDir)vendor\all\bullet3\bin\BulletDynamics_vs2010_x64_debug.lib;$(SolutionDir)vendor\all\bullet3\bin\BulletCollision_vs2010_x64_debug.lib;$(SolutionDir)vendor\all\bullet3\bin\LinearMath_vs2010_x64_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionDir)vendor\all\glfw\src\Debug\glfw3.lib;$(SolutionDir)vendor\win\precompiled\glew\glew32s.lib;opengl32.lib;$(SolutionDir)vendor\all\bullet3\bin\BulletDynamics_vs2010_x64_debug.lib;$(SolutionDir)vendor\all\bullet3\bin\BulletCollision_vs2010_x64_debug.lib;$(SolutionDir)vendor\all\bullet3\bin\LinearMath_vs2010_x64_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\x64;$(SolutionDir)vendor\all\boost\stage\lib;$(SolutionDir)vendor\all\assimp\lib\Debug;$(SolutionDir)vendor\all\assimp\contrib\zlib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <LinkTimeCodeGeneration>false</LinkTimeCodeGeneration>
     </Lib>

@@ -1,5 +1,3 @@
-#ifndef ENVIRONMENT_H
-#define ENVIRONMENT_H
 #pragma once
 
 #include <EasyEngine/resource/Light.h>
@@ -29,6 +27,4 @@ namespace easy_engine {
 		};
 	}
 }
-
-#endif // !ENVIRONMENT_H
 

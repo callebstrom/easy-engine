@@ -461,6 +461,12 @@
     <ClCompile Include="src\physics_manager\PhysicsSystem.cpp">
       <Filter>Source Files\physics_manager</Filter>
     </ClCompile>
+    <ClCompile Include="src\ecs\component\LightComponent.cpp">
+      <Filter>Source Files\ecs\component</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ecs\component\RigidBodyComponent.cpp">
+      <Filter>Source Files\ecs\component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\fragment_shader.glsl">
