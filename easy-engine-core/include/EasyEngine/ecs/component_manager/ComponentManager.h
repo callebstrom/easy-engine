@@ -24,22 +24,26 @@ namespace easy_engine {
 			ComponentManager(ComponentManager&&) = default;
 			ComponentManager& operator=(ComponentManager&&) = default;
 
-			void RegisterEntity(entity::Entity* entity, ComponentType* component) {
-				this->entity_id_component_offset_map_[entity->id] = this->allocator.Allocate(component);
+			void RegisterEntity(entity::Entity* entity, Ref<ComponentType> component) {
+				// this->entity_id_component_offset_map_[entity->id] = this->allocator.Allocate(component);
+				this->refs_[entity->id] = component;
 			}
 
-			auto GetComponentForEntity(entity::Entity* entity) -> ComponentType* {
-				if (this->entity_id_component_offset_map_.find(entity->id) == this->entity_id_component_offset_map_.end()) {
+			// TODO should return optional
+			auto GetComponentForEntity(entity::Entity* entity) -> Ref<ComponentType> {
+				/*if (this->entity_id_component_offset_map_.find(entity->id) == this->entity_id_component_offset_map_.end()) {
 					return nullptr;
 				}
 
-				return this->allocator.buffer + this->entity_id_component_offset_map_[entity->id];
+				return this->allocator.buffer + this->entity_id_component_offset_map_[entity->id];*/
+				return this->refs_[entity->id];
 			}
 
 			auto RemoveComponentForEntity(const entity::Entity& entity) -> void {
-				if (this->entity_id_component_offset_map_.find(entity.id) == this->entity_id_component_offset_map_.end()) return;
+				/*if (this->entity_id_component_offset_map_.find(entity.id) == this->entity_id_component_offset_map_.end()) return;
 
-				this->entity_id_component_offset_map_.erase(entity.id);
+				this->entity_id_component_offset_map_.erase(entity.id);*/
+				this->refs_.erase(entity.id);
 				// TODO should also remove component data from allocator
 			}
 
@@ -47,7 +51,8 @@ namespace easy_engine {
 			// Maps entity id to component index
 			std::map<float, size_t> entity_id_component_offset_map_;
 			// Holds all components of the type associated with a given ComponentManager in linear memory
-			memory::LinearAllocator<ComponentType> allocator;
+			// memory::LinearAllocator<ComponentType> allocator;
+			std::map<float, Ref<ComponentType>> refs_;
 		};
 	}
 }

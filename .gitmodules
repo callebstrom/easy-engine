@@ -4,9 +4,6 @@
 [submodule "easy-engine-script-bindings/include/ChaiScript"]
 	path = easy-engine-script-bindings/include/ChaiScript
 	url = git@github.com:ChaiScript/ChaiScript.git
-[submodule "easy-engine-core/lib/assimp"]
-	path = easy-engine-core/lib/assimp
-	url = git@github.com:assimp/assimp.git
 [submodule "vendor/all/glfw"]
 	path = vendor/all/glfw
 	url = git@github.com:glfw/glfw.git
@@ -22,3 +19,9 @@
 [submodule "vendor\\all\\bullet3"]
 	path = vendor\\all\\bullet3
 	url = https://github.com/bulletphysics/bullet3.git
+[submodule "vendor/all/boost"]
+	path = vendor/all/boost
+	url = git@github.com:boostorg/boost.git
+[submodule "vendor/all/assimp"]
+	path = vendor/all/assimp
+	url = git@github.com:assimp/assimp.git

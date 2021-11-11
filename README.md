@@ -6,7 +6,7 @@ An experimental cross-platform game engine created for personal and educational 
 
 Ensure dependency submarkmodule in `vendor` are built with the correct configuration
 
-#### bullet3
+##### bullet3
 1. Generate project files for configuration (`Release` or `Debug`) by going to `vendor/all/bullet3/build3` and running:
     ```
     ./premake4 --double --enable_multithreading --dynamic-runtime vs2010
@@ -17,6 +17,15 @@ Ensure dependency submarkmodule in `vendor` are built with the correct configura
    - BulletCollision
    - BulletDynamics
    - LinearMath 
+##### Boost
+1. Bootstrap build tools
+   `./bootstrap`
+2. Build static libraries with b2
+   `./b2 --runtime-link=static --toolset=msvc-14.2 --variant=debug --runtime-debugging=on`
+   `./b2 --runtime-link=static --toolset=msvc-14.2 --variant=release`
+##### Assimp
+1. `cmake -D BUILD_SHARED_LIBS=OFF -D ASSIMP_BUILD_ZLIB=ON CMakeLists.txt`
+2. Open `Assimp.sln` and build both debug and release versions of `ALL_BUILD`
 
 ## TODO
 ### Rendering

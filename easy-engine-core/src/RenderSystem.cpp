@@ -41,11 +41,15 @@ namespace easy_engine {
 				auto maybe_transform_component = this->world->GetComponentForEntity<ecs::component::TransformComponent>(entity);
 
 				if (maybe_light_component.has_value() && maybe_transform_component.has_value()) {
-					auto light = maybe_light_component.value()->light;
+					auto light_component = maybe_light_component.value();
+					auto maybe_directional_light = light_component->GetDirectionalLight();
+					auto maybe_point_light = light_component->GetPointLight();
 
 					auto translation_matrix = maybe_transform_component.value()->GetTranslation();
-					Eigen::Vector3f translation(translation_matrix.x(), translation_matrix.y(), translation_matrix.z());
-					this->p_impl_->render_manager->Render(light, translation);
+					auto translation = translation_matrix.vector();
+					
+					if (maybe_directional_light.has_value()) this->p_impl_->render_manager->Render(maybe_directional_light.value(), translation);
+					else this->p_impl_->render_manager->Render(maybe_point_light.value(), translation);
 				}
 
 				auto maybe_mesh_component = this->world->GetComponentForEntity<ecs::component::MeshComponent>(entity);

@@ -7,7 +7,7 @@
 namespace easy_engine {
 	namespace ui {
 		namespace component {
-
+			
 			class EASY_ENGINE_API TextAreaComponent : public ecs::component::Component {
 			public:
 				char* buffer;
@@ -21,7 +21,7 @@ namespace easy_engine {
 						this->buffer[i] = '\0';
 					}
 					easy_engine::Replace(value, "\t", "  ");
-					this->buffer_size = value.length();
+          this->buffer_size = value.length();
 					memcpy(this->buffer, value.c_str(), value.length());
 				}
 			};

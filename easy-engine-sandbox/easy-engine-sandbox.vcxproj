@@ -95,12 +95,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NO_ENTRYPOINT;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)easy-engine-core\include\spdlog_complete\include;$(SolutionDir)easy-engine-core\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)easy-engine-core\include\spdlog_complete\include;$(SolutionDir)easy-engine-core\include;$(ProjectDir)include;$(SolutionDir)vendor\all\boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>EasyEngine/eepch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(SolutionDir)easy-engine-core\bin\$(Platform)\$(Configuration)\easy-engine-core.pch</PrecompiledHeaderOutputFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS /Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -109,8 +109,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;$(SolutionDir)bin\x64\Debug\easy-engine-core.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_thread-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_chrono-vc141-mt-gd-x64-1_69.lib;$(SolutionDir)vendor\win\precompiled\boost\1.69\Debug\libboost_date_time-vc141-mt-gd-x64-1_69.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)easy-engine-core\lib\x64;$(SolutionDir)vendor\win\precompiled\x64\bin\Release\x64;$(SolutionDir)vendor\win\precompiled\x64\glew\lib\Release\x64;$(SolutionDir)vendor\win\precompiled\x64\glfw\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;$(SolutionDir)bin\x64\Debug\easy-engine-core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)easy-engine-core\lib\x64;$(SolutionDir)vendor\win\precompiled\x64\bin\Release\x64;$(SolutionDir)vendor\win\precompiled\x64\glew\lib\Release\x64;$(SolutionDir)vendor\win\precompiled\x64\glfw\lib-vc2019;$(SolutionDir)vendor\all\boost\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>LIBCMT;MSVCRT</IgnoreSpecificDefaultLibraries>
     </Link>
