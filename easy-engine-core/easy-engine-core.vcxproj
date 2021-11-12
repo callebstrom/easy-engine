@@ -327,7 +327,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)vendor\all\bullet3\src;$(ProjectDir)include\spdlog_complete\include;$(SolutionDir)vendor\all\assimp\include;C:\Users\calle\Dropbox\dev\EasyEngine\vendor\all\boost;$(ProjectDir)include;$(SolutionDir)vendor\all\glfw\include;$(SolutionDir)vendor\all\nuklear;$(SolutionDir)vendor\all\nuklear\demo\glfw_opengl4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\all\bullet3\src;$(ProjectDir)include\spdlog_complete\include;$(SolutionDir)vendor\all\assimp\include;$(SolutionDir)vendor\all\boost;$(ProjectDir)include;$(SolutionDir)vendor\all\glfw\include;$(SolutionDir)vendor\all\nuklear;$(SolutionDir)vendor\all\nuklear\demo\glfw_opengl4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
       <PreprocessorDefinitions>EASY_ENGINE_BUILD;GLEW_STATIC;BOOST_LOG_DYN_LINK;_WINDLL;_SILENCE_CXX17_NEGATORS_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
@@ -350,8 +350,8 @@
     </Bscmake>
     <Lib />
     <Lib>
-      <AdditionalDependencies>$(SolutionDir)vendor\all\glfw\src\Debug\glfw3.lib;$(SolutionDir)vendor\win\precompiled\glew\glew32s.lib;opengl32.lib;$(SolutionDir)vendor\all\bullet3\bin\BulletDynamics_vs2010_x64_debug.lib;$(SolutionDir)vendor\all\bullet3\bin\BulletCollision_vs2010_x64_debug.lib;$(SolutionDir)vendor\all\bullet3\bin\LinearMath_vs2010_x64_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib\x64;$(SolutionDir)vendor\all\boost\stage\lib;$(SolutionDir)vendor\all\assimp\lib\Debug;$(SolutionDir)vendor\all\assimp\contrib\zlib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionDir)vendor\all\glfw\src\Debug\glfw3.lib;$(SolutionDir)vendor\win\precompiled\glew\glew32s.lib;opengl32.lib;$(SolutionDir)vendor\all\assimp\lib\Debug\assimp-vc142-mtd.lib;$(SolutionDir)vendor\all\assimp\contrib\zlib\Debug\zlibstaticd.lib;$(SolutionDir)vendor\all\bullet3\bin\BulletDynamics_vs2010_x64_debug.lib;$(SolutionDir)vendor\all\bullet3\bin\BulletCollision_vs2010_x64_debug.lib;$(SolutionDir)vendor\all\bullet3\bin\LinearMath_vs2010_x64_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\x64;$(SolutionDir)vendor\all\boost\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <LinkTimeCodeGeneration>false</LinkTimeCodeGeneration>
     </Lib>
