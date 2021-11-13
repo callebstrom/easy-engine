@@ -145,7 +145,7 @@ public:
     world->AddSystem<ecs::component::TransformComponent>(new ViewportControls);
 
     this->resource_manager_3d
-      ->Load("..\\easy-engine-core\\res\\sylvanas\\sylvanas.fbx",
+      ->Load("..\\easy-engine-core\\res\\man.fbx",
         easy_engine::resource_manager::DEFAULT)
       .then([=](resource_manager::LoadFuture
         future_resource_collection) mutable {
