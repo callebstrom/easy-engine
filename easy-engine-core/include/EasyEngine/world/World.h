@@ -8,100 +8,102 @@
 
 namespace easy_engine {
 
-	namespace world {
+  namespace world {
 
-		typedef std::multimap<ecs::ISystem*, ComponentSignature>::iterator SystemComponentSignatureIterator;
+    typedef std::multimap<ecs::ISystem*, ComponentSignature>::iterator SystemComponentSignatureIterator;
 
-		class EASY_ENGINE_API World {
-		public:
-			auto CreateEntity()->entity::EntityHandle;
-			auto RemoveEntity(entity::Entity const& entity) -> void;
-			auto Update(float dt) const -> void;
+    class EASY_ENGINE_API World {
+    public:
+      auto CreateEntity()->entity::EntityHandle;
+      auto CreateEntity(EntityName name)->entity::EntityHandle;
+      auto RemoveEntity(entity::Entity const& entity) -> void;
+      auto Update(float dt) const -> void;
 
-			// TODO this should handle unique_ptr
-			template <typename... ComponentTypes>
-			void AddSystem(ecs::ISystem* system) {
-				system->RegisterWorld(this);
+      // TODO this should handle unique_ptr
+      template <typename... ComponentTypes>
+      void AddSystem(ecs::ISystem* system) {
+        system->RegisterWorld(this);
 
-				if (std::find(this->systems_.begin(), this->systems_.end(), system) == this->systems_.end()) {
-					this->systems_.push_back(system);
-				}
+        if (std::find(this->systems_.begin(), this->systems_.end(), system) == this->systems_.end()) {
+          this->systems_.push_back(system);
+        }
 
-				ComponentSignature component_signature;
+        ComponentSignature component_signature;
 
-				int _[] ={0, (component_signature[ecs::component::Component::GetComponentFamily<ComponentTypes>()] = true, 0)...};
-				(void)_;
+        int _[] = { 0, (component_signature[ecs::component::Component::GetComponentFamily<ComponentTypes>()] = true, 0)... };
+        (void)_;
 
-				// Associate the system with a component signature
-				this->system_component_signature_map_.insert(std::pair<ecs::ISystem*, ComponentSignature>(system, component_signature));
-			}
+        // Associate the system with a component signature
+        this->system_component_signature_map_.insert(std::pair<ecs::ISystem*, ComponentSignature>(system, component_signature));
+      }
 
-			template <typename ComponentType>
-			void AddComponent(const entity::EntityHandle& entity_handle, Ref<ComponentType> component) {
-				this->AddComponent(entity_handle.entity, component);
-			}
+      template <typename ComponentType>
+      void AddComponent(const entity::EntityHandle& entity_handle, Ref<ComponentType> component) {
+        this->AddComponent(entity_handle.entity, component);
+      }
 
-			template <typename ComponentType>
-			void AddComponent(entity::Entity* entity, Ref<ComponentType> component) {
-				auto component_type = std::type_index(typeid(ComponentType));
-				if (!this->component_managers_.count(component_type)) {
-					auto component_manager = CreateRef<component_manager::ComponentManager<ComponentType>>();
-					this->component_managers_[component_type] = std::reinterpret_pointer_cast<component_manager::ComponentManager<void>>(component_manager);
-				}
+      template <typename ComponentType>
+      void AddComponent(entity::Entity* entity, Ref<ComponentType> component) {
+        auto component_type = std::type_index(typeid(ComponentType));
+        if (!this->component_managers_.count(component_type)) {
+          auto component_manager = CreateRef<component_manager::ComponentManager<ComponentType>>();
+          this->component_managers_[component_type] = std::reinterpret_pointer_cast<component_manager::ComponentManager<void>>(component_manager);
+        }
 
-				auto component_manager = std::reinterpret_pointer_cast<component_manager::ComponentManager<ComponentType>>(this->component_managers_[component_type]);
-				component_manager->RegisterEntity(entity, component);
+        auto component_manager = std::reinterpret_pointer_cast<component_manager::ComponentManager<ComponentType>>(this->component_managers_[component_type]);
+        component_manager->RegisterEntity(entity, component);
 
-				auto component_family = ecs::component::Component::GetComponentFamily<ComponentType>();
-				this->entity_component_signature_map_[entity][component_family] = true;
+        auto component_family = ecs::component::Component::GetComponentFamily<ComponentType>();
+        this->entity_component_signature_map_[entity][component_family] = true;
 
-				for (auto system : this->systems_) {
-					std::pair<SystemComponentSignatureIterator, SystemComponentSignatureIterator> registered_signatures = this->system_component_signature_map_.equal_range(system);
+        for (auto system : this->systems_) {
+          std::pair<SystemComponentSignatureIterator, SystemComponentSignatureIterator> registered_signatures = this->system_component_signature_map_.equal_range(system);
 
-					for (SystemComponentSignatureIterator it = registered_signatures.first; it != registered_signatures.second; it++) {
-						auto registered_signature = it->second;
-						auto component_mask = this->entity_component_signature_map_[entity] & registered_signature;
-						auto is_entity_eligable = component_mask == registered_signature;
-						if (is_entity_eligable) {
-							// Notify ISystem of entity that fulfills component signature
-							system->RegisterEntity(entity);
-						}
-					}
-				}
-			}
-			template <typename ComponentType>
-			void RemoveComponent(entity::Entity const& entity) {
-				auto component_type = std::type_index(typeid(ComponentType));
-				auto component_manager = std::reinterpret_pointer_cast<component_manager::ComponentManager<ComponentType>>(this->component_managers_[component_type]);
-				component_manager->RemoveComponentForEntity(entity);
-			}
+          for (SystemComponentSignatureIterator it = registered_signatures.first; it != registered_signatures.second; it++) {
+            auto registered_signature = it->second;
+            auto component_mask = this->entity_component_signature_map_[entity] & registered_signature;
+            auto is_entity_eligable = component_mask == registered_signature;
+            if (is_entity_eligable) {
+              // Notify ISystem of entity that fulfills component signature
+              system->RegisterEntity(entity);
+            }
+          }
+        }
+      }
+      template <typename ComponentType>
+      void RemoveComponent(entity::Entity const& entity) {
+        auto component_type = std::type_index(typeid(ComponentType));
+        auto component_manager = std::reinterpret_pointer_cast<component_manager::ComponentManager<ComponentType>>(this->component_managers_[component_type]);
+        component_manager->RemoveComponentForEntity(entity);
+      }
 
-			template<typename ComponentType>
-			auto GetComponentForEntity(entity::Entity* entity) -> std::optional<Ref<ComponentType>> {
-				auto component_type = std::type_index(typeid(ComponentType));
+      template<typename ComponentType>
+      auto GetComponentForEntity(entity::Entity* entity) -> std::optional<Ref<ComponentType>> {
+        auto component_type = std::type_index(typeid(ComponentType));
 
-				if (this->component_managers_.find(component_type) == this->component_managers_.end()) {
-					return std::nullopt;
-				}
-				auto void_component_manager = this->component_managers_[component_type];
-				auto component_manager = std::reinterpret_pointer_cast<component_manager::ComponentManager<ComponentType>>(void_component_manager);
-				auto component = component_manager->GetComponentForEntity(entity);
-				return component == nullptr
-					? std::nullopt
-					: std::optional<Ref<ComponentType>>(component);
-			}
+        if (this->component_managers_.find(component_type) == this->component_managers_.end()) {
+          return std::nullopt;
+        }
+        auto void_component_manager = this->component_managers_[component_type];
+        auto component_manager = std::reinterpret_pointer_cast<component_manager::ComponentManager<ComponentType>>(void_component_manager);
+        auto component = component_manager->GetComponentForEntity(entity);
+        return component == nullptr
+          ? std::nullopt
+          : std::optional<Ref<ComponentType>>(component);
+      }
 
-			auto SetupEnvironment(const resource::Environment& environment) -> void;
+      auto SetupEnvironment(const resource::Environment& environment) -> void;
 
-		private:
-			float entity_id_seq_ = 0; // Should be in EntityManager
-			std::vector<entity::Entity*> entities_;
-			// std::vector<std::unique_ptr<ISystem>> systems_; // World owns systems (aka *Manager classes implementing ISystem, not to be confused with component managers)
-			OrderedTypeMap<Ref<component_manager::ComponentManager<void>>> component_managers_; // TODO how to make this type-safe? Aka avoid void*. Dummy interface?
-			std::vector<ecs::ISystem*> systems_;
-			std::multimap<ecs::ISystem*, ComponentSignature> system_component_signature_map_;
-			std::map<entity::Entity*, ComponentSignature> entity_component_signature_map_;
-		};
-	}
+    private:
+      auto CreateEntity(entity::Entity* entity)->entity::EntityHandle;
+      float entity_id_seq_ = 0; // Should be in EntityManager
+      std::vector<entity::Entity*> entities_;
+      // std::vector<std::unique_ptr<ISystem>> systems_; // World owns systems (aka *Manager classes implementing ISystem, not to be confused with component managers)
+      OrderedTypeMap<Ref<component_manager::ComponentManager<void>>> component_managers_; // TODO how to make this type-safe? Aka avoid void*. Dummy interface?
+      std::vector<ecs::ISystem*> systems_;
+      std::multimap<ecs::ISystem*, ComponentSignature> system_component_signature_map_;
+      std::map<entity::Entity*, ComponentSignature> entity_component_signature_map_;
+    };
+  }
 }
 

@@ -27,6 +27,8 @@ public:
         reinterpret_cast<input_manager::KeyboardEvent*>(event_.data);
       if (event->action == Action::kPressed) {
         for (auto entity : this->entities_) {
+          if (entity->name != "man") continue;
+
           auto maybe_transform =
             this->world
             ->GetComponentForEntity<ecs::component::TransformComponent>(
@@ -153,7 +155,7 @@ public:
             CreateRef<ecs::component::TransformComponent>();
           transform_component->Scale(0.1, 0.1, 0.1);
           transform_component->Translation(0, 0, -12);
-          auto entity = this->world->CreateEntity();
+          auto entity = this->world->CreateEntity("man");
 
           auto resource_collection = future_resource_collection.get();
 
@@ -181,7 +183,7 @@ public:
         });
 
     resource::PointLight point_light;
-    point_light.strength = 10.f;
+    point_light.strength = 25.f;
     auto point_light_component =
       CreateRef<ecs::component::LightComponent>(point_light);
 
@@ -194,7 +196,7 @@ public:
     this->world->AddComponent(lamp_entity, point_light_transform);
 
     resource::DirectionalLight sun;
-    sun.strength = 20.f;
+    sun.strength = 25.f;
     auto sun_component = CreateRef<ecs::component::LightComponent>(sun);
 
     auto sun_transform = CreateRef<ecs::component::TransformComponent>();
